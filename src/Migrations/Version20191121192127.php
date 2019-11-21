@@ -50,8 +50,8 @@ final class Version20191121192127 extends AbstractMigration
         SQL
         );
 
-        $this->addSql('ALTER TABLE tag_rule_tag ADD CONSTRAINT FK_42748BAA467F2EFB FOREIGN KEY (tag_rule_id) REFERENCES tag_rules (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE tag_rule_tag ADD CONSTRAINT FK_42748BAABAD26311 FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE tag_rule_tag ADD CONSTRAINT FK_42748BAA467F2EFB FOREIGN KEY (tag_rule_id) REFERENCES tag_rules (id)');
+        $this->addSql('ALTER TABLE tag_rule_tag ADD CONSTRAINT FK_42748BAABAD26311 FOREIGN KEY (tag_id) REFERENCES tags (id)');
     }
 
     public function down(Schema $schema) : void

@@ -3,6 +3,14 @@ easy_admin:
         max_results: 100
 
     entities:
+        TagRule:
+            class: App\Entity\TagRule
+            list:
+                fields:
+                    - id
+                    - matchingPattern
+                    - isRegex
+
         Operation:
             class: App\Entity\Operation
             list:

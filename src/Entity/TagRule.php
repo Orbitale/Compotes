@@ -34,12 +34,17 @@ class TagRule
      */
     private $matchingPattern;
 
+    /**
+     * @ORM\Column(name="is_regex", type="boolean")
+     */
+    private $regex = false;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -55,5 +60,10 @@ class TagRule
     public function getMatchingPattern(): ?string
     {
         return $this->matchingPattern;
+    }
+
+    public function isRegex(): bool
+    {
+        return $this->regex;
     }
 }

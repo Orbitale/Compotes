@@ -22,7 +22,7 @@ class Tag
      */
     private $name;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

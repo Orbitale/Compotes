@@ -125,4 +125,27 @@ class Operation
     {
         return $this->tags;
     }
+
+    /**
+     * @return bool True if rule was applied.
+     */
+    public function applyRule(TagRule $rule): bool
+    {
+        if (false !== strpos($this->details, $rule->getMatchingPattern())) {
+            foreach ($rule->getTags() as $tag) {
+                $this->addTag($tag);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private function addTag(Tag $tag): void
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+    }
 }
