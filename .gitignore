@@ -1,3 +1,5 @@
+/account_exports/
+!/account_exports/.gitignore
 
 ###> symfony/framework-bundle ###
 /.env.local
