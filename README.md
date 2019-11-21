@@ -3,11 +3,25 @@
 
 A <abbr title="Work in progress">WIP</abbr> application to view bank operations.
 
-This is meant to be used locally, for **your local machine**, not online. That would be quite unfortunate to view all your bank operations in a row. 
+This is meant to be used locally, for **your local machine**, not online. That would be quite unfortunate to view all your bank operations in a row.
+
+# Install
+
+This is a PHP/Symfony project, so:
+
+* Run `composer install` to install the dependencies.
+* You need a running SQL database of whatever kind you want, then you need to set the `DATABASE_URL` environment var in `.env.local` if the defaults do not suit you.
+* To run the server in dev, you can [download the Symfony CLI on `symfony.com/download`](https://symfony.com/download) and run the `symfony serve --daemon` to run it in the background. Note that during the development process (cache clear, etc.) you might have to restart it 
 
 # Operations
 
-Bank operations can be imported from files, but there are requirements:
+Bank operations can be imported from files via this command:
+
+```
+$ php bin/console operations:import
+```
+
+Here are the requirements:
 
 * File format must be CSV.
 * File name must be `year-month.csv`.
