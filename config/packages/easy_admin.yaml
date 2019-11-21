@@ -6,6 +6,9 @@ easy_admin:
         Operation:
             class: App\Entity\Operation
             list:
+                filters:
+                    - property: 'operationDate'
+                      type: App\Form\Filter\OperationMonthFilterType
                 fields:
                     - id
                     - operationDate
