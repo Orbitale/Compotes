@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,16 @@ class Operation
      */
     private $amountInCents;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
+     */
+    private $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
+
     public static function fromImportLine(array $line): self
     {
         $self = new self();
@@ -104,5 +116,13 @@ class Operation
     public function getAmount(): float
     {
         return $this->amountInCents / 100;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
     }
 }
