@@ -17,10 +17,7 @@ easy_admin:
                     - property: isRegex
                       type: checkbox
                     - property: tags
-                      type: App\Form\Type\TagsInputType
-                      type_options:
-                          attr:
-                              "data-toggle": tagsinput
+                      type: App\Form\Type\TagCollectionType
 
         Operation:
             class: App\Entity\Operation
