@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Operations\OperationsWriter;
+use App\Operations\OperationsImporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,7 +16,7 @@ class WriteOperationsCommand extends Command
 
     private $writer;
 
-    public function __construct(OperationsWriter $writer)
+    public function __construct(OperationsImporter $writer)
     {
         parent::__construct(self::$defaultName);
         $this->writer = $writer;

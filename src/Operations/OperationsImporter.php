@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-class OperationsWriter
+class OperationsImporter
 {
     /**
      * File format MUST be "Y-m.csv".
