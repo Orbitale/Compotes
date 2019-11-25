@@ -22,13 +22,31 @@ class Tag
      */
     private $name;
 
-    public function getId(): int
+    private function __construct()
     {
-        return $this->id;
     }
 
-    public function getName(): ?string
+    public function __toString()
     {
-        return $this->name;
+        return $this->getName();
+    }
+
+    public static function create(string $name): self
+    {
+        $self = new self();
+
+        $self->name = $name;
+
+        return $self;
+    }
+
+    public function getId(): int
+    {
+        return (int) $this->id;
+    }
+
+    public function getName(): string
+    {
+        return (string) $this->name;
     }
 }

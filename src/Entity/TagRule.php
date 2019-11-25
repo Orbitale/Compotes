@@ -20,7 +20,7 @@ class TagRule
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="tag_rule_tag",
      *     joinColumns={@ORM\JoinColumn(name="tag_rule_id", referencedColumnName="id")},
@@ -46,7 +46,7 @@ class TagRule
 
     public function getId(): int
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
     /**
@@ -65,5 +65,20 @@ class TagRule
     public function isRegex(): bool
     {
         return $this->regex;
+    }
+
+    public function setTags(ArrayCollection $tags): void
+    {
+        $this->tags = $tags;
+    }
+
+    public function setMatchingPattern(string $matchingPattern): void
+    {
+        $this->matchingPattern = $matchingPattern;
+    }
+
+    public function setIsRegex(bool $regex): void
+    {
+        $this->regex = $regex;
     }
 }

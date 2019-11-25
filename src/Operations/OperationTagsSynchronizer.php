@@ -38,8 +38,10 @@ class OperationTagsSynchronizer
 
         foreach ($rules as $rule) {
             foreach ($operations as $operation) {
-                $operation->applyRule($rule);
-                $numberOfApplied++;
+                if ($operation->applyRule($rule)) {
+                    $this->em->persist($operation);
+                    $numberOfApplied++;
+                }
             }
         }
 

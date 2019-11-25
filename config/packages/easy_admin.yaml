@@ -9,11 +9,24 @@ easy_admin:
                 fields:
                     - id
                     - matchingPattern
-                    - isRegex
+                    - property: isRegex
+                      type: boolean
+            form:
+                fields:
+                    - matchingPattern
+                    - property: isRegex
+                      type: checkbox
+                    - property: tags
+                      type: App\Form\Type\TagsInputType
+                      type_options:
+                          attr:
+                              "data-toggle": tagsinput
 
         Operation:
             class: App\Entity\Operation
             list:
+                actions:
+                    - show
                 filters:
                     - property: 'operationDate'
                       type: App\Form\Filter\OperationMonthFilterType
@@ -24,3 +37,6 @@ easy_admin:
                     - details
                     - property: amount
                       type: float
+
+        Tag:
+            class: App\Entity\Tag

@@ -58,7 +58,7 @@ class Operation
     private $amountInCents;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist"})
      */
     private $tags;
 
@@ -131,7 +131,12 @@ class Operation
      */
     public function applyRule(TagRule $rule): bool
     {
-        if (false !== strpos($this->details, $rule->getMatchingPattern())) {
+        $matches = $rule->isRegex()
+            ? preg_match($rule->getMatchingPattern(), $this->details)
+            : false !== strpos($this->details, $rule->getMatchingPattern())
+        ;
+
+        if ($matches) {
             foreach ($rule->getTags() as $tag) {
                 $this->addTag($tag);
             }
