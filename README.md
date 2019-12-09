@@ -25,13 +25,13 @@ Here are the requirements:
 
 * File format must be CSV.
 * File name must be `year-month.csv`.
-* First line of the file must be headers (no specific syntax, could be empty headers, we don't use them anyway).
+* First line of the file must be headers (no specific syntax, could be empty headers, they are not used anyway).
 * Each line column must be the following:
   1. Date in `d/m/Y` format (nothing else supported for now).
   2. Operation type (given by bank provider).
   3. Display type (not mandatory, can be an empty string).
   4. Operation details (can be a longer string).
-  5. Amount in cents. Note that this can be a string like `1 234,55` or `1,234.55`. Every non-digit character (except `+` and `-`) will be removed and all remaining numbers will make the amount in cents. We don't store as floats to avoid [floating point issues](https://0.30000000000000004.com/).
+  5. Amount in cents. Note that this can be a string like `1 234,55` or `1,234.55`. Every non-digit character (except `+` and `-`) will be removed and all remaining numbers will make the amount in cents. Do not store floats to avoid [floating point issues](https://0.30000000000000004.com/) (read this link, if you need to know exactly what it means).
 
 # Set up the administration panel
 
@@ -70,13 +70,16 @@ ADMIN_PASSWORD='$argon2id$v=19$m=65536,t=4,p=1$N0R4Zi5hUWQ3QXB0bjVGdg$VsVcHzGRfG
 
 # Roadmap/TODO list
 
-* Make many analytics dashboards.
-* Operation tags (insurance, internet provider, car loan, etc.). Multiple tags per operation.
+* Make many analytics dashboards (that's what this app is for in the first place, probably with Highcharts).
 * Implement more source file types like xls, ods, etc., that could be transformed to CSV before importing them. [PHPSpreadsheet](https://phpspreadsheet.readthedocs.io/) is already installed, though not used yet.
-* Custom source file format.
-* Change CSV headers at runtime (could be done with a command-line `InputOption::VALUE_IS_ARRAY` option).
-* Change CSV delimiter/enclosure at runtime.
-* Change input operation date format.
-* Multiple bank accounts
-* Operation currency
-* Docker setup, maybe?
+* Custom source file format (only CSV for now, and that's perfectly fine for me).
+* Change CSV headers at runtime (could be done with a command-line `InputOption::VALUE_IS_ARRAY` option, something like `bin/console operations:import --header=Account --header=Amount --header=Label` etc.).
+* Change CSV delimiter/enclosure at runtime (could be done with command-line options).
+* Change input operation date format (for now it's `d/m/Y` as of French date format).
+* Multiple bank accounts (needs to migrate all existing data to a "default" account create via migration).
+* Operation currency (a single header, maybe a default value in the importer and the command too).
+* Docker setup, maybe? (easy-pick!)
+
+**✔️ Done from the roadmap:**
+
+* Operation tags (insurance, internet provider, car loan, etc.). Multiple tags per operation.
