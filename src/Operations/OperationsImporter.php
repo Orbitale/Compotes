@@ -32,7 +32,7 @@ class OperationsImporter
         $this->em = $em;
     }
 
-    public function write(): int
+    public function import(): int
     {
         $months = $this->getMonthsData();
 

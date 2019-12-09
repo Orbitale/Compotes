@@ -10,11 +10,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class WriteOperationsCommand extends Command
+class ImportOperationsCommand extends Command
 {
-    protected static $defaultName = 'operations:import';
+    protected static string $defaultName = 'operations:import';
 
-    private $writer;
+    private OperationsImporter $writer;
 
     public function __construct(OperationsImporter $writer)
     {
@@ -26,7 +26,7 @@ class WriteOperationsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $persistedCount = $this->writer->write();
+        $persistedCount = $this->writer->import();
 
         if ($persistedCount) {
             $io->success(sprintf('Wrote %d new operations!', $persistedCount));
