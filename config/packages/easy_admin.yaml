@@ -2,9 +2,22 @@ easy_admin:
     list:
         max_results: 100
 
+    design:
+        menu:
+            - { icon: home, label: "Admin home", route: easyadmin, default: true }
+            - { icon: sync, label: "Sync operations", route: apply_rules }
+
+            - label: ''
+            - { icon: ruler-vertical, entity: TagRule }
+            - { icon: tags, entity: Tag }
+
+            - label: ''
+            - { icon: money-check, entity: Operation }
+
     entities:
         TagRule:
             class: App\Entity\TagRule
+            label: Tag rules
             list:
                 fields:
                     - id
@@ -21,6 +34,7 @@ easy_admin:
 
         Operation:
             class: App\Entity\Operation
+            label: Operations
             list:
                 actions:
                     - show
@@ -37,3 +51,4 @@ easy_admin:
 
         Tag:
             class: App\Entity\Tag
+            label: Tags
