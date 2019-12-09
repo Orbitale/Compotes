@@ -33,6 +33,41 @@ Here are the requirements:
   4. Operation details (can be a longer string).
   5. Amount in cents. Note that this can be a string like `1 234,55` or `1,234.55`. Every non-digit character (except `+` and `-`) will be removed and all remaining numbers will make the amount in cents. We don't store as floats to avoid [floating point issues](https://0.30000000000000004.com/).
 
+# Set up the administration panel
+
+First you need to generate an administration password:
+
+```
+$ php bin/console security:encode-password
+Symfony Password Encoder Utility
+================================
+
+ Type in your password to be encoded:
+ >
+
+ ------------------ ---------------------------------------------------------------------------------------------------
+  Key                Value
+ ------------------ ---------------------------------------------------------------------------------------------------
+  Encoder used       Symfony\Component\Security\Core\Encoder\MigratingPasswordEncoder
+  Encoded password   $argon2id$v=19$m=65536,t=4,p=1$N0R4Zi5hUWQ3QXB0bjVGdg$VsVcHzGRfGPlEbLo/JK0M4S0QT5Mx7wd+vbwXanjpb8
+ ------------------ ---------------------------------------------------------------------------------------------------
+
+ ! [NOTE] Self-salting encoder used: the encoder generated its own built-in salt.
+
+
+ [OK] Password encoding succeeded
+
+```
+
+Retrieve the `Encoded password` part, and save it inside an `.env.local` file at the root of the project, like this:
+
+```
+# .env.local
+ADMIN_PASSWORD='$argon2id$v=19$m=65536,t=4,p=1$N0R4Zi5hUWQ3QXB0bjVGdg$VsVcHzGRfGPlEbLo/JK0M4S0QT5Mx7wd+vbwXanjpb8'
+```
+
+**Note:** do not forget to use the single quotes `'` around the hashed password, else the `$` sign will cause issues (or you can also escape it with `\$` instead of `$`).
+
 # Roadmap/TODO list
 
 * Make many analytics dashboards.
