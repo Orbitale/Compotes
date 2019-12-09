@@ -35,9 +35,9 @@ class TagRule
     private $matchingPattern;
 
     /**
-     * @ORM\Column(name="is_regex", type="boolean")
+     * @ORM\Column(name="is_regex", type="boolean", options={"default": "1"})
      */
-    private $regex = false;
+    private $regex = true;
 
     public function __construct()
     {
