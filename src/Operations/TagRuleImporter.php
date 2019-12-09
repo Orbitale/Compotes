@@ -14,12 +14,12 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class TagRuleImporter
 {
-    private $lineHeaders = ['tags', 'pattern', 'regex'];
-    private $csvParams = [0, ';', '"', '\\'];
+    private array $lineHeaders = ['tags', 'pattern', 'regex'];
+    private array $csvParams = [0, ';', '"', '\\'];
 
-    private $em;
-    private $tagRuleRepository;
-    private $tagRepository;
+    private EntityManagerInterface $em;
+    private TagRuleRepository $tagRuleRepository;
+    private TagRepository $tagRepository;
 
     public function __construct(TagRuleRepository $tagRuleRepository, TagRepository $tagRepository, EntityManagerInterface $em)
     {

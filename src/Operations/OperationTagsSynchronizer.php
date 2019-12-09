@@ -11,10 +11,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class OperationTagsSynchronizer
 {
-    private $operationRepository;
-    private $tagRepository;
-    private $tagRuleRepository;
-    private $em;
+    private OperationRepository $operationRepository;
+    private TagRepository $tagRepository;
+    private TagRuleRepository $tagRuleRepository;
+    private EntityManagerInterface $em;
 
     public function __construct(
         OperationRepository $operationRepository,

@@ -18,12 +18,12 @@ class OperationsImporter
     private const FILE_DATE_FORMAT = 'Y-m';
 
     // Todo: allow updating these fields at runtime or at config-time
-    private $lineHeaders = ['date', 'type', 'type_display', 'details', 'amount'];
-    private $csvParams = [0, ';', '"', '\\'];
+    private array $lineHeaders = ['date', 'type', 'type_display', 'details', 'amount'];
+    private array $csvParams = [0, ';', '"', '\\'];
 
-    private $bankSourcesDir;
-    private $repository;
-    private $em;
+    private string $bankSourcesDir;
+    private OperationRepository $repository;
+    private EntityManagerInterface $em;
 
     public function __construct(string $bankSourcesDir, OperationRepository $repository, EntityManagerInterface $em)
     {

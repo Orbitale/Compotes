@@ -8,17 +8,11 @@ use function array_values;
 
 class UniqueTagsListTransformer implements DataTransformerInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function transform($tags)
     {
         return $tags;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function reverseTransform($tags): array
     {
         if (!$tags) {

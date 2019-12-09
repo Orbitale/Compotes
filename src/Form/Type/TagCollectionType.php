@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TagCollectionType extends AbstractType
 {
-    private $tagsRepository;
+    private TagRepository $tagsRepository;
 
     public function __construct(TagRepository $tagRepository)
     {
