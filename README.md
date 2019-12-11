@@ -35,6 +35,8 @@ Here are the requirements:
 
 # Set up the administration panel
 
+The default **username** for the admin panel is `admin`, but you can change it by overriding the `ADMIN_USER` environment variable in your `.env.local` file.
+
 First you need to generate an administration password:
 
 ```
@@ -63,6 +65,7 @@ Retrieve the `Encoded password` part, and save it inside an `.env.local` file at
 
 ```
 # .env.local
+ADMIN_USER=admin   # Or anything else you like
 ADMIN_PASSWORD='$argon2id$v=19$m=65536,t=4,p=1$N0R4Zi5hUWQ3QXB0bjVGdg$VsVcHzGRfGPlEbLo/JK0M4S0QT5Mx7wd+vbwXanjpb8'
 ```
 

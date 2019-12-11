@@ -7,7 +7,7 @@ security:
         in_memory:
             memory:
                 users:
-                    pierstoval:
+                    "%env(ADMIN_USER)%":
                         password: '%env(ADMIN_PASSWORD)%'
                         roles: [ROLE_ADMIN]
 
