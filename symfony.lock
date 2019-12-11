@@ -124,6 +124,9 @@
     "pagerfanta/pagerfanta": {
         "version": "v2.1.3"
     },
+    "php": {
+        "version": "7.4"
+    },
     "phpoffice/phpspreadsheet": {
         "version": "1.10.0"
     },
