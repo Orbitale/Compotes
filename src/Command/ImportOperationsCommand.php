@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ImportOperationsCommand extends Command
 {
-    protected static string $defaultName = 'operations:import';
+    protected static $defaultName = 'operations:import';
 
     private OperationsImporter $writer;
 
