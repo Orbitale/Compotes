@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class UpdateAllOperationTagsCommand extends Command
 {
-    protected static $defaultName = 'operations:update-tags';
+    protected static string $defaultName = 'operations:update-tags';
 
     private $synchronizer;
 
