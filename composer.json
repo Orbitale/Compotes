@@ -24,6 +24,11 @@
     },
     "require-dev": {
         "easycorp/easy-log-handler": "^1.0.7",
+        "phpstan/phpstan": "^0.12.3",
+        "phpstan/phpstan-deprecation-rules": "^0.12.0",
+        "phpstan/phpstan-doctrine": "^0.12.3",
+        "phpstan/phpstan-phpunit": "^0.12.1",
+        "phpstan/phpstan-symfony": "^0.12.1",
         "symfony/debug-bundle": "^5.0",
         "symfony/maker-bundle": "^1.14",
         "symfony/stopwatch": "^5.0",

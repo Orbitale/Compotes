@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Compotes package.
+ *
+ * (c) Alex "Pierstoval" Rock <pierstoval@gmail.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Command;
 
 use App\Operations\OperationTagsSynchronizer;
@@ -29,7 +38,7 @@ class UpdateAllOperationTagsCommand extends Command
         $updatedCount = $this->synchronizer->applyRulesOnAllOperations();
 
         if ($updatedCount) {
-            $io->success(sprintf('Updated %d operations!', $updatedCount));
+            $io->success(\sprintf('Updated %d operations!', $updatedCount));
         } else {
             $io->comment('No tag rule was applied.');
         }

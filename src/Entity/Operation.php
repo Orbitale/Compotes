@@ -1,7 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Compotes package.
+ *
+ * (c) Alex "Pierstoval" Rock <pierstoval@gmail.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,7 +32,7 @@ class Operation
     private $id;
 
     /**
-     * @var \DateTimeImmutable
+     * @var DateTimeImmutable
      *
      * @ORM\Column(name="operation_date", type="datetime_immutable")
      */
@@ -49,7 +61,7 @@ class Operation
 
     /**
      * Always in cents.
-     * To get float value, use self::getAmount
+     * To get float value, use self::getAmount.
      *
      * @var int
      *
@@ -71,14 +83,14 @@ class Operation
     {
         $self = new self();
 
-        $self->operationDate = \DateTimeImmutable::createFromFormat('d/m/Y H:i:s O', sprintf(
+        $self->operationDate = DateTimeImmutable::createFromFormat('d/m/Y H:i:s O', \sprintf(
             '%s 00:00:00 +000',
             $line['date']
         ));
         $self->type = $line['type'];
         $self->typeDisplay = $line['type_display'];
         $self->details = $line['details'];
-        $self->amountInCents = (int) preg_replace('~[^0-9+-]+~', '', $line['amount']);
+        $self->amountInCents = (int) \preg_replace('~[^0-9+-]+~', '', $line['amount']);
 
         return $self;
     }
@@ -88,7 +100,7 @@ class Operation
         return $this->id;
     }
 
-    public function getOperationDate(): \DateTimeImmutable
+    public function getOperationDate(): DateTimeImmutable
     {
         return $this->operationDate;
     }
@@ -127,13 +139,13 @@ class Operation
     }
 
     /**
-     * @return bool True if rule was applied.
+     * @return bool true if rule was applied
      */
     public function applyRule(TagRule $rule): bool
     {
         $matches = $rule->isRegex()
-            ? preg_match($rule->getMatchingPattern(), $this->details)
-            : false !== strpos($this->details, $rule->getMatchingPattern())
+            ? \preg_match($rule->getMatchingPattern(), $this->details)
+            : false !== \strpos($this->details, $rule->getMatchingPattern())
         ;
 
         if ($matches) {

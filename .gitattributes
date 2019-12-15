@@ -1,0 +1,1 @@
+php-cs-fixer -text -diff

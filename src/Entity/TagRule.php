@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Compotes package.
+ *
+ * (c) Alex "Pierstoval" Rock <pierstoval@gmail.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,7 +46,7 @@ class TagRule
     private $matchingPattern;
 
     /**
-     * @ORM\Column(name="is_regex", type="boolean", options={"default": "1"})
+     * @ORM\Column(name="is_regex", type="boolean", options={"default" = "1"})
      */
     private $regex = true;
 

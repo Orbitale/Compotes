@@ -1,0 +1,39 @@
+includes:
+    - %currentWorkingDirectory%/vendor/phpstan/phpstan-symfony/extension.neon
+    - %currentWorkingDirectory%/vendor/phpstan/phpstan-doctrine/extension.neon
+#    - %currentWorkingDirectory%/vendor/phpstan/phpstan-phpunit/extension.neon
+#    - %currentWorkingDirectory%/vendor/phpstan/phpstan-phpunit/rules.neon
+    - %currentWorkingDirectory%/vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
+parameters:
+    level: 3
+
+    inferPrivatePropertyTypeFromConstructor: true
+
+    paths:
+        - %currentWorkingDirectory%/src/
+        - %currentWorkingDirectory%/tests/
+
+    autoload_files:
+        - %currentWorkingDirectory%/config/bootstrap.php
+#        - %currentWorkingDirectory%/vendor/bin/.phpunit/phpunit-8.5-0/vendor/autoload.php
+
+    excludes_analyse:
+        - %currentWorkingDirectory%/src/Migrations
+        - %currentWorkingDirectory%/src/DataFixtures/Internal
+        - %currentWorkingDirectory%/src/CorahnRin/PDF
+        - %currentWorkingDirectory%/tests/bootstrap.php
+
+    symfony:
+        container_xml_path: %currentWorkingDirectory%/var/cache/dev/App_KernelDevDebugContainer.xml
+
+    doctrine:
+        objectManagerLoader: tests/phpstan-object-manager.php
+
+    ignoreErrors:
+
+#        - message: '#does not call parent constructor#'
+#          path: %currentWorkingDirectory%/tests/
+
+#        - message: '#^Service "[^"]+" is private.$#'
+#          path: %currentWorkingDirectory%/tests/

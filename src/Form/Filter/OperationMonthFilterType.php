@@ -2,8 +2,18 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Compotes package.
+ *
+ * (c) Alex "Pierstoval" Rock <pierstoval@gmail.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form\Filter;
 
+use DateTimeImmutable;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Type\FilterType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,7 +25,7 @@ class OperationMonthFilterType extends FilterType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'empty_value' => date('m'),
+            'empty_value' => \date('m'),
             'choices' => [
                 'This month' => 'this_month',
                 'January' => '01',
@@ -39,27 +49,27 @@ class OperationMonthFilterType extends FilterType
         return ChoiceType::class;
     }
 
-    public function filter(QueryBuilder $queryBuilder, FormInterface $form, array $metadata)
+    public function filter(QueryBuilder $queryBuilder, FormInterface $form, array $metadata): void
     {
         $data = $form->getData();
         if ('this_month' === $data) {
-            $baseDate = new \DateTimeImmutable('now');
+            $baseDate = new DateTimeImmutable('now');
         } else {
             // A number
-            $baseDate = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
+            $baseDate = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
                 '%s-%s-1 00:00:00 +000',
-                date('Y'),
+                \date('Y'),
                 $data
             ));
         }
 
-        $firstDay = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
+        $firstDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
             '%s-%s-1 00:00:00 +000',
             $baseDate->format('Y'),
             $baseDate->format('m')
         ));
 
-        $lastDay = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
+        $lastDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
             '%s-%s-%s 23:59:59 +000',
             $baseDate->format('Y'),
             $baseDate->format('m'),

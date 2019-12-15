@@ -130,6 +130,21 @@
     "phpoffice/phpspreadsheet": {
         "version": "1.10.0"
     },
+    "phpstan/phpstan": {
+        "version": "0.12.3"
+    },
+    "phpstan/phpstan-deprecation-rules": {
+        "version": "0.12.0"
+    },
+    "phpstan/phpstan-doctrine": {
+        "version": "0.12.3"
+    },
+    "phpstan/phpstan-phpunit": {
+        "version": "0.12.1"
+    },
+    "phpstan/phpstan-symfony": {
+        "version": "0.12.1"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },

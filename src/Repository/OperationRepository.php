@@ -1,14 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Compotes package.
+ *
+ * (c) Alex "Pierstoval" Rock <pierstoval@gmail.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Repository;
 
 use App\Entity\Operation;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Operation|null find($id, $lockMode = null, $lockVersion = null)
- * @method Operation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method null|Operation find($id, $lockMode = null, $lockVersion = null)
+ * @method null|Operation findOneBy(array $criteria, array $orderBy = null)
  * @method Operation[]    findAll()
  * @method Operation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -19,15 +31,15 @@ class OperationRepository extends ServiceEntityRepository
         parent::__construct($registry, Operation::class);
     }
 
-    public function monthIsPopulated(\DateTimeImmutable $month): bool
+    public function monthIsPopulated(DateTimeImmutable $month): bool
     {
-        $firstDay = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
+        $firstDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
             '%s-%s-1 00:00:00 +000',
             $month->format('Y'),
             $month->format('m')
         ));
 
-        $lastDay = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
+        $lastDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
             '%s-%s-%s 23:59:59 +000',
             $firstDay->format('Y'),
             $firstDay->format('m'),

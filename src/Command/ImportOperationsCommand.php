@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Compotes package.
+ *
+ * (c) Alex "Pierstoval" Rock <pierstoval@gmail.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Command;
 
 use App\Operations\OperationsImporter;
@@ -29,7 +38,7 @@ class ImportOperationsCommand extends Command
         $persistedCount = $this->writer->import();
 
         if ($persistedCount) {
-            $io->success(sprintf('Wrote %d new operations!', $persistedCount));
+            $io->success(\sprintf('Wrote %d new operations!', $persistedCount));
         } else {
             $io->comment('Nothing new to persist.');
         }
