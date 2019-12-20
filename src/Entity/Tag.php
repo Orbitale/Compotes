@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Behat\Transliterator\Transliterator;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
@@ -29,9 +32,11 @@ class Tag
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private $name;
+    private string $name = '';
 
     public function __toString()
     {
@@ -46,5 +51,14 @@ class Tag
     public function getName(): string
     {
         return (string) $this->name;
+    }
+
+    public function setName(?string $name): void
+    {
+        if ($name) {
+            $name = (new AsciiSlugger())->slug($name);
+        }
+
+        $this->name = (string) $name;
     }
 }

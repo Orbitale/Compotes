@@ -29,4 +29,16 @@ class TagRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Tag::class);
     }
+
+    /**
+     * @return Tag[]
+     */
+    public function findIndexedById(): array
+    {
+        return $this->createQueryBuilder('tag')
+            ->indexBy('tag', 'tag.id')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

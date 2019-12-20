@@ -18,6 +18,7 @@ easy_admin:
         TagRule:
             class: App\Entity\TagRule
             label: Tag rules
+            controller: App\Admin\AdminTagRuleController
             list:
                 fields:
                     - id
@@ -29,7 +30,9 @@ easy_admin:
                     - matchingPattern
                     - property: isRegex
                       type: checkbox
-                    - tags
+                    - property: tags
+                      type_options:
+                          by_reference: false
 
         Operation:
             class: App\Entity\Operation
