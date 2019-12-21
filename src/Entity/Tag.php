@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Behat\Transliterator\Transliterator;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  * @ORM\Table(name="tags")
+ * @ORM\ChangeTrackingPolicy(value="DEFERRED_EXPLICIT")
  */
 class Tag
 {

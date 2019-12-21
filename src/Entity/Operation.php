@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OperationRepository")
  * @ORM\Table(name="operations")
+ * @ORM\ChangeTrackingPolicy(value="DEFERRED_EXPLICIT")
  */
 class Operation
 {

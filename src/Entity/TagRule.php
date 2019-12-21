@@ -20,6 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRuleRepository")
  * @ORM\Table(name="tag_rules")
+ * @ORM\ChangeTrackingPolicy(value="DEFERRED_EXPLICIT")
  */
 class TagRule
 {
