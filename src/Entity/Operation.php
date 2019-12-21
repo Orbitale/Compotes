@@ -143,6 +143,8 @@ class Operation
      */
     public function applyRule(TagRule $rule): bool
     {
+        $addedTags = false;
+
         $matches = $rule->isRegex()
             ? \preg_match($rule->getMatchingPattern(), $this->details)
             : false !== \strpos($this->details, $rule->getMatchingPattern())
@@ -150,13 +152,16 @@ class Operation
 
         if ($matches) {
             foreach ($rule->getTags() as $tag) {
-                $this->addTag($tag);
+                if (!$this->tags->contains($tag)) {
+                    $this->addTag($tag);
+                    $addedTags = true;
+                }
             }
 
-            return true;
+            return $addedTags;
         }
 
-        return false;
+        return $addedTags;
     }
 
     private function addTag(Tag $tag): void
