@@ -40,7 +40,7 @@ class ImportOperationsCommand extends Command
         if ($persistedCount) {
             $io->success(\sprintf('Wrote %d new operations!', $persistedCount));
         } else {
-            $io->comment('Nothing new to persist.');
+            $io->warning('Nothing new to persist.');
         }
 
         return 0;
