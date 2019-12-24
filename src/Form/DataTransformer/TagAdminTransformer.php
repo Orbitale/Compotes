@@ -42,7 +42,7 @@ class TagAdminTransformer implements DataTransformerInterface
 
         $hasNewTags = false;
 
-        foreach ($submittedIds as $k => $id) {
+        foreach ($submittedIds as $id) {
             if (isset($existingTags[$id])) {
                 $tags[] = $existingTags[$id];
             } else {
