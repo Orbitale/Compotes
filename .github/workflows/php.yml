@@ -14,7 +14,7 @@ jobs:
               uses: shivammathur/setup-php@1.7.2
               with:
                   php-version: '7.4'
-                  extensions: gd
+                  extensions: gd, zip
 
             - name: Validate composer.json and composer.lock
               run: composer validate
