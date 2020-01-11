@@ -59,7 +59,7 @@ class Tag
         return (string) $this->name;
     }
 
-    public function getParent(): ?Tag
+    public function getParent(): ?self
     {
         return $this->parent;
     }

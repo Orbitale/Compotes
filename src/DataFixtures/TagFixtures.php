@@ -15,7 +15,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Tag;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Orbitale\Component\DoctrineTools\AbstractFixture;
 
 class TagFixtures extends AbstractFixture implements ORMFixtureInterface
@@ -34,7 +33,6 @@ class TagFixtures extends AbstractFixture implements ORMFixtureInterface
     {
         return 'tag-';
     }
-
 
     protected function getObjects(): array
     {
