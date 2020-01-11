@@ -40,6 +40,8 @@ easy_admin:
             list:
                 actions:
                     - show
+                    - '-delete'
+                    - '-edit'
                 filters:
                     - property: 'operationDate'
                       type: App\Form\Filter\OperationMonthFilterType
@@ -56,3 +58,12 @@ easy_admin:
         Tag:
             class: App\Entity\Tag
             label: Tags
+            list:
+                actions:
+                    - 'show'
+                    - '-delete'
+                fields:
+                    - id
+                    - name
+                    - parent
+

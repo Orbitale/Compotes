@@ -118,8 +118,8 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
-    "knplabs/doctrine-behaviors": {
-        "version": "v2.0.1"
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.1"
     },
     "markbaker/complex": {
         "version": "1.4.7"
@@ -129,12 +129,6 @@
     },
     "monolog/monolog": {
         "version": "2.0.1"
-    },
-    "nette/finder": {
-        "version": "v2.5.2"
-    },
-    "nette/utils": {
-        "version": "v3.1.0"
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
@@ -186,9 +180,6 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
-    },
-    "ramsey/uuid": {
-        "version": "3.9.2"
     },
     "symfony/asset": {
         "version": "v5.0.0"
@@ -472,14 +463,14 @@
     "symfony/yaml": {
         "version": "v5.0.0"
     },
-    "symplify/package-builder": {
-        "version": "v7.2.1"
-    },
     "twig/extra-bundle": {
         "version": "v3.0.0"
     },
     "twig/twig": {
         "version": "v3.0.0"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.0.0"
     },
     "zendframework/zend-code": {
         "version": "3.4.0"

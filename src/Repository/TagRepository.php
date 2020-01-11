@@ -16,7 +16,6 @@ namespace App\Repository;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Knp\DoctrineBehaviors\ORM\Tree\TreeTrait;
 
 /**
  * @method null|Tag find($id, $lockMode = null, $lockVersion = null)
@@ -26,8 +25,6 @@ use Knp\DoctrineBehaviors\ORM\Tree\TreeTrait;
  */
 class TagRepository extends ServiceEntityRepository
 {
-    use TreeTrait;
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tag::class);
