@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TreeNodeInterface;
+use Knp\DoctrineBehaviors\Model\Tree\TreeNodeTrait;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -22,8 +24,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="tags")
  * @ORM\ChangeTrackingPolicy(value="DEFERRED_EXPLICIT")
  */
-class Tag
+class Tag implements TreeNodeInterface
 {
+    use TreeNodeTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -38,7 +42,7 @@ class Tag
      */
     private string $name = '';
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName();
     }
