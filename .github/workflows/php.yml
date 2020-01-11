@@ -26,4 +26,4 @@ jobs:
               run: make phpstan
 
             - name: CS
-              run: make cs
+              run: make cs-dry

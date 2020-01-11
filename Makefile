@@ -40,3 +40,8 @@ cs: ## Execute php-cs-fixer
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "php-cs-fixer"
 	@php bin/php-cs-fixer fix
 .PHONY: cs
+
+cs-dry: ## Execute php-cs-fixer with a DRY RUN
+	@printf $(SCRIPT_TITLE_PATTERN) "QA" "php-cs-fixer"
+	@php bin/php-cs-fixer fix --dry-run
+.PHONY: cs-dry
