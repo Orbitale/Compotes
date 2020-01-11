@@ -16,11 +16,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20191121151638 extends AbstractMigration
+final class Version20200111192254 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Add Operation entity';
+        return 'Add Knp Tree behavior to the Tag entity.';
     }
 
     public function up(Schema $schema): void
@@ -28,23 +28,7 @@ final class Version20191121151638 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql(
-            <<<'SQL'
-            CREATE TABLE operations
-            (
-               id              INT auto_increment NOT NULL,
-               operation_date  DATETIME NOT NULL comment '(DC2Type:datetime_immutable)',
-               type            VARCHAR(255) NOT NULL,
-               type_display    VARCHAR(255) NOT NULL,
-               details         LONGTEXT NOT NULL,
-               amount_in_cents INT NOT NULL,
-               PRIMARY KEY(id)
-            )
-            DEFAULT CHARACTER SET utf8mb4
-            COLLATE `utf8mb4_unicode_ci`
-            engine = innodb;
-            SQL
-        );
+        $this->addSql('ALTER TABLE tags ADD materialized_path VARCHAR(255) NOT NULL');
     }
 
     public function down(Schema $schema): void
@@ -52,6 +36,6 @@ final class Version20191121151638 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE operations');
+        $this->addSql('ALTER TABLE tags DROP materialized_path');
     }
 }
