@@ -10,6 +10,11 @@ jobs:
         steps:
             - uses: actions/checkout@v1
 
+            - name: Setup PHP
+              uses: shivammathur/setup-php@1.7.2
+              with:
+                  php-version: '7.4'
+
             - name: Validate composer.json and composer.lock
               run: composer validate
 
