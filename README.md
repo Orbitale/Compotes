@@ -81,6 +81,7 @@ ADMIN_PASSWORD='$argon2id$v=19$m=65536,t=4,p=1$N0R4Zi5hUWQ3QXB0bjVGdg$VsVcHzGRfG
 
 * Make many analytics dashboards (that's what this app is for in the first place, probably with Highcharts).
 * Add a lot of fixtures to play with.
+* Add translations for tags (maybe using an extension like gedmo or knp?).
 * Implement more source file types like xls, ods, etc., that could be transformed to CSV before importing them. [PHPSpreadsheet](https://phpspreadsheet.readthedocs.io/) is already installed, though not used yet.
 * Custom source file format (only CSV for now, and that's perfectly fine for me).
 * Change CSV headers at runtime (could be done with a command-line `InputOption::VALUE_IS_ARRAY` option, something like `bin/console operations:import --header=Account --header=Amount --header=Label` etc.).
@@ -95,3 +96,4 @@ ADMIN_PASSWORD='$argon2id$v=19$m=65536,t=4,p=1$N0R4Zi5hUWQ3QXB0bjVGdg$VsVcHzGRfG
 
 * Operation tags (insurance, internet provider, car loan, etc.). Multiple tags per operation.
 * Demo app at https://piers.ovh/compotes/ with credentials `admin`/`admin` and database reset every day.
+* Added default tags (in French only for now)
