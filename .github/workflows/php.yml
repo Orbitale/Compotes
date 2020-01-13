@@ -35,4 +35,4 @@ jobs:
               run: make lint
 
             - name: Check composer dependencies for no security issue
-              run: symfony security:check
+              run: $HOME/.symfony/bin/symfony security:check
