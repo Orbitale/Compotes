@@ -27,3 +27,6 @@ jobs:
 
             - name: CS
               run: make cs-dry
+
+            - name: Lint
+              run: make lint
