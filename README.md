@@ -5,6 +5,12 @@ A <abbr title="Work in progress">WIP</abbr> application to view bank operations.
 
 This is meant to be used locally, for **your local machine**, not online. That would be quite unfortunate to view all your bank operations in a row.
 
+# Contribute
+
+If you want to contribute, you can directly go to the [Roadmap](#roadmaptodo-list), there are TONS of things you can do.
+
+Some of them are really straightforward!
+
 # Install
 
 This is a PHP/Symfony project, so:
