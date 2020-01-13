@@ -19,6 +19,9 @@ jobs:
             - name: Validate composer.json and composer.lock
               run: composer validate
 
+            - name: Install Symfony binary
+              run: 'wget https://get.symfony.com/cli/installer -O - | bash'
+
             - name: Install dependencies
               run: composer install --prefer-dist --no-progress --no-suggest
 
@@ -30,3 +33,6 @@ jobs:
 
             - name: Lint
               run: make lint
+
+            - name: Check composer dependencies for no security issue
+              run: symfony security:check
