@@ -148,7 +148,7 @@ class Operation
 
         $matches = $rule->isRegex()
             ? \preg_match($rule->getMatchingPattern(), $this->details)
-            : false !== \strpos($this->details, $rule->getMatchingPattern())
+            : false !== \stripos($this->details, $rule->getMatchingPattern())
         ;
 
         if ($matches) {
