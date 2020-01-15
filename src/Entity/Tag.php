@@ -42,7 +42,7 @@ class Tag
      * @ORM\ManyToOne(targetEntity="App\Entity\Tag", cascade={"persist"})
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
-    private $parent;
+    private ?Tag $parent = null;
 
     public function __toString(): string
     {
