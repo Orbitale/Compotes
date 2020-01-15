@@ -43,6 +43,7 @@ easy_admin:
             list:
                 actions:
                     - show
+                    - '-new'
                     - '-delete'
                     - '-edit'
                 filters:
