@@ -90,7 +90,7 @@ class Operation
         ));
         $self->type = $line['type'];
         $self->typeDisplay = $line['type_display'];
-        $self->details = $line['details'];
+        $self->details = \preg_replace('~\s+~', ' ', $line['details']);
         $self->amountInCents = (int) \preg_replace('~[^0-9+-]+~', '', $line['amount']);
 
         return $self;
