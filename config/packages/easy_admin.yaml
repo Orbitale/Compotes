@@ -68,6 +68,5 @@ easy_admin:
                 fields:
                     - id
                     - name
-                    - property: tags
-                      template: easy_admin/field_single_tag.html.twig
+                    - parent
 
