@@ -84,4 +84,9 @@ class Tag
 
         $this->name = (string) $name;
     }
+
+    public function setParent(?Tag $parent): void
+    {
+        $this->parent = $parent;
+    }
 }
