@@ -39,6 +39,7 @@ easy_admin:
         Operation:
             class: App\Entity\Operation
             label: Operations
+            controller: App\Admin\AdminOperationController
             list:
                 actions:
                     - show

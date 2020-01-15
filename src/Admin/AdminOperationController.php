@@ -13,19 +13,10 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Form\DataTransformer\TagAdminTransformer;
-use App\Repository\TagRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 
-class AdminTagRuleController extends EasyAdminController
+class AdminOperationController extends EasyAdminController
 {
-    private TagRepository $tagsRepo;
-
-    public function __construct(TagRepository $tagsRepo)
-    {
-        $this->tagsRepo = $tagsRepo;
-    }
-
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
@@ -36,17 +27,5 @@ class AdminTagRuleController extends EasyAdminController
         ;
 
         return $qb;
-    }
-
-    protected function createEntityFormBuilder($entity, $view)
-    {
-        $builder = parent::createEntityFormBuilder($entity, $view);
-
-        $builder
-            ->get('tags')
-            ->addViewTransformer(new TagAdminTransformer($this->tagsRepo, $this->em))
-        ;
-
-        return $builder;
     }
 }
