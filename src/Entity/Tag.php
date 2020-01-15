@@ -46,7 +46,19 @@ class Tag
 
     public function __toString(): string
     {
-        return $this->name;
+        $names = [];
+
+        $parent = $this->parent;
+
+        while ($parent) {
+            \array_unshift($names, $parent->getName());
+
+            $parent = $parent->getParent();
+        }
+
+        $names[] = $this->name;
+
+        return \implode(' > ', $names);
     }
 
     public function getId(): int
