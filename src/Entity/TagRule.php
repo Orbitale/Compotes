@@ -44,12 +44,12 @@ class TagRule
     /**
      * @ORM\Column(name="matching_pattern", type="text")
      */
-    private $matchingPattern;
+    private string $matchingPattern = '';
 
     /**
      * @ORM\Column(name="is_regex", type="boolean", options={"default" = "1"})
      */
-    private $regex = true;
+    private bool $regex = true;
 
     public function __construct()
     {
@@ -69,7 +69,7 @@ class TagRule
         return $this->tags;
     }
 
-    public function getMatchingPattern(): ?string
+    public function getMatchingPattern(): string
     {
         return $this->matchingPattern;
     }
