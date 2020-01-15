@@ -114,7 +114,7 @@ class TagFixtures extends AbstractFixture implements ORMFixtureInterface
             ['name' => 'Electricite-gaz', 'parent' => $getParentClosure($parent)],
             ['name' => 'Logement-autres', 'parent' => $getParentClosure($parent)],
             ['name' => 'Loyer', 'parent' => $getParentClosure($parent)],
-            ['name' => 'Mobilier-electromenager-deco-', 'parent' => $getParentClosure($parent)],
+            ['name' => 'Mobilier-electromenager-deco', 'parent' => $getParentClosure($parent)],
             ['name' => 'Pret-immobilier', 'parent' => $getParentClosure($parent)],
             ['name' => 'Travaux-reparation-entretien', 'parent' => $getParentClosure($parent)],
 
