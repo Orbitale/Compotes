@@ -43,6 +43,22 @@ class TagFixtures extends AbstractFixture implements ORMFixtureInterface
         };
 
         return [
+            ['name' => 'A catégoriser'],
+            ['name' => 'Aides et allocations'],
+            ['name' => 'Autres revenus'],
+            ['name' => 'Chèque reçu'],
+            ['name' => 'Dividendes'],
+            ['name' => 'Déblocage emprunt'],
+            ['name' => 'Dépôt d\'argent'],
+            ['name' => 'Intérêts'],
+            ['name' => 'Loyers'],
+            ['name' => 'Pensions'],
+            ['name' => 'Remboursement'],
+            ['name' => 'Revenus de placement'],
+            ['name' => 'Salaires et revenus d\'activité'],
+            ['name' => 'Virement interne'],
+            ['name' => 'Virement reçu'],
+
             ['name' => $parent = 'A catégoriser'],
             ['name' => 'Autres dépenses à catégoriser', 'parent' => $getParentClosure($parent)],
             ['name' => 'Chèque émis', 'parent' => $getParentClosure($parent)],
