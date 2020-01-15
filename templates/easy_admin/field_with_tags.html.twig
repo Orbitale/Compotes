@@ -1,0 +1,3 @@
+{% for tag in item.tags %}
+    {{ include('easy_admin/field_single_tag.html.twig', {item: tag}, with_context=false) }}
+{% endfor %}
