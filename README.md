@@ -90,6 +90,9 @@ ADMIN_PASSWORD='$argon2id$v=19$m=65536,t=4,p=1$N0R4Zi5hUWQ3QXB0bjVGdg$VsVcHzGRfG
 * Multiple bank accounts (needs to migrate all existing data to a "default" account create via migration).
 * Operation currency (a single header, maybe a default value in the importer and the command too).
 * Add tests.
+* Support for Bills (a Bill object and a BillItem one, and maybe associate a Bill with one or more Operation objects with a OneToMany relationship so multiple operations can associate with one bill).
+* Support for "sub-operations" (to allow cutting an operation in multiple sub-operations so we can get the "details" of an operation, each sub-operation should also be able to be tagged).
+* Imagine a support for Sylius bundles?
 * Docker setup, maybe? (easy-pick!)
 
 **✔️ Done already:**
