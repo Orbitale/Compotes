@@ -1,6 +1,7 @@
 /account_exports/
 !/account_exports/.gitignore
 .php_cs.cache
+var/dump.sql
 
 ###> symfony/framework-bundle ###
 /.env.local
