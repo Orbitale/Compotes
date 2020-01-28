@@ -14,7 +14,7 @@ help: ## Show this help
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-25s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m## */[33m/'
 .PHONY: help
 
-install: vendor db migrations fixtures admin-password start ## Install and start the project
+install: vendor node_modules db migrations fixtures admin-password assets start ## Install and start the project
 .PHONY: install
 
 ##
@@ -26,6 +26,15 @@ vendor: ## Install Composer dependencies
 	@printf ""$(SCRIPT_TITLE_PATTERN) "PHP" "Install Composer dependencies"
 	composer install --optimize-autoloader --prefer-dist --no-progress
 .PHONY: vendor
+
+node_modules: ## Install Node.js dependencies
+	@printf ""$(SCRIPT_TITLE_PATTERN) "JS" "Install Node.js dependencies"
+	@npm install
+
+assets: ## Build frontend assets
+	@printf ""$(SCRIPT_TITLE_PATTERN) "JS" "Build frontend assets"
+	@npm run-script dev
+.PHONY: assets
 
 db: start-db wait-for-db ## Create a global database for Compotes
 	@printf ""$(SCRIPT_TITLE_PATTERN) "DB" "Drop existing database"
