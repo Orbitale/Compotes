@@ -1,0 +1,6 @@
+{% extends '@!EasyAdmin/default/list.html.twig' %}
+
+{% block content_header %}
+    {{ parent() }}
+    <div id="charts" data-filters-url="{{ url('operation_chart') }}"></div>
+{% endblock %}
