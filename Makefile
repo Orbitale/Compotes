@@ -22,6 +22,23 @@ install: vendor node_modules db migrations fixtures admin-password assets start 
 ## -------
 ##
 
+start: start-php start-db ## Start the servers
+.PHONY: start
+
+stop: ## Stop the servers
+	@printf $(SCRIPT_TITLE_PATTERN) "Server" "Stop PHP"
+	-@symfony server:stop
+	@printf $(SCRIPT_TITLE_PATTERN) "Server" "Stop DB"
+	-@docker-compose stop
+.PHONY: stop
+
+cc: ## Clear the cache and warm it up
+	@printf $(SCRIPT_TITLE_PATTERN) "PHP" "Clear cache"
+	-@symfony console cache:clear --no-warmup
+	@printf $(SCRIPT_TITLE_PATTERN) "PHP" "Warmup cache"
+	-@symfony console cache:warmup
+.PHONY: cc
+
 vendor: ## Install Composer dependencies
 	@printf ""$(SCRIPT_TITLE_PATTERN) "PHP" "Install Composer dependencies"
 	composer install --optimize-autoloader --prefer-dist --no-progress
@@ -76,16 +93,6 @@ fixtures: wait-for-db ## Add default data to the project
 	@symfony console operations:import --no-interaction
 	@symfony console operations:update-tags --no-interaction
 .PHONY: fixtures
-
-start: start-php start-db ## Start the servers
-.PHONY: start
-
-stop: ## Stop the servers
-	@printf $(SCRIPT_TITLE_PATTERN) "Server" "Stop PHP"
-	-@symfony server:stop
-	@printf $(SCRIPT_TITLE_PATTERN) "Server" "Stop DB"
-	-@docker-compose stop
-.PHONY: stop
 
 start-php:
 	@printf $(SCRIPT_TITLE_PATTERN) "Server" "Start PHP"
