@@ -1,0 +1,20 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block content_title %}
+    Analytics
+{% endblock %}
+
+{% block main %}
+    {% for chart in charts %}
+        <div id="{{ chart.name|slug }}"></div>
+    {% endfor %}
+{% endblock %}
+
+{% block body_custom_javascript %}
+    {{ parent() }}
+    <script type="text/javascript" async>
+        {% for chart in charts %}
+            Highcharts.chart("{{ chart.name|slug }}", {{ chart.config|json_encode|raw }});
+        {% endfor %}
+    </script>
+{% endblock %}

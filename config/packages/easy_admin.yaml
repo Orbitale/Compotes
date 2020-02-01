@@ -8,11 +8,12 @@ easy_admin:
             - { icon: sync, label: "Sync operations", route: apply_rules }
 
             - label: ''
-            - { icon: ruler-vertical, entity: TagRule }
-            - { icon: tags, entity: Tag }
+            - { icon: money-check, entity: Operation }
+            - { icon: chart-bar, label: "Analytics", route: analytics }
 
             - label: ''
-            - { icon: money-check, entity: Operation }
+            - { icon: ruler-vertical, entity: TagRule }
+            - { icon: tags, entity: Tag }
 
     entities:
         TagRule:
