@@ -1,6 +1,6 @@
 import '../css/app.css';
 import * as Highcharts from "highcharts";
 
-// import $ from 'jquery';
+require('../css/app.css');
 
-console.info('App startup');
+global.Highcharts = Highcharts;

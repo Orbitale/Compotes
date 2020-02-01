@@ -58,4 +58,20 @@ class OperationRepository extends ServiceEntityRepository
 
         return $count > 0;
     }
+
+    /**
+     * @return Operation[]
+     */
+    public function findWithTags(): array
+    {
+        return $this->_em->createQuery(
+            <<<DQL
+            SELECT operation, tags
+            FROM {$this->_entityName} as operation
+            LEFT JOIN operation.tags as tags
+            DQL
+        )
+            ->getResult()
+        ;
+    }
 }

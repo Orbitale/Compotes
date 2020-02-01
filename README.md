@@ -79,6 +79,7 @@ ADMIN_PASSWORD='$argon2id$v=19$m=65536,t=4,p=1$N0R4Zi5hUWQ3QXB0bjVGdg$VsVcHzGRfG
 Feel free to contribute 😉.
 
 * Make many analytics dashboards (that's what this app is for in the first place, probably with Highcharts).
+* Support JS closures in Chart objects (by using a placeholder to remove quotes maybe?).
 * Add a lot of fixtures to play with.
 * Add translations for tags (maybe using an extension like gedmo or knp?).
 * Implement more source file types like xls, ods, etc., that could be transformed to CSV before importing them. [PHPSpreadsheet](https://phpspreadsheet.readthedocs.io/) is already installed, though not used yet.
@@ -97,9 +98,10 @@ Feel free to contribute 😉.
 
 * Operation tags (insurance, internet provider, car loan, etc.). Multiple tags per operation.
 * Demo app at https://piers.ovh/compotes/ with credentials `admin`/`admin` and database reset every day.
-* Added default tags (in French only for now)
-* Docker setup with Compose
-* Added tons of other commands to the Makefile
+* Added default tags (in French only for now).
+* Docker setup with Compose.
+* Added tons of other commands to the Makefile.
+* Made a first PoC for the analytics dashboard.
 
 # License
 
