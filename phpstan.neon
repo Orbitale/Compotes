@@ -6,7 +6,7 @@ includes:
     - %currentWorkingDirectory%/vendor/phpstan/phpstan-deprecation-rules/rules.neon
 
 parameters:
-    level: 3
+    level: 5
 
     inferPrivatePropertyTypeFromConstructor: true
 
