@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17a986e94cef0eb27433c61df8e36a83",
+    "content-hash": "4a886249b8cf004495b6a2b4adbff34a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1956,6 +1956,62 @@
                 "service proxies"
             ],
             "time": "2020-01-27T09:25:51+00:00"
+        },
+        {
+            "name": "orbitale/doctrine-tools",
+            "version": "v0.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Orbitale/DoctrineTools.git",
+                "reference": "57371396d8de051b4972e6f190c6a1a0eb458431"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Orbitale/DoctrineTools/zipball/57371396d8de051b4972e6f190c6a1a0eb458431",
+                "reference": "57371396d8de051b4972e6f190c6a1a0eb458431",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/instantiator": "^1.1",
+                "doctrine/orm": "^2.6",
+                "doctrine/persistence": "^1.3",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "doctrine/data-fixtures": "^1.0",
+                "phpunit/phpunit": "^6.0"
+            },
+            "suggest": {
+                "doctrine/data-fixtures": "To use the nice AbstractFixture class",
+                "doctrine/doctrine-fixtures-bundle": "To use the AbstractFixture class inside a Symfony app"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Orbitale\\Component\\DoctrineTools\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Rock Ancelet",
+                    "email": "alex@orbitale.io",
+                    "homepage": "http://www.orbitale.io/"
+                }
+            ],
+            "description": "A pack of tools to use with Doctrine ORM",
+            "homepage": "https://github.com/Orbitale/DoctrineTools",
+            "keywords": [
+                "doctrine",
+                "fixtures",
+                "orm",
+                "repository",
+                "tools"
+            ],
+            "time": "2020-02-02T20:39:16+00:00"
         },
         {
             "name": "pagerfanta/pagerfanta",
@@ -6094,61 +6150,6 @@
                 "php"
             ],
             "time": "2019-11-08T13:50:10+00:00"
-        },
-        {
-            "name": "orbitale/doctrine-tools",
-            "version": "v0.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Orbitale/DoctrineTools.git",
-                "reference": "a08bda3c648e9f1bc56118779c471f4efaf901ed"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Orbitale/DoctrineTools/zipball/a08bda3c648e9f1bc56118779c471f4efaf901ed",
-                "reference": "a08bda3c648e9f1bc56118779c471f4efaf901ed",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/instantiator": "^1.1",
-                "doctrine/orm": "^2.6",
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "doctrine/data-fixtures": "^1.0",
-                "phpunit/phpunit": "^6.0"
-            },
-            "suggest": {
-                "doctrine/data-fixtures": "To use the nice AbstractFixture class",
-                "doctrine/doctrine-fixtures-bundle": "To use the AbstractFixture class inside a Symfony app"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Orbitale\\Component\\DoctrineTools\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alex Rock Ancelet",
-                    "email": "alex@orbitale.io",
-                    "homepage": "http://www.orbitale.io/"
-                }
-            ],
-            "description": "A pack of tools to use with Doctrine ORM",
-            "homepage": "https://github.com/Orbitale/DoctrineTools",
-            "keywords": [
-                "doctrine",
-                "fixtures",
-                "orm",
-                "repository",
-                "tools"
-            ],
-            "time": "2020-01-11T21:55:56+00:00"
         },
         {
             "name": "phpstan/phpstan",
