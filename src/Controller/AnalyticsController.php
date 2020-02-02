@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Highcharts\Chart\TagAmountChart;
 use App\Highcharts\Chart\TagUsageChart;
 use App\Repository\OperationRepository;
 use App\Repository\TagRepository;
@@ -45,7 +46,8 @@ class AnalyticsController
 
         return new Response($this->twig->render('analytics.html.twig', [
             'charts' => [
-                TagUsageChart::create($operations),
+                new TagUsageChart($operations),
+                new TagAmountChart($operations),
             ],
         ]));
     }
