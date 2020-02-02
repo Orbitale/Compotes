@@ -1,4 +1,6 @@
 easy_admin:
+    site_name: '🍎 Compotes 🍏'
+
     list:
         max_results: 100
 
