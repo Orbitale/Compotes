@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block main %}
+
+    {{ form(filters_form) }}
+
     <ul class="nav nav-tabs" role="tablist">
         {% for chart in charts %}
             <li class="nav-item">

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\DTO\AnalyticsFilters;
 use App\Entity\Operation;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -62,15 +63,28 @@ class OperationRepository extends ServiceEntityRepository
     /**
      * @return Operation[]
      */
-    public function findWithTags(): array
+    public function findForAnalytics(AnalyticsFilters $filters): array
     {
-        return $this->_em->createQuery(
-            <<<DQL
-            SELECT operation, tags
-            FROM {$this->_entityName} as operation
-            LEFT JOIN operation.tags as tags
-            DQL
-        )
+        $qb = $this->createQueryBuilder('operation')
+            ->addSelect('tags')
+            ->leftJoin('operation.tags', 'tags')
+        ;
+
+        if ($filters->startDate) {
+            $qb
+                ->andWhere('operation.operationDate >= :startDate')
+                ->setParameter('startDate', $filters->startDate)
+            ;
+        }
+        if ($filters->endDate) {
+            $qb
+                ->andWhere('operation.operationDate <= :endDate')
+                ->setParameter('endDate', $filters->endDate)
+            ;
+        }
+
+        return $qb
+            ->getQuery()
             ->getResult()
         ;
     }

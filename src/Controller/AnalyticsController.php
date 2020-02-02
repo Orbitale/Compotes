@@ -13,10 +13,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\DTO\AnalyticsFilters;
+use App\Form\Type\AnalyticsFiltersType;
 use App\Highcharts\Chart\TagAmountChart;
 use App\Highcharts\Chart\TagUsageChart;
 use App\Repository\OperationRepository;
 use App\Repository\TagRepository;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
@@ -24,15 +28,18 @@ use Twig\Environment;
 class AnalyticsController
 {
     private Environment $twig;
+    private FormFactoryInterface $formFactory;
     private TagRepository $tagRepository;
     private OperationRepository $operationRepository;
 
     public function __construct(
         Environment $twig,
+        FormFactoryInterface $formFactory,
         TagRepository $tagRepository,
         OperationRepository $operationRepository
     ) {
         $this->twig = $twig;
+        $this->formFactory = $formFactory;
         $this->tagRepository = $tagRepository;
         $this->operationRepository = $operationRepository;
     }
@@ -40,11 +47,16 @@ class AnalyticsController
     /**
      * @Route("/admin/analytics", name="analytics")
      */
-    public function analytics(): Response
+    public function analytics(Request $request): Response
     {
-        $operations = $this->operationRepository->findWithTags();
+        $filters = new AnalyticsFilters();
+        $form = $this->formFactory->createNamed('', AnalyticsFiltersType::class, $filters);
+        $form->handleRequest($request);
+
+        $operations = $this->operationRepository->findForAnalytics($filters);
 
         return new Response($this->twig->render('analytics.html.twig', [
+            'filters_form' => $form->createView(),
             'charts' => [
                 new TagUsageChart($operations),
                 new TagAmountChart($operations),
