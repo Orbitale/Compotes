@@ -13,59 +13,11 @@ declare(strict_types=1);
 
 namespace App\Highcharts\Chart;
 
-use App\Entity\Operation;
-
-class TagUsageChart extends AbstractChart
+class TagUsageChart extends AbstractTagsChart
 {
-    /** * @var Operation[] */
-    private array $operations = [];
-
-    private function __construct()
-    {
-    }
-
     public function getName(): string
     {
-        return 'Tags';
-    }
-
-    public static function create($operations): self
-    {
-        $self = new self();
-
-        foreach ($operations as $operation) {
-            $self->addOperation($operation);
-        }
-
-        return $self;
-    }
-
-    protected function getOptions(): array
-    {
-        return [
-            'chart' => [
-                'type' => $type = 'bar',
-                'height' => 500,
-            ],
-            'legend' => [
-                'align' => 'right',
-                'layout' => 'vertical',
-            ],
-            'title' => ['text' => 'Tags usage'],
-            'xAxis' => [
-                'categories' => ['Tags'],
-            ],
-            'yAxis' => [
-                'title' => ['text' => 'Number of operations with these tags'],
-            ],
-            'plotOptions' => [
-                $type => [
-                    'pointWidth' => 10,
-                    'borderWidth' => 0,
-                    'groupPadding' => 0.01,
-                ],
-            ],
-        ];
+        return 'Tags usage';
     }
 
     protected function getSeries(): array
@@ -89,10 +41,5 @@ class TagUsageChart extends AbstractChart
         \ksort($series);
 
         return \array_values($series);
-    }
-
-    private function addOperation(Operation $operation): void
-    {
-        $this->operations[] = $operation;
     }
 }
