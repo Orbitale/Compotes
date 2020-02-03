@@ -1,0 +1,15 @@
+ports:
+    - port: 8000
+      onOpen: open-preview
+tasks:
+    - init: >
+          wget https://get.symfony.com/cli/installer -O - | bash
+          symfony composer install
+          symfony console doctrine:database:drop --no-interaction --if-exists --force
+          symfony console doctrine:database:create --no-interaction --if-not-exists
+          symfony console doctrine:migrations:migrate --no-interaction
+          symfony console doctrine:fixtures:load --no-interaction --append
+          symfony console operations:import --no-interaction
+          symfony console operations:update-tags --no-interaction
+      command: >
+          symfony serve
