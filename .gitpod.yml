@@ -1,9 +1,10 @@
+image:
+  file: .gitpod.dockerfile
 ports:
     - port: 8000
       onOpen: open-preview
 tasks:
     - init: |
-          wget https://get.symfony.com/cli/installer -O - | bash
           symfony composer install
           symfony console doctrine:database:drop --no-interaction --if-exists --force
           symfony console doctrine:database:create --no-interaction --if-not-exists
