@@ -130,6 +130,22 @@ dump: ## Dump the current database to keep a track of it.
 ## --
 ##
 
+test-db: wait-for-db ## Sets up the test database
+	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Drop existing database"
+	@APP_ENV=test symfony console doctrine:database:drop --no-interaction --if-exists --force
+	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Create database"
+	@APP_ENV=test symfony console doctrine:database:create --no-interaction
+	@APP_ENV=test symfony console doctrine:schema:create --no-interaction
+	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Install fixture data in the database"
+	@APP_ENV=test symfony console doctrine:fixtures:load --no-interaction --append
+	@APP_ENV=test symfony console operations:import --no-interaction
+	@APP_ENV=test symfony console operations:update-tags --no-interaction
+.PHONY: test-db
+
+phpunit: ## Execute the PHPUnit test suite
+	@APP_ENV=test symfony php bin/phpunit
+.PHONY: phpunit
+
 qa: ## Execute QA tools
 	$(MAKE) cs
 	$(MAKE) phpstan
@@ -137,28 +153,28 @@ qa: ## Execute QA tools
 
 phpstan: ## Execute PHPStan
 	@printf "\n"$(SCRIPT_TITLE_PATTERN) "QA" "phpstan"
-	@php vendor/phpstan/phpstan/phpstan analyse
+	@symfony php vendor/phpstan/phpstan/phpstan analyse
 .PHONY: phpstan
 
 cs: ## Execute php-cs-fixer
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "php-cs-fixer"
-	@php bin/php-cs-fixer fix
+	@symfony php bin/php-cs-fixer fix
 .PHONY: cs
 
 cs-dry: ## Execute php-cs-fixer with a DRY RUN
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "php-cs-fixer"
-	@php bin/php-cs-fixer fix --dry-run
+	@symfony php bin/php-cs-fixer fix --dry-run
 .PHONY: cs-dry
 
 lint: ## Execute some linters on the project
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "lint:yaml"
-	@php bin/console lint:yaml src config translations
+	@symfony console lint:yaml src config translations
 
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "lint:container"
-	@php bin/console lint:container
+	@symfony console lint:container
 
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "lint:twig"
-	@php bin/console lint:twig --show-deprecations
+	@symfony console lint:twig --show-deprecations
 .PHONY: lint
 
 # Helper vars
