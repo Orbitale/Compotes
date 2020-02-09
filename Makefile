@@ -135,14 +135,14 @@ dump: ## Dump the current database to keep a track of it.
 
 test-db: wait-for-db ## Sets up the test database
 	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Drop existing database"
-	@APP_ENV=test symfony console doctrine:database:drop --no-interaction --if-exists --force
+	@APP_ENV=test php bin/console doctrine:database:drop --no-interaction --if-exists --force
 	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Create database"
-	@APP_ENV=test symfony console doctrine:database:create --no-interaction
-	@APP_ENV=test symfony console doctrine:schema:create --no-interaction
+	@APP_ENV=test php bin/console doctrine:database:create --no-interaction
+	@APP_ENV=test php bin/console doctrine:schema:create --no-interaction
 	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Install fixture data in the database"
-	@APP_ENV=test symfony console doctrine:fixtures:load --no-interaction --append
-	@APP_ENV=test symfony console operations:import --no-interaction
-	@APP_ENV=test symfony console operations:update-tags --no-interaction
+	@APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction --append
+	@APP_ENV=test php bin/console operations:import --no-interaction
+	@APP_ENV=test php bin/console operations:update-tags --no-interaction
 .PHONY: test-db
 
 phpunit: ## Execute the PHPUnit test suite
