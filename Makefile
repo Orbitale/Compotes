@@ -154,9 +154,14 @@ phpunit: ## Execute the PHPUnit test suite
 .PHONY: phpunit
 
 qa: ## Execute QA tools
+	$(MAKE) security-check
 	$(MAKE) cs
 	$(MAKE) phpstan
 .PHONY: qa
+
+security-check: ## Execute the Symfony Security checker
+	@symfony security:check
+.PHONY: security-check
 
 phpstan: ## Execute PHPStan
 	@printf "\n"$(SCRIPT_TITLE_PATTERN) "QA" "phpstan"

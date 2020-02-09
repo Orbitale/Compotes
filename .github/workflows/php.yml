@@ -28,7 +28,9 @@ jobs:
               run: composer validate
 
             - name: Install Symfony binary
-              run: 'wget https://get.symfony.com/cli/installer -O - | bash'
+              run: |
+                wget https://get.symfony.com/cli/installer -O - | bash
+                mv $HOME/.symfony/bin/symfony /usr/local/bin/symfony
 
             - name: Get composer cache directory
               id: composer-cache
@@ -51,7 +53,7 @@ jobs:
               run: make lint
 
             - name: Check composer dependencies for no security issue
-              run: $HOME/.symfony/bin/symfony security:check
+              run: symfony security:check
 
             - name: Install PHPUnit
               run: make install-phpunit
