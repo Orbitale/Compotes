@@ -15,7 +15,6 @@ namespace App\Tests\Controller;
 
 use App\Tests\BrowserLoginTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\User\InMemoryUserProvider;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class LoginControllerTest extends WebTestCase
