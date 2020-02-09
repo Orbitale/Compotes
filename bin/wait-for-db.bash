@@ -1,12 +1,12 @@
 #!/bin/bash
 
-for i in {1..10}
+for i in {1..25}
 do
     if docker-compose exec database mysql -uroot -proot -e "SELECT 1;" >/dev/null 2>&1
     then
         printf "\n\033[32m[%s]\033[0m %s\n" "DB" "Ok!"
         exit 0
-    elif [[ $i == 10 ]]; then
+    elif [[ $i == 25 ]]; then
         printf "\n\033[31m[%s]\033[0m %s\n" "ERR" "Cannot connect to database..."
         exit 1
     fi
