@@ -8,13 +8,6 @@ jobs:
 
         runs-on: ubuntu-latest
 
-        services:
-            mysql:
-                image: mysql:5.7
-                ports: ['32768:3306']
-                env: {MYSQL_ROOT_PASSWORD: root}
-                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
         steps:
             - uses: actions/checkout@v1
 
@@ -41,15 +34,17 @@ jobs:
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
                   restore-keys: ${{ runner.os }}-composer-
 
-            - name: Install dependencies
-              run: composer install --prefer-dist --no-progress --no-suggest
+            - name: Install the project
+              run: |
+                  export PATH="$HOME/.symfony/bin:$PATH"
+                  make install
 
-            - name: '⚙️ CS'
+            - name: '🚀 CS'
               run: |
                 export PATH="$HOME/.symfony/bin:$PATH"
                 make cs-dry
 
-            - name: '⚙️ Lint'
+            - name: '🚀 Lint'
               run: |
                 export PATH="$HOME/.symfony/bin:$PATH"
                 make lint
@@ -64,7 +59,7 @@ jobs:
                 export PATH="$HOME/.symfony/bin:$PATH"
                 make install-phpunit
 
-            - name: '⚙️ PHPStan'
+            - name: '🚀 PHPStan'
               run: |
                 export PATH="$HOME/.symfony/bin:$PATH"
                 make phpstan
@@ -74,7 +69,7 @@ jobs:
                 export PATH="$HOME/.symfony/bin:$PATH"
                 make test-db
 
-            - name: '⚙️ PHPUnit'
+            - name: '🚀 PHPUnit'
               run: |
                 export PATH="$HOME/.symfony/bin:$PATH"
                 make phpunit
