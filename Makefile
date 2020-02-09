@@ -1,3 +1,5 @@
+SHELL = /bin/bash
+
 # Config vars
 DEFAULT_ADMIN_PASSWORD := admin
 
@@ -73,10 +75,10 @@ wait-for-db:
 	@printf "\n"$(SCRIPT_TITLE_PATTERN) "DB" "Waiting for database..."
 	@for i in {1..${MAX_DB_HEALTH_ATTEMPTS}}; do \
 		docker-compose exec database mysql -uroot -proot -e "SELECT 1;" >/dev/null 2>&1; \
-		if (( $$? == 0 )); then \
+		if [[ $$? == 0 ]]; then \
 			printf ""$(SCRIPT_TITLE_PATTERN) "DB" "Ok!"; \
 			exit 0; \
-		elif (( $$i == ${MAX_DB_HEALTH_ATTEMPTS} )); then \
+		elif [[ $$i == ${MAX_DB_HEALTH_ATTEMPTS} ]]; then \
 			printf ""$(SCRIPT_ERROR_PATTERN) "ERR" "Cannot connect to mysql..." ;\
 			exit 1; \
 		fi; \
