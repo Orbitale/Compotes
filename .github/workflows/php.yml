@@ -4,8 +4,16 @@ on: [push]
 
 jobs:
     build:
+        name: Compotes
 
         runs-on: ubuntu-latest
+
+        services:
+            mysql:
+                image: mysql:5.7
+                ports: ['32768:3306']
+                env: {MYSQL_ROOT_PASSWORD: root}
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
         steps:
             - uses: actions/checkout@v1
@@ -22,17 +30,37 @@ jobs:
             - name: Install Symfony binary
               run: 'wget https://get.symfony.com/cli/installer -O - | bash'
 
+            - name: Get composer cache directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+            - name: Cache composer dependencies
+              uses: actions/cache@v1
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: ${{ runner.os }}-composer-
+
             - name: Install dependencies
               run: composer install --prefer-dist --no-progress --no-suggest
 
-            - name: PHPStan
-              run: make phpstan
-
-            - name: CS
+            - name: '⚙️ CS'
               run: make cs-dry
 
-            - name: Lint
+            - name: '⚙️ Lint'
               run: make lint
 
             - name: Check composer dependencies for no security issue
               run: $HOME/.symfony/bin/symfony security:check
+
+            - name: Install PHPUnit
+              run: make install-phpunit
+
+            - name: '⚙️ PHPStan'
+              run: make phpstan
+
+            - name: Setup the test database
+              run: make test-db
+
+            - name: '⚙️ PHPUnit'
+              run: make phpunit
