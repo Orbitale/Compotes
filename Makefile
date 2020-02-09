@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 # Config vars
 DEFAULT_ADMIN_PASSWORD := admin
 
@@ -14,7 +16,7 @@ help: ## Show this help.
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-25s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m## */[33m/'
 .PHONY: help
 
-install: vendor node_modules db migrations fixtures admin-password assets start ## Install and start the project.
+install: vendor node_modules db migrations fixtures test-db admin-password assets start ## Install and start the project.
 .PHONY: install
 
 ##
@@ -32,6 +34,9 @@ stop: ## Stop the servers.
 	-@docker-compose stop
 .PHONY: stop
 
+restart: stop start ## Restart the servers.
+.PHONY: restart
+
 cc: ## Clear the cache and warm it up.
 	@printf $(SCRIPT_TITLE_PATTERN) "PHP" "Clear cache"
 	-@symfony console cache:clear --no-warmup
@@ -44,13 +49,13 @@ vendor: ## Install Composer dependencies.
 	composer install --optimize-autoloader --prefer-dist --no-progress
 .PHONY: vendor
 
-node_modules: ## Install Node.js dependencies.
+node_modules: start-node ## Install Node.js dependencies.
 	@printf ""$(SCRIPT_TITLE_PATTERN) "JS" "Install Node.js dependencies"
-	@npm install
+	@docker-compose exec -T node npm install
 
-assets: ## Build frontend assets.
+assets: start-node ## Build frontend assets.
 	@printf ""$(SCRIPT_TITLE_PATTERN) "JS" "Build frontend assets"
-	@npm run-script dev
+	@docker-compose exec -T node npm run-script dev
 .PHONY: assets
 
 db: start-db wait-for-db ## Create a database for the project
@@ -65,21 +70,10 @@ start-db:
 	@docker-compose up --detach database
 .PHONY: start-db
 
-MAX_DB_HEALTH_ATTEMPTS := 15
 wait-for-db:
-	@printf "\n"$(SCRIPT_TITLE_PATTERN) "DB" "Waiting for database..."
-	@for i in {1..${MAX_DB_HEALTH_ATTEMPTS}}; do \
-		docker-compose exec database mysql -uroot -proot -e "SELECT 1;" >/dev/null 2>&1; \
-		if [[ $$? == 0 ]]; then \
-			printf ""$(SCRIPT_TITLE_PATTERN) "DB" "Ok!"; \
-			exit 0; \
-		elif [[ $$i == ${MAX_DB_HEALTH_ATTEMPTS} ]]; then \
-			printf ""$(SCRIPT_ERROR_PATTERN) "ERR" "Cannot connect to mysql..." ;\
-			exit 1; \
-		fi; \
-		echo -e ".\c";\
-		sleep 1; \
-	done
+	@set -xe \
+	&& printf "\n"$(SCRIPT_TITLE_PATTERN) "DB" "Waiting for database..." \
+	&& bin/wait-for-db.bash
 .PHONY: wait-for-db
 
 migrations: wait-for-db ## Create database schema through migrations.
@@ -93,6 +87,10 @@ fixtures: wait-for-db ## Add default data to the project.
 	@symfony console operations:import --no-interaction
 	@symfony console operations:update-tags --no-interaction
 .PHONY: fixtures
+
+start-node:
+	@docker-compose up --detach node
+.PHONY: start-node
 
 start-php:
 	@printf $(SCRIPT_TITLE_PATTERN) "Server" "Start PHP"
@@ -130,35 +128,60 @@ dump: ## Dump the current database to keep a track of it.
 ## --
 ##
 
+test-db: start-db wait-for-db ## Sets up the test database
+	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Drop existing database"
+	@APP_ENV=test php bin/console doctrine:database:drop --no-interaction --if-exists --force
+	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Create database"
+	@APP_ENV=test php bin/console doctrine:database:create --no-interaction
+	@APP_ENV=test php bin/console doctrine:schema:create --no-interaction
+	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Install fixture data in the database"
+	@APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction --append
+	@APP_ENV=test php bin/console operations:import --no-interaction
+	@APP_ENV=test php bin/console operations:update-tags --no-interaction
+.PHONY: test-db
+
+install-phpunit:
+	@APP_ENV=test symfony php bin/phpunit --version
+.PHONY: install-phpunit
+
+phpunit: ## Execute the PHPUnit test suite
+	@APP_ENV=test symfony php bin/phpunit
+.PHONY: phpunit
+
 qa: ## Execute QA tools
+	$(MAKE) security-check
 	$(MAKE) cs
 	$(MAKE) phpstan
 .PHONY: qa
 
+security-check: ## Execute the Symfony Security checker
+	@symfony security:check
+.PHONY: security-check
+
 phpstan: ## Execute PHPStan
 	@printf "\n"$(SCRIPT_TITLE_PATTERN) "QA" "phpstan"
-	@php vendor/phpstan/phpstan/phpstan analyse
+	@symfony php vendor/phpstan/phpstan/phpstan analyse
 .PHONY: phpstan
 
 cs: ## Execute php-cs-fixer
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "php-cs-fixer"
-	@php bin/php-cs-fixer fix
+	@symfony php bin/php-cs-fixer fix
 .PHONY: cs
 
 cs-dry: ## Execute php-cs-fixer with a DRY RUN
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "php-cs-fixer"
-	@php bin/php-cs-fixer fix --dry-run
+	@symfony php bin/php-cs-fixer fix --dry-run
 .PHONY: cs-dry
 
 lint: ## Execute some linters on the project
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "lint:yaml"
-	@php bin/console lint:yaml src config translations
+	@symfony console lint:yaml src config translations
 
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "lint:container"
-	@php bin/console lint:container
+	@symfony console lint:container
 
 	@printf $(SCRIPT_TITLE_PATTERN) "QA" "lint:twig"
-	@php bin/console lint:twig --show-deprecations
+	@symfony console lint:twig --show-deprecations
 .PHONY: lint
 
 # Helper vars

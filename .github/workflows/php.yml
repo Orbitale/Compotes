@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
     build:
+        name: Compotes
 
         runs-on: ubuntu-latest
 
@@ -20,19 +21,55 @@ jobs:
               run: composer validate
 
             - name: Install Symfony binary
-              run: 'wget https://get.symfony.com/cli/installer -O - | bash'
+              run: wget https://get.symfony.com/cli/installer -O - | bash
 
-            - name: Install dependencies
-              run: composer install --prefer-dist --no-progress --no-suggest
+            - name: Get composer cache directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-            - name: PHPStan
-              run: make phpstan
+            - name: Cache composer dependencies
+              uses: actions/cache@v1
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: ${{ runner.os }}-composer-
 
-            - name: CS
-              run: make cs-dry
+            - name: Install the project
+              run: |
+                  export PATH="$HOME/.symfony/bin:$PATH"
+                  make install
 
-            - name: Lint
-              run: make lint
+            - name: '🚀 CS'
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make cs-dry
+
+            - name: '🚀 Lint'
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make lint
 
             - name: Check composer dependencies for no security issue
-              run: $HOME/.symfony/bin/symfony security:check
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                symfony security:check
+
+            - name: Install PHPUnit
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make install-phpunit
+
+            - name: '🚀 PHPStan'
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make phpstan
+
+            - name: Setup the test database
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make test-db
+
+            - name: '🚀 PHPUnit'
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make phpunit
