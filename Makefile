@@ -32,6 +32,9 @@ stop: ## Stop the servers.
 	-@docker-compose stop
 .PHONY: stop
 
+restart: stop start ## Restart the servers.
+.PHONY: restart
+
 cc: ## Clear the cache and warm it up.
 	@printf $(SCRIPT_TITLE_PATTERN) "PHP" "Clear cache"
 	-@symfony console cache:clear --no-warmup
