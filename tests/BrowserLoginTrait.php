@@ -15,6 +15,7 @@ namespace App\Tests;
 
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\TestContainer;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -71,7 +72,7 @@ trait BrowserLoginTrait
         $config = \sprintf('security.firewall.map.config.%s', $firewallName);
 
         if (!$browser->getContainer()->has($config)) {
-            if (static::$container && static::$container->has($config)) {
+            if (static::$container instanceof TestContainer && static::$container->has($config)) {
                 return static::$container->get($config)->getContext();
             }
 
