@@ -49,11 +49,11 @@ vendor: ## Install Composer dependencies.
 
 node_modules: start-node ## Install Node.js dependencies.
 	@printf ""$(SCRIPT_TITLE_PATTERN) "JS" "Install Node.js dependencies"
-	@docker-compose exec node npm install
+	@docker-compose exec -T node npm install
 
 assets: start-node ## Build frontend assets.
 	@printf ""$(SCRIPT_TITLE_PATTERN) "JS" "Build frontend assets"
-	@docker-compose exec node npm run-script dev
+	@docker-compose exec -T node npm run-script dev
 .PHONY: assets
 
 db: start-db wait-for-db ## Create a database for the project
