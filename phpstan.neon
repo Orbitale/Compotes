@@ -1,8 +1,8 @@
 includes:
     - %currentWorkingDirectory%/vendor/phpstan/phpstan-symfony/extension.neon
     - %currentWorkingDirectory%/vendor/phpstan/phpstan-doctrine/extension.neon
-#    - %currentWorkingDirectory%/vendor/phpstan/phpstan-phpunit/extension.neon
-#    - %currentWorkingDirectory%/vendor/phpstan/phpstan-phpunit/rules.neon
+    - %currentWorkingDirectory%/vendor/phpstan/phpstan-phpunit/extension.neon
+    - %currentWorkingDirectory%/vendor/phpstan/phpstan-phpunit/rules.neon
     - %currentWorkingDirectory%/vendor/phpstan/phpstan-deprecation-rules/rules.neon
 
 parameters:
@@ -16,7 +16,7 @@ parameters:
 
     autoload_files:
         - %currentWorkingDirectory%/config/bootstrap.php
-#        - %currentWorkingDirectory%/vendor/bin/.phpunit/phpunit-8.5-0/vendor/autoload.php
+        - %currentWorkingDirectory%/bin/.phpunit/phpunit-8.5-0/vendor/autoload.php
 
     excludes_analyse:
         - %currentWorkingDirectory%/src/Migrations
