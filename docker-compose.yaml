@@ -9,3 +9,9 @@ services:
         ports: [32768:3306]
         volumes: ['mysql_data:/var/lib/mysql']
         environment: [MYSQL_ROOT_PASSWORD=root]
+
+    node:
+        image: node:12
+        volumes: ['./:/srv']
+        working_dir: '/srv'
+        command: 'sleep 9999d'
