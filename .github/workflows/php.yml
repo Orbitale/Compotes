@@ -28,9 +28,7 @@ jobs:
               run: composer validate
 
             - name: Install Symfony binary
-              run: |
-                wget https://get.symfony.com/cli/installer -O - | bash
-                mv $HOME/.symfony/bin/symfony /usr/local/bin/symfony
+              run: wget https://get.symfony.com/cli/installer -O - | bash
 
             - name: Get composer cache directory
               id: composer-cache
@@ -47,22 +45,36 @@ jobs:
               run: composer install --prefer-dist --no-progress --no-suggest
 
             - name: '⚙️ CS'
-              run: make cs-dry
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make cs-dry
 
             - name: '⚙️ Lint'
-              run: make lint
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make lint
 
             - name: Check composer dependencies for no security issue
-              run: symfony security:check
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                symfony security:check
 
             - name: Install PHPUnit
-              run: make install-phpunit
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make install-phpunit
 
             - name: '⚙️ PHPStan'
-              run: make phpstan
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make phpstan
 
             - name: Setup the test database
-              run: make test-db
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make test-db
 
             - name: '⚙️ PHPUnit'
-              run: make phpunit
+              run: |
+                export PATH="$HOME/.symfony/bin:$PATH"
+                make phpunit
