@@ -23,7 +23,6 @@ security:
                 login_path: login
                 default_target_path: easyadmin
                 always_use_default_target_path: true
-                use_forward: true
 
             logout:
                 path: logout
