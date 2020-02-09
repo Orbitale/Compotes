@@ -2,7 +2,7 @@
 
 for i in {1..25}
 do
-    if docker-compose exec -T database mysql -uroot -proot -e "SELECT 1;"
+    if docker-compose exec -T database mysql -uroot -proot -e "SELECT 1;" >/dev/null 2>&1
     then
         printf "\n\033[32m[%s]\033[0m %s\n" "DB" "Ok!"
         exit 0
