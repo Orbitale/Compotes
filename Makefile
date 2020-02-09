@@ -70,10 +70,10 @@ start-db:
 	@docker-compose up --detach database
 .PHONY: start-db
 
-MAX_DB_HEALTH_ATTEMPTS := 15
 wait-for-db:
-	@printf "\n"$(SCRIPT_TITLE_PATTERN) "DB" "Waiting for database..."
-	@bash bin/wait-for-db.bash
+	@set -xe \
+	&& printf "\n"$(SCRIPT_TITLE_PATTERN) "DB" "Waiting for database..." \
+	&& bin/wait-for-db.bash
 .PHONY: wait-for-db
 
 migrations: wait-for-db ## Create database schema through migrations.
