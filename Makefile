@@ -145,6 +145,10 @@ test-db: wait-for-db ## Sets up the test database
 	@APP_ENV=test php bin/console operations:update-tags --no-interaction
 .PHONY: test-db
 
+install-phpunit:
+	@APP_ENV=test symfony php bin/phpunit --version
+.PHONY: install-phpunit
+
 phpunit: ## Execute the PHPUnit test suite
 	@APP_ENV=test symfony php bin/phpunit
 .PHONY: phpunit
