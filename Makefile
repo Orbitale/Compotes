@@ -47,11 +47,11 @@ vendor: ## Install Composer dependencies.
 	composer install --optimize-autoloader --prefer-dist --no-progress
 .PHONY: vendor
 
-node_modules: ## Install Node.js dependencies.
+node_modules: start-node ## Install Node.js dependencies.
 	@printf ""$(SCRIPT_TITLE_PATTERN) "JS" "Install Node.js dependencies"
 	@docker-compose exec node npm install
 
-assets: ## Build frontend assets.
+assets: start-node ## Build frontend assets.
 	@printf ""$(SCRIPT_TITLE_PATTERN) "JS" "Build frontend assets"
 	@docker-compose exec node npm run-script dev
 .PHONY: assets
@@ -96,6 +96,10 @@ fixtures: wait-for-db ## Add default data to the project.
 	@symfony console operations:import --no-interaction
 	@symfony console operations:update-tags --no-interaction
 .PHONY: fixtures
+
+start-node:
+	@docker-compose up --detach node
+.PHONY: start-node
 
 start-php:
 	@printf $(SCRIPT_TITLE_PATTERN) "Server" "Start PHP"
