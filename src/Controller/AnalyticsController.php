@@ -45,9 +45,9 @@ class AnalyticsController
     }
 
     /**
-     * @Route("/admin/analytics", name="analytics")
+     * @Route("/admin/analytics", name="analytics", methods={"GET"})
      */
-    public function analytics(Request $request): Response
+    public function __invoke(Request $request): Response
     {
         $filters = new AnalyticsFilters();
         $form = $this->formFactory->createNamed('', AnalyticsFiltersType::class, $filters);

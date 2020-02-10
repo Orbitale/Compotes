@@ -32,7 +32,7 @@ class ApplyTagRulesController
     }
 
     /**
-     * @Route("/admin/apply-rules", name="apply_rules")
+     * @Route("/admin/apply-rules", name="apply_rules", methods={"GET"})
      */
     public function __invoke(Session $session): Response
     {

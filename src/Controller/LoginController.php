@@ -38,7 +38,7 @@ class LoginController
     }
 
     /**
-     * @Route("/login", name="login")
+     * @Route("/login", name="login", methods={"GET", "POST"})
      */
     public function __invoke(): Response
     {
