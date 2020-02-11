@@ -17,6 +17,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OperationRepository")
@@ -25,6 +26,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Operation
 {
+    public const DEFAULT_DATE_FORMAT = 'd/m/Y H:i:s O';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -84,14 +87,35 @@ class Operation
     {
         $self = new self();
 
-        $self->operationDate = DateTimeImmutable::createFromFormat('d/m/Y H:i:s O', \sprintf(
+        $date = DateTimeImmutable::createFromFormat(self::DEFAULT_DATE_FORMAT, \sprintf(
             '%s 00:00:00 +000',
             $line['date']
         ));
+
+        if (false === $date) {
+            throw new InvalidArgumentException(\sprintf(
+                'Operation date was expected to be a valid date respecting the "%s" format, "%s" given.',
+                self::DEFAULT_DATE_FORMAT,
+                $line['date'],
+            ));
+        }
+
+        $self->operationDate = $date;
+
         $self->type = $line['type'];
         $self->typeDisplay = $line['type_display'];
         $self->details = \preg_replace('~\s+~', ' ', $line['details']);
-        $self->amountInCents = (int) \preg_replace('~[^0-9+-]+~', '', $line['amount']);
+
+        $amount = \preg_replace('~[^0-9+-]+~', '', $line['amount']);
+
+        if (!\is_numeric($amount)) {
+            throw new InvalidArgumentException(\sprintf(
+                'Operation amount was expected to be a number, "%s" given.',
+                $line['amount'],
+            ));
+        }
+
+        $self->amountInCents = (int) $amount;
 
         return $self;
     }

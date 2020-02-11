@@ -3,3 +3,4 @@ twig:
     form_themes:
         - '@EasyAdmin/form/bootstrap_4.html.twig'
         - 'form/analytics_filter_form.html.twig'
+        - 'form/import_operations_form.html.twig'

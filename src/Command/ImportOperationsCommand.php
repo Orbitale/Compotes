@@ -35,7 +35,7 @@ class ImportOperationsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $persistedCount = $this->writer->import();
+        $persistedCount = $this->writer->importFromSources();
 
         if ($persistedCount) {
             $io->success(\sprintf('Wrote %d new operations!', $persistedCount));

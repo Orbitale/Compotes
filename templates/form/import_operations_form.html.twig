@@ -1,0 +1,20 @@
+
+{% block import_operations_widget %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col s12">
+            <div class="alert alert-info">
+                {{ 'import_operations.form.file_help'|trans|raw }}
+            </div>
+            {{ form_row(form.file) }}
+        </div>
+    </div>
+    <section class="content-footer">
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary action-save">
+                <span class="btn-label">{{ 'import_operations.form.submit'|trans }}</span>
+            </button>
+        </div>
+    </section>
+    {{ form_end(form) }}
+{% endblock %}

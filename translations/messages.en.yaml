@@ -1,0 +1,26 @@
+import_operations.form.submit: Import file
+import_operations.validators.invalid_file_name: Filename "{{ file_name }}" does not respect the "{year}-{month}.csv" format.
+import_operations.form.success: |
+    ]-Inf, 0] No operation was added from the file.
+    |[1, +Inf[ Inserted %count% operations!
+import_operations.form.file_help: |
+    <ul>
+        <li>File format must be CSV.</li>
+        <li>Separator must be a semi-colon "<strong><code>;</code></strong>".</li>
+        <li>Delimiter must be a double-quote "<strong><code>&quot;</code></strong>".</li>
+        <li>Escape character must be a backslash "<strong><code>\</code></strong>".</li>
+        <li>File name must be <code>{year}-{month}.csv</code>.</li>
+        <li>First line of the file will be ignored, so it can contain headers or an empty line.</li>
+        <li>Each line column must be the following, <strong>in this order</strong>:
+            <ol>
+                <li><strong>Date</strong> in <code>day/month/year</code> format (nothing else supported for now).</li>
+                <li><strong>Operation type</strong> (given by bank provider, can be an empty string).</li>
+                <li><strong>Display type</strong> (not mandatory, can be an empty string).</li>
+                <li><strong>Operation details</strong> (can be a longer string).</li>
+                <li>
+                    <strong>Amount</strong> of the operation. Can be a negative number.<br>
+                    Note that this can be a string like <code>1 234,55</code> or <code>1,234.55</code>.<br>
+                    Every non-digit character (except <code>&plus;</code> and <code>&minus;</code>) will be removed and all remaining numbers will make the amount <strong>in cents</strong>.
+                </li>
+        </li>
+    </ul>
