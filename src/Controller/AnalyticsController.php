@@ -34,7 +34,6 @@ class AnalyticsController
     public function __construct(
         Environment $twig,
         FormFactoryInterface $formFactory,
-        TagRepository $tagRepository,
         OperationRepository $operationRepository
     ) {
         $this->twig = $twig;

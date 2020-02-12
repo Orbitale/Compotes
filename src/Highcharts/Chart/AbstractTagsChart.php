@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace App\Highcharts\Chart;
 
-use App\Entity\Operation;
-
 abstract class AbstractTagsChart extends AbstractChart
 {
     protected function getOptions(): array

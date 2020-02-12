@@ -20,10 +20,6 @@ abstract class AbstractChart implements ChartInterface
     /** @var Operation[] */
     protected array $operations = [];
 
-    abstract protected function getSeries(): array;
-
-    abstract protected function getOptions(): array;
-
     /**
      * @param Operation[] $operations
      */
@@ -38,6 +34,10 @@ abstract class AbstractChart implements ChartInterface
     {
         return $this->getOptions() + ['series' => $this->getSeries()];
     }
+
+    abstract protected function getSeries(): array;
+
+    abstract protected function getOptions(): array;
 
     private function addOperation(Operation $operation): void
     {
