@@ -7,9 +7,6 @@ import_operations.form.success: |
 import_operations.form.file_help: |
     <ul>
         <li>File format must be CSV.</li>
-        <li>Separator must be a semi-colon "<strong><code>;</code></strong>".</li>
-        <li>Delimiter must be a double-quote "<strong><code>&quot;</code></strong>".</li>
-        <li>Escape character must be a backslash "<strong><code>\</code></strong>".</li>
         <li>File name must be <code>{year}-{month}.csv</code>.</li>
         <li>First line of the file will be ignored, so it can contain headers or an empty line.</li>
         <li>Each <strong>line column</strong> must be the following:

@@ -5,7 +5,7 @@ services:
         autowire: true
         autoconfigure: true
         bind:
-            string $bankSourcesDir: '%kernel.project_dir%/account_exports'
+            string $sourceFilesDirectory: '%kernel.project_dir%/account_exports'
 
     App\:
         resource: '../src/*'

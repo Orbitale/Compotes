@@ -33,15 +33,20 @@ class OperationsImporter
 
     public const CSV_COLUMNS = ['date', 'type', 'type_display', 'details', 'amount'];
 
-    private string $bankSourcesDir;
+    private string $sourceFilesDirectory;
     private OperationRepository $repository;
     private EntityManagerInterface $em;
 
-    public function __construct(string $bankSourcesDir, OperationRepository $repository, EntityManagerInterface $em)
+    public function __construct(string $sourceFilesDirectory, OperationRepository $repository, EntityManagerInterface $em)
     {
-        $this->bankSourcesDir = $bankSourcesDir;
+        $this->setSourceFilesDirectory($sourceFilesDirectory);
         $this->repository = $repository;
         $this->em = $em;
+    }
+
+    public function setSourceFilesDirectory(string $sourceFilesDirectory): void
+    {
+        $this->sourceFilesDirectory = $sourceFilesDirectory;
     }
 
     public function importFile(SplFileInfo $file, array $csvColumns = self::CSV_COLUMNS, CsvParameters $csvParameters = null, bool $flush = true): int
@@ -66,14 +71,18 @@ class OperationsImporter
         return $numberPersisted;
     }
 
-    public function importFromSources(array $csvColumns): int
+    public function importFromSources(array $csvColumns, CsvParameters $csvParameters = null): int
     {
-        $files = (new Finder())->files()->in($this->bankSourcesDir)->sortByName();
+        if (!$csvParameters) {
+            $csvParameters = CsvParameters::create();
+        }
+
+        $files = (new Finder())->files()->in($this->sourceFilesDirectory)->sortByName();
 
         $numberPersisted = 0;
 
         foreach ($files as $file) {
-            $numberPersisted += $this->importFile($file, $csvColumns, false);
+            $numberPersisted += $this->importFile($file, $csvColumns, $csvParameters, false);
         }
 
         $this->em->flush();

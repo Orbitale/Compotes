@@ -75,8 +75,8 @@ class ImportOperations
 
         $csvColumns = $this->csvColumns;
         $defaultHeaders = OperationsImporter::CSV_COLUMNS;
-        sort($csvColumns);
-        sort($defaultHeaders);
+        \sort($csvColumns);
+        \sort($defaultHeaders);
 
         if ($csvColumns !== $defaultHeaders) {
             $context
