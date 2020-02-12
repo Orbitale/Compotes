@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace App\Operations;
 
 use App\Entity\Operation;
+use App\Model\CsvParameters;
 use App\Repository\OperationRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,9 +31,7 @@ class OperationsImporter
      */
     public const FILE_DATE_FORMAT = 'Y-m';
 
-    public const DEFAULT_LINE_HEADERS = ['date', 'type', 'type_display', 'details', 'amount'];
-
-    public const DEFAULT_CSV_PARAMS = [0, ';', '"', '\\'];
+    public const CSV_COLUMNS = ['date', 'type', 'type_display', 'details', 'amount'];
 
     private string $bankSourcesDir;
     private OperationRepository $repository;
@@ -45,9 +44,13 @@ class OperationsImporter
         $this->em = $em;
     }
 
-    public function importFile(SplFileInfo $file, array $lineHeaders = self::DEFAULT_LINE_HEADERS, bool $flush = true): int
+    public function importFile(SplFileInfo $file, array $csvColumns = self::CSV_COLUMNS, CsvParameters $csvParameters = null, bool $flush = true): int
     {
-        $operations = $this->extractOperationsFromFile($file, $lineHeaders);
+        if (!$csvParameters) {
+            $csvParameters = CsvParameters::create();
+        }
+
+        $operations = $this->extractOperationsFromFile($file, $csvColumns, $csvParameters);
 
         $numberPersisted = 0;
 
@@ -63,14 +66,14 @@ class OperationsImporter
         return $numberPersisted;
     }
 
-    public function importFromSources(array $lineHeaders): int
+    public function importFromSources(array $csvColumns): int
     {
         $files = (new Finder())->files()->in($this->bankSourcesDir)->sortByName();
 
         $numberPersisted = 0;
 
         foreach ($files as $file) {
-            $numberPersisted += $this->importFile($file, $lineHeaders, false);
+            $numberPersisted += $this->importFile($file, $csvColumns, false);
         }
 
         $this->em->flush();
@@ -81,7 +84,7 @@ class OperationsImporter
     /**
      * @return Generator<Operation>
      */
-    private function extractOperationsFromFile(SplFileInfo $file, array $lineHeaders): Generator
+    private function extractOperationsFromFile(SplFileInfo $file, array $csvColumns, CsvParameters $csvParameters): Generator
     {
         $filename = $file instanceof UploadedFile ? $file->getClientOriginalName() : $file->getBasename();
 
@@ -103,11 +106,13 @@ class OperationsImporter
 
         $h = \fopen($file->getPathname(), 'rb+');
 
-        // Line 1 must be headers or details for you so we ignore it
-        \fgetcsv($h, ...self::DEFAULT_CSV_PARAMS);
+        $csvFunctionArguments = $csvParameters->getCsvFunctionArguments();
 
-        while ($line = \fgetcsv($h, ...self::DEFAULT_CSV_PARAMS)) {
-            yield Operation::fromImportLine(\array_combine($lineHeaders, $line));
+        // Line 1 must be headers or details for you so we ignore it
+        \fgetcsv($h, ...$csvFunctionArguments);
+
+        while ($line = \fgetcsv($h, ...$csvFunctionArguments)) {
+            yield Operation::fromImportLine(\array_combine($csvColumns, $line));
         }
     }
 }

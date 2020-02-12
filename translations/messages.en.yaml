@@ -1,5 +1,6 @@
 import_operations.form.submit: Import file
 import_operations.validators.invalid_file_name: Filename "{{ file_name }}" does not respect the "{year}-{month}.csv" format.
+import_operations.validators.invalid_line_headers: 'CSV headers order is not valid. Available fields: {{ headers }}'
 import_operations.form.success: |
     ]-Inf, 0] No operation was added from the file.
     |[1, +Inf[ Inserted %count% operations!
@@ -11,8 +12,8 @@ import_operations.form.file_help: |
         <li>Escape character must be a backslash "<strong><code>\</code></strong>".</li>
         <li>File name must be <code>{year}-{month}.csv</code>.</li>
         <li>First line of the file will be ignored, so it can contain headers or an empty line.</li>
-        <li>Each line column must be the following, <strong>in this order</strong>:
-            <ol>
+        <li>Each <strong>line column</strong> must be the following:
+            <ul>
                 <li><strong>Date</strong> in <code>day/month/year</code> format (nothing else supported for now).</li>
                 <li><strong>Operation type</strong> (given by bank provider, can be an empty string).</li>
                 <li><strong>Display type</strong> (not mandatory, can be an empty string).</li>
@@ -22,5 +23,7 @@ import_operations.form.file_help: |
                     Note that this can be a string like <code>1 234,55</code> or <code>1,234.55</code>.<br>
                     Every non-digit character (except <code>&plus;</code> and <code>&minus;</code>) will be removed and all remaining numbers will make the amount <strong>in cents</strong>.
                 </li>
+            </ul>
+            Note that you can <strong>change the order of these fields</strong> by drag&dropping them in the form.
         </li>
     </ul>

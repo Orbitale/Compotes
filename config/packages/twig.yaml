@@ -4,3 +4,4 @@ twig:
         - '@EasyAdmin/form/bootstrap_4.html.twig'
         - 'form/analytics_filter_form.html.twig'
         - 'form/import_operations_form.html.twig'
+        - 'form/drag_drop_ordered_list_form.html.twig'

@@ -16,6 +16,7 @@ namespace App\Form\Type;
 use App\DTO\ImportOperations;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,6 +26,22 @@ class ImportOperationsType extends AbstractType
     {
         $builder
             ->add('file', FileType::class)
+            ->add('csvColumns', DragDropOrderedListType::class)
+            ->add('csvEscapeCharacter', TextType::class, [
+                'attr' => [
+                    'maxlength' => '1',
+                ],
+            ])
+            ->add('csvDelimiter', TextType::class, [
+                'attr' => [
+                    'maxlength' => '1',
+                ],
+            ])
+            ->add('csvSeparator', TextType::class, [
+                'attr' => [
+                    'maxlength' => '1',
+                ],
+            ])
         ;
     }
 

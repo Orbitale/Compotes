@@ -1,6 +1,5 @@
 import '../css/app.css';
 import * as Highcharts from "highcharts";
-
-require('../css/app.css');
+import {draggable} from './draggable';
 
 global.Highcharts = Highcharts;

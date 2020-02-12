@@ -15,6 +15,7 @@ namespace App\Controller;
 
 use App\DTO\ImportOperations;
 use App\Form\Type\ImportOperationsType;
+use App\Model\CsvParameters;
 use App\Operations\OperationsImporter;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -24,6 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 use Twig\Environment;
 
 class ImportOperationsController
@@ -60,7 +62,11 @@ class ImportOperationsController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $created = $this->importer->importFile($data->file);
+                $created = $this->importer->importFile(
+                    $data->file,
+                    $data->csvColumns,
+                    CsvParameters::create($data->getCsvSeparator(), $data->getCsvDelimiter(), $data->getCsvEscapeCharacter())
+                );
 
                 $this->flashBag->add(
                     $created > 0 ? 'success' : 'warning',
@@ -70,7 +76,7 @@ class ImportOperationsController
                 );
 
                 return new RedirectResponse($request->getPathInfo());
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $form->addError(new FormError($e->getMessage()));
             }
         }

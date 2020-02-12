@@ -1,0 +1,33 @@
+.draggable_container {
+    list-style-position: inside;
+    padding-inline-start: 0;
+    width: 100%;
+    overflow: hidden;
+}
+.draggable_container .draggable {
+    cursor: grab;
+    border-radius: 3px;
+    padding: 5px 0 5px 20px;
+    position: relative;
+    z-index: 1; /* To make sure it's not hidden behind inputs */
+}
+.draggable_container .draggable:before {
+    display: inline;
+    position: absolute;
+    left: 5px;
+    content: "↕";
+}
+.draggable_container .draggable:hover {
+    background-color: #eee;
+    user-select: none;
+}
+
+/* Draggable library overrides */
+.draggable_container .draggable.draggable--over {
+    cursor: grabbing;
+    background-color: #ddd;
+}
+.draggable_container .draggable.draggable-mirror {
+    /* Native behavior is "position fixed and hovering" in the lib, but I find this ugly and not customizable */
+    display: none;
+}

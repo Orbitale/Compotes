@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
+use App\Operations\OperationsImporter;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -26,6 +27,26 @@ class ImportOperations
      * @Assert\NotBlank()
      */
     public ?UploadedFile $file = null;
+
+    /**
+     * @Assert\Type("array")
+     */
+    public array $csvColumns = OperationsImporter::CSV_COLUMNS;
+
+    /**
+     * @Assert\Length(min="1", max="1")
+     */
+    private string $csvEscapeCharacter = '\\';
+
+    /**
+     * @Assert\Length(min="1", max="1")
+     */
+    private string $csvDelimiter = '"';
+
+    /**
+     * @Assert\Length(min="1", max="1")
+     */
+    private string $csvSeparator = ';';
 
     public function validate(ExecutionContextInterface $context): void
     {
@@ -51,5 +72,49 @@ class ImportOperations
                 ->addViolation()
             ;
         }
+
+        $csvColumns = $this->csvColumns;
+        $defaultHeaders = OperationsImporter::CSV_COLUMNS;
+        sort($csvColumns);
+        sort($defaultHeaders);
+
+        if ($csvColumns !== $defaultHeaders) {
+            $context
+                ->buildViolation('import_operations.validators.invalid_line_headers')
+                ->setParameter('{{ headers }}', \implode(', ', $defaultHeaders))
+                ->setTranslationDomain('messages')
+                ->addViolation()
+            ;
+        }
+    }
+
+    public function setCsvEscapeCharacter(?string $csvEscapeCharacter): void
+    {
+        $this->csvEscapeCharacter = (string) $csvEscapeCharacter;
+    }
+
+    public function setCsvDelimiter(?string $csvDelimiter): void
+    {
+        $this->csvDelimiter = (string) $csvDelimiter;
+    }
+
+    public function setCsvSeparator(?string $csvSeparator): void
+    {
+        $this->csvSeparator = (string) $csvSeparator;
+    }
+
+    public function getCsvEscapeCharacter(): string
+    {
+        return $this->csvEscapeCharacter;
+    }
+
+    public function getCsvDelimiter(): string
+    {
+        return $this->csvDelimiter;
+    }
+
+    public function getCsvSeparator(): string
+    {
+        return $this->csvSeparator;
     }
 }

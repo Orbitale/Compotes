@@ -1,0 +1,11 @@
+{% block drag_drop_ordered_list_widget %}
+    <ol class="draggable_container">
+        {% for form_child in form %}
+            <li class="draggable">
+                {{ form_errors(form_child) }}
+                {{ form_widget(form_child) }}
+                {{ form_child.vars.data|title }}
+            </li>
+        {% endfor %}
+    </ol>
+{% endblock %}
