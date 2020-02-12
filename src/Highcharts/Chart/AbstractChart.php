@@ -13,14 +13,34 @@ declare(strict_types=1);
 
 namespace App\Highcharts\Chart;
 
+use App\Entity\Operation;
+
 abstract class AbstractChart implements ChartInterface
 {
+    /** @var Operation[] */
+    protected array $operations = [];
+
+    abstract protected function getSeries(): array;
+
+    abstract protected function getOptions(): array;
+
+    /**
+     * @param Operation[] $operations
+     */
+    public function __construct(array $operations)
+    {
+        foreach ($operations as $operation) {
+            $this->addOperation($operation);
+        }
+    }
+
     public function getConfig(): array
     {
         return $this->getOptions() + ['series' => $this->getSeries()];
     }
 
-    abstract protected function getSeries(): array;
-
-    abstract protected function getOptions(): array;
+    private function addOperation(Operation $operation): void
+    {
+        $this->operations[] = $operation;
+    }
 }

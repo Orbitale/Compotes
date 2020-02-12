@@ -17,19 +17,6 @@ use App\Entity\Operation;
 
 abstract class AbstractTagsChart extends AbstractChart
 {
-    /** @var Operation[] */
-    protected array $operations = [];
-
-    /**
-     * @param Operation[] $operations
-     */
-    public function __construct(array $operations)
-    {
-        foreach ($operations as $operation) {
-            $this->addOperation($operation);
-        }
-    }
-
     protected function getOptions(): array
     {
         return [
@@ -56,10 +43,5 @@ abstract class AbstractTagsChart extends AbstractChart
                 ],
             ],
         ];
-    }
-
-    private function addOperation(Operation $operation): void
-    {
-        $this->operations[] = $operation;
     }
 }
