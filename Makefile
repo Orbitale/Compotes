@@ -58,6 +58,11 @@ assets: start-node ## Build frontend assets.
 	@docker-compose exec -T node npm run-script dev
 .PHONY: assets
 
+assets-watch: start-node ## Watch assets to rebuild them on change (runs in the foreground)
+	@printf ""$(SCRIPT_TITLE_PATTERN) "JS" "Watch assets to rebuild them on change"
+	@docker-compose exec node npm run-script watch
+.PHONY: assets-watch
+
 db: start-db wait-for-db ## Create a database for the project
 	@printf ""$(SCRIPT_TITLE_PATTERN) "DB" "Drop existing database"
 	@symfony console doctrine:database:drop --no-interaction --if-exists --force
