@@ -29,7 +29,6 @@ class AnalyticsController
 {
     private Environment $twig;
     private FormFactoryInterface $formFactory;
-    private TagRepository $tagRepository;
     private OperationRepository $operationRepository;
 
     public function __construct(
@@ -40,7 +39,6 @@ class AnalyticsController
     ) {
         $this->twig = $twig;
         $this->formFactory = $formFactory;
-        $this->tagRepository = $tagRepository;
         $this->operationRepository = $operationRepository;
     }
 
