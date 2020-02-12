@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Model\ImportOptions;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -26,8 +27,6 @@ use InvalidArgumentException;
  */
 class Operation
 {
-    public const DEFAULT_DATE_FORMAT = 'd/m/Y H:i:s O';
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -83,11 +82,11 @@ class Operation
         $this->tags = new ArrayCollection();
     }
 
-    public static function fromImportLine(array $line): self
+    public static function fromImportLine(array $line, string $dateFormat = ImportOptions::OPERATION_DATE_FORMAT): self
     {
         $self = new self();
 
-        $date = DateTimeImmutable::createFromFormat(self::DEFAULT_DATE_FORMAT, \sprintf(
+        $date = DateTimeImmutable::createFromFormat($dateFormat, \sprintf(
             '%s 00:00:00 +000',
             $line['date']
         ));
@@ -95,7 +94,7 @@ class Operation
         if (false === $date) {
             throw new InvalidArgumentException(\sprintf(
                 'Operation date was expected to be a valid date respecting the "%s" format, "%s" given.',
-                self::DEFAULT_DATE_FORMAT,
+                ImportOptions::OPERATION_DATE_FORMAT,
                 $line['date'],
             ));
         }

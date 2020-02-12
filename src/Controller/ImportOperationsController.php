@@ -15,7 +15,7 @@ namespace App\Controller;
 
 use App\DTO\ImportOperations;
 use App\Form\Type\ImportOperationsType;
-use App\Model\CsvParameters;
+use App\Model\ImportOptions;
 use App\Operations\OperationsImporter;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -65,7 +65,7 @@ class ImportOperationsController
                 $created = $this->importer->importFile(
                     $data->file,
                     $data->csvColumns,
-                    CsvParameters::create($data->getCsvSeparator(), $data->getCsvDelimiter(), $data->getCsvEscapeCharacter())
+                    ImportOptions::create($data->getCsvSeparator(), $data->getCsvDelimiter(), $data->getCsvEscapeCharacter())
                 );
 
                 $this->flashBag->add(

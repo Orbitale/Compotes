@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace App\Operations;
 
 use App\Entity\Operation;
-use App\Model\CsvParameters;
+use App\Model\ImportOptions;
 use App\Repository\OperationRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,13 +26,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class OperationsImporter
 {
-    /**
-     * File format MUST be "Y-m.csv".
-     */
-    public const FILE_DATE_FORMAT = 'Y-m';
-
-    public const CSV_COLUMNS = ['date', 'type', 'type_display', 'details', 'amount'];
-
     private string $sourceFilesDirectory;
     private OperationRepository $repository;
     private EntityManagerInterface $em;
@@ -49,13 +42,13 @@ class OperationsImporter
         $this->sourceFilesDirectory = $sourceFilesDirectory;
     }
 
-    public function importFile(SplFileInfo $file, array $csvColumns = self::CSV_COLUMNS, CsvParameters $csvParameters = null, bool $flush = true): int
+    public function importFile(SplFileInfo $file, array $csvColumns = ImportOptions::CSV_COLUMNS, ImportOptions $importOptions = null, bool $flush = true): int
     {
-        if (!$csvParameters) {
-            $csvParameters = CsvParameters::create();
+        if (!$importOptions) {
+            $importOptions = ImportOptions::create();
         }
 
-        $operations = $this->extractOperationsFromFile($file, $csvColumns, $csvParameters);
+        $operations = $this->extractOperationsFromFile($file, $csvColumns, $importOptions);
 
         $numberPersisted = 0;
 
@@ -71,10 +64,10 @@ class OperationsImporter
         return $numberPersisted;
     }
 
-    public function importFromSources(array $csvColumns, CsvParameters $csvParameters = null): int
+    public function importFromSources(array $csvColumns, ImportOptions $importOptions = null): int
     {
-        if (!$csvParameters) {
-            $csvParameters = CsvParameters::create();
+        if (!$importOptions) {
+            $importOptions = ImportOptions::create();
         }
 
         $files = (new Finder())->files()->in($this->sourceFilesDirectory)->sortByName();
@@ -82,7 +75,7 @@ class OperationsImporter
         $numberPersisted = 0;
 
         foreach ($files as $file) {
-            $numberPersisted += $this->importFile($file, $csvColumns, $csvParameters, false);
+            $numberPersisted += $this->importFile($file, $csvColumns, $importOptions, false);
         }
 
         $this->em->flush();
@@ -93,18 +86,18 @@ class OperationsImporter
     /**
      * @return Generator<Operation>
      */
-    private function extractOperationsFromFile(SplFileInfo $file, array $csvColumns, CsvParameters $csvParameters): Generator
+    private function extractOperationsFromFile(SplFileInfo $file, array $csvColumns, ImportOptions $importOptions): Generator
     {
         $filename = $file instanceof UploadedFile ? $file->getClientOriginalName() : $file->getBasename();
 
         $month = \pathinfo($filename, \PATHINFO_FILENAME);
 
-        $monthDate = DateTimeImmutable::createFromFormat(self::FILE_DATE_FORMAT, $month);
+        $monthDate = DateTimeImmutable::createFromFormat(ImportOptions::FILE_DATE_FORMAT, $month);
 
         if (false === $monthDate) {
             throw new RuntimeException(\sprintf(
                 'File date format was expected to be a valid date respecting the "%s" format, "%s" given.',
-                self::FILE_DATE_FORMAT,
+                ImportOptions::FILE_DATE_FORMAT,
                 $month,
             ));
         }
@@ -115,7 +108,7 @@ class OperationsImporter
 
         $h = \fopen($file->getPathname(), 'rb+');
 
-        $csvFunctionArguments = $csvParameters->getCsvFunctionArguments();
+        $csvFunctionArguments = $importOptions->getCsvFunctionArguments();
 
         // Line 1 must be headers or details for you so we ignore it
         \fgetcsv($h, ...$csvFunctionArguments);

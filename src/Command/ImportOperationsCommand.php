@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Model\ImportOptions;
 use App\Operations\OperationsImporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,7 +35,7 @@ class ImportOperationsCommand extends Command
         parent::__construct(self::$defaultName);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Import operations from the "account_exports" directory.')
@@ -71,7 +72,7 @@ class ImportOperationsCommand extends Command
             $this->writer->setSourceFilesDirectory($sourcesDir);
         }
 
-        $persistedCount = $this->writer->importFromSources(OperationsImporter::CSV_COLUMNS);
+        $persistedCount = $this->writer->importFromSources(ImportOptions::CSV_COLUMNS);
 
         if ($persistedCount) {
             $io->success(\sprintf('Wrote %d new operations!', $persistedCount));

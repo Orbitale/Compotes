@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-use App\Operations\OperationsImporter;
+use App\Model\ImportOptions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -31,20 +31,20 @@ class ImportOperations
     /**
      * @Assert\Type("array")
      */
-    public array $csvColumns = OperationsImporter::CSV_COLUMNS;
+    public array $csvColumns = ImportOptions::CSV_COLUMNS;
 
     /**
-     * @Assert\Length(min="1", max="1")
+     * @Assert\Choice(ImportOptions::CSV_ESCAPE_CHARACTERS)
      */
     private string $csvEscapeCharacter = '\\';
 
     /**
-     * @Assert\Length(min="1", max="1")
+     * @Assert\Choice(ImportOptions::CSV_DELIMITERS)
      */
     private string $csvDelimiter = '"';
 
     /**
-     * @Assert\Length(min="1", max="1")
+     * @Assert\Choice(ImportOptions::CSV_SEPARATORS)
      */
     private string $csvSeparator = ';';
 
@@ -74,7 +74,7 @@ class ImportOperations
         }
 
         $csvColumns = $this->csvColumns;
-        $defaultHeaders = OperationsImporter::CSV_COLUMNS;
+        $defaultHeaders = ImportOptions::CSV_COLUMNS;
         \sort($csvColumns);
         \sort($defaultHeaders);
 
