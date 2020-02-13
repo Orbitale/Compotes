@@ -1,5 +1,1001 @@
-Date;Operation type;Label;Details;Amount
-02/01/2018;VIREMENT;VIR SEPA RECU;VIR CPTE A CPTE RECU AMI QUI VOUS VEUT DU BIEN;55,44
-03/01/2018;VIREMENT;VIR SEPA RECU;VIR SEPA RECU /DE 123456789 /MOTIF YOUR COMPANY SALARY /REF 123456789/123456789/1234/12;1234,56
-04/01/2018;PAIEMENT CB;PAIEMENT CB;FACTURE CARTE DU 251018 STEAMGAMES.COM CARTE 0123XXXXX ;-65,25
-05/01/2018;OTHER;OTHER;THIS IS JUST AN EXAMPLE;10,00
+"date";"type";"type_display";"details";"amount"
+28/10/2018;"PAIEMENTCB";"PAIEMENTCB";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-12,21 €
+17/03/2019;"COMMISSIONS";"COMMISSIONS";"Fusce varius risus nec mattis suscipit";-2 343,22 €
+07/03/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur in ex ut dui tempus finibus";228,97 €
+08/09/2017;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";-4 474,58 €
+05/03/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";-852,55 €
+11/08/2018;"INTERETS";"INTERETS";"Cras pellentesque neque sed dui tincidunt ultricies";590,28 €
+18/06/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi nec tortor fermentum posuere mauris non aliquet neque";4 613,26 €
+20/09/2017;"COMMISSIONS";"COMMISSIONS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";874,40 €
+01/06/2018;"INTERETS";"INTERETS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";4 956,83 €
+24/06/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-3 892,16 €
+12/04/2017;"COMMISSIONS";"COMMISSIONS";"Curabitur elementum sapien id consequat sodales";-4 975,22 €
+18/06/2018;"PAIEMENTCB";"PAIEMENTCB";"Curabitur commodo erat id dolor molestie pharetra";-1 832,41 €
+02/12/2017;"INTERETS";"INTERETS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";3 211,87 €
+10/02/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-2 213,75 €
+18/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"In vehicula eros in neque finibus vel cursus turpis finibus";543,75 €
+12/10/2017;"PAIEMENTCB";"PAIEMENTCB";"Cras pretium erat quis vehicula iaculis";341,97 €
+04/05/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";-1 336,06 €
+03/09/2019;"COMMISSIONS";"COMMISSIONS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-3 817,76 €
+06/09/2017;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";4 969,76 €
+18/06/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-4 283,65 €
+20/05/2019;"CHEQUE";"CHEQUE";"Donec nec diam viverra ultrices dui eget cursus est";4 803,17 €
+19/02/2017;"CHEQUE";"CHEQUE";"Curabitur commodo erat id dolor molestie pharetra";907,09 €
+17/04/2019;"COMMISSIONS";"COMMISSIONS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";1 751,83 €
+02/10/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-1 735,16 €
+04/07/2018;"CHEQUE";"CHEQUE";"Integer ullamcorper sapien eu luctus malesuada";-172,01 €
+18/02/2018;"INTERETS";"INTERETS";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-968,65 €
+23/11/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce varius risus nec mattis suscipit";-915,27 €
+18/08/2018;"PAIEMENTCB";"PAIEMENTCB";"Integer ullamcorper sapien eu luctus malesuada";-2 062,20 €
+05/02/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-382,49 €
+18/01/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Donec viverra libero nec consectetur vehicula";-2 906,67 €
+15/06/2019;"CHEQUE";"CHEQUE";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-3 726,38 €
+27/05/2019;"INTERETS";"INTERETS";"Curabitur in ex ut dui tempus finibus";3 872,03 €
+27/04/2018;"PAIEMENTCB";"PAIEMENTCB";"Fusce vestibulum purus id congue feugiat";-2 168,40 €
+10/06/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi in libero quis risus ultricies imperdiet quis ac massa";897,55 €
+09/09/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-3 491,17 €
+03/12/2018;"INTERETS";"INTERETS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-2 201,22 €
+11/12/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pretium erat quis vehicula iaculis";4 888,09 €
+19/07/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";3 610,45 €
+12/11/2017;"INTERETS";"INTERETS";"Integer ullamcorper sapien eu luctus malesuada";339,84 €
+20/05/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";4 439,77 €
+17/02/2018;"INTERETS";"INTERETS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-4 590,38 €
+07/12/2017;"PAIEMENTCB";"PAIEMENTCB";"Donec quis dolor tempor metus suscipit volutpat";325,80 €
+21/11/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Donec viverra libero nec consectetur vehicula";4 973,29 €
+12/05/2019;"PAIEMENTCB";"PAIEMENTCB";"In vehicula eros in neque finibus vel cursus turpis finibus";-3 852,83 €
+10/09/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur elementum sapien id consequat sodales";-1 789,78 €
+14/05/2019;"CHEQUE";"CHEQUE";"Curabitur elementum sapien id consequat sodales";-1 412,46 €
+20/12/2018;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";-4 223,48 €
+14/08/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi at est tristique tempor lectus nec pulvinar ex";-2 143,71 €
+21/05/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec vel lacus nec nisl placerat suscipit";3 800,77 €
+02/08/2019;"CHEQUE";"CHEQUE";"Etiam nec velit quis nulla sagittis fermentum";266,57 €
+02/09/2017;"COMMISSIONS";"COMMISSIONS";"Cras eget nisi id nibh placerat consectetur";-772,05 €
+01/06/2018;"COMMISSIONS";"COMMISSIONS";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";4 152,73 €
+12/02/2019;"INTERETS";"INTERETS";"Cras pretium erat quis vehicula iaculis";2 027,29 €
+11/07/2018;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";-2 806,22 €
+06/07/2018;"CHEQUE";"CHEQUE";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-3 714,13 €
+16/04/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce vestibulum purus id congue feugiat";4 371,49 €
+02/12/2018;"CHEQUE";"CHEQUE";"Donec efficitur libero ut mauris congue at sodales urna sodales";183,37 €
+03/03/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi in libero quis risus ultricies imperdiet quis ac massa";2 766,44 €
+11/06/2017;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";3 202,45 €
+18/01/2017;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";3 028,33 €
+11/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras eget nisi id nibh placerat consectetur";-3 305,29 €
+17/08/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";1 709,83 €
+06/02/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec quis dolor tempor metus suscipit volutpat";4 663,06 €
+07/10/2019;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-77,00 €
+04/01/2018;"PAIEMENTCB";"PAIEMENTCB";"Donec viverra libero nec consectetur vehicula";602,34 €
+06/07/2018;"COMMISSIONS";"COMMISSIONS";"Donec nec diam viverra ultrices dui eget cursus est";-3 204,79 €
+21/10/2018;"CHEQUE";"CHEQUE";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";4 086,08 €
+04/05/2019;"INTERETS";"INTERETS";"Cras pellentesque neque sed dui tincidunt ultricies";-2 397,75 €
+04/09/2019;"COMMISSIONS";"COMMISSIONS";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-2 631,73 €
+15/12/2017;"PAIEMENTCB";"PAIEMENTCB";"Donec efficitur libero ut mauris congue at sodales urna sodales";3 887,89 €
+22/10/2018;"INTERETS";"INTERETS";"Cras eget nisi id nibh placerat consectetur";3 581,85 €
+22/06/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce varius risus nec mattis suscipit";-161,39 €
+12/06/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";3 146,46 €
+09/05/2019;"ECHEANCEPRET";"ECHEANCEPRET";"In vehicula eros in neque finibus vel cursus turpis finibus";543,20 €
+23/04/2017;"CHEQUE";"CHEQUE";"Curabitur in ex ut dui tempus finibus";3 923,26 €
+01/01/2017;"INTERETS";"INTERETS";"Integer ullamcorper sapien eu luctus malesuada";-4 156,58 €
+08/02/2017;"COMMISSIONS";"COMMISSIONS";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";3 912,63 €
+26/06/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";-1 451,33 €
+22/10/2017;"INTERETS";"INTERETS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-4 102,06 €
+05/06/2018;"INTERETS";"INTERETS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";3 818,44 €
+18/09/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-3 454,10 €
+27/04/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec quis dolor tempor metus suscipit volutpat";4 583,92 €
+14/01/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";4 494,94 €
+19/04/2018;"PAIEMENTCB";"PAIEMENTCB";"Etiam nec velit quis nulla sagittis fermentum";944,43 €
+07/07/2017;"CHEQUE";"CHEQUE";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";3 152,41 €
+12/10/2018;"INTERETS";"INTERETS";"Integer ut nisi ornare euismod sapien ac blandit mi";-3 101,17 €
+04/12/2017;"INTERETS";"INTERETS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-4 039,30 €
+01/12/2017;"INTERETS";"INTERETS";"Donec vel lacus nec nisl placerat suscipit";4 295,21 €
+06/07/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";2 994,90 €
+26/11/2017;"COMMISSIONS";"COMMISSIONS";"Donec viverra libero nec consectetur vehicula";-4 014,71 €
+09/08/2017;"INTERETS";"INTERETS";"Integer ut nisi ornare euismod sapien ac blandit mi";-4 221,56 €
+14/11/2018;"CHEQUE";"CHEQUE";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-4 516,29 €
+15/12/2019;"PAIEMENTCB";"PAIEMENTCB";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-1 040,75 €
+07/12/2017;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";-1 279,45 €
+10/04/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";4 293,20 €
+24/12/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";2 520,11 €
+25/05/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec viverra libero nec consectetur vehicula";1 195,05 €
+18/09/2019;"ECHEANCEPRET";"ECHEANCEPRET";"In vehicula eros in neque finibus vel cursus turpis finibus";-3 257,36 €
+22/04/2019;"CHEQUE";"CHEQUE";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";2 304,54 €
+04/01/2019;"CHEQUE";"CHEQUE";"Curabitur commodo erat id dolor molestie pharetra";-3 595,74 €
+12/08/2017;"INTERETS";"INTERETS";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-2 949,64 €
+02/01/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-4 549,36 €
+07/12/2017;"COMMISSIONS";"COMMISSIONS";"Donec vel lacus nec nisl placerat suscipit";-3 170,49 €
+09/07/2017;"COMMISSIONS";"COMMISSIONS";"Fusce varius risus nec mattis suscipit";3 777,39 €
+18/10/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";3 577,74 €
+24/05/2019;"COMMISSIONS";"COMMISSIONS";"Donec efficitur libero ut mauris congue at sodales urna sodales";1 762,06 €
+16/09/2018;"PAIEMENTCB";"PAIEMENTCB";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-258,19 €
+16/04/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi at est tristique tempor lectus nec pulvinar ex";-4 288,18 €
+05/07/2019;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";4 757,27 €
+24/11/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";-3 711,66 €
+03/08/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec viverra libero nec consectetur vehicula";-71,96 €
+26/04/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";2 017,77 €
+15/05/2017;"CHEQUE";"CHEQUE";"Cras pretium erat quis vehicula iaculis";1 334,18 €
+11/12/2017;"COMMISSIONS";"COMMISSIONS";"Donec nec diam viverra ultrices dui eget cursus est";2 740,42 €
+28/12/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-1 402,40 €
+13/06/2019;"COMMISSIONS";"COMMISSIONS";"Morbi at est tristique tempor lectus nec pulvinar ex";3 678,70 €
+26/01/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";2 156,23 €
+15/09/2018;"COMMISSIONS";"COMMISSIONS";"Integer ut nisi ornare euismod sapien ac blandit mi";-4 733,68 €
+02/09/2019;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";564,63 €
+11/05/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-3 093,10 €
+25/06/2019;"PAIEMENTCB";"PAIEMENTCB";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-1 036,07 €
+01/02/2018;"PAIEMENTCB";"PAIEMENTCB";"Etiam nec velit quis nulla sagittis fermentum";-4 531,78 €
+02/05/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-873,28 €
+03/12/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec efficitur libero ut mauris congue at sodales urna sodales";-4 044,18 €
+27/01/2019;"CHEQUE";"CHEQUE";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-375,00 €
+10/03/2019;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";-393,58 €
+16/07/2019;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";-57,49 €
+17/09/2017;"CHEQUE";"CHEQUE";"Fusce vestibulum purus id congue feugiat";-3 250,78 €
+02/09/2018;"INTERETS";"INTERETS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-4 462,71 €
+04/08/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi at est tristique tempor lectus nec pulvinar ex";-2 425,51 €
+23/07/2019;"COMMISSIONS";"COMMISSIONS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-1 160,34 €
+23/03/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec vel lacus nec nisl placerat suscipit";1 689,28 €
+25/08/2019;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";2 668,45 €
+26/10/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur elementum sapien id consequat sodales";-436,41 €
+03/10/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";4 665,94 €
+11/03/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-391,46 €
+26/12/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec nec diam viverra ultrices dui eget cursus est";4 404,42 €
+23/01/2019;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";-4 014,45 €
+16/08/2019;"PAIEMENTCB";"PAIEMENTCB";"Cras pellentesque neque sed dui tincidunt ultricies";-419,58 €
+07/09/2018;"INTERETS";"INTERETS";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";753,27 €
+13/07/2018;"INTERETS";"INTERETS";"Curabitur commodo erat id dolor molestie pharetra";-1 999,76 €
+18/09/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";4 233,28 €
+14/10/2019;"COMMISSIONS";"COMMISSIONS";"Curabitur commodo erat id dolor molestie pharetra";2 342,06 €
+09/06/2019;"INTERETS";"INTERETS";"Cras pretium erat quis vehicula iaculis";1 552,54 €
+09/07/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-4 492,57 €
+15/06/2017;"INTERETS";"INTERETS";"Morbi tempor augue vel mi blandit molestie";-2 642,99 €
+24/08/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"In vehicula eros in neque finibus vel cursus turpis finibus";3 933,31 €
+22/02/2018;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";1 297,33 €
+10/04/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi nec tortor fermentum posuere mauris non aliquet neque";570,01 €
+02/01/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pellentesque neque sed dui tincidunt ultricies";-3 748,21 €
+02/12/2019;"COMMISSIONS";"COMMISSIONS";"Fusce varius risus nec mattis suscipit";-3 381,54 €
+02/03/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur in ex ut dui tempus finibus";3 220,91 €
+20/06/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce varius risus nec mattis suscipit";-958,36 €
+16/09/2018;"INTERETS";"INTERETS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-967,30 €
+28/09/2018;"PAIEMENTCB";"PAIEMENTCB";"Donec quis dolor tempor metus suscipit volutpat";-332,66 €
+07/06/2018;"COMMISSIONS";"COMMISSIONS";"Fusce varius risus nec mattis suscipit";-1 395,29 €
+25/05/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ut nisi ornare euismod sapien ac blandit mi";-160,63 €
+01/01/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur elementum sapien id consequat sodales";2 259,66 €
+11/06/2018;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";3 614,96 €
+03/12/2019;"INTERETS";"INTERETS";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";-3 568,96 €
+12/02/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";3 690,30 €
+26/02/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-4 672,29 €
+04/08/2017;"CHEQUE";"CHEQUE";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-3 152,64 €
+09/02/2018;"PAIEMENTCB";"PAIEMENTCB";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";2 482,38 €
+24/10/2019;"COMMISSIONS";"COMMISSIONS";"Morbi at est tristique tempor lectus nec pulvinar ex";-1 992,75 €
+03/12/2019;"CHEQUE";"CHEQUE";"Donec vel lacus nec nisl placerat suscipit";2 024,78 €
+19/10/2017;"COMMISSIONS";"COMMISSIONS";"Donec viverra libero nec consectetur vehicula";-1 818,77 €
+28/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-2 226,98 €
+09/10/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Cras eget nisi id nibh placerat consectetur";-3 957,49 €
+16/12/2019;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";1 435,32 €
+02/07/2018;"INTERETS";"INTERETS";"Donec efficitur libero ut mauris congue at sodales urna sodales";-3 479,68 €
+05/01/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Donec viverra libero nec consectetur vehicula";-2 066,06 €
+16/02/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce varius risus nec mattis suscipit";-481,69 €
+06/10/2019;"PAIEMENTCB";"PAIEMENTCB";"In vehicula eros in neque finibus vel cursus turpis finibus";2 799,61 €
+17/12/2017;"INTERETS";"INTERETS";"Curabitur in ex ut dui tempus finibus";1 718,30 €
+08/09/2019;"INTERETS";"INTERETS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-2 735,63 €
+23/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";4 869,83 €
+06/05/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce varius risus nec mattis suscipit";2 067,02 €
+14/04/2018;"INTERETS";"INTERETS";"Donec nec diam viverra ultrices dui eget cursus est";-2 058,56 €
+26/09/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi at est tristique tempor lectus nec pulvinar ex";-1 947,88 €
+21/12/2018;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";736,41 €
+10/02/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Etiam nec velit quis nulla sagittis fermentum";1 830,62 €
+18/05/2019;"INTERETS";"INTERETS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";2 600,23 €
+06/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec quis dolor tempor metus suscipit volutpat";-2 414,60 €
+08/07/2017;"CHEQUE";"CHEQUE";"Donec viverra libero nec consectetur vehicula";-3 669,00 €
+21/10/2019;"CHEQUE";"CHEQUE";"In vehicula eros in neque finibus vel cursus turpis finibus";2 112,13 €
+18/03/2017;"INTERETS";"INTERETS";"Integer ut nisi ornare euismod sapien ac blandit mi";-4 433,30 €
+21/08/2019;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";-1 392,34 €
+03/03/2018;"INTERETS";"INTERETS";"Cras pretium erat quis vehicula iaculis";-1 670,12 €
+06/11/2017;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";-777,67 €
+06/04/2018;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";2 531,38 €
+28/09/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";2 997,57 €
+06/07/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";1 348,71 €
+26/09/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Integer ut nisi ornare euismod sapien ac blandit mi";-2 080,04 €
+20/02/2017;"CHEQUE";"CHEQUE";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";4 767,78 €
+20/05/2017;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-474,66 €
+21/07/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";1 541,09 €
+18/11/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Etiam nec velit quis nulla sagittis fermentum";1 351,58 €
+06/09/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec nec diam viverra ultrices dui eget cursus est";-79,51 €
+12/11/2017;"COMMISSIONS";"COMMISSIONS";"Curabitur commodo erat id dolor molestie pharetra";-2 986,70 €
+01/10/2017;"INTERETS";"INTERETS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";3 368,97 €
+02/01/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";4 962,62 €
+22/08/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ut nisi ornare euismod sapien ac blandit mi";-1 759,58 €
+11/11/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pellentesque neque sed dui tincidunt ultricies";-23,71 €
+14/02/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur elementum sapien id consequat sodales";2 326,97 €
+11/02/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";-4 313,43 €
+02/09/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";3 103,04 €
+23/10/2018;"INTERETS";"INTERETS";"Curabitur elementum sapien id consequat sodales";4 355,52 €
+16/09/2017;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";4 559,98 €
+23/10/2017;"COMMISSIONS";"COMMISSIONS";"Morbi at est tristique tempor lectus nec pulvinar ex";2 959,28 €
+13/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec viverra libero nec consectetur vehicula";2 990,73 €
+27/03/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";1 073,12 €
+21/11/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Integer ullamcorper sapien eu luctus malesuada";-556,92 €
+09/01/2018;"CHEQUE";"CHEQUE";"Curabitur in ex ut dui tempus finibus";-422,26 €
+10/11/2019;"INTERETS";"INTERETS";"Cras pretium erat quis vehicula iaculis";4 364,02 €
+13/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-786,23 €
+24/08/2019;"COMMISSIONS";"COMMISSIONS";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-949,70 €
+21/12/2018;"CHEQUE";"CHEQUE";"Etiam nec velit quis nulla sagittis fermentum";2 793,88 €
+07/09/2017;"INTERETS";"INTERETS";"Cras eget nisi id nibh placerat consectetur";-3 658,32 €
+07/08/2018;"ECHEANCEPRET";"ECHEANCEPRET";"In vehicula eros in neque finibus vel cursus turpis finibus";-1 369,25 €
+07/09/2018;"INTERETS";"INTERETS";"Curabitur in ex ut dui tempus finibus";889,42 €
+22/01/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec quis dolor tempor metus suscipit volutpat";-2 143,50 €
+09/05/2018;"CHEQUE";"CHEQUE";"Integer ut nisi ornare euismod sapien ac blandit mi";2 899,04 €
+12/05/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec nec diam viverra ultrices dui eget cursus est";-1 980,55 €
+04/12/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec viverra libero nec consectetur vehicula";134,36 €
+03/09/2018;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";3 379,30 €
+20/02/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pretium erat quis vehicula iaculis";-4 206,98 €
+10/10/2017;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-1 132,98 €
+22/05/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";1 636,67 €
+09/01/2019;"INTERETS";"INTERETS";"Curabitur commodo erat id dolor molestie pharetra";-4 564,22 €
+20/11/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Etiam nec velit quis nulla sagittis fermentum";-3 047,26 €
+09/08/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi nec tortor fermentum posuere mauris non aliquet neque";3 211,40 €
+20/11/2018;"INTERETS";"INTERETS";"Donec viverra libero nec consectetur vehicula";833,51 €
+17/02/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Donec nec diam viverra ultrices dui eget cursus est";-121,33 €
+21/01/2017;"PAIEMENTCB";"PAIEMENTCB";"Morbi nec tortor fermentum posuere mauris non aliquet neque";1 739,83 €
+24/04/2019;"INTERETS";"INTERETS";"Curabitur elementum sapien id consequat sodales";-2 840,04 €
+01/07/2017;"PAIEMENTCB";"PAIEMENTCB";"Cras pellentesque neque sed dui tincidunt ultricies";74,25 €
+01/10/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";713,11 €
+26/02/2019;"PAIEMENTCB";"PAIEMENTCB";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";3 404,52 €
+16/11/2018;"COMMISSIONS";"COMMISSIONS";"Donec nec diam viverra ultrices dui eget cursus est";1 636,42 €
+23/02/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi in libero quis risus ultricies imperdiet quis ac massa";1 448,62 €
+01/09/2017;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";3 068,33 €
+15/01/2019;"CHEQUE";"CHEQUE";"Donec nec diam viverra ultrices dui eget cursus est";1 999,77 €
+15/09/2017;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";1 276,33 €
+28/10/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Donec quis dolor tempor metus suscipit volutpat";-2 689,45 €
+13/11/2019;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";-767,28 €
+22/10/2019;"COMMISSIONS";"COMMISSIONS";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";-1 617,04 €
+01/05/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";-1 704,02 €
+06/08/2019;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";-2 549,76 €
+24/02/2017;"PAIEMENTCB";"PAIEMENTCB";"Integer ullamcorper sapien eu luctus malesuada";-44,68 €
+11/09/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce vestibulum purus id congue feugiat";-155,48 €
+15/04/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";3 969,48 €
+21/03/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-39,51 €
+21/11/2018;"INTERETS";"INTERETS";"Donec viverra libero nec consectetur vehicula";363,50 €
+06/01/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pellentesque neque sed dui tincidunt ultricies";1 119,84 €
+17/05/2019;"COMMISSIONS";"COMMISSIONS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";1 720,50 €
+10/02/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-466,21 €
+28/12/2018;"INTERETS";"INTERETS";"Morbi at est tristique tempor lectus nec pulvinar ex";2 056,95 €
+11/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";-4 129,62 €
+10/07/2018;"CHEQUE";"CHEQUE";"Cras eget nisi id nibh placerat consectetur";-2 506,97 €
+12/08/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";2 234,62 €
+03/06/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur commodo erat id dolor molestie pharetra";3 752,02 €
+06/03/2018;"INTERETS";"INTERETS";"Cras eget nisi id nibh placerat consectetur";1 902,97 €
+06/12/2017;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";-1 986,44 €
+12/11/2018;"PAIEMENTCB";"PAIEMENTCB";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-2 285,88 €
+16/05/2017;"CHEQUE";"CHEQUE";"Curabitur elementum sapien id consequat sodales";-1 346,16 €
+28/03/2018;"COMMISSIONS";"COMMISSIONS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";2 146,59 €
+12/10/2019;"COMMISSIONS";"COMMISSIONS";"Cras pretium erat quis vehicula iaculis";1 821,73 €
+01/03/2019;"CHEQUE";"CHEQUE";"Donec quis dolor tempor metus suscipit volutpat";-2 219,30 €
+14/03/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur elementum sapien id consequat sodales";-4 541,25 €
+01/03/2018;"COMMISSIONS";"COMMISSIONS";"Fusce varius risus nec mattis suscipit";845,70 €
+04/07/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pretium erat quis vehicula iaculis";-2 294,25 €
+23/04/2019;"PAIEMENTCB";"PAIEMENTCB";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";861,09 €
+13/09/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Etiam nec velit quis nulla sagittis fermentum";2 366,83 €
+10/04/2017;"COMMISSIONS";"COMMISSIONS";"Fusce varius risus nec mattis suscipit";-359,67 €
+15/08/2018;"COMMISSIONS";"COMMISSIONS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";4 823,51 €
+26/10/2018;"INTERETS";"INTERETS";"Donec quis dolor tempor metus suscipit volutpat";3 926,25 €
+13/06/2018;"COMMISSIONS";"COMMISSIONS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";2 866,91 €
+07/11/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce varius risus nec mattis suscipit";1 956,74 €
+01/09/2019;"INTERETS";"INTERETS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";3 059,22 €
+18/03/2017;"CHEQUE";"CHEQUE";"Morbi tempor augue vel mi blandit molestie";-1 574,29 €
+20/09/2019;"INTERETS";"INTERETS";"Integer ullamcorper sapien eu luctus malesuada";916,56 €
+10/07/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur in ex ut dui tempus finibus";1 769,38 €
+23/07/2017;"INTERETS";"INTERETS";"Donec vel lacus nec nisl placerat suscipit";-642,74 €
+03/06/2019;"INTERETS";"INTERETS";"Donec vel lacus nec nisl placerat suscipit";-163,37 €
+21/08/2018;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";1 498,77 €
+03/04/2019;"INTERETS";"INTERETS";"Cras eget nisi id nibh placerat consectetur";1 613,90 €
+09/06/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec vel lacus nec nisl placerat suscipit";4 745,21 €
+25/06/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-3 344,10 €
+20/05/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-3 541,47 €
+03/12/2017;"INTERETS";"INTERETS";"Etiam nec velit quis nulla sagittis fermentum";-773,34 €
+06/10/2017;"INTERETS";"INTERETS";"Donec nec diam viverra ultrices dui eget cursus est";-2 246,23 €
+10/08/2018;"INTERETS";"INTERETS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-2 379,48 €
+10/03/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pretium erat quis vehicula iaculis";-420,42 €
+28/03/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur commodo erat id dolor molestie pharetra";-961,45 €
+12/06/2019;"COMMISSIONS";"COMMISSIONS";"Curabitur commodo erat id dolor molestie pharetra";-3 468,29 €
+18/10/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";3 524,60 €
+20/12/2018;"PAIEMENTCB";"PAIEMENTCB";"Cras pretium erat quis vehicula iaculis";2 211,01 €
+14/06/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";-4 129,31 €
+03/10/2019;"COMMISSIONS";"COMMISSIONS";"Etiam nec velit quis nulla sagittis fermentum";3 541,58 €
+26/05/2018;"INTERETS";"INTERETS";"Cras eget nisi id nibh placerat consectetur";2 746,14 €
+16/12/2017;"INTERETS";"INTERETS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-502,17 €
+27/11/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";3 952,46 €
+18/06/2019;"INTERETS";"INTERETS";"Fusce varius risus nec mattis suscipit";3 135,92 €
+08/01/2019;"COMMISSIONS";"COMMISSIONS";"Donec viverra libero nec consectetur vehicula";-215,69 €
+10/05/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";2 628,01 €
+19/09/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce vestibulum purus id congue feugiat";-1 094,28 €
+24/08/2019;"COMMISSIONS";"COMMISSIONS";"Donec nec diam viverra ultrices dui eget cursus est";2 579,08 €
+23/05/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce varius risus nec mattis suscipit";1 477,08 €
+11/04/2018;"INTERETS";"INTERETS";"Morbi tempor augue vel mi blandit molestie";1 456,62 €
+20/10/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras eget nisi id nibh placerat consectetur";-4 686,95 €
+14/09/2017;"INTERETS";"INTERETS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";463,02 €
+06/02/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-1 687,69 €
+21/01/2017;"COMMISSIONS";"COMMISSIONS";"Integer ut nisi ornare euismod sapien ac blandit mi";-979,07 €
+12/08/2017;"CHEQUE";"CHEQUE";"Cras pellentesque neque sed dui tincidunt ultricies";-430,35 €
+07/03/2017;"PAIEMENTCB";"PAIEMENTCB";"Fusce varius risus nec mattis suscipit";-2 631,07 €
+19/02/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce vestibulum purus id congue feugiat";4 319,87 €
+04/04/2019;"INTERETS";"INTERETS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";2 504,01 €
+27/08/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-2 577,69 €
+06/03/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pellentesque neque sed dui tincidunt ultricies";-524,22 €
+26/09/2019;"COMMISSIONS";"COMMISSIONS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-785,51 €
+10/06/2018;"COMMISSIONS";"COMMISSIONS";"Integer ut nisi ornare euismod sapien ac blandit mi";-4 498,08 €
+04/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";1 305,60 €
+01/09/2017;"COMMISSIONS";"COMMISSIONS";"Donec vel lacus nec nisl placerat suscipit";3 205,74 €
+18/01/2019;"PAIEMENTCB";"PAIEMENTCB";"Curabitur in ex ut dui tempus finibus";2 351,92 €
+17/04/2018;"PAIEMENTCB";"PAIEMENTCB";"Donec nec diam viverra ultrices dui eget cursus est";3 672,83 €
+16/12/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-74,32 €
+12/11/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";-4 190,59 €
+17/02/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras eget nisi id nibh placerat consectetur";1 027,68 €
+19/01/2019;"INTERETS";"INTERETS";"Donec efficitur libero ut mauris congue at sodales urna sodales";1 978,48 €
+06/06/2019;"CHEQUE";"CHEQUE";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-3 683,10 €
+24/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";1 826,99 €
+19/11/2019;"CHEQUE";"CHEQUE";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-1 095,30 €
+05/09/2018;"CHEQUE";"CHEQUE";"Integer ut nisi ornare euismod sapien ac blandit mi";-4 144,00 €
+05/05/2019;"PAIEMENTCB";"PAIEMENTCB";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-1 509,69 €
+18/10/2018;"INTERETS";"INTERETS";"Cras pellentesque neque sed dui tincidunt ultricies";-4 882,37 €
+10/07/2017;"INTERETS";"INTERETS";"Cras pellentesque neque sed dui tincidunt ultricies";-3 169,32 €
+22/09/2018;"INTERETS";"INTERETS";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";-1 892,89 €
+24/11/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ut nisi ornare euismod sapien ac blandit mi";2 967,21 €
+12/01/2019;"PAIEMENTCB";"PAIEMENTCB";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-3 556,83 €
+20/11/2019;"CHEQUE";"CHEQUE";"Donec quis dolor tempor metus suscipit volutpat";4 844,74 €
+27/01/2017;"INTERETS";"INTERETS";"Integer ullamcorper sapien eu luctus malesuada";2 369,80 €
+02/12/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi in libero quis risus ultricies imperdiet quis ac massa";1 986,22 €
+14/01/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ut nisi ornare euismod sapien ac blandit mi";-3 563,31 €
+04/02/2019;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-4 909,88 €
+05/08/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec viverra libero nec consectetur vehicula";4 077,12 €
+18/04/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec viverra libero nec consectetur vehicula";4 832,21 €
+01/09/2017;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";4 490,31 €
+26/05/2017;"COMMISSIONS";"COMMISSIONS";"Donec nec diam viverra ultrices dui eget cursus est";1 656,63 €
+10/05/2019;"COMMISSIONS";"COMMISSIONS";"Etiam nec velit quis nulla sagittis fermentum";-3 418,37 €
+18/06/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec quis dolor tempor metus suscipit volutpat";-953,48 €
+06/01/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur in ex ut dui tempus finibus";-1 539,05 €
+28/05/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi at est tristique tempor lectus nec pulvinar ex";3 402,08 €
+25/03/2018;"CHEQUE";"CHEQUE";"Donec viverra libero nec consectetur vehicula";426,95 €
+11/03/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";-1 914,89 €
+08/12/2018;"CHEQUE";"CHEQUE";"Lorem ipsum dolor sit amet consectetur adipiscing elit";1 096,46 €
+20/11/2019;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";-843,47 €
+07/03/2017;"COMMISSIONS";"COMMISSIONS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-4 479,82 €
+15/01/2019;"COMMISSIONS";"COMMISSIONS";"Morbi at est tristique tempor lectus nec pulvinar ex";1 231,99 €
+06/12/2017;"COMMISSIONS";"COMMISSIONS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";1 215,92 €
+06/01/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ullamcorper sapien eu luctus malesuada";-813,92 €
+20/06/2019;"INTERETS";"INTERETS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";1 190,01 €
+27/08/2017;"CHEQUE";"CHEQUE";"Morbi at est tristique tempor lectus nec pulvinar ex";-2 659,92 €
+20/12/2017;"CHEQUE";"CHEQUE";"Curabitur elementum sapien id consequat sodales";335,56 €
+10/01/2019;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";-2 603,32 €
+18/03/2019;"COMMISSIONS";"COMMISSIONS";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";3 105,88 €
+20/03/2018;"PAIEMENTCB";"PAIEMENTCB";"Morbi in libero quis risus ultricies imperdiet quis ac massa";1 358,58 €
+15/10/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur elementum sapien id consequat sodales";-2 201,08 €
+18/01/2019;"COMMISSIONS";"COMMISSIONS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-3 629,47 €
+09/08/2017;"INTERETS";"INTERETS";"Integer ut nisi ornare euismod sapien ac blandit mi";4 601,97 €
+28/04/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce vestibulum purus id congue feugiat";4 757,17 €
+16/04/2019;"COMMISSIONS";"COMMISSIONS";"Cras pretium erat quis vehicula iaculis";-653,62 €
+02/11/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";-2 377,58 €
+27/05/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";1 363,01 €
+01/12/2018;"PAIEMENTCB";"PAIEMENTCB";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-400,94 €
+16/11/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-2 954,36 €
+09/03/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi in libero quis risus ultricies imperdiet quis ac massa";649,66 €
+18/05/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";773,51 €
+11/10/2018;"INTERETS";"INTERETS";"Morbi tempor augue vel mi blandit molestie";-2 703,95 €
+14/05/2017;"CHEQUE";"CHEQUE";"Morbi tempor augue vel mi blandit molestie";3 737,32 €
+19/05/2018;"INTERETS";"INTERETS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";188,59 €
+08/03/2017;"COMMISSIONS";"COMMISSIONS";"Curabitur elementum sapien id consequat sodales";-663,97 €
+11/01/2017;"CHEQUE";"CHEQUE";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-2 873,71 €
+15/04/2018;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";-2 239,50 €
+22/12/2017;"INTERETS";"INTERETS";"Integer ut nisi ornare euismod sapien ac blandit mi";561,86 €
+27/09/2019;"INTERETS";"INTERETS";"Etiam nec velit quis nulla sagittis fermentum";2 991,67 €
+08/10/2017;"PAIEMENTCB";"PAIEMENTCB";"In vehicula eros in neque finibus vel cursus turpis finibus";-4 546,60 €
+06/12/2019;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-1 830,35 €
+08/07/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-3 904,65 €
+21/05/2018;"CHEQUE";"CHEQUE";"Curabitur elementum sapien id consequat sodales";-3 928,31 €
+13/04/2017;"INTERETS";"INTERETS";"Fusce varius risus nec mattis suscipit";-3 972,39 €
+06/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pretium erat quis vehicula iaculis";3 695,95 €
+03/09/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"In vehicula eros in neque finibus vel cursus turpis finibus";1 180,00 €
+17/12/2019;"COMMISSIONS";"COMMISSIONS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";1 654,44 €
+10/10/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-248,66 €
+08/01/2018;"COMMISSIONS";"COMMISSIONS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-1 469,19 €
+28/01/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce vestibulum purus id congue feugiat";-1 617,00 €
+08/05/2017;"COMMISSIONS";"COMMISSIONS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-86,50 €
+14/08/2017;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";4 062,26 €
+07/08/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pellentesque neque sed dui tincidunt ultricies";-3 463,30 €
+28/12/2018;"INTERETS";"INTERETS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-3 745,90 €
+03/02/2019;"INTERETS";"INTERETS";"Integer ullamcorper sapien eu luctus malesuada";1 673,71 €
+13/04/2018;"INTERETS";"INTERETS";"Fusce varius risus nec mattis suscipit";3 654,55 €
+23/05/2019;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";1 781,07 €
+27/02/2017;"INTERETS";"INTERETS";"Cras eget nisi id nibh placerat consectetur";4 361,88 €
+06/11/2019;"COMMISSIONS";"COMMISSIONS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";344,04 €
+23/09/2018;"COMMISSIONS";"COMMISSIONS";"Curabitur in ex ut dui tempus finibus";-1 417,13 €
+12/08/2018;"COMMISSIONS";"COMMISSIONS";"Morbi at est tristique tempor lectus nec pulvinar ex";411,89 €
+20/06/2019;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-3 268,09 €
+17/04/2018;"COMMISSIONS";"COMMISSIONS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-2 126,79 €
+04/04/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";4 443,77 €
+13/09/2017;"COMMISSIONS";"COMMISSIONS";"Etiam nec velit quis nulla sagittis fermentum";-1 519,48 €
+09/01/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec vel lacus nec nisl placerat suscipit";-3 184,05 €
+04/11/2018;"COMMISSIONS";"COMMISSIONS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-3 802,19 €
+14/10/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Donec quis dolor tempor metus suscipit volutpat";-860,71 €
+28/10/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec efficitur libero ut mauris congue at sodales urna sodales";1 066,61 €
+08/04/2018;"CHEQUE";"CHEQUE";"Cras pretium erat quis vehicula iaculis";1 241,11 €
+25/05/2018;"CHEQUE";"CHEQUE";"Morbi at est tristique tempor lectus nec pulvinar ex";-3 355,27 €
+26/09/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi in libero quis risus ultricies imperdiet quis ac massa";3 475,16 €
+17/08/2018;"PAIEMENTCB";"PAIEMENTCB";"Donec efficitur libero ut mauris congue at sodales urna sodales";-274,32 €
+26/01/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur elementum sapien id consequat sodales";-347,81 €
+13/01/2017;"COMMISSIONS";"COMMISSIONS";"Morbi tempor augue vel mi blandit molestie";-3 883,88 €
+24/11/2017;"CHEQUE";"CHEQUE";"Lorem ipsum dolor sit amet consectetur adipiscing elit";2 570,69 €
+27/01/2019;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";4 910,82 €
+10/01/2018;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";195,42 €
+11/09/2018;"INTERETS";"INTERETS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-1 825,62 €
+17/09/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Lorem ipsum dolor sit amet consectetur adipiscing elit";4 985,64 €
+11/10/2019;"COMMISSIONS";"COMMISSIONS";"Integer ut nisi ornare euismod sapien ac blandit mi";-1 058,82 €
+20/03/2019;"INTERETS";"INTERETS";"Integer ullamcorper sapien eu luctus malesuada";1 951,65 €
+25/01/2017;"COMMISSIONS";"COMMISSIONS";"Fusce varius risus nec mattis suscipit";1 233,29 €
+04/09/2018;"CHEQUE";"CHEQUE";"Curabitur commodo erat id dolor molestie pharetra";1 916,55 €
+12/11/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi at est tristique tempor lectus nec pulvinar ex";-3 410,45 €
+09/12/2017;"COMMISSIONS";"COMMISSIONS";"Curabitur in ex ut dui tempus finibus";3 786,76 €
+21/08/2019;"INTERETS";"INTERETS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-1 502,55 €
+12/06/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-464,36 €
+01/04/2019;"INTERETS";"INTERETS";"Curabitur in ex ut dui tempus finibus";-2 643,50 €
+14/08/2019;"COMMISSIONS";"COMMISSIONS";"Donec viverra libero nec consectetur vehicula";-695,53 €
+01/11/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";-2 549,99 €
+21/03/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi at est tristique tempor lectus nec pulvinar ex";-3 367,60 €
+28/01/2017;"INTERETS";"INTERETS";"Donec viverra libero nec consectetur vehicula";1 828,96 €
+22/07/2017;"PAIEMENTCB";"PAIEMENTCB";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";321,45 €
+13/11/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";770,66 €
+10/12/2018;"COMMISSIONS";"COMMISSIONS";"Donec efficitur libero ut mauris congue at sodales urna sodales";345,10 €
+08/05/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";1 293,97 €
+11/01/2019;"INTERETS";"INTERETS";"Donec viverra libero nec consectetur vehicula";-1 187,15 €
+27/05/2018;"COMMISSIONS";"COMMISSIONS";"Curabitur elementum sapien id consequat sodales";-2 566,39 €
+20/07/2018;"INTERETS";"INTERETS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-2 143,44 €
+16/12/2017;"COMMISSIONS";"COMMISSIONS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";3 021,19 €
+10/06/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Lorem ipsum dolor sit amet consectetur adipiscing elit";4 802,90 €
+21/03/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";2 592,14 €
+09/11/2017;"COMMISSIONS";"COMMISSIONS";"Curabitur elementum sapien id consequat sodales";2 510,10 €
+16/03/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi at est tristique tempor lectus nec pulvinar ex";72,85 €
+11/06/2018;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";592,79 €
+26/03/2017;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";-1 435,40 €
+19/03/2017;"PAIEMENTCB";"PAIEMENTCB";"Integer ut nisi ornare euismod sapien ac blandit mi";1 581,46 €
+04/10/2017;"COMMISSIONS";"COMMISSIONS";"Donec viverra libero nec consectetur vehicula";2 634,25 €
+27/10/2019;"COMMISSIONS";"COMMISSIONS";"Cras pretium erat quis vehicula iaculis";3 490,22 €
+19/05/2018;"INTERETS";"INTERETS";"Morbi at est tristique tempor lectus nec pulvinar ex";4 534,10 €
+22/11/2017;"COMMISSIONS";"COMMISSIONS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-3 926,37 €
+21/05/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";447,66 €
+04/12/2017;"CHEQUE";"CHEQUE";"Etiam nec velit quis nulla sagittis fermentum";-2 093,03 €
+21/06/2019;"INTERETS";"INTERETS";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";941,94 €
+13/07/2017;"COMMISSIONS";"COMMISSIONS";"Curabitur commodo erat id dolor molestie pharetra";1 233,37 €
+16/06/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Donec vel lacus nec nisl placerat suscipit";-4 315,14 €
+02/10/2017;"CHEQUE";"CHEQUE";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-1 582,68 €
+12/08/2017;"INTERETS";"INTERETS";"Donec nec diam viverra ultrices dui eget cursus est";-4 094,91 €
+03/11/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";4 919,23 €
+21/02/2017;"INTERETS";"INTERETS";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-2 985,05 €
+14/03/2017;"INTERETS";"INTERETS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-3 164,25 €
+14/11/2019;"CHEQUE";"CHEQUE";"Donec efficitur libero ut mauris congue at sodales urna sodales";-2 259,61 €
+28/06/2019;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";-552,61 €
+01/03/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";-3 998,00 €
+23/03/2018;"COMMISSIONS";"COMMISSIONS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-1 710,75 €
+13/06/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras eget nisi id nibh placerat consectetur";2 092,03 €
+21/02/2019;"COMMISSIONS";"COMMISSIONS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-4 563,02 €
+11/08/2019;"INTERETS";"INTERETS";"Cras eget nisi id nibh placerat consectetur";4 311,31 €
+26/11/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec efficitur libero ut mauris congue at sodales urna sodales";49,69 €
+01/06/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras eget nisi id nibh placerat consectetur";-938,36 €
+08/09/2019;"INTERETS";"INTERETS";"Donec quis dolor tempor metus suscipit volutpat";1 976,76 €
+10/01/2018;"CHEQUE";"CHEQUE";"In vehicula eros in neque finibus vel cursus turpis finibus";4 842,26 €
+19/07/2018;"CHEQUE";"CHEQUE";"Morbi tempor augue vel mi blandit molestie";-4 883,94 €
+07/05/2017;"INTERETS";"INTERETS";"Curabitur commodo erat id dolor molestie pharetra";2 931,38 €
+03/04/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";1 867,09 €
+23/05/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-1 887,53 €
+07/07/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-3 516,95 €
+01/12/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";-2 449,86 €
+19/12/2018;"COMMISSIONS";"COMMISSIONS";"Morbi tempor augue vel mi blandit molestie";749,67 €
+01/04/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"In vehicula eros in neque finibus vel cursus turpis finibus";-3 745,43 €
+18/02/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";-4 991,81 €
+21/07/2018;"COMMISSIONS";"COMMISSIONS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";1 496,68 €
+07/12/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur in ex ut dui tempus finibus";-3 862,79 €
+03/06/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras eget nisi id nibh placerat consectetur";-4 521,60 €
+08/07/2018;"COMMISSIONS";"COMMISSIONS";"Donec nec diam viverra ultrices dui eget cursus est";2 991,15 €
+13/05/2019;"COMMISSIONS";"COMMISSIONS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-4 724,98 €
+13/01/2017;"INTERETS";"INTERETS";"Donec quis dolor tempor metus suscipit volutpat";1 607,29 €
+13/02/2019;"COMMISSIONS";"COMMISSIONS";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-3 667,16 €
+22/09/2019;"CHEQUE";"CHEQUE";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";446,06 €
+28/02/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";2 412,73 €
+18/03/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";3 693,49 €
+15/03/2017;"CHEQUE";"CHEQUE";"Morbi tempor augue vel mi blandit molestie";1 180,50 €
+03/03/2019;"INTERETS";"INTERETS";"Donec viverra libero nec consectetur vehicula";-1 324,54 €
+05/04/2018;"CHEQUE";"CHEQUE";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-1 709,32 €
+16/05/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";442,71 €
+19/01/2019;"COMMISSIONS";"COMMISSIONS";"Morbi tempor augue vel mi blandit molestie";3 814,33 €
+18/10/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Donec vel lacus nec nisl placerat suscipit";-2 621,83 €
+27/04/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";787,97 €
+25/01/2018;"INTERETS";"INTERETS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-4 515,70 €
+21/06/2018;"PAIEMENTCB";"PAIEMENTCB";"In vehicula eros in neque finibus vel cursus turpis finibus";-1 686,03 €
+12/12/2019;"INTERETS";"INTERETS";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";1 233,78 €
+13/02/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Etiam nec velit quis nulla sagittis fermentum";1 634,85 €
+18/04/2019;"CHEQUE";"CHEQUE";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-2 266,90 €
+04/09/2018;"INTERETS";"INTERETS";"Curabitur commodo erat id dolor molestie pharetra";-3 071,83 €
+02/07/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Cras eget nisi id nibh placerat consectetur";291,94 €
+16/01/2017;"COMMISSIONS";"COMMISSIONS";"Fusce varius risus nec mattis suscipit";4 742,11 €
+01/07/2018;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-119,62 €
+18/01/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-3 399,54 €
+26/12/2019;"INTERETS";"INTERETS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";1 206,56 €
+26/05/2017;"CHEQUE";"CHEQUE";"Curabitur elementum sapien id consequat sodales";-138,18 €
+08/05/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pretium erat quis vehicula iaculis";-2 354,70 €
+18/07/2019;"INTERETS";"INTERETS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-1 540,04 €
+04/03/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-3 404,86 €
+21/11/2017;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";2 809,56 €
+15/05/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-4 645,91 €
+27/08/2017;"CHEQUE";"CHEQUE";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";2 076,21 €
+21/02/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce varius risus nec mattis suscipit";579,07 €
+27/12/2019;"PAIEMENTCB";"PAIEMENTCB";"Cras pretium erat quis vehicula iaculis";-2 154,60 €
+28/08/2018;"COMMISSIONS";"COMMISSIONS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";2 963,53 €
+18/02/2017;"INTERETS";"INTERETS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-4 706,30 €
+19/06/2019;"INTERETS";"INTERETS";"Fusce varius risus nec mattis suscipit";-4 410,92 €
+03/01/2017;"COMMISSIONS";"COMMISSIONS";"Integer ut nisi ornare euismod sapien ac blandit mi";413,91 €
+15/10/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";397,97 €
+02/01/2019;"PAIEMENTCB";"PAIEMENTCB";"Donec quis dolor tempor metus suscipit volutpat";-1 886,70 €
+27/09/2019;"CHEQUE";"CHEQUE";"Cras pretium erat quis vehicula iaculis";-980,62 €
+01/11/2017;"COMMISSIONS";"COMMISSIONS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-1 092,56 €
+28/04/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras eget nisi id nibh placerat consectetur";4 291,06 €
+24/02/2018;"CHEQUE";"CHEQUE";"Donec quis dolor tempor metus suscipit volutpat";-2 941,68 €
+14/10/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur in ex ut dui tempus finibus";-2 525,04 €
+14/02/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-1 390,28 €
+15/05/2018;"PAIEMENTCB";"PAIEMENTCB";"Donec efficitur libero ut mauris congue at sodales urna sodales";1 363,53 €
+03/11/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";-4 360,00 €
+09/05/2017;"INTERETS";"INTERETS";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";-1 881,94 €
+04/08/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras eget nisi id nibh placerat consectetur";1 860,08 €
+02/09/2017;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-2 262,47 €
+12/12/2017;"INTERETS";"INTERETS";"Morbi at est tristique tempor lectus nec pulvinar ex";4 291,61 €
+18/08/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Etiam nec velit quis nulla sagittis fermentum";-3 325,62 €
+03/09/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";3 807,42 €
+15/06/2017;"INTERETS";"INTERETS";"Donec efficitur libero ut mauris congue at sodales urna sodales";3 920,66 €
+07/03/2018;"PAIEMENTCB";"PAIEMENTCB";"Fusce vestibulum purus id congue feugiat";2 688,88 €
+11/09/2019;"INTERETS";"INTERETS";"Cras eget nisi id nibh placerat consectetur";120,84 €
+14/08/2019;"COMMISSIONS";"COMMISSIONS";"Curabitur elementum sapien id consequat sodales";-2 394,93 €
+11/07/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-1 101,08 €
+23/10/2017;"CHEQUE";"CHEQUE";"In vehicula eros in neque finibus vel cursus turpis finibus";2 246,63 €
+04/07/2019;"INTERETS";"INTERETS";"Donec viverra libero nec consectetur vehicula";-711,99 €
+23/06/2017;"CHEQUE";"CHEQUE";"Morbi tempor augue vel mi blandit molestie";-3 028,21 €
+16/09/2017;"COMMISSIONS";"COMMISSIONS";"Cras eget nisi id nibh placerat consectetur";2 651,58 €
+03/03/2019;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";2 808,66 €
+15/02/2018;"INTERETS";"INTERETS";"Donec efficitur libero ut mauris congue at sodales urna sodales";-4 457,85 €
+20/10/2017;"CHEQUE";"CHEQUE";"Curabitur in ex ut dui tempus finibus";2 537,43 €
+26/01/2019;"PAIEMENTCB";"PAIEMENTCB";"Integer ullamcorper sapien eu luctus malesuada";-2 207,92 €
+23/10/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";2 682,42 €
+25/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ullamcorper sapien eu luctus malesuada";353,80 €
+23/09/2018;"INTERETS";"INTERETS";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";4 406,06 €
+15/06/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-4 531,99 €
+07/06/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur in ex ut dui tempus finibus";-3 382,69 €
+13/05/2018;"CHEQUE";"CHEQUE";"Morbi at est tristique tempor lectus nec pulvinar ex";1 303,60 €
+02/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-1 631,69 €
+15/02/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Donec efficitur libero ut mauris congue at sodales urna sodales";30,51 €
+20/06/2019;"CHEQUE";"CHEQUE";"Morbi at est tristique tempor lectus nec pulvinar ex";719,46 €
+17/05/2019;"INTERETS";"INTERETS";"Curabitur elementum sapien id consequat sodales";-2 988,33 €
+23/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-1 159,13 €
+15/11/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";3 973,22 €
+24/12/2017;"INTERETS";"INTERETS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";2 885,55 €
+03/06/2017;"INTERETS";"INTERETS";"Integer ut nisi ornare euismod sapien ac blandit mi";-193,98 €
+26/06/2019;"COMMISSIONS";"COMMISSIONS";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-2 016,81 €
+21/06/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";4 762,98 €
+10/11/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi at est tristique tempor lectus nec pulvinar ex";1 287,40 €
+18/05/2018;"COMMISSIONS";"COMMISSIONS";"Curabitur elementum sapien id consequat sodales";-1 886,47 €
+07/11/2019;"INTERETS";"INTERETS";"Curabitur in ex ut dui tempus finibus";224,34 €
+14/03/2018;"CHEQUE";"CHEQUE";"Morbi in libero quis risus ultricies imperdiet quis ac massa";3 685,63 €
+22/12/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";-4 109,23 €
+12/03/2019;"INTERETS";"INTERETS";"Curabitur elementum sapien id consequat sodales";-2 866,63 €
+16/10/2019;"INTERETS";"INTERETS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-636,73 €
+07/03/2019;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";-3 342,77 €
+13/12/2017;"PAIEMENTCB";"PAIEMENTCB";"Morbi in libero quis risus ultricies imperdiet quis ac massa";2 837,61 €
+10/01/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"In vehicula eros in neque finibus vel cursus turpis finibus";1 605,71 €
+06/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce varius risus nec mattis suscipit";2 145,87 €
+14/09/2018;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-4 724,72 €
+06/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";2 365,49 €
+17/08/2018;"INTERETS";"INTERETS";"Donec viverra libero nec consectetur vehicula";672,43 €
+24/09/2019;"PAIEMENTCB";"PAIEMENTCB";"Donec nec diam viverra ultrices dui eget cursus est";2 684,66 €
+10/09/2017;"INTERETS";"INTERETS";"Donec quis dolor tempor metus suscipit volutpat";-2 445,39 €
+11/05/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";4 597,94 €
+20/05/2017;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";-2 695,23 €
+03/02/2019;"INTERETS";"INTERETS";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";2 944,09 €
+13/06/2017;"INTERETS";"INTERETS";"Donec quis dolor tempor metus suscipit volutpat";-4 906,72 €
+27/05/2018;"INTERETS";"INTERETS";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";4 352,17 €
+20/12/2019;"PAIEMENTCB";"PAIEMENTCB";"Curabitur elementum sapien id consequat sodales";-1 654,01 €
+05/04/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec efficitur libero ut mauris congue at sodales urna sodales";1 660,95 €
+07/09/2017;"CHEQUE";"CHEQUE";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";4 271,59 €
+01/06/2019;"PAIEMENTCB";"PAIEMENTCB";"Curabitur commodo erat id dolor molestie pharetra";-1 759,48 €
+09/02/2019;"COMMISSIONS";"COMMISSIONS";"In vehicula eros in neque finibus vel cursus turpis finibus";1 570,22 €
+23/01/2019;"INTERETS";"INTERETS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";2 699,34 €
+01/01/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";4 219,38 €
+06/03/2018;"PAIEMENTCB";"PAIEMENTCB";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-2 936,91 €
+04/03/2018;"COMMISSIONS";"COMMISSIONS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";1 312,15 €
+27/08/2019;"COMMISSIONS";"COMMISSIONS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";983,98 €
+04/01/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi nec tortor fermentum posuere mauris non aliquet neque";2 244,46 €
+06/03/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec efficitur libero ut mauris congue at sodales urna sodales";-4 221,56 €
+22/01/2018;"COMMISSIONS";"COMMISSIONS";"Donec nec diam viverra ultrices dui eget cursus est";-507,43 €
+26/06/2018;"INTERETS";"INTERETS";"Curabitur commodo erat id dolor molestie pharetra";-397,01 €
+06/04/2019;"PAIEMENTCB";"PAIEMENTCB";"Morbi tempor augue vel mi blandit molestie";-4 768,83 €
+21/04/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pellentesque neque sed dui tincidunt ultricies";-1 294,17 €
+26/02/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-311,29 €
+08/03/2018;"INTERETS";"INTERETS";"Donec viverra libero nec consectetur vehicula";4 442,04 €
+28/03/2018;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";2 295,02 €
+04/11/2017;"INTERETS";"INTERETS";"Curabitur commodo erat id dolor molestie pharetra";-3 560,73 €
+01/02/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";4 090,64 €
+05/09/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pretium erat quis vehicula iaculis";3 232,23 €
+08/03/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi at est tristique tempor lectus nec pulvinar ex";-3 263,66 €
+24/03/2017;"PAIEMENTCB";"PAIEMENTCB";"Integer ullamcorper sapien eu luctus malesuada";663,80 €
+13/06/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer ut nisi ornare euismod sapien ac blandit mi";-1 714,46 €
+19/01/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";4 126,83 €
+10/03/2019;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-4 936,34 €
+20/08/2017;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";36,34 €
+25/07/2017;"COMMISSIONS";"COMMISSIONS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-153,38 €
+18/03/2019;"COMMISSIONS";"COMMISSIONS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";1 163,34 €
+02/08/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";984,65 €
+20/05/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Lorem ipsum dolor sit amet consectetur adipiscing elit";3 755,84 €
+09/08/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";720,99 €
+22/09/2019;"CHEQUE";"CHEQUE";"Morbi at est tristique tempor lectus nec pulvinar ex";-2 676,86 €
+27/07/2017;"CHEQUE";"CHEQUE";"Cras pretium erat quis vehicula iaculis";4 312,96 €
+28/04/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec nec diam viverra ultrices dui eget cursus est";-1 300,24 €
+19/02/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-2 571,97 €
+26/09/2017;"COMMISSIONS";"COMMISSIONS";"Donec efficitur libero ut mauris congue at sodales urna sodales";-3 186,45 €
+12/02/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-454,93 €
+09/12/2017;"COMMISSIONS";"COMMISSIONS";"Donec viverra libero nec consectetur vehicula";-4 066,16 €
+20/09/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-4 592,57 €
+26/09/2019;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";-2 313,61 €
+21/08/2019;"INTERETS";"INTERETS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";2 061,46 €
+01/02/2017;"INTERETS";"INTERETS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-3 756,19 €
+23/07/2019;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";-1 585,04 €
+14/04/2019;"PAIEMENTCB";"PAIEMENTCB";"Lorem ipsum dolor sit amet consectetur adipiscing elit";1 515,63 €
+28/04/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi at est tristique tempor lectus nec pulvinar ex";-3 018,24 €
+13/09/2019;"INTERETS";"INTERETS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-179,18 €
+07/02/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";3 008,73 €
+22/01/2017;"COMMISSIONS";"COMMISSIONS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-569,85 €
+09/01/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pretium erat quis vehicula iaculis";-2 600,87 €
+17/05/2017;"COMMISSIONS";"COMMISSIONS";"Morbi at est tristique tempor lectus nec pulvinar ex";3 830,39 €
+11/11/2019;"INTERETS";"INTERETS";"Etiam nec velit quis nulla sagittis fermentum";2 492,16 €
+03/03/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-2 576,24 €
+23/12/2017;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";4 082,81 €
+18/11/2018;"INTERETS";"INTERETS";"Donec efficitur libero ut mauris congue at sodales urna sodales";2 353,84 €
+11/10/2019;"INTERETS";"INTERETS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";3 126,47 €
+04/10/2017;"CHEQUE";"CHEQUE";"Morbi tempor augue vel mi blandit molestie";-4 068,74 €
+12/02/2017;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-719,98 €
+22/09/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";741,39 €
+14/02/2017;"INTERETS";"INTERETS";"Curabitur commodo erat id dolor molestie pharetra";-3 152,29 €
+22/06/2019;"CHEQUE";"CHEQUE";"Lorem ipsum dolor sit amet consectetur adipiscing elit";1 649,27 €
+10/08/2018;"INTERETS";"INTERETS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";4 301,06 €
+01/04/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec vel lacus nec nisl placerat suscipit";3 033,52 €
+09/04/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";329,85 €
+09/05/2018;"PAIEMENTCB";"PAIEMENTCB";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";4 016,35 €
+27/02/2017;"PAIEMENTCB";"PAIEMENTCB";"In vehicula eros in neque finibus vel cursus turpis finibus";3 455,15 €
+28/05/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur elementum sapien id consequat sodales";2 698,43 €
+18/05/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi in libero quis risus ultricies imperdiet quis ac massa";34,57 €
+06/09/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";1 603,53 €
+19/12/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";-652,36 €
+08/02/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-1 761,04 €
+22/08/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-3 444,02 €
+08/09/2017;"COMMISSIONS";"COMMISSIONS";"Etiam nec velit quis nulla sagittis fermentum";2 395,40 €
+05/03/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pretium erat quis vehicula iaculis";30,80 €
+18/05/2019;"INTERETS";"INTERETS";"Curabitur in ex ut dui tempus finibus";3 598,64 €
+23/10/2018;"COMMISSIONS";"COMMISSIONS";"Etiam nec velit quis nulla sagittis fermentum";-767,40 €
+22/05/2018;"INTERETS";"INTERETS";"Integer ut nisi ornare euismod sapien ac blandit mi";3 832,66 €
+16/04/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";-2 816,35 €
+16/12/2018;"CHEQUE";"CHEQUE";"Morbi nec tortor fermentum posuere mauris non aliquet neque";2 927,85 €
+20/06/2019;"CHEQUE";"CHEQUE";"Integer ut nisi ornare euismod sapien ac blandit mi";-958,33 €
+27/09/2018;"COMMISSIONS";"COMMISSIONS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-3 741,63 €
+15/02/2018;"COMMISSIONS";"COMMISSIONS";"Cras pretium erat quis vehicula iaculis";-2 346,32 €
+09/10/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";-2 773,14 €
+10/12/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";4 870,40 €
+14/09/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec quis dolor tempor metus suscipit volutpat";2 974,45 €
+09/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec efficitur libero ut mauris congue at sodales urna sodales";-4 153,56 €
+23/06/2019;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";-3 951,55 €
+26/11/2017;"INTERETS";"INTERETS";"Morbi tempor augue vel mi blandit molestie";1 217,97 €
+01/06/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";-4 799,20 €
+14/04/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Donec viverra libero nec consectetur vehicula";4 429,48 €
+25/10/2018;"PAIEMENTCB";"PAIEMENTCB";"In vehicula eros in neque finibus vel cursus turpis finibus";-4 029,48 €
+03/05/2018;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";-4 315,03 €
+20/11/2017;"PAIEMENTCB";"PAIEMENTCB";"Fusce varius risus nec mattis suscipit";-2 090,49 €
+09/11/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer ullamcorper sapien eu luctus malesuada";2 504,36 €
+03/06/2018;"COMMISSIONS";"COMMISSIONS";"Cras eget nisi id nibh placerat consectetur";-3 502,25 €
+08/09/2017;"COMMISSIONS";"COMMISSIONS";"Cras eget nisi id nibh placerat consectetur";4 710,36 €
+22/01/2018;"INTERETS";"INTERETS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-2 904,08 €
+13/03/2018;"COMMISSIONS";"COMMISSIONS";"Curabitur in ex ut dui tempus finibus";-4 277,33 €
+25/11/2018;"INTERETS";"INTERETS";"Donec nec diam viverra ultrices dui eget cursus est";-3 034,64 €
+04/02/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec nec diam viverra ultrices dui eget cursus est";-550,31 €
+12/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-1 893,53 €
+01/12/2018;"CHEQUE";"CHEQUE";"Curabitur elementum sapien id consequat sodales";-4 416,21 €
+10/12/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-1 131,46 €
+13/01/2017;"PAIEMENTCB";"PAIEMENTCB";"Fusce vestibulum purus id congue feugiat";107,99 €
+23/09/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi in libero quis risus ultricies imperdiet quis ac massa";1 042,15 €
+17/07/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-1 372,45 €
+12/05/2018;"PAIEMENTCB";"PAIEMENTCB";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-3 625,71 €
+27/11/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce varius risus nec mattis suscipit";-4 160,07 €
+20/10/2018;"INTERETS";"INTERETS";"Donec viverra libero nec consectetur vehicula";-4 525,42 €
+07/03/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pellentesque neque sed dui tincidunt ultricies";-2 946,32 €
+08/06/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-4 714,41 €
+07/11/2018;"INTERETS";"INTERETS";"Morbi at est tristique tempor lectus nec pulvinar ex";1 451,93 €
+23/06/2018;"COMMISSIONS";"COMMISSIONS";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-490,77 €
+28/07/2018;"CHEQUE";"CHEQUE";"Fusce vestibulum purus id congue feugiat";4 864,98 €
+12/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ut nisi ornare euismod sapien ac blandit mi";4 754,43 €
+27/01/2017;"PAIEMENTCB";"PAIEMENTCB";"Cras eget nisi id nibh placerat consectetur";-4 945,96 €
+25/07/2017;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";1 339,02 €
+19/03/2018;"INTERETS";"INTERETS";"Donec quis dolor tempor metus suscipit volutpat";3 285,09 €
+08/08/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";-4 984,96 €
+22/02/2019;"PAIEMENTCB";"PAIEMENTCB";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-3 523,81 €
+02/04/2019;"INTERETS";"INTERETS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";1 110,57 €
+11/03/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pellentesque neque sed dui tincidunt ultricies";2 202,88 €
+18/06/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi at est tristique tempor lectus nec pulvinar ex";4 246,68 €
+10/05/2017;"INTERETS";"INTERETS";"Fusce varius risus nec mattis suscipit";320,96 €
+03/08/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pretium erat quis vehicula iaculis";158,38 €
+06/10/2017;"CHEQUE";"CHEQUE";"Morbi nec tortor fermentum posuere mauris non aliquet neque";4 472,19 €
+03/08/2017;"INTERETS";"INTERETS";"Fusce varius risus nec mattis suscipit";-761,01 €
+05/07/2018;"COMMISSIONS";"COMMISSIONS";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";-3 881,76 €
+10/12/2017;"CHEQUE";"CHEQUE";"Fusce varius risus nec mattis suscipit";-1 626,43 €
+24/11/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce varius risus nec mattis suscipit";-1 089,25 €
+28/04/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi in libero quis risus ultricies imperdiet quis ac massa";4 908,21 €
+11/12/2017;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";-811,23 €
+01/06/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ullamcorper sapien eu luctus malesuada";-4 627,66 €
+13/09/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-4 324,46 €
+19/03/2019;"INTERETS";"INTERETS";"Donec efficitur libero ut mauris congue at sodales urna sodales";1 323,73 €
+22/08/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";3,77 €
+02/11/2017;"COMMISSIONS";"COMMISSIONS";"Donec efficitur libero ut mauris congue at sodales urna sodales";-4 791,22 €
+13/02/2018;"CHEQUE";"CHEQUE";"Donec vel lacus nec nisl placerat suscipit";-1 745,57 €
+06/02/2018;"INTERETS";"INTERETS";"Fusce varius risus nec mattis suscipit";-3 289,71 €
+28/05/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Lorem ipsum dolor sit amet consectetur adipiscing elit";1 446,68 €
+09/12/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce vestibulum purus id congue feugiat";2 585,80 €
+09/02/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";553,29 €
+01/07/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";1 838,62 €
+07/03/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur elementum sapien id consequat sodales";187,38 €
+16/06/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Lorem ipsum dolor sit amet consectetur adipiscing elit";4 560,64 €
+17/06/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";3 654,27 €
+10/07/2017;"COMMISSIONS";"COMMISSIONS";"Fusce varius risus nec mattis suscipit";3 114,64 €
+08/11/2019;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";4 851,66 €
+19/07/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";-211,42 €
+17/11/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";2 930,78 €
+20/08/2017;"INTERETS";"INTERETS";"Donec vel lacus nec nisl placerat suscipit";-2 764,62 €
+06/05/2018;"COMMISSIONS";"COMMISSIONS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-1 376,87 €
+04/09/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur in ex ut dui tempus finibus";-992,56 €
+11/03/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec vel lacus nec nisl placerat suscipit";-3 689,55 €
+05/04/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec vel lacus nec nisl placerat suscipit";4 201,03 €
+01/10/2019;"PAIEMENTCB";"PAIEMENTCB";"In vehicula eros in neque finibus vel cursus turpis finibus";-3 429,70 €
+21/04/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Donec efficitur libero ut mauris congue at sodales urna sodales";1 942,87 €
+26/02/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";3 117,59 €
+28/08/2018;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";1 403,39 €
+02/05/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Etiam nec velit quis nulla sagittis fermentum";1 822,48 €
+12/10/2017;"CHEQUE";"CHEQUE";"In vehicula eros in neque finibus vel cursus turpis finibus";-1 252,74 €
+21/07/2019;"COMMISSIONS";"COMMISSIONS";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";-1 256,22 €
+07/03/2017;"COMMISSIONS";"COMMISSIONS";"Cras eget nisi id nibh placerat consectetur";1 988,95 €
+09/08/2018;"INTERETS";"INTERETS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";2 530,51 €
+20/01/2017;"COMMISSIONS";"COMMISSIONS";"Donec efficitur libero ut mauris congue at sodales urna sodales";-1 792,74 €
+25/05/2019;"CHEQUE";"CHEQUE";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";166,67 €
+02/06/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";1 101,55 €
+26/01/2017;"INTERETS";"INTERETS";"Donec quis dolor tempor metus suscipit volutpat";3 309,66 €
+04/11/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-4 042,13 €
+11/09/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur commodo erat id dolor molestie pharetra";-3 335,94 €
+12/02/2019;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-3 875,47 €
+06/01/2017;"ECHEANCEPRET";"ECHEANCEPRET";"In vehicula eros in neque finibus vel cursus turpis finibus";-4 065,58 €
+01/02/2018;"INTERETS";"INTERETS";"Etiam nec velit quis nulla sagittis fermentum";2 377,52 €
+10/08/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Donec quis dolor tempor metus suscipit volutpat";648,75 €
+16/12/2018;"COMMISSIONS";"COMMISSIONS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";238,40 €
+13/09/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";2 353,45 €
+24/05/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec efficitur libero ut mauris congue at sodales urna sodales";-393,42 €
+09/04/2017;"COMMISSIONS";"COMMISSIONS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";3 237,61 €
+19/04/2018;"COMMISSIONS";"COMMISSIONS";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";2 454,90 €
+06/12/2017;"INTERETS";"INTERETS";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";759,78 €
+17/02/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Lorem ipsum dolor sit amet consectetur adipiscing elit";2 147,62 €
+24/05/2019;"COMMISSIONS";"COMMISSIONS";"Morbi tempor augue vel mi blandit molestie";-2 959,66 €
+08/03/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur elementum sapien id consequat sodales";-2 103,15 €
+15/03/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Cras eget nisi id nibh placerat consectetur";625,27 €
+12/03/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-986,53 €
+17/12/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce varius risus nec mattis suscipit";-2 140,93 €
+20/12/2018;"PAIEMENTCB";"PAIEMENTCB";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";2 715,83 €
+24/12/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";-4 922,04 €
+07/11/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pretium erat quis vehicula iaculis";2 886,00 €
+23/08/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pretium erat quis vehicula iaculis";3 034,81 €
+24/01/2019;"CHEQUE";"CHEQUE";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";4 572,94 €
+17/04/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec nec diam viverra ultrices dui eget cursus est";-822,55 €
+06/06/2017;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";-2 008,81 €
+19/04/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras eget nisi id nibh placerat consectetur";1 291,12 €
+26/02/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Integer ullamcorper sapien eu luctus malesuada";1 791,18 €
+13/09/2019;"CHEQUE";"CHEQUE";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";4 856,86 €
+09/02/2019;"PAIEMENTCB";"PAIEMENTCB";"Donec quis dolor tempor metus suscipit volutpat";3 081,82 €
+24/10/2019;"INTERETS";"INTERETS";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-1 337,22 €
+18/04/2019;"CHEQUE";"CHEQUE";"Etiam nec velit quis nulla sagittis fermentum";3 081,83 €
+02/12/2017;"COMMISSIONS";"COMMISSIONS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-2 011,41 €
+20/02/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce varius risus nec mattis suscipit";1 788,79 €
+08/06/2017;"CHEQUE";"CHEQUE";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-3 055,07 €
+02/04/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pellentesque neque sed dui tincidunt ultricies";-67,76 €
+23/02/2018;"COMMISSIONS";"COMMISSIONS";"Morbi at est tristique tempor lectus nec pulvinar ex";1 767,28 €
+15/10/2019;"COMMISSIONS";"COMMISSIONS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-1 832,96 €
+25/05/2018;"INTERETS";"INTERETS";"Cras pellentesque neque sed dui tincidunt ultricies";673,22 €
+05/09/2019;"PAIEMENTCB";"PAIEMENTCB";"Integer ullamcorper sapien eu luctus malesuada";2 921,15 €
+17/11/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";2 018,21 €
+16/11/2018;"INTERETS";"INTERETS";"Donec nec diam viverra ultrices dui eget cursus est";-3 954,10 €
+09/02/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";726,12 €
+02/04/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-1 692,57 €
+22/03/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";2 557,14 €
+21/04/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-4 839,20 €
+24/07/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";3 778,64 €
+02/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi nec tortor fermentum posuere mauris non aliquet neque";-569,88 €
+18/08/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Donec vel lacus nec nisl placerat suscipit";1 241,73 €
+15/03/2018;"INTERETS";"INTERETS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";2 292,65 €
+19/03/2019;"INTERETS";"INTERETS";"Etiam nec velit quis nulla sagittis fermentum";-2 007,95 €
+22/09/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-4 924,48 €
+08/04/2017;"COMMISSIONS";"COMMISSIONS";"Integer ut nisi ornare euismod sapien ac blandit mi";372,68 €
+17/08/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-4 588,38 €
+05/01/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur commodo erat id dolor molestie pharetra";-3 753,17 €
+04/11/2018;"COMMISSIONS";"COMMISSIONS";"Curabitur in ex ut dui tempus finibus";-146,32 €
+25/01/2018;"INTERETS";"INTERETS";"Cras eget nisi id nibh placerat consectetur";2 262,89 €
+18/10/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Lorem ipsum dolor sit amet consectetur adipiscing elit";3 023,79 €
+20/06/2019;"COMMISSIONS";"COMMISSIONS";"Fusce vestibulum purus id congue feugiat";-2 203,90 €
+13/07/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec viverra libero nec consectetur vehicula";2 043,98 €
+04/04/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec viverra libero nec consectetur vehicula";-2 620,97 €
+24/05/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ut nisi ornare euismod sapien ac blandit mi";-304,81 €
+17/05/2018;"CHEQUE";"CHEQUE";"Fusce vestibulum purus id congue feugiat";-505,37 €
+25/09/2018;"COMMISSIONS";"COMMISSIONS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";349,86 €
+19/03/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Etiam nec velit quis nulla sagittis fermentum";-4 047,69 €
+28/03/2019;"COMMISSIONS";"COMMISSIONS";"Etiam nec velit quis nulla sagittis fermentum";-2 928,16 €
+24/06/2018;"INTERETS";"INTERETS";"Cras pretium erat quis vehicula iaculis";-912,27 €
+02/03/2017;"INTERETS";"INTERETS";"Donec nec diam viverra ultrices dui eget cursus est";-260,00 €
+25/12/2017;"INTERETS";"INTERETS";"Curabitur commodo erat id dolor molestie pharetra";789,33 €
+18/02/2017;"CHEQUE";"CHEQUE";"Donec vel lacus nec nisl placerat suscipit";-1 538,99 €
+27/03/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi nec tortor fermentum posuere mauris non aliquet neque";4 749,23 €
+07/02/2017;"PAIEMENTCB";"PAIEMENTCB";"Cras pretium erat quis vehicula iaculis";-4 614,47 €
+09/09/2019;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";-3 964,64 €
+06/12/2019;"COMMISSIONS";"COMMISSIONS";"In vehicula eros in neque finibus vel cursus turpis finibus";3 738,71 €
+24/11/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Cras pretium erat quis vehicula iaculis";-4 388,33 €
+20/07/2019;"PAIEMENTCB";"PAIEMENTCB";"Morbi in libero quis risus ultricies imperdiet quis ac massa";3 426,33 €
+11/03/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ullamcorper sapien eu luctus malesuada";-1 922,86 €
+20/08/2018;"CHEQUE";"CHEQUE";"Curabitur in ex ut dui tempus finibus";-2 317,29 €
+03/06/2018;"INTERETS";"INTERETS";"Cras pretium erat quis vehicula iaculis";4 865,10 €
+21/05/2019;"INTERETS";"INTERETS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-1 187,33 €
+08/08/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur in ex ut dui tempus finibus";-608,06 €
+06/05/2019;"INTERETS";"INTERETS";"Integer ullamcorper sapien eu luctus malesuada";-2 272,02 €
+27/07/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"In vehicula eros in neque finibus vel cursus turpis finibus";4 847,20 €
+27/03/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur in ex ut dui tempus finibus";2 886,12 €
+18/05/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-4 659,27 €
+19/11/2018;"COMMISSIONS";"COMMISSIONS";"Curabitur elementum sapien id consequat sodales";-1 984,65 €
+01/08/2019;"ECHEANCEPRET";"ECHEANCEPRET";"In vehicula eros in neque finibus vel cursus turpis finibus";-4 067,60 €
+08/08/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi at est tristique tempor lectus nec pulvinar ex";653,01 €
+16/02/2018;"COMMISSIONS";"COMMISSIONS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-4 874,45 €
+25/09/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ut nisi ornare euismod sapien ac blandit mi";2 174,66 €
+25/05/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi in libero quis risus ultricies imperdiet quis ac massa";3 050,22 €
+27/02/2017;"PAIEMENTCB";"PAIEMENTCB";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";3 793,93 €
+11/04/2019;"INTERETS";"INTERETS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";1 522,01 €
+28/08/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec quis dolor tempor metus suscipit volutpat";-2 682,70 €
+21/01/2017;"CHEQUE";"CHEQUE";"Morbi nec tortor fermentum posuere mauris non aliquet neque";1 956,93 €
+27/02/2017;"INTERETS";"INTERETS";"Cras pellentesque neque sed dui tincidunt ultricies";-3 643,02 €
+13/12/2018;"PAIEMENTCB";"PAIEMENTCB";"Morbi in libero quis risus ultricies imperdiet quis ac massa";-4 330,22 €
+07/07/2017;"PAIEMENTCB";"PAIEMENTCB";"Curabitur in ex ut dui tempus finibus";-1 622,16 €
+28/09/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur commodo erat id dolor molestie pharetra";-133,90 €
+03/01/2019;"COMMISSIONS";"COMMISSIONS";"Cras eget nisi id nibh placerat consectetur";1 690,59 €
+11/08/2019;"PAIEMENTCB";"PAIEMENTCB";"Morbi tempor augue vel mi blandit molestie";-2 801,00 €
+10/08/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Cras eget nisi id nibh placerat consectetur";-2 611,34 €
+13/07/2018;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";-719,32 €
+04/07/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce varius risus nec mattis suscipit";4 699,76 €
+03/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur elementum sapien id consequat sodales";-3 077,88 €
+01/08/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";1 598,16 €
+12/08/2017;"CHEQUE";"CHEQUE";"Morbi at est tristique tempor lectus nec pulvinar ex";3 150,53 €
+04/05/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec efficitur libero ut mauris congue at sodales urna sodales";1 676,49 €
+13/07/2018;"PAIEMENTCB";"PAIEMENTCB";"Curabitur commodo erat id dolor molestie pharetra";-1 121,96 €
+10/05/2019;"CHEQUE";"CHEQUE";"Cras eget nisi id nibh placerat consectetur";-1 792,85 €
+19/05/2019;"PAIEMENTCB";"PAIEMENTCB";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-2 825,94 €
+12/02/2017;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";2 844,49 €
+08/07/2017;"CHEQUE";"CHEQUE";"Donec nec diam viverra ultrices dui eget cursus est";1 919,00 €
+21/01/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";-2 274,30 €
+08/03/2018;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";3 998,56 €
+09/06/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer ut nisi ornare euismod sapien ac blandit mi";-4 828,63 €
+15/10/2017;"INTERETS";"INTERETS";"Morbi in libero quis risus ultricies imperdiet quis ac massa";1 074,41 €
+08/11/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi tempor augue vel mi blandit molestie";-1 399,12 €
+20/12/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-3 546,35 €
+23/08/2018;"INTERETS";"INTERETS";"Curabitur in ex ut dui tempus finibus";1 634,71 €
+12/05/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-3 465,44 €
+19/05/2017;"PAIEMENTCB";"PAIEMENTCB";"Integer ullamcorper sapien eu luctus malesuada";-1 119,50 €
+14/07/2017;"CHEQUE";"CHEQUE";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-2 443,42 €
+05/07/2017;"CHEQUE";"CHEQUE";"Curabitur elementum sapien id consequat sodales";-211,45 €
+01/11/2018;"INTERETS";"INTERETS";"Donec nec diam viverra ultrices dui eget cursus est";745,90 €
+04/11/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec quis dolor tempor metus suscipit volutpat";2 808,43 €
+24/12/2019;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";2 536,53 €
+07/03/2019;"PAIEMENTCB";"PAIEMENTCB";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-4 030,40 €
+23/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";3 211,87 €
+14/04/2018;"COMMISSIONS";"COMMISSIONS";"Curabitur in ex ut dui tempus finibus";4 928,33 €
+16/02/2018;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";-754,91 €
+25/06/2017;"INTERETS";"INTERETS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";2 797,31 €
+11/05/2018;"INTERETS";"INTERETS";"Donec efficitur libero ut mauris congue at sodales urna sodales";-2 725,42 €
+10/10/2017;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";-3 661,82 €
+02/04/2019;"COMMISSIONS";"COMMISSIONS";"Cras pellentesque neque sed dui tincidunt ultricies";4 981,73 €
+08/02/2019;"INTERETS";"INTERETS";"Cras pretium erat quis vehicula iaculis";-3 982,88 €
+08/04/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";1 777,05 €
+07/10/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";1 963,96 €
+15/02/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce vestibulum purus id congue feugiat";4 808,25 €
+06/12/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec viverra libero nec consectetur vehicula";981,47 €
+01/10/2018;"CHEQUE";"CHEQUE";"Fusce vestibulum purus id congue feugiat";-1 076,09 €
+16/10/2019;"CHEQUE";"CHEQUE";"Curabitur commodo erat id dolor molestie pharetra";-3 848,50 €
+26/02/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";-1 187,34 €
+07/06/2017;"INTERETS";"INTERETS";"Cras pretium erat quis vehicula iaculis";2 696,92 €
+09/02/2018;"INTERETS";"INTERETS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-439,45 €
+20/01/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec efficitur libero ut mauris congue at sodales urna sodales";3 670,09 €
+07/04/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";686,00 €
+28/12/2019;"PAIEMENTCB";"PAIEMENTCB";"Fusce varius risus nec mattis suscipit";-1 472,70 €
+10/03/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-3 256,84 €
+04/03/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Integer ut nisi ornare euismod sapien ac blandit mi";1 012,82 €
+04/10/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur elementum sapien id consequat sodales";4 476,55 €
+03/02/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Nam condimentum lorem non augue suscipit condimentum sodales erat tristique";-372,41 €
+09/10/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Etiam nec velit quis nulla sagittis fermentum";-1 994,45 €
+06/10/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";1 487,77 €
+24/01/2017;"INTERETS";"INTERETS";"Donec efficitur libero ut mauris congue at sodales urna sodales";-4 862,55 €
+05/06/2017;"PAIEMENTCB";"PAIEMENTCB";"Curabitur elementum sapien id consequat sodales";338,42 €
+22/06/2019;"INTERETS";"INTERETS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-4 414,18 €
+28/09/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer ullamcorper sapien eu luctus malesuada";-3 033,62 €
+21/12/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur elementum sapien id consequat sodales";-3 791,29 €
+16/12/2018;"COMMISSIONS";"COMMISSIONS";"Curabitur commodo erat id dolor molestie pharetra";-3 375,90 €
+11/12/2018;"CHEQUE";"CHEQUE";"Integer ullamcorper sapien eu luctus malesuada";861,57 €
+18/11/2017;"INTERETS";"INTERETS";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-2 661,93 €
+26/05/2018;"COMMISSIONS";"COMMISSIONS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";4 388,99 €
+17/12/2018;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";2 791,26 €
+23/09/2018;"CHEQUE";"CHEQUE";"Fusce varius risus nec mattis suscipit";3 777,55 €
+04/06/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";2 999,58 €
+07/11/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec viverra libero nec consectetur vehicula";-626,00 €
+18/10/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Donec efficitur libero ut mauris congue at sodales urna sodales";2 166,71 €
+19/10/2017;"CHEQUE";"CHEQUE";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-2 484,37 €
+18/06/2017;"INTERETS";"INTERETS";"In vehicula eros in neque finibus vel cursus turpis finibus";-4 056,32 €
+16/10/2017;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";675,46 €
+24/11/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi at est tristique tempor lectus nec pulvinar ex";-201,46 €
+08/06/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Etiam nec velit quis nulla sagittis fermentum";-2 705,73 €
+20/10/2017;"INTERETS";"INTERETS";"Fusce vestibulum purus id congue feugiat";2 646,75 €
+25/12/2018;"INTERETS";"INTERETS";"Donec nec diam viverra ultrices dui eget cursus est";4 028,23 €
+17/05/2019;"COMMISSIONS";"COMMISSIONS";"In vehicula eros in neque finibus vel cursus turpis finibus";3 811,88 €
+05/03/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pretium erat quis vehicula iaculis";-2 936,97 €
+07/03/2019;"INTERETS";"INTERETS";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-4 905,02 €
+09/05/2018;"COMMISSIONS";"COMMISSIONS";"Donec quis dolor tempor metus suscipit volutpat";-2 718,55 €
+24/06/2017;"INTERETS";"INTERETS";"Integer ut nisi ornare euismod sapien ac blandit mi";-2 631,86 €
+08/06/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Donec efficitur libero ut mauris congue at sodales urna sodales";-720,16 €
+20/03/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-1 106,86 €
+06/02/2017;"COMMISSIONS";"COMMISSIONS";"In vehicula eros in neque finibus vel cursus turpis finibus";-4 967,04 €
+10/11/2019;"INTERETS";"INTERETS";"Integer ullamcorper sapien eu luctus malesuada";294,96 €
+25/11/2017;"COMMISSIONS";"COMMISSIONS";"Integer ullamcorper sapien eu luctus malesuada";-616,44 €
+24/09/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Curabitur commodo erat id dolor molestie pharetra";-1 858,79 €
+11/11/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce varius risus nec mattis suscipit";4 113,91 €
+14/09/2018;"INTERETS";"INTERETS";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";2 625,30 €
+01/09/2019;"COMMISSIONS";"COMMISSIONS";"In vehicula eros in neque finibus vel cursus turpis finibus";-2 624,93 €
+04/03/2019;"INTERETS";"INTERETS";"Curabitur in ex ut dui tempus finibus";2 779,19 €
+02/04/2019;"CHEQUE";"CHEQUE";"Lorem ipsum dolor sit amet consectetur adipiscing elit";217,05 €
+12/04/2018;"COMMISSIONS";"COMMISSIONS";"Morbi tempor augue vel mi blandit molestie";172,00 €
+03/01/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-3 742,79 €
+13/07/2019;"COMMISSIONS";"COMMISSIONS";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";2 112,56 €
+18/04/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";4 891,58 €
+21/05/2018;"COMMISSIONS";"COMMISSIONS";"Donec viverra libero nec consectetur vehicula";-3 553,41 €
+10/01/2017;"PAIEMENTCB";"PAIEMENTCB";"Lorem ipsum dolor sit amet consectetur adipiscing elit";4 069,08 €
+07/01/2018;"PAIEMENTCB";"PAIEMENTCB";"Cras pellentesque neque sed dui tincidunt ultricies";3 754,00 €
+19/04/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";2 668,17 €
+06/12/2017;"CHEQUE";"CHEQUE";"Integer ullamcorper sapien eu luctus malesuada";-1 997,41 €
+25/05/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";737,24 €
+17/08/2017;"COMMISSIONS";"COMMISSIONS";"Donec nec diam viverra ultrices dui eget cursus est";-783,12 €
+20/05/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";950,53 €
+20/04/2017;"INTERETS";"INTERETS";"Donec nec diam viverra ultrices dui eget cursus est";3 418,62 €
+15/07/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Etiam nec velit quis nulla sagittis fermentum";-1 538,80 €
+06/02/2017;"CHEQUE";"CHEQUE";"Maecenas pharetra justo et tellus faucibus interdum dignissim ante tincidunt";-2 577,72 €
+15/05/2017;"CHEQUE";"CHEQUE";"Cras condimentum libero eu dolor auctor quis malesuada nisi interdum";-1 410,04 €
+28/11/2017;"PAIEMENTCB";"PAIEMENTCB";"Etiam nec velit quis nulla sagittis fermentum";960,11 €
+25/01/2019;"ECHEANCEPRET";"ECHEANCEPRET";"Donec quis dolor tempor metus suscipit volutpat";3 046,80 €
+13/09/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Integer finibus elit quis erat fermentum ac consectetur odio elementum";1 721,92 €
+24/10/2019;"COMMISSIONS";"COMMISSIONS";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";2 580,89 €
+21/04/2017;"PAIEMENTCB";"PAIEMENTCB";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";4 012,44 €
+21/10/2019;"COMMISSIONS";"COMMISSIONS";"Donec efficitur libero ut mauris congue at sodales urna sodales";-420,57 €
+13/09/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Curabitur elementum sapien id consequat sodales";-4 697,38 €
+05/07/2017;"PAIEMENTCB";"PAIEMENTCB";"Nam efficitur sem in sapien lacinia eget fringilla turpis fringilla";-3 770,16 €
+26/03/2017;"CHEQUE";"CHEQUE";"Donec nec diam viverra ultrices dui eget cursus est";3 516,40 €
+19/11/2018;"CHEQUE";"CHEQUE";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-1 716,27 €
+05/06/2017;"PAIEMENTCB";"PAIEMENTCB";"Cras eget nisi id nibh placerat consectetur";3 554,29 €
+16/11/2019;"PAIEMENTCB";"PAIEMENTCB";"Morbi tempor augue vel mi blandit molestie";-2 420,30 €
+23/04/2018;"ECHEANCEPRET";"ECHEANCEPRET";"Morbi tempor augue vel mi blandit molestie";-838,42 €
+21/02/2018;"CHEQUE";"CHEQUE";"Donec nec diam viverra ultrices dui eget cursus est";4 969,09 €
+17/12/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pretium erat quis vehicula iaculis";-3 981,89 €
+03/08/2019;"INTERETS";"INTERETS";"Morbi nec tortor fermentum posuere mauris non aliquet neque";81,13 €
+06/07/2019;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Donec nec diam viverra ultrices dui eget cursus est";-1 063,68 €
+10/10/2017;"CHEQUE";"CHEQUE";"Curabitur elementum sapien id consequat sodales";-1 115,03 €
+03/05/2017;"INTERETS";"INTERETS";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-3 660,68 €
+03/05/2018;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Etiam nec velit quis nulla sagittis fermentum";-3 609,25 €
+07/11/2017;"ECHEANCEPRET";"ECHEANCEPRET";"Integer porta ipsum a lorem viverra eu volutpat metus volutpat";-3 309,64 €
+07/06/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Fusce iaculis nibh condimentum aliquet elit ac varius enim";-4 588,90 €
+18/05/2018;"COMMISSIONS";"COMMISSIONS";"Cras pretium erat quis vehicula iaculis";-4 706,00 €
+09/09/2019;"CHEQUE";"CHEQUE";"Morbi porttitor velit et dui ultrices vitae faucibus magna iaculis";-1 689,07 €
+21/07/2018;"COMMISSIONS";"COMMISSIONS";"Curabitur commodo erat id dolor molestie pharetra";-3 494,11 €
+28/05/2018;"INTERETS";"INTERETS";"Cras pretium erat quis vehicula iaculis";-153,86 €
+13/03/2018;"PAIEMENTCB";"PAIEMENTCB";"Lorem ipsum dolor sit amet consectetur adipiscing elit";-2 944,93 €
+24/03/2017;"OPERATIONSDIVERSES";"OPERATIONSDIVERSES";"Cras pellentesque neque sed dui tincidunt ultricies";2 386,12 €
+06/04/2018;"INTERETS";"INTERETS";"Curabitur commodo erat id dolor molestie pharetra";-35,54 €
