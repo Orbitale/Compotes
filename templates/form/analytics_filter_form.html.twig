@@ -1,8 +1,13 @@
 {% block analytics_filter_widget %}
     {{ form_start(form) }}
     <div class="row">
-        <div class="col s6">{{ form_row(form.startDate) }}</div>
-        <div class="col s6">{{ form_row(form.endDate) }}</div>
+        <div class="col s6">
+            {{ form_row(form.dateRange) }}
+            {{ form_row(form.startDate) }}
+            {{ form_row(form.endDate) }}
+        </div>
+        <div class="col s6">
+        </div>
     </div>
     <button type="submit" class="btn">Submit</button>
     {{ form_end(form) }}

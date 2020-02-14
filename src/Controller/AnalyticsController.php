@@ -48,8 +48,10 @@ class AnalyticsController
     public function __invoke(Request $request): Response
     {
         $filters = new AnalyticsFilters();
-        $form = $this->formFactory->createNamed('', AnalyticsFiltersType::class, $filters);
+        $form = $this->formFactory->create(AnalyticsFiltersType::class, $filters);
         $form->handleRequest($request);
+
+        $filters->updateDates();
 
         $operations = $this->operationRepository->findForAnalytics($filters);
 

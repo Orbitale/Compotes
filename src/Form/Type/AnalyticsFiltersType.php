@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\DTO\AnalyticsFilters;
+use App\Model\DateRanges;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,6 +33,10 @@ class AnalyticsFiltersType extends AbstractType
             ->add('endDate', DateType::class, [
                 'widget' => 'single_text',
                 'required' => false,
+            ])
+            ->add('dateRange', ChoiceType::class, [
+                'required' => false,
+                'choices' => DateRanges::RANGES,
             ])
         ;
     }

@@ -24,3 +24,11 @@ import_operations.form.file_help: |
             Note that you can <strong>change the order of these fields</strong> by drag&dropping them in the form.
         </li>
     </ul>
+
+date_ranges.today: Today
+date_ranges.this_week: This week
+date_ranges.last_week: Last week
+date_ranges.this_month: This month
+date_ranges.last_month: Last month
+date_ranges.this_year: This year
+date_ranges.last_year: Last year
