@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-use DateTime;
+use DateTimeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class AnalyticsFilters
@@ -21,10 +21,10 @@ class AnalyticsFilters
     /**
      * @Assert\LessThanOrEqual(propertyPath="endDate")
      */
-    public ?DateTime $startDate = null;
+    public ?DateTimeInterface $startDate = null;
 
     /**
      * @Assert\GreaterThanOrEqual(propertyPath="startDate")
      */
-    public ?DateTime $endDate = null;
+    public ?DateTimeInterface $endDate = null;
 }
