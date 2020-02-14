@@ -11,7 +11,14 @@
     <ul class="nav nav-tabs" role="tablist">
         {% for chart in charts %}
             <li class="nav-item">
-                <a class="nav-link{{ loop.first ? ' active' }}" id="{{ chart.name|slug }}-tab" data-toggle="tab" href="#{{ chart.name|slug }}" role="tab" aria-controls="{{ chart.name|slug }}" aria-selected="true">
+                <a class="nav-link{{ loop.first ? ' active' }}"
+                   id="{{ chart.name|slug }}-tab"
+                   data-toggle="tab"
+                   href="#{{ chart.name|slug }}"
+                   role="tab"
+                   aria-controls="{{ chart.name|slug }}"
+                   aria-selected="true"
+                >
                     {{ chart.name }}
                 </a>
             </li>
@@ -19,7 +26,11 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         {% for chart in charts %}
-        <div class="tab-pane fade {{ loop.first ? ' show active' }}" id="{{ chart.name|slug }}" role="tabpanel" aria-labelledby="{{ chart.name|slug }}-tab"></div>
+        <div class="tab-pane fade {{ loop.first ? ' show active' }}"
+             id="{{ chart.name|slug }}"
+             role="tabpanel"
+             aria-labelledby="{{ chart.name|slug }}-tab"
+        ></div>
         {% endfor %}
     </div>
 {% endblock %}
