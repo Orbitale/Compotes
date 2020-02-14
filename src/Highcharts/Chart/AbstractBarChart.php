@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Highcharts\Chart;
 
-abstract class AbstractTagsChart extends AbstractChart
+abstract class AbstractBarChart extends AbstractChart
 {
     protected function getOptions(): array
     {
@@ -28,10 +28,10 @@ abstract class AbstractTagsChart extends AbstractChart
             ],
             'title' => ['text' => $this->getName()],
             'xAxis' => [
-                'categories' => ['Tags'],
+                'categories' => [''],
             ],
             'yAxis' => [
-                'title' => ['text' => 'Total amount with each tags'],
+                'title' => null,
             ],
             'plotOptions' => [
                 $type => [

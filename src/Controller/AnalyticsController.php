@@ -15,10 +15,11 @@ namespace App\Controller;
 
 use App\DTO\AnalyticsFilters;
 use App\Form\Type\AnalyticsFiltersType;
+use App\Highcharts\Chart\MonthlyBalanceChart;
 use App\Highcharts\Chart\TagAmountChart;
 use App\Highcharts\Chart\TagUsageChart;
+use App\Highcharts\Chart\YearlyBalanceChart;
 use App\Repository\OperationRepository;
-use App\Repository\TagRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,6 +59,10 @@ class AnalyticsController
                 'tags' => [
                     new TagUsageChart($operations),
                     new TagAmountChart($operations),
+                ],
+                'balance' => [
+                    new YearlyBalanceChart($operations),
+                    new MonthlyBalanceChart($operations),
                 ],
             ],
         ]));

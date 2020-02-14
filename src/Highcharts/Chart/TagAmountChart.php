@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Highcharts\Chart;
 
-class TagAmountChart extends AbstractTagsChart
+class TagAmountChart extends AbstractBarChart
 {
     public function getName(): string
     {

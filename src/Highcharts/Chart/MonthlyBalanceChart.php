@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace App\Highcharts\Chart;
 
-class TagUsageChart extends AbstractBarChart
+class MonthlyBalanceChart extends AbstractBarChart
 {
     public function getName(): string
     {
-        return 'Tags usage';
+        return 'Monthly balance';
     }
 
     protected function getSeries(): array
@@ -25,17 +25,14 @@ class TagUsageChart extends AbstractBarChart
         $series = [];
 
         foreach ($this->operations as $operation) {
-            foreach ($operation->getTags() as $tag) {
-                $tagName = $tag->getName();
-                if (!isset($series[$tagName])) {
-                    $series[$tagName] = [
-                        'name' => $tagName,
-                        'data' => [0],
-                    ];
-                }
-
-                $series[$tagName]['data'][0]++;
+            $month = $operation->getOperationDate()->format('Y-m');
+            if (!isset($series[$month])) {
+                $series[$month] = [
+                    'name' => $month,
+                    'data' => [0],
+                ];
             }
+            $series[$month]['data'][0] += (int) ($operation->getAmountInCents() / 100);
         }
 
         \ksort($series);

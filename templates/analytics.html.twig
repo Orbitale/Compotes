@@ -32,9 +32,12 @@
              aria-labelledby="{{ key }}-tab"
         >
             {% for chart in charts %}
-                <div class="container">
-                    <div id="{{ chart.name|slug }}"></div>
-                </div>
+                <div id="{{ chart.name|slug }}"></div>
+                {% if not loop.last %}
+                    <hr>
+                    <br>
+                    <hr>
+                {% endif %}
             {% endfor %}
         </div>
         {% endfor %}
