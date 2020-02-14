@@ -54,9 +54,11 @@ class AnalyticsController
 
         return new Response($this->twig->render('analytics.html.twig', [
             'filters_form' => $form->createView(),
-            'charts' => [
-                new TagUsageChart($operations),
-                new TagAmountChart($operations),
+            'charts_list' => [
+                'tags' => [
+                    new TagUsageChart($operations),
+                    new TagAmountChart($operations),
+                ],
             ],
         ]));
     }
