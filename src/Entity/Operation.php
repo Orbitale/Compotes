@@ -15,6 +15,7 @@ namespace App\Entity;
 
 use App\Model\ImportOptions;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,17 +28,15 @@ use InvalidArgumentException;
  */
 class Operation
 {
+    public const STATE_OK = 'ok';
+    public const STATE_PENDING = 'pending';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(name="id", type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(name="hash", type="string")
-     */
-    private $hash;
 
     /**
      * @var DateTimeImmutable
@@ -76,6 +75,16 @@ class Operation
      * @ORM\Column(name="amount_in_cents", type="integer")
      */
     private $amountInCents;
+
+    /**
+     * @ORM\Column(name="hash", type="string")
+     */
+    private $hash;
+
+    /**
+     * @ORM\Column(name="state", type="string", options={"default" = "pending"})
+     */
+    private $state = self::STATE_PENDING;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist"})
@@ -172,6 +181,11 @@ class Operation
         return $this->amountInCents / 100;
     }
 
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
     /**
      * @return Collection|Tag[]
      */
@@ -210,10 +224,9 @@ class Operation
         string $type,
         string $typeDisplay,
         string $details,
-        \DateTimeInterface $operationDate,
+        DateTimeInterface $operationDate,
         int $amountInCents
-    ): string
-    {
+    ): string {
         $str =
             $type.
             '_'.$typeDisplay.

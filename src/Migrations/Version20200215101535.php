@@ -2,9 +2,19 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Compotes package.
+ *
+ * (c) Alex "Pierstoval" Rock <pierstoval@gmail.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace DoctrineMigrations;
 
 use App\Entity\Operation;
+use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -13,24 +23,24 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20200215101535 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Adds a "hash" to all operations, to uniquely identify them.';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE operations ADD hash VARCHAR(255) DEFAULT NULL');
 
-        $operations = $this->connection->query(<<<SQL
+        $operations = $this->connection->query(<<<'SQL'
             SELECT id, operation_date, type, type_display, details, amount_in_cents
             FROM operations
         SQL);
         foreach ($operations as $operation) {
-            $this->addSql(<<<SQL
+            $this->addSql(<<<'SQL'
                 UPDATE operations
                 SET hash = :hash
                 WHERE id = :id
@@ -40,19 +50,19 @@ final class Version20200215101535 extends AbstractMigration
                     $operation['type'],
                     $operation['type_display'],
                     $operation['details'],
-                    new \DateTimeImmutable($operation['operation_date']),
+                    new DateTimeImmutable($operation['operation_date']),
                     (int) $operation['amount_in_cents']
-                )
+                ),
             ]);
         }
 
         $this->addSql('ALTER TABLE operations CHANGE hash hash VARCHAR(255) NOT NULL');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE operations DROP hash');
     }
