@@ -52,6 +52,7 @@ easy_admin:
                 filters:
                     - property: 'operationDate'
                       type: App\Form\Filter\OperationMonthFilterType
+                    - tags
                 fields:
                     - id
                     - operationDate
