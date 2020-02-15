@@ -6,17 +6,16 @@ easy_admin:
 
     design:
         menu:
-            - { icon: home, label: "Admin home", route: easyadmin }
-            - { icon: upload, label: "Import operations", route: import_operations }
-            - { icon: sync, label: "Sync operations", route: apply_rules }
-
-            - label: ''
+            - { icon: chart-bar, label: "Analytics", route: analytics, default: true }
             - { icon: money-check, entity: Operation }
-            - { icon: chart-bar, label: "Analytics", route: analytics }
 
             - label: ''
             - { icon: ruler-vertical, entity: TagRule }
             - { icon: tags, entity: Tag }
+
+            - label: ''
+            - { icon: upload, label: "Import operations", route: import_operations }
+            - { icon: sync, label: "Sync operations", route: apply_rules }
 
     entities:
         TagRule:
