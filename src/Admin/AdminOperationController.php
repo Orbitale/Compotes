@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 
 class AdminOperationController extends EasyAdminController
 {
-    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null): QueryBuilder
     {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
