@@ -34,6 +34,15 @@ class OperationFixtures extends AbstractFixture implements ORMFixtureInterface
                 'typeDisplay' => 'Example display type',
                 'details' => 'THIS IS JUST AN EXAMPLE',
                 'amountInCents' => 25000,
+                'hash' => function (Operation $operation) {
+                    return Operation::computeHash(
+                        $operation->getType(),
+                        $operation->getTypeDisplay(),
+                        $operation->getDetails(),
+                        $operation->getOperationDate(),
+                        $operation->getAmountInCents()
+                    );
+                },
             ],
         ];
     }
