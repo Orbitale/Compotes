@@ -35,6 +35,11 @@ class Operation
     private $id;
 
     /**
+     * @ORM\Column(name="hash", type="string")
+     */
+    private $hash;
+
+    /**
      * @var DateTimeImmutable
      *
      * @ORM\Column(name="operation_date", type="datetime_immutable")
@@ -116,6 +121,14 @@ class Operation
 
         $self->amountInCents = (int) $amount;
 
+        $self->hash = self::computeHash(
+            $self->getType(),
+            $self->getTypeDisplay(),
+            $self->getDetails(),
+            $self->getOperationDate(),
+            $self->getAmountInCents()
+        );
+
         return $self;
     }
 
@@ -132,6 +145,11 @@ class Operation
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getHash(): string
+    {
+        return $this->hash;
     }
 
     public function getTypeDisplay(): string
@@ -186,6 +204,25 @@ class Operation
         }
 
         return $addedTags;
+    }
+
+    public static function computeHash(
+        string $type,
+        string $typeDisplay,
+        string $details,
+        \DateTimeInterface $operationDate,
+        int $amountInCents
+    ): string
+    {
+        $str =
+            $type.
+            '_'.$typeDisplay.
+            '_'.$details.
+            '_'.$operationDate->format('Y-m-d_H:i:s').
+            '_'.$amountInCents
+        ;
+
+        return \hash('sha512', $str);
     }
 
     private function addTag(Tag $tag): void
