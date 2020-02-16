@@ -6,16 +6,18 @@ easy_admin:
 
     design:
         menu:
-            - { icon: chart-bar, label: "Analytics", route: analytics, default: true }
-            - { icon: money-check, entity: Operation }
+            - label: 'admin.menu.account_operations'
+            - { icon: chart-bar, label: "admin.menu.analytics", route: analytics, default: true }
+            - { icon: money-check, label: "admin.menu.operations", entity: Operation }
+            - { icon: box-open, label: "admin.menu.triage", entity: Triage }
 
-            - label: ''
-            - { icon: ruler-vertical, entity: TagRule }
-            - { icon: tags, entity: Tag }
+            - label: 'admin.menu.tags'
+            - { icon: ruler-vertical, label: "admin.menu.tag_rules", entity: TagRule }
+            - { icon: tags, label: "admin.menu.tags", entity: Tag }
 
-            - label: ''
-            - { icon: upload, label: "Import operations", route: import_operations }
-            - { icon: sync, label: "Sync operations", route: apply_rules }
+            - label: 'admin.menu.actions'
+            - { icon: upload, label: "admin.menu.import_operations", route: import_operations }
+            - { icon: sync, label: "admin.menu.sync_operations", route: apply_rules }
 
     entities:
         TagRule:
@@ -41,7 +43,7 @@ easy_admin:
 
         Operation:
             class: App\Entity\Operation
-            label: Operations
+            label: admin.operations.title
             controller: App\Admin\AdminOperationController
             list:
                 actions:
@@ -54,15 +56,58 @@ easy_admin:
                       type: App\Form\Filter\OperationMonthFilterType
                     - tags
                 fields:
-                    - id
-                    - operationDate
-                    - type
-                    - details
+                    - property: id
+                      label: 'admin.operations.fields.id'
+                    - property: operationDate
+                      label: 'admin.operations.fields.operationDate'
+                    - property: type
+                      label: 'admin.operations.fields.type'
+                    - property: details
+                      label: 'admin.operations.fields.details'
                     - property: amount
+                      label: 'admin.operations.fields.amount'
                       type: float
                     - property: tags
+                      label: 'admin.operations.fields.tags'
                       template: easy_admin/field_with_tags.html.twig
 
+        Triage:
+            class: App\Entity\Operation
+            label: admin.triage.title
+            list:
+                actions:
+                    - show
+                    - '-new'
+                    - '-search'
+                    - '-delete'
+                dql_filter: |
+                    entity.state = 'pending'
+                fields:
+                    - property: id
+                      label: 'admin.operations.fields.id'
+                    - property: operationDate
+                      label: 'admin.operations.fields.operationDate'
+                    - property: type
+                      label: 'admin.operations.fields.type'
+                    - property: details
+                      label: 'admin.operations.fields.details'
+                    - property: amount
+                      label: 'admin.operations.fields.amount'
+                      type: float
+            edit:
+                fields:
+                    - property: operationDate
+                      type_options:
+                          widget: single_text
+                          disabled: true
+                    - property: type
+                      type_options:
+                          disabled: true
+                    - property: details
+                    - property: amount
+                      type: number
+                      type_options:
+                          disabled: true
         Tag:
             class: App\Entity\Tag
             label: Tags

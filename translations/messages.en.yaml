@@ -1,3 +1,23 @@
+admin.menu.account_operations: Account operations
+admin.menu.tags: Tags
+admin.menu.actions: Actions
+admin.menu.analytics: Analytics
+admin.menu.triage: Triage
+admin.menu.operations: Operations
+admin.menu.tag_rules: Tag rules
+admin.menu.import_operations: Import operations
+admin.menu.sync_operations: Sync operations
+
+admin.operations.title: Bank account operations
+admin.operations.fields.id: Id
+admin.operations.fields.operationDate: Operation date
+admin.operations.fields.type: Type
+admin.operations.fields.details: Details
+admin.operations.fields.amount: Amount
+admin.operations.fields.tags: Tags
+
+admin.triage.title: 'Triage of potential operations duplicates'
+
 import_operations.form.submit: Import file
 import_operations.validators.invalid_file_name: Filename "{{ file_name }}" does not respect the "{year}-{month}.csv" format.
 import_operations.validators.invalid_line_headers: 'CSV headers order is not valid. Available fields: {{ headers }}'
