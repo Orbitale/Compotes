@@ -32,17 +32,8 @@ Operations can be imported **from the backoffice** in the `Import operations` ad
 
 The administration displays all the necessary requirements to make this work. Nothing to add here ☺.
 
-## Import from command-line
+Here are the general requirements:
 
-Bank operations can be imported from files via this command:
-
-```
-$ php bin/console operations:import [<sources-directory>]
-```
-
-Here are the requirements:
-
-* If no `sources-directory` argument is defined, exports will be retrieved from the `account_exports/` directory at the project's root.
 * File format must be CSV.
 * File name must be `{year}-{month}.csv`.
 * **First line of the file is ignored**, so it can contain headers or an empty line or anything.
