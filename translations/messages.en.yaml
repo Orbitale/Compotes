@@ -16,11 +16,41 @@ admin.operations.fields.details: Details
 admin.operations.fields.amount: Amount
 admin.operations.fields.tags: Tags
 
-admin.sync_operations.no_operations_synced: No operation to synchronize.
+admin.sync_operations.no_operations_synced: No operation needs to be synchronized with tag rules for the moment.
 admin.sync_operations.success: |
-    Successfully synchronized %synced% operations!
+    ]-Inf, 0] Noop
+    |{1} Successfully synchronized %count% operation according to tag rules!
+    |[2, +Inf[ Successfully synchronized %count% operations according to tag rules!
+admin.sync_operations.pending_triage: |
+    ]-Inf, 0] Noop
+    |[1, +Inf[ There are %count% operations pending for triage.
 
 admin.triage.title: 'Triage of potential operations duplicates'
+admin.triage.validators.initials_details_must_not_be_lost: |
+    When updating an operation for triage, you must keep the original details and only append or prepend a note
+    to avoid duplicate operations. If this operation is a true duplicate, you can delete it.
+admin.triage.list_help_message: |
+    This page lists the different Operations that <em>seem</em> to be duplicates.
+
+    You have two choices here:
+
+    <ul>
+        <li>
+            If operations are <strong>not</strong> duplicates, you can update the description of one of them <strong>while
+            keeping the initial details</strong> (like, appending or prepending a note to distinguish both operations).
+            <br>
+            The reason you need to keep initial details is to keep the tag rules working for this operation. Else, the
+            operation would possibly stop matching some rules and break the synchronization process.
+            <br>
+            The goal is to make each operation <strong>unique</strong> by having a unique combination of all its fields
+            (labels, details, amount, etc.). And to avoid breaking analytics, only details can be updated.
+        </li>
+        <li>
+            If operations <strong>are</strong> duplicates, you can delete the one(s) you don't want.
+            <br>
+            <strong>Be aware that deleting operations is an irreversible action.</strong>
+        </li>
+    </ul>
 
 import_operations.form.submit: Import file
 import_operations.validators.invalid_file_name: Filename "{{ file_name }}" does not respect the "{year}-{month}.csv" format.

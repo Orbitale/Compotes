@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Operations\OperationTagsSynchronizer;
+use App\Operations\TriageSynchronizer;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -24,15 +25,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class SyncOperationsController
 {
     private OperationTagsSynchronizer $synchronizer;
-    private UrlGeneratorInterface $router;
+    private TriageSynchronizer $triageSynchronizer;
     private TranslatorInterface $translator;
+    private UrlGeneratorInterface $router;
 
     public function __construct(
         OperationTagsSynchronizer $synchronizer,
+        TriageSynchronizer $triageSynchronizer,
         TranslatorInterface $translator,
         UrlGeneratorInterface $router
     ) {
         $this->synchronizer = $synchronizer;
+        $this->triageSynchronizer = $triageSynchronizer;
         $this->translator = $translator;
         $this->router = $router;
     }
@@ -42,14 +46,21 @@ class SyncOperationsController
      */
     public function __invoke(Session $session): Response
     {
+        $pendingTriage = $this->triageSynchronizer->syncOperations();
         $synced = $this->synchronizer->applyRulesOnAllOperations();
 
         if ($synced) {
             $session->getFlashBag()->add('success', $this->translator->trans('admin.sync_operations.success', [
-                '%synced%' => $synced,
+                '%count%' => $synced,
             ]));
         } else {
             $session->getFlashBag()->add('info', $this->translator->trans('admin.sync_operations.no_operations_synced'));
+        }
+
+        if ($pendingTriage) {
+            $session->getFlashBag()->add('warning', $this->translator->trans('admin.sync_operations.pending_triage', [
+                '%count%' => $pendingTriage,
+            ]));
         }
 
         return new RedirectResponse($this->router->generate('easyadmin'));

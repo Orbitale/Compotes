@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\DTO\AnalyticsFilters;
+use App\Form\DTO\AnalyticsFilters;
 use App\Form\Type\AnalyticsFiltersType;
 use App\Highcharts\Chart\MonthlyBalanceChart;
 use App\Highcharts\Chart\TagAmountChart;

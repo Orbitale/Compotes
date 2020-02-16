@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\DTO;
+namespace App\Form\DTO;
 
 use App\Model\ImportOptions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

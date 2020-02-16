@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\DTO\ImportOperations;
+use App\Form\DTO\ImportOperations;
 use App\Form\Type\ImportOperationsType;
 use App\Model\ImportOptions;
 use App\Operations\OperationsImporter;

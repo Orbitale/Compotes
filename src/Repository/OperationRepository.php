@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\DTO\AnalyticsFilters;
 use App\Entity\Operation;
+use App\Form\DTO\AnalyticsFilters;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -58,6 +58,46 @@ class OperationRepository extends ServiceEntityRepository
         ;
 
         return $count > 0;
+    }
+
+    /**
+     * @return Operation[]
+     */
+    public function findWithSameHashes(): array
+    {
+        return $this->_em->createQuery(
+            <<<DQL
+                SELECT operation
+                FROM {$this->_entityName} operation
+                WHERE operation.hash IN (
+                    SELECT op2.hash
+                    FROM {$this->_entityName} op2
+                    GROUP BY op2.hash
+                    HAVING count(op2) > 1
+                )
+            DQL
+        )
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Operation[]
+     */
+    public function findToEndTriage(int $baseOperationId, string $previousHash): array
+    {
+        return $this->_em->createQuery(
+            <<<DQL
+                SELECT operation
+                FROM {$this->_entityName} operation
+                WHERE operation.hash = :hash
+                AND operation.id != :id
+            DQL
+            )
+            ->setParameter('id', $baseOperationId)
+            ->setParameter('hash', $previousHash)
+            ->getResult()
+        ;
     }
 
     /**

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\DTO\ImportOperations;
+use App\Form\DTO\ImportOperations;
 use App\Model\ImportOptions;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

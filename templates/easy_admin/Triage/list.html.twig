@@ -1,0 +1,9 @@
+{% extends '@!EasyAdmin/default/list.html.twig' %}
+
+{% block content_header %}
+    {{ parent() }}
+    <br>
+    <p>
+        {{ 'admin.triage.list_help_message'|trans|raw }}
+    </p>
+{% endblock %}

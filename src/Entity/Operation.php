@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Form\DTO\Triage;
 use App\Model\ImportOptions;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -29,7 +30,7 @@ use InvalidArgumentException;
 class Operation
 {
     public const STATE_OK = 'ok';
-    public const STATE_PENDING = 'pending';
+    public const STATE_PENDING_TRIAGE = 'pending_triage';
 
     /**
      * @ORM\Id()
@@ -82,9 +83,9 @@ class Operation
     private $hash;
 
     /**
-     * @ORM\Column(name="state", type="string", options={"default" = "pending"})
+     * @ORM\Column(name="state", type="string", options={"default" = "ok"})
      */
-    private $state = self::STATE_PENDING;
+    private $state = self::STATE_OK;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist"})
@@ -194,6 +195,16 @@ class Operation
         return $this->tags;
     }
 
+    public function flagForTriage(): void
+    {
+        $this->state = self::STATE_PENDING_TRIAGE;
+    }
+
+    public function triageDone(): void
+    {
+        $this->state = self::STATE_OK;
+    }
+
     /**
      * @return bool true if rule was applied
      */
@@ -220,6 +231,17 @@ class Operation
         return $addedTags;
     }
 
+    public function updateFromTriage(Triage $dto): void
+    {
+        if (!$this->isPendingTriage()) {
+            throw new \LogicException('Cannot update an operation after triage if operation itself is not pending triage.');
+        }
+
+        $this->details = $dto->details;
+        $this->triageDone();
+        $this->recomputeHash();
+    }
+
     public static function computeHash(
         string $type,
         string $typeDisplay,
@@ -236,6 +258,22 @@ class Operation
         ;
 
         return \hash('sha512', $str);
+    }
+
+    private function isPendingTriage(): bool
+    {
+        return $this->state === self::STATE_PENDING_TRIAGE;
+    }
+
+    private function recomputeHash(): void
+    {
+        $this->hash = self::computeHash(
+            $this->getType(),
+            $this->getTypeDisplay(),
+            $this->getDetails(),
+            $this->getOperationDate(),
+            $this->getAmountInCents()
+        );
     }
 
     private function addTag(Tag $tag): void

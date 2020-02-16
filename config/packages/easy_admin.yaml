@@ -74,14 +74,16 @@ easy_admin:
         Triage:
             class: App\Entity\Operation
             label: admin.triage.title
+            controller: App\Admin\AdminTriageController
+            templates:
+                list: easy_admin/Triage/list.html.twig
             list:
                 actions:
-                    - show
+                    - '-show'
                     - '-new'
                     - '-search'
-                    - '-delete'
                 dql_filter: |
-                    entity.state = 'pending'
+                    entity.state = 'pending_triage'
                 fields:
                     - property: id
                       label: 'admin.operations.fields.id'
@@ -95,19 +97,14 @@ easy_admin:
                       label: 'admin.operations.fields.amount'
                       type: float
             edit:
+                actions:
+                    - '-delete'
                 fields:
-                    - property: operationDate
-                      type_options:
-                          widget: single_text
-                          disabled: true
-                    - property: type
-                      type_options:
-                          disabled: true
-                    - property: details
-                    - property: amount
-                      type: number
-                      type_options:
-                          disabled: true
+                    - operationDate
+                    - type
+                    - amount
+                    - initialDetails
+                    - details
         Tag:
             class: App\Entity\Tag
             label: Tags

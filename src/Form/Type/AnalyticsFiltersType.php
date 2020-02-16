@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\DTO\AnalyticsFilters;
+use App\Form\DTO\AnalyticsFilters;
 use App\Model\DateRanges;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
