@@ -31,7 +31,7 @@ final class Version20200215215340 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE operations ADD state VARCHAR(255) DEFAULT \'pending\' NOT NULL');
+        $this->addSql('ALTER TABLE operations ADD state VARCHAR(255) DEFAULT \'ok\' NOT NULL');
         $this->addSql('UPDATE operations SET state = "ok"');
     }
 
