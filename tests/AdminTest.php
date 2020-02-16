@@ -50,7 +50,7 @@ class AdminTest extends WebTestCase
         $this->login($client, 'test-user', ['ROLE_ADMIN']);
         $client->request('GET', '/admin/');
 
-        $this->assertResponseRedirects('/admin/analytics?menuIndex=0&submenuIndex=-1', 302);
+        $this->assertResponseRedirects('/admin/analytics?menuIndex=1&submenuIndex=-1', 302);
         $client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
     }
