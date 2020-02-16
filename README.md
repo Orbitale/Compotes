@@ -75,16 +75,14 @@ ADMIN_USER=admin
 
 Feel free to contribute 😉.
 
-* Make many analytics dashboards (that's what this app is for in the first place, with Highcharts).
+* (Easy pick!) Make many analytics dashboards (that's what this app is for in the first place, with Highcharts).
+* Use the "triage" feature in the "import file" command.
 * Support JS closures in Chart objects (by using a placeholder to remove quotes maybe?).
-* Add a lot of fixtures to play with.
 * Add translations for tags (maybe using an extension like gedmo or knp?).
 * Implement more source file types like xls, ods, etc., that could be transformed to CSV before importing them. [PHPSpreadsheet](https://phpspreadsheet.readthedocs.io/) is already installed, though not used yet.
 * Custom source file format (only CSV for now, and that's perfectly fine for me).
-* Change CSV headers at runtime (in the command-line integration).
-* Change CSV delimiter/enclosure at runtime (in the command-line integration).
 * Change input operation date format (for now it's `d/m/Y H:i:s O` as of French date format).
-* Multiple bank accounts (needs to migrate all existing data to a "default" account create via migration).
+* Multiple bank accounts (needs to migrate all existing data to a "default" account created via migration).
 * Operation currency (a single header, maybe a default value in the importer and the command too).
 * Add tests (this is a continuous task anyway ☺ ).
 * Support for Bills (a Bill object and a BillItem one, and maybe associate a Bill with one or more Operation objects with a OneToMany relationship so multiple operations can associate with one bill).
@@ -100,8 +98,11 @@ Feel free to contribute 😉.
 * Added tons of other commands to the Makefile.
 * Made a first PoC for the analytics dashboard.
 * Allow to upload Operations files directly from the backoffice. It even has a nice drag&drop integration to customize line column fields!
-* Change CSV headers at runtime (done only for the backoffice integration).
-* Change CSV delimiter/enclosure at runtime (done only for the backoffice integration).
+* Change CSV headers at runtime.
+* Change CSV delimiter/enclosure at runtime.
+* Add a lot of fixtures to play with.
+* Removed the "import from command line" feature. Using EasyAdmin allows more customization.
+* Added a big "triage" system to avoid having duplicates.
 
 # License
 
