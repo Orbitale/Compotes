@@ -17,7 +17,7 @@ easy_admin:
 
             - label: 'admin.menu.actions'
             - { icon: upload, label: "admin.menu.import_operations", route: import_operations }
-            - { icon: sync, label: "admin.menu.sync_operations", route: sync_operations_tags }
+            - { icon: sync, label: "admin.menu.sync_operations", route: sync_operations }
 
     entities:
         TagRule:

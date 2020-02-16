@@ -19,26 +19,38 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class SyncOperationsTagsController
+class SyncOperationsController
 {
     private OperationTagsSynchronizer $synchronizer;
     private UrlGeneratorInterface $router;
+    private TranslatorInterface $translator;
 
-    public function __construct(OperationTagsSynchronizer $synchronizer, UrlGeneratorInterface $router)
-    {
+    public function __construct(
+        OperationTagsSynchronizer $synchronizer,
+        TranslatorInterface $translator,
+        UrlGeneratorInterface $router
+    ) {
         $this->synchronizer = $synchronizer;
+        $this->translator = $translator;
         $this->router = $router;
     }
 
     /**
-     * @Route("/admin/sync-operations-tags", name="sync_operations_tags", methods={"GET"})
+     * @Route("/admin/sync-operations", name="sync_operations", methods={"GET"})
      */
     public function __invoke(Session $session): Response
     {
         $synced = $this->synchronizer->applyRulesOnAllOperations();
 
-        $session->getFlashBag()->add('success', \sprintf('Synced %d operations!', $synced));
+        if ($synced) {
+            $session->getFlashBag()->add('success', $this->translator->trans('admin.sync_operations.success', [
+                '%synced%' => $synced,
+            ]));
+        } else {
+            $session->getFlashBag()->add('info', $this->translator->trans('admin.sync_operations.no_operations_synced'));
+        }
 
         return new RedirectResponse($this->router->generate('easyadmin'));
     }

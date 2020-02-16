@@ -16,6 +16,10 @@ admin.operations.fields.details: Details
 admin.operations.fields.amount: Amount
 admin.operations.fields.tags: Tags
 
+admin.sync_operations.no_operations_synced: No operation to synchronize.
+admin.sync_operations.success: |
+    Successfully synchronized %synced% operations!
+
 admin.triage.title: 'Triage of potential operations duplicates'
 
 import_operations.form.submit: Import file
