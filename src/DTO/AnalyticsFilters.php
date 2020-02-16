@@ -58,7 +58,7 @@ class AnalyticsFilters
                     return;
                 case DateRanges::LAST_WEEK:
                     // Last-last sunday
-                    $this->startDate = new DateTimeImmutable('-'.(\date('w') + 7).' days 00:00:00');
+                    $this->startDate = new DateTimeImmutable('-'.((string) ((int) \date('w') + 7)).' days 00:00:00');
 
                     return;
                 case DateRanges::THIS_MONTH:
