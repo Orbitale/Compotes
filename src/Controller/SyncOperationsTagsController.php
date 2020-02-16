@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ApplyTagRulesController
+class SyncOperationsTagsController
 {
     private OperationTagsSynchronizer $synchronizer;
     private UrlGeneratorInterface $router;
@@ -32,7 +32,7 @@ class ApplyTagRulesController
     }
 
     /**
-     * @Route("/admin/apply-rules", name="apply_rules", methods={"GET"})
+     * @Route("/admin/sync-operations-tags", name="sync_operations_tags", methods={"GET"})
      */
     public function __invoke(Session $session): Response
     {
