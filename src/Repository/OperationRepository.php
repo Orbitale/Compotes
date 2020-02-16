@@ -93,7 +93,7 @@ class OperationRepository extends ServiceEntityRepository
                 WHERE operation.hash = :hash
                 AND operation.id != :id
             DQL
-            )
+        )
             ->setParameter('id', $baseOperationId)
             ->setParameter('hash', $previousHash)
             ->getResult()

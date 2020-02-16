@@ -19,6 +19,7 @@ use App\Form\Type\TriageType;
 use App\Repository\OperationRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\Form\FormInterface;
 
 class AdminTriageController extends EasyAdminController
@@ -50,10 +51,10 @@ class AdminTriageController extends EasyAdminController
     }
 
     /** @param Operation $entity */
-    protected function updateEntity($entity, FormInterface $form = null)
+    protected function updateEntity($entity, FormInterface $form = null): void
     {
         if (!$form) {
-            throw new \RuntimeException('Form must be injected by EasyAdmin. Did you mess up something?');
+            throw new RuntimeException('Form must be injected by EasyAdmin. Did you mess up something?');
         }
 
         /** @var Triage $dto */
@@ -89,7 +90,7 @@ class AdminTriageController extends EasyAdminController
     {
         $operations = $this->operationRepository->findToEndTriage($baseOperationId, $previousHash);
 
-        if (\count($operations) === 1) {
+        if (1 === \count($operations)) {
             $operations[0]->triageDone();
             $this->em->persist($operations[0]);
         }

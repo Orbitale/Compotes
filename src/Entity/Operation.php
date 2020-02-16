@@ -21,6 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
+use LogicException;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OperationRepository")
@@ -234,7 +235,7 @@ class Operation
     public function updateFromTriage(Triage $dto): void
     {
         if (!$this->isPendingTriage()) {
-            throw new \LogicException('Cannot update an operation after triage if operation itself is not pending triage.');
+            throw new LogicException('Cannot update an operation after triage if operation itself is not pending triage.');
         }
 
         $this->details = $dto->details;
@@ -262,7 +263,7 @@ class Operation
 
     private function isPendingTriage(): bool
     {
-        return $this->state === self::STATE_PENDING_TRIAGE;
+        return self::STATE_PENDING_TRIAGE === $this->state;
     }
 
     private function recomputeHash(): void
