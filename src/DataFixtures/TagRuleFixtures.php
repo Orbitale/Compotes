@@ -35,6 +35,28 @@ class TagRuleFixtures extends AbstractFixture implements ORMFixtureInterface
                     $this->getTag('Musique-livres-films'),
                 ],
             ],
+            [
+                'matchingPattern' => 'Donec efficitur libero ut mauris congue at sodales urna sodales',
+                'regex' => false,
+                'tags' => [
+                    $this->getTag('Internet-tv'),
+                ],
+            ],
+            [
+                'matchingPattern' => 'Etiam nec velit quis nulla sagittis fermentum	',
+                'regex' => false,
+                'tags' => [
+                    $this->getTag('Recette-a-categoriser'),
+                    $this->getTag('Aides-et-allocations'),
+                ],
+            ],
+            [
+                'matchingPattern' => 'Lorem ipsum dolor sit amet',
+                'regex' => false,
+                'tags' => [
+                    $this->getTag('Alimentation-supermarche'),
+                ],
+            ],
         ];
     }
 
