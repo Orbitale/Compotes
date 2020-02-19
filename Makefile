@@ -93,7 +93,6 @@ migrations: wait-for-db ## Create database schema through migrations.
 fixtures: wait-for-db ## Add default data to the project.
 	@printf ""$(SCRIPT_TITLE_PATTERN) "DB" "Install fixture data in the database"
 	@symfony console doctrine:fixtures:load --no-interaction --append
-	@symfony console operations:import --no-interaction
 	@symfony console operations:update-tags --no-interaction
 .PHONY: fixtures
 
@@ -137,7 +136,7 @@ dump: ## Dump the current database to keep a track of it.
 ## --
 ##
 
-test-db: start-db wait-for-db ## Sets up the test database
+test-db: start-db wait-for-db ## Set up the test database
 	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Drop existing database"
 	@APP_ENV=test php bin/console doctrine:database:drop --no-interaction --if-exists --force
 	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Create database"
@@ -145,7 +144,6 @@ test-db: start-db wait-for-db ## Sets up the test database
 	@APP_ENV=test php bin/console doctrine:schema:create --no-interaction
 	@printf ""$(SCRIPT_TITLE_PATTERN) "Test DB" "Install fixture data in the database"
 	@APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction --append
-	@APP_ENV=test php bin/console operations:import --no-interaction
 	@APP_ENV=test php bin/console operations:update-tags --no-interaction
 .PHONY: test-db
 
