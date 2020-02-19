@@ -37,6 +37,10 @@ stop: ## Stop the servers.
 restart: stop start ## Restart the servers.
 .PHONY: restart
 
+open: ## Open the web browser at the homepage
+	@symfony open:local
+.PHONY: open
+
 cc: ## Clear the cache and warm it up.
 	@printf $(SCRIPT_TITLE_PATTERN) "PHP" "Clear cache"
 	-@symfony console cache:clear --no-warmup
