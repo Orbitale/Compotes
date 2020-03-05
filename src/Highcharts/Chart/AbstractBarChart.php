@@ -37,7 +37,7 @@ abstract class AbstractBarChart extends AbstractChart
                         'value' => 0,
                         'width' => 3,
                         'color' => '#000',
-                    ]
+                    ],
                 ],
             ],
             'plotOptions' => [

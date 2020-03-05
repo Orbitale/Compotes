@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace App\Highcharts\Chart;
 
+use DateTime;
+
 abstract class AbstractSplineChart extends AbstractChart
 {
     protected function getOptions(): array
@@ -20,7 +22,7 @@ abstract class AbstractSplineChart extends AbstractChart
         $categories = [];
 
         for ($i = 1; $i <= 12; $i++) {
-            $categories[] = strftime('%B', (\DateTime::createFromFormat('m', (string) $i))->getTimestamp());
+            $categories[] = \strftime('%B', (DateTime::createFromFormat('m', (string) $i))->getTimestamp());
         }
 
         return [
@@ -39,16 +41,16 @@ abstract class AbstractSplineChart extends AbstractChart
                         'value' => 0,
                         'width' => 3,
                         'color' => '#000',
-                    ]
+                    ],
                 ],
             ],
             'plotOptions' => [
                 $type => [
                     'dataLabels' => [
-                        'enabled' => true
+                        'enabled' => true,
                     ],
                     'enableMouseTracking' => false,
-                ]
+                ],
             ],
         ];
     }
