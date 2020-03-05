@@ -13,22 +13,24 @@ declare(strict_types=1);
 
 namespace App\Highcharts\Chart;
 
-abstract class AbstractBarChart extends AbstractChart
+abstract class AbstractSplineChart extends AbstractChart
 {
     protected function getOptions(): array
     {
+        $categories = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $categories[] = strftime('%B', (\DateTime::createFromFormat('m', (string) $i))->getTimestamp());
+        }
+
         return [
             'chart' => [
-                'type' => $type = 'column',
+                'type' => $type = 'spline',
                 'height' => 500,
-            ],
-            'legend' => [
-                'align' => 'right',
-                'layout' => 'vertical',
             ],
             'title' => ['text' => $this->getName()],
             'xAxis' => [
-                'categories' => [''],
+                'categories' => $categories,
             ],
             'yAxis' => [
                 'title' => null,
@@ -42,14 +44,11 @@ abstract class AbstractBarChart extends AbstractChart
             ],
             'plotOptions' => [
                 $type => [
-                    'pointWidth' => 25,
-                    'borderWidth' => 0,
-                    'groupPadding' => 0.01,
                     'dataLabels' => [
-                        'enabled' => true,
+                        'enabled' => true
                     ],
                     'enableMouseTracking' => false,
-                ],
+                ]
             ],
         ];
     }

@@ -19,6 +19,7 @@ use App\Highcharts\Chart\MonthlyBalanceChart;
 use App\Highcharts\Chart\TagAmountChart;
 use App\Highcharts\Chart\TagUsageChart;
 use App\Highcharts\Chart\YearlyBalanceChart;
+use App\Highcharts\Chart\YearMonthComparisonChart;
 use App\Repository\OperationRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,6 +66,9 @@ class AnalyticsController
                 'balance' => [
                     new YearlyBalanceChart($operations),
                     new MonthlyBalanceChart($operations),
+                ],
+                'comparisons' => [
+                    new YearMonthComparisonChart($operations),
                 ],
             ],
         ]));
