@@ -1,0 +1,28 @@
+name: Node.js
+
+on: [push]
+
+jobs:
+    build:
+        name: Compotes
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v1
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: '10'
+
+            - run: npm install
+
+            - name: '[Run] 🚀 Build assets for dev'
+              run: npm run dev
+
+            - name: 'Clean build'
+              run: rm -rf public/build
+
+            - name: '[Run] 🚀 Build assets for prod'
+              run: npm run build
