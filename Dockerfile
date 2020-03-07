@@ -36,14 +36,15 @@ RUN set -xe \
     \
     && `# PHP and extensions` \
     && apt-get install -y \
-        php7.4 \
         php7.4-cli \
         php7.4-common \
         php7.4-curl \
         php7.4-fpm \
         php7.4-json \
+        php7.4-intl \
         php7.4-mbstring \
         php7.4-mysql \
+        php7.4-sqlite \
         php7.4-opcache \
         php7.4-readline \
         php7.4-xml \
@@ -71,6 +72,6 @@ WORKDIR /srv
 
 ENTRYPOINT ["/bin/entrypoint"]
 
-CMD ["symfony", "serve", "--dir=/srv"]
+CMD ["symfony", "serve", "--dir=/srv", "--port=8000"]
 
 EXPOSE 8000
