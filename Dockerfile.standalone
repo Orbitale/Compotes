@@ -1,0 +1,11 @@
+FROM compotes:latest
+
+LABEL maintainer="pierstoval@gmail.com"
+
+ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db \
+    APP_ENV=prod \
+    ADMIN_PASSWORD='$argon2id$v=19$m=65536,t=4,p=1$WnZYQUFKM0FJMTVlYVhobQ$WHgKMaQDf27iwXQHW/xQg2w7vg0/bnSNERqJ4j5pnWA'
+
+VOLUME ["/srv/var"]
+
+COPY . /srv
