@@ -19,6 +19,7 @@ jobs:
                   USERNAME: ${{ secrets.DOCKER_USERNAME }}
                   PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
                   BUILD_PATH: "Dockerfile"
+                  TAG_NAME: "latest"
                   IMAGE_NAME: "orbitale/compotes-php"
 
             - name: Build & push Compotes image
@@ -29,4 +30,5 @@ jobs:
                   USERNAME: ${{ secrets.DOCKER_USERNAME }}
                   PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
                   BUILD_PATH: "Dockerfile.standalone"
+                  TAG_NAME: "latest"
                   IMAGE_NAME: "orbitale/compotes"
