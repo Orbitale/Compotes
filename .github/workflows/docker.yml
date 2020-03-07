@@ -1,0 +1,32 @@
+name: Docker Push
+
+on: push
+
+jobs:
+    docker:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v1
+              with:
+                  fetch-depth: 1
+
+            - name: Build & push base PHP image
+              uses: opspresso/action-docker@master
+              with:
+                  args: --docker
+              env:
+                  USERNAME: ${{ secrets.DOCKER_USERNAME }}
+                  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+                  BUILD_PATH: "Dockerfile"
+                  IMAGE_NAME: "orbitale/compotes-php"
+
+            - name: Build & push Compotes image
+              uses: opspresso/action-docker@master
+              with:
+                  args: --docker
+              env:
+                  USERNAME: ${{ secrets.DOCKER_USERNAME }}
+                  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+                  BUILD_PATH: "Dockerfile.standalone"
+                  IMAGE_NAME: "orbitale/compotes"
