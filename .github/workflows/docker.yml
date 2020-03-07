@@ -17,6 +17,9 @@ jobs:
               with:
                   fetch-depth: 1
 
+            - name: 'debugging'
+              run: "echo ${{ github.ref }}"
+
             - name: Build & push base PHP image
               uses: opspresso/action-docker@master
               with:
