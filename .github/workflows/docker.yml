@@ -1,6 +1,12 @@
 name: Docker Push
 
-on: push
+on:
+    push:
+        branches:
+            - master
+            - docker
+        tags:
+            - '*'
 
 jobs:
     docker:
@@ -18,7 +24,7 @@ jobs:
               env:
                   USERNAME: ${{ secrets.DOCKER_USERNAME }}
                   PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-                  TAG_NAME: "latest"
+                  TAG_NAME: ${GITHUB_REF/#refs\/*\/}
                   IMAGE_NAME: "orbitale/compotes-php"
 
             # Wait until https://github.com/opspresso/action-docker/pull/6 is merged.
