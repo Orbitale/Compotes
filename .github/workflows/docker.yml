@@ -18,17 +18,17 @@ jobs:
               env:
                   USERNAME: ${{ secrets.DOCKER_USERNAME }}
                   PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-                  BUILD_PATH: "Dockerfile"
                   TAG_NAME: "latest"
                   IMAGE_NAME: "orbitale/compotes-php"
 
-            - name: Build & push Compotes image
-              uses: opspresso/action-docker@master
-              with:
-                  args: --docker
-              env:
-                  USERNAME: ${{ secrets.DOCKER_USERNAME }}
-                  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-                  BUILD_PATH: "Dockerfile.standalone"
-                  TAG_NAME: "latest"
-                  IMAGE_NAME: "orbitale/compotes"
+            # Wait until https://github.com/opspresso/action-docker/pull/6 is merged.
+            #- name: Build & push Compotes image
+            #  uses: opspresso/action-docker@master
+            #  with:
+            #      args: --docker
+            #  env:
+            #      USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            #      PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+            #      BUILD_PATH: "Dockerfile.standalone"
+            #      TAG_NAME: "latest"
+            #      IMAGE_NAME: "orbitale/compotes"
