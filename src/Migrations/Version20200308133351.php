@@ -29,10 +29,10 @@ final class Version20200308133351 extends AbstractMigration
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE operations ADD bank_account_id INT DEFAULT 1');
-        $this->addSql('ALTER TABLE operations ADD CONSTRAINT FK_2814534812CB990C FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id)');
         $this->addSql('CREATE INDEX IDX_2814534812CB990C ON operations (bank_account_id)');
 
         $this->addSql('ALTER TABLE operations CHANGE bank_account_id bank_account_id INT NOT NULL');
+        $this->addSql('ALTER TABLE operations ADD CONSTRAINT FK_2814534812CB990C FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id)');
     }
 
     public function down(Schema $schema): void

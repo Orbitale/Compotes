@@ -1,3 +1,10 @@
+# v0.8.0 (08 Mar 2020)
+
+* Added base support for Bank Accounts.
+* Fixed "delete" action still accessible on some pages.
+* Fixed "import" page that was accessible even when not logged in.
+* Added a DTO proof of concept for EasyAdmin.
+
 # v0.7.1 (05 Mar 2020)
 
 * You can now fund the development of Compotes! Click on the `💜Sponsor` button on the repository!

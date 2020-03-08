@@ -90,6 +90,7 @@ class Operation
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\BankAccount", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private BankAccount $bankAccount;
 
@@ -97,7 +98,6 @@ class Operation
      * @var ArrayCollection|Tag[]
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $tags;
 
