@@ -101,7 +101,7 @@ class Operation
      */
     private $tags;
 
-    public function __construct()
+    private function __construct()
     {
         $this->tags = new ArrayCollection();
     }

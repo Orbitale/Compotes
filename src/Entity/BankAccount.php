@@ -51,6 +51,10 @@ class BankAccount
      */
     private string $currency;
 
+    private function __construct()
+    {
+    }
+
     public function __toString()
     {
         return (string) $this->name;
