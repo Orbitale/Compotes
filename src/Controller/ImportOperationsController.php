@@ -51,7 +51,7 @@ class ImportOperationsController
     }
 
     /**
-     * @Route("/import-operations", name="import_operations", methods={"GET", "POST"})
+     * @Route("/admin/import-operations", name="import_operations", methods={"GET", "POST"})
      */
     public function __invoke(Request $request): Response
     {
@@ -64,6 +64,7 @@ class ImportOperationsController
             try {
                 $created = $this->importer->importFile(
                     $data->file,
+                    $data->bankAccount,
                     $data->csvColumns,
                     ImportOptions::create($data->getCsvSeparator(), $data->getCsvDelimiter(), $data->getCsvEscapeCharacter())
                 );

@@ -10,6 +10,7 @@ easy_admin:
             - { icon: chart-bar, label: "admin.menu.analytics", route: analytics, default: true }
             - { icon: money-check, label: "admin.menu.operations", entity: Operation }
             - { icon: box-open, label: "admin.menu.triage", entity: Triage }
+            - { icon: piggy-bank, label: "admin.menu.bank_accounts", entity: BankAccount }
 
             - label: 'admin.menu.tags'
             - { icon: ruler-vertical, label: "admin.menu.tag_rules", entity: TagRule }
@@ -20,6 +21,26 @@ easy_admin:
             - { icon: sync, label: "admin.menu.sync_operations", route: sync_operations }
 
     entities:
+        BankAccount:
+            class: App\Entity\BankAccount
+            label: Bank accounts
+            controller: App\Admin\AdminBankAccountController
+            list:
+                actions:
+                    - '-delete'
+                fields:
+                    - id
+                    - name
+                    - slug
+                    - currency
+            form:
+                actions:
+                    - '-delete'
+                fields:
+                    - name
+                    - property: currency
+                      type: currency
+
         TagRule:
             class: App\Entity\TagRule
             label: Tag rules
@@ -55,11 +76,14 @@ easy_admin:
                     - property: 'operationDate'
                       type: App\Form\Filter\OperationMonthFilterType
                     - tags
+                    - bankAccount
                 fields:
                     - property: id
                       label: 'admin.operations.fields.id'
                     - property: operationDate
                       label: 'admin.operations.fields.operationDate'
+                    - property: bankAccount
+                      label: 'admin.operations.fields.bankAccount'
                     - property: type
                       label: 'admin.operations.fields.type'
                     - property: details
@@ -105,6 +129,7 @@ easy_admin:
                     - amount
                     - initialDetails
                     - details
+
         Tag:
             class: App\Entity\Tag
             label: Tags
@@ -116,4 +141,6 @@ easy_admin:
                     - id
                     - name
                     - parent
-
+            form:
+                actions:
+                    - '-delete'

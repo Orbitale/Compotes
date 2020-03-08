@@ -15,7 +15,6 @@ namespace App\Tests\Controller;
 
 use App\Tests\BrowserLoginTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class LoginControllerTest extends WebTestCase
 {
@@ -41,7 +40,7 @@ class LoginControllerTest extends WebTestCase
     public function test login page whiled logged in redirects to admin(): void
     {
         $client = static::createClient();
-        $this->login($client, static::$container->get(UserProviderInterface::class)->loadUserByUsername('admin'));
+        $this->login($client);
         $client->request('GET', '/login');
 
         $this->assertResponseRedirects('/admin/', 302);

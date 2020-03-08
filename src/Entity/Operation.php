@@ -45,28 +45,28 @@ class Operation
      *
      * @ORM\Column(name="operation_date", type="datetime_immutable")
      */
-    private $operationDate;
+    private DateTimeImmutable $operationDate;
 
     /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
-    private $type;
+    private string $type;
 
     /**
      * @var string
      *
      * @ORM\Column(name="type_display", type="string", length=255)
      */
-    private $typeDisplay;
+    private string $typeDisplay = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="details", type="text")
      */
-    private $details;
+    private string $details = '';
 
     /**
      * Always in cents.
@@ -76,20 +76,28 @@ class Operation
      *
      * @ORM\Column(name="amount_in_cents", type="integer")
      */
-    private $amountInCents;
+    private int $amountInCents;
 
     /**
      * @ORM\Column(name="hash", type="string")
      */
-    private $hash;
+    private string $hash;
 
     /**
      * @ORM\Column(name="state", type="string", options={"default" = "ok"})
      */
-    private $state = self::STATE_OK;
+    private string $state = self::STATE_OK;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BankAccount", cascade={"persist"})
+     */
+    private BankAccount $bankAccount;
+
+    /**
+     * @var ArrayCollection|Tag[]
+     *
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $tags;
 
@@ -98,9 +106,11 @@ class Operation
         $this->tags = new ArrayCollection();
     }
 
-    public static function fromImportLine(array $line, string $dateFormat = ImportOptions::OPERATION_DATE_FORMAT): self
+    public static function fromImportLine(BankAccount $bankAccount, array $line, string $dateFormat = ImportOptions::OPERATION_DATE_FORMAT): self
     {
         $self = new self();
+
+        $self->bankAccount = $bankAccount;
 
         $date = DateTimeImmutable::createFromFormat($dateFormat, \sprintf(
             '%s 00:00:00 +000',
@@ -133,11 +143,12 @@ class Operation
         $self->amountInCents = (int) $amount;
 
         $self->hash = self::computeHash(
-            $self->getType(),
-            $self->getTypeDisplay(),
-            $self->getDetails(),
-            $self->getOperationDate(),
-            $self->getAmountInCents()
+            $self->type,
+            $self->typeDisplay,
+            $self->details,
+            $self->operationDate,
+            $self->amountInCents,
+            $self->bankAccount
         );
 
         return $self;
@@ -186,6 +197,11 @@ class Operation
     public function getState(): string
     {
         return $this->state;
+    }
+
+    public function getBankAccount(): BankAccount
+    {
+        return $this->bankAccount;
     }
 
     /**
@@ -248,10 +264,12 @@ class Operation
         string $typeDisplay,
         string $details,
         DateTimeInterface $operationDate,
-        int $amountInCents
+        int $amountInCents,
+        BankAccount $bankAccount
     ): string {
         $str =
             $type.
+            '_'.$bankAccount->getSlug().
             '_'.$typeDisplay.
             '_'.$details.
             '_'.$operationDate->format('Y-m-d_H:i:s').
@@ -269,11 +287,12 @@ class Operation
     private function recomputeHash(): void
     {
         $this->hash = self::computeHash(
-            $this->getType(),
-            $this->getTypeDisplay(),
-            $this->getDetails(),
-            $this->getOperationDate(),
-            $this->getAmountInCents()
+            $this->type,
+            $this->typeDisplay,
+            $this->details,
+            $this->operationDate,
+            $this->amountInCents,
+            $this->bankAccount
         );
     }
 
