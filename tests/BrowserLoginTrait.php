@@ -19,7 +19,9 @@ use Symfony\Bundle\FrameworkBundle\Test\TestContainer;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 trait BrowserLoginTrait
 {
@@ -30,9 +32,12 @@ trait BrowserLoginTrait
         $browser->getContainer()->get('session')->remove('_security_'.$context);
     }
 
+    /**
+     * @param string|UserInterface $user
+     */
     public function login(
         KernelBrowser $browser,
-        $user,
+        $user = 'admin',
         array $roles = [],
         string $firewallName = 'main'
     ): TokenInterface {
@@ -40,9 +45,22 @@ trait BrowserLoginTrait
             throw new RuntimeException('You must install the "symfony/security-core" component to use this feature.');
         }
 
+        // We can fetch a user from the main provider.
+        // If it does not exist, we fall back to the provided string.
+        // This allows faking users that are not in the main provider.
+        if (\is_string($user)) {
+            try {
+                $userObject = static::$container->get(UserProviderInterface::class)->loadUserByUsername($user);
+                $user = $userObject;
+            } catch (UsernameNotFoundException $e) {
+                // noop
+            }
+        }
+
         if ($user instanceof UserInterface) {
             $roles = \array_merge($user->getRoles(), $roles);
         }
+
         $token = $this->getLoginToken($browser, $user, $roles, $firewallName);
 
         $this->authenticateToken($browser, $token, $firewallName);

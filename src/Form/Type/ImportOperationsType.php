@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use App\Entity\BankAccount;
 use App\Form\DTO\ImportOperations;
 use App\Model\ImportOptions;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -27,6 +29,10 @@ class ImportOperationsType extends AbstractType
     {
         $builder
             ->add('file', FileType::class)
+            ->add('bankAccount', EntityType::class, [
+                'class' => BankAccount::class,
+                'expanded' => true,
+            ])
             ->add('csvColumns', DragDropOrderedListType::class)
             ->add('csvEscapeCharacter', ChoiceType::class, [
                 'choices' => ImportOptions::CSV_ESCAPE_CHARACTERS,

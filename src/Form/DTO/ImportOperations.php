@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Form\DTO;
 
+use App\Entity\BankAccount;
 use App\Model\ImportOptions;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,6 +33,12 @@ class ImportOperations
      * @Assert\Type("array")
      */
     public array $csvColumns = ImportOptions::CSV_COLUMNS;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Type(BankAccount::class)
+     */
+    public ?BankAccount $bankAccount = null;
 
     /**
      * @Assert\Choice(ImportOptions::CSV_ESCAPE_CHARACTERS)

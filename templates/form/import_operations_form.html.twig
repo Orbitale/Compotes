@@ -6,10 +6,17 @@
     </div>
     <div class="row">
         <div class="col s9">
+        </div>
+        <div class="col s3"> </div>
+    </div>
+    <div class="row">
+        <div class="col s9">
             {{ form_row(form.file) }}
-            {{ form_row(form.csvColumns) }}
+            {{ form_row(form.bankAccount) }}
         </div>
         <div class="col s3">
+            <h3>{{ 'import_operations.form.csv_help'|trans }}</h3>
+            {{ form_row(form.csvColumns) }}
             {{ form_row(form.csvSeparator) }}
             {{ form_row(form.csvDelimiter) }}
             {{ form_row(form.csvEscapeCharacter) }}

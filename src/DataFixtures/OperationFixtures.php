@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\BankAccount;
 use App\Entity\Operation;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -20,6 +21,11 @@ use Orbitale\Component\DoctrineTools\AbstractFixture;
 
 class OperationFixtures extends AbstractFixture implements ORMFixtureInterface
 {
+    public function getOrder(): int
+    {
+        return 10;
+    }
+
     protected function getEntityClass(): string
     {
         return Operation::class;
@@ -27,6 +33,9 @@ class OperationFixtures extends AbstractFixture implements ORMFixtureInterface
 
     protected function getObjects(): array
     {
+        /** @var BankAccount $bankAccount */
+        $bankAccount = $this->getReference('bank-account-default');
+
         return [
             [
                 'operationDate' => new DateTimeImmutable(),
@@ -34,13 +43,15 @@ class OperationFixtures extends AbstractFixture implements ORMFixtureInterface
                 'typeDisplay' => 'Example display type',
                 'details' => 'THIS IS JUST AN EXAMPLE',
                 'amountInCents' => 25000,
-                'hash' => function (Operation $operation) {
+                'bankAccount' => $bankAccount,
+                'hash' => static function (Operation $operation) {
                     return Operation::computeHash(
                         $operation->getType(),
                         $operation->getTypeDisplay(),
                         $operation->getDetails(),
                         $operation->getOperationDate(),
-                        $operation->getAmountInCents()
+                        $operation->getAmountInCents(),
+                        $operation->getBankAccount()
                     );
                 },
             ],

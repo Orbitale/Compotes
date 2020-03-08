@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Operations;
 
+use App\Entity\BankAccount;
 use App\Entity\Operation;
 use App\Model\ImportOptions;
 use App\Repository\OperationRepository;
@@ -42,13 +43,13 @@ class OperationsImporter
         $this->sourceFilesDirectory = $sourceFilesDirectory;
     }
 
-    public function importFile(SplFileInfo $file, array $csvColumns = ImportOptions::CSV_COLUMNS, ImportOptions $importOptions = null, bool $flush = true): int
+    public function importFile(SplFileInfo $file, BankAccount $bankAccount, array $csvColumns = ImportOptions::CSV_COLUMNS, ImportOptions $importOptions = null, bool $flush = true): int
     {
         if (!$importOptions) {
             $importOptions = ImportOptions::create();
         }
 
-        $operations = $this->extractOperationsFromFile($file, $csvColumns, $importOptions);
+        $operations = $this->extractOperationsFromFile($file, $bankAccount, $csvColumns, $importOptions);
 
         $numberPersisted = 0;
 
@@ -64,7 +65,7 @@ class OperationsImporter
         return $numberPersisted;
     }
 
-    public function importFromSources(array $csvColumns, ImportOptions $importOptions = null): int
+    public function importFromSources(array $csvColumns, BankAccount $account, ImportOptions $importOptions = null): int
     {
         if (!$importOptions) {
             $importOptions = ImportOptions::create();
@@ -75,7 +76,7 @@ class OperationsImporter
         $numberPersisted = 0;
 
         foreach ($files as $file) {
-            $numberPersisted += $this->importFile($file, $csvColumns, $importOptions, false);
+            $numberPersisted += $this->importFile($file, $account, $csvColumns, $importOptions, false);
         }
 
         $this->em->flush();
@@ -86,7 +87,7 @@ class OperationsImporter
     /**
      * @return Generator<Operation>
      */
-    private function extractOperationsFromFile(SplFileInfo $file, array $csvColumns, ImportOptions $importOptions): Generator
+    private function extractOperationsFromFile(SplFileInfo $file, BankAccount $bankAccount, array $csvColumns, ImportOptions $importOptions): Generator
     {
         $filename = $file instanceof UploadedFile ? $file->getClientOriginalName() : $file->getBasename();
 
@@ -114,7 +115,7 @@ class OperationsImporter
         \fgetcsv($h, ...$csvFunctionArguments);
 
         while ($line = \fgetcsv($h, ...$csvFunctionArguments)) {
-            yield Operation::fromImportLine(\array_combine($csvColumns, $line));
+            yield Operation::fromImportLine($bankAccount, \array_combine($csvColumns, $line));
         }
     }
 }
