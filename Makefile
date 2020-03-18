@@ -191,6 +191,16 @@ lint: ## Execute some linters on the project
 	@symfony console lint:twig --show-deprecations
 .PHONY: lint
 
+##
+## Deployment methods
+##
+
+heroku-init: ## Sets up the project to use Heroku
+	bash heroku/create_project
+
+	@printf $(SCRIPT_TITLE_PATTERN) "Heroku" "Heroku project is set and pushed! If you want to entirely delete your application later, you can use the \"heroku apps:destroy\" command."
+.PHONY: heroku-init
+
 # Helper vars
 SCRIPT_TITLE_PATTERN := "\033[32m[%s]\033[0m %s\n"
 SCRIPT_ERROR_PATTERN := "\033[31m[%s]\033[0m %s\n"

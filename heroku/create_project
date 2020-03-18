@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+SCRIPT_TITLE_PATTERN="\033[32m[%s]\033[0m %s\n"
+SCRIPT_ERROR_PATTERN="\033[31m[%s]\033[0m %s\n"
+
+set -e
+
+DIR=$(dirname "$0")
+
+cd "${DIR}"/..
+
+printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Check for Heroku binary"
+if [[ -z ${HEROKU_BIN} ]]; then
+    HEROKU_BIN=$(command -v heroku)
+fi
+
+if [[ -z ${HEROKU_BIN} ]]; then
+    printf "${SCRIPT_ERROR_PATTERN}" "Heroku" "Cannot find the \"heroku\" command. Please install the Heroku CLI"
+    printf "${SCRIPT_ERROR_PATTERN}" "Heroku" "See: https://devcenter.heroku.com/articles/heroku-cli"
+    exit 1
+fi
+
+printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Show heroku version"
+${HEROKU_BIN} --version
+
+printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Checking if Heroku remote already exists"
+if git remote show heroku >/dev/null 2>&1; then
+    printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Remote exists"
+else
+    printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Remote does not exist, let's create a new Heroku project!"
+    ${HEROKU_BIN} create --region=eu
+
+    printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Add nodejs buildpack to build assets"
+    ${HEROKU_BIN} buildpacks:add heroku/nodejs
+    printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Add PHP buildpack, because it's a PHP app, remember? :)"
+    ${HEROKU_BIN} buildpacks:add heroku/php
+
+    printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Use JawsDB MySQL to setup a default database"
+    ${HEROKU_BIN} addons:create jawsdb:kitefin --version=5.7
+fi
+
+printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Please enter the password for the administration panel"
+echo -n " > "
+read -r USER_PASSWORD
+
+printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Add default environment variables to Heroku"
+DATABASE_URL=$(${HEROKU_BIN} config:get JAWSDB_URL)
+ADMIN_PASSWORD=$(php -r "echo password_hash('${USER_PASSWORD}', (defined('PASSWORD_ARGON2ID') ? PASSWORD_ARGON2ID : (defined('PASSWORD_ARGON2I') ? PASSWORD_ARGON2I : PASSWORD_BCRYPT)), ['cost'=>13,'time_cost'=>4,'memory_cost'=>(64*1024*1024)>>10,'threads'=>1]);")
+SECRET=$(</dev/urandom tr -dc '12345qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c50; echo "")
+${HEROKU_BIN} config:set APP_ENV=prod APP_SECRET="${SECRET}" DATABASE_URL="${DATABASE_URL}" ADMIN_PASSWORD="${ADMIN_PASSWORD}"
+
+printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Deploy!"
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+git push heroku ${CURRENT_BRANCH}:master
