@@ -26,13 +26,46 @@ This is a PHP/Symfony project, so:
 
 For any further question on how to customize the setup, feel free to run `make` to list all available commands, or directly check the `Makefile` itself.
 
+## Install Compotes on services
+
+Compotes is made to be self-hostable! We provide built-in solutions for easy setups and faster deployments.
+
+### Install on Heroku
+
+To install on Heroku, here are the requirements:
+
+* [Create an account on Heroku](https://signup.heroku.com/).
+* Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
+* Run `heroku login` as stated in the docs, to be able to create projects from the command line.
+* Have `git` installed.
+* Make sure you have **PHP 7.4** installed on your machine (it is used to generate the administration panel's password).
+
+If you fulfill all these, all you have to do is:
+
+* Clone the Compotes project on your machine.
+* Run `make heroku-init`.
+* Done!
+
+Once the project is created, you can open it via `heroku open`, with the password you specified during the installation command.
+
+If you encounter **any trouble**, please post a new Issue on the project, we will be glad to help!
+
+**Notes:**
+* If you do not have `make`, you can still run the same command via `heroku/create_project` with `bash`.
+  However, and even for Windows users, you can still have `make` on your machine by installing MinGW or Chocolatey.
+* This command is **interactive**, so you cannot automatize the creation of a project. The reason is that the password **must** be specified, at least for security reasons. Using the default `admin` password is insecure, and generating a random password might be too cumbersome for users now.
+* This creates a server instance with the `eu` region, not changeable for now.
+* It uses JawsDB MySQL with the verson 5.7, for now. If the project becomes compatible with more versions, we will update the project 😉.
+
+---
+
 # Operations
 
 Operations can be imported **from the backoffice** in the `Import operations` admin panel.
 
 The administration displays all the necessary requirements to make this work. Nothing to add here ☺.
 
-Here are the general requirements:
+Here are the overall requirements:
 
 * File format must be CSV.
 * File name must be `{year}-{month}.csv`.
@@ -82,8 +115,6 @@ Feel free to contribute 😉.
 * Implement more source file types like xls, ods, etc., that could be transformed to CSV before importing them. [PHPSpreadsheet](https://phpspreadsheet.readthedocs.io/) is already installed, though not used yet.
 * Custom source file format (only CSV for now, and that's perfectly fine for me).
 * Change input operation date format (for now it's `d/m/Y H:i:s O` as of French date format).
-* Multiple bank accounts (needs to migrate all existing data to a "default" account created via migration).
-* Operation currency (a single header, maybe a default value in the importer and the command too).
 * Add tests (this is a continuous task anyway ☺ ).
 * Support for Bills (a Bill object and a BillItem one, and maybe associate a Bill with one or more Operation objects with a OneToMany relationship so multiple operations can associate with one bill).
 * Support for "sub-operations" (to allow cutting an operation in multiple sub-operations so we can get the "details" of an operation, each sub-operation should also be able to be tagged).
@@ -103,6 +134,9 @@ Feel free to contribute 😉.
 * Add a lot of fixtures to play with.
 * Removed the "import from command line" feature. Using EasyAdmin allows more customization.
 * Added a big "triage" system to avoid having duplicates.
+* Multiple bank accounts (needs to migrate all existing data to a "default" account created via migration).
+* Operation currency (added via the bank account in the end).
+* Heroku auto-install script
 
 # License
 
