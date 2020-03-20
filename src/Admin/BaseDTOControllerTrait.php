@@ -32,7 +32,7 @@ trait BaseDTOControllerTrait
     /**
      * You can return a new instance if you want to override any existing entity instead of updating one (i.e when you have immutable objects).
      *
-     * @return object an instance of the configured Entity, or the same object that is passed as argument
+     * @return null|object an instance of the configured Entity, or the same object that is passed as argument
      */
     abstract protected function updateEntityWithDTO(object $entity, EasyAdminDTOInterface $dto): object;
 
@@ -69,13 +69,13 @@ trait BaseDTOControllerTrait
         $dtoClass = $this->doGetDTOClass();
 
         if (!($entity instanceof $dtoClass)) {
-            $entity = $dtoClass::createFromEntity($entity);
+            $entity = $this->createDTOFromEntity($entity);
         }
 
         return parent::createEntityFormBuilder($entity, $view);
     }
 
-    protected function updateEntity($entity, FormInterface $editForm = null): void
+    protected function updateEntity($entity, FormInterface $editForm = null): object
     {
         if (!$editForm) {
             throw new InvalidArgumentException('Form is mandatory to update entity.');
@@ -93,7 +93,18 @@ trait BaseDTOControllerTrait
             throw new InvalidArgumentException(\sprintf('Only %s is supported in this controller.', $entityClass));
         }
 
-        parent::updateEntity($this->updateEntityWithDTO($entity, $dto));
+        $updatedEntity = $this->updateEntityWithDTO($entity, $dto);
+
+        parent::updateEntity($updatedEntity);
+
+        return $updatedEntity;
+    }
+
+    protected function createDTOFromEntity(object $entity): EasyAdminDTOInterface
+    {
+        $class = $this->doGetDTOClass();
+
+        return $class::createFromEntity($entity);
     }
 
     /**
