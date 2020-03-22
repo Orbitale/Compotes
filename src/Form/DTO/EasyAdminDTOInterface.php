@@ -18,7 +18,7 @@ interface EasyAdminDTOInterface
     /**
      * @return static
      */
-    public static function createFromEntity(object $entity): self;
+    public static function createFromEntity(object $entity, array $options = []): self;
 
     /**
      * @return static

@@ -15,6 +15,7 @@ namespace App\Entity;
 
 use App\Form\DTO\AdminTagDTO;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
@@ -33,6 +34,8 @@ class Tag
 
     /**
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     *
+     * @Gedmo\Translatable()
      */
     private string $name = '';
 
@@ -41,6 +44,8 @@ class Tag
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
     private ?Tag $parent = null;
+
+    private ?string $locale = null;
 
     public function __toString(): string
     {
@@ -63,16 +68,14 @@ class Tag
     {
         $self = new self();
 
-        $self->setName($dto->name);
-        $self->parent = $dto->parent;
+        $self->populate($dto);
 
         return $self;
     }
 
     public function updateFromAdmin(AdminTagDTO $dto): void
     {
-        $this->setName($dto->name);
-        $this->parent = $dto->parent;
+        $this->populate($dto);
     }
 
     public function getId(): int
@@ -90,8 +93,20 @@ class Tag
         return $this->parent;
     }
 
-    private function setName(string $name): void
+    public function getTranslatableLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setName(string $name): void
     {
         $this->name = (new AsciiSlugger())->slug($name)->toString();
+    }
+
+    private function populate(AdminTagDTO $dto): void
+    {
+        $this->locale = 'en';
+        $this->setName($dto->translatedNames['en']);
+        $this->parent = $dto->parent;
     }
 }

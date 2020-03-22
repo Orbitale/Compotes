@@ -1,4 +1,8 @@
 parameters:
+    locale: en
+    locales:
+        - en
+        - fr
 
 services:
     _defaults:
@@ -6,12 +10,18 @@ services:
         autoconfigure: true
         bind:
             string $sourceFilesDirectory: '%kernel.project_dir%/account_exports'
+            array $locales: '%locales%'
 
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{DependencyInjection,Entity,Form\EventListener,Migrations,Tests,Kernel.php}'
 
     App\Controller\:
         resource: '../src/Controller'
         public: true
         autoconfigure: false
+
+    Gedmo\Translatable\Entity\Repository\TranslationRepository:
+        factory: [ '@doctrine', 'getRepository' ]
+        arguments:
+            - Gedmo\Translatable\Entity\Translation

@@ -5,6 +5,9 @@ easy_admin:
         max_results: 100
 
     design:
+        form_theme:
+            - '@EasyAdmin/form/bootstrap_4.html.twig'
+            - form/easyadmin_translatable_form.html.twig
         menu:
             - label: 'admin.menu.account_operations'
             - { icon: chart-bar, label: "admin.menu.analytics", route: analytics, default: true }
@@ -144,7 +147,8 @@ easy_admin:
                     - parent
             form:
                 fields:
-                    - name
+                    - property: translatedNames
+                      type: App\Form\Type\TranslatableStringType
                     - parent
                 actions:
                     - '-delete'

@@ -34,7 +34,7 @@ trait BaseDTOControllerTrait
      *
      * @return null|object an instance of the configured Entity, or the same object that is passed as argument
      */
-    abstract protected function updateEntityWithDTO(object $entity, EasyAdminDTOInterface $dto): object;
+    abstract protected function updateEntityWithDTO(object $entity, EasyAdminDTOInterface $dto): ?object;
 
     protected function createNewEntity(): EasyAdminDTOInterface
     {

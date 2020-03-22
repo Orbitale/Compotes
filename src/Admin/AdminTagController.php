@@ -17,10 +17,22 @@ use App\Entity\Tag;
 use App\Form\DTO\AdminTagDTO;
 use App\Form\DTO\EasyAdminDTOInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 
 class AdminTagController extends EasyAdminController
 {
     use BaseDTOControllerTrait;
+
+    private TranslationRepository $translationRepository;
+    private array $locales;
+
+    public function __construct(
+        TranslationRepository $translationRepository,
+        array $locales
+    ) {
+        $this->translationRepository = $translationRepository;
+        $this->locales = $locales;
+    }
 
     protected function getDTOClass(): string
     {
@@ -36,12 +48,29 @@ class AdminTagController extends EasyAdminController
     }
 
     /**
-     * @param Tag $entity
+     * @param Tag         $entity
+     * @param AdminTagDTO $dto
      */
     protected function updateEntityWithDTO(object $entity, EasyAdminDTOInterface $dto): object
     {
         $entity->updateFromAdmin($dto);
 
+        foreach ($this->locales as $locale) {
+            $this->translationRepository->translate($entity, 'name', $locale, $dto->translatedNames[$locale]);
+        }
+
         return $entity;
+    }
+
+    protected function createDTOFromEntity(object $entity): EasyAdminDTOInterface
+    {
+        $class = $this->doGetDTOClass();
+
+        $options = [
+            'translations' => $this->translationRepository->findTranslations($entity),
+            'locales' => $this->locales,
+        ];
+
+        return $class::createFromEntity($entity, $options);
     }
 }

@@ -20,9 +20,12 @@ class AdminTagDTO implements EasyAdminDTOInterface
 {
     /**
      * @Assert\NotBlank()
-     * @Assert\Type("string")
+     * @Assert\All(constraints={
+     *     @Assert\NotBlank(),
+     *     @Assert\Type("string")
+     * })
      */
-    public ?string $name = '';
+    public ?array $translatedNames = [];
 
     /**
      * @Assert\Type(App\Entity\Tag::class)
@@ -32,11 +35,28 @@ class AdminTagDTO implements EasyAdminDTOInterface
     /**
      * @param Tag $entity
      */
-    public static function createFromEntity(object $entity): EasyAdminDTOInterface
+    public static function createFromEntity(object $entity, array $options = []): EasyAdminDTOInterface
     {
         $self = new self();
 
-        $self->name = $entity->getName();
+        [
+            'translations' => $translations,
+            'locales' => $locales,
+        ] = $options;
+
+        if ($translations) {
+            foreach ($translations as $locale => $values) {
+                $self->translatedNames[$locale] = $values['name'];
+            }
+        }
+
+        foreach ($locales as $locale) {
+            if (isset($self->translatedNames[$locale])) {
+                continue;
+            }
+            $self->translatedNames[$locale] = $entity->getName();
+        }
+
         $self->parent = $entity->getParent();
 
         return $self;
