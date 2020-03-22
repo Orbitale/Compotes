@@ -133,6 +133,7 @@ easy_admin:
         Tag:
             class: App\Entity\Tag
             label: Tags
+            controller: App\Admin\AdminTagController
             list:
                 actions:
                     - 'show'
@@ -142,5 +143,8 @@ easy_admin:
                     - name
                     - parent
             form:
+                fields:
+                    - name
+                    - parent
                 actions:
                     - '-delete'

@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Form\DTO\AdminTagDTO;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
@@ -32,8 +32,6 @@ class Tag
     private $id;
 
     /**
-     * @Assert\NotBlank()
-     *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private string $name = '';
@@ -61,6 +59,22 @@ class Tag
         return \implode(' > ', $names);
     }
 
+    public static function fromAdmin(AdminTagDTO $dto): self
+    {
+        $self = new self();
+
+        $self->setName($dto->name);
+        $self->parent = $dto->parent;
+
+        return $self;
+    }
+
+    public function updateFromAdmin(AdminTagDTO $dto): void
+    {
+        $this->setName($dto->name);
+        $this->parent = $dto->parent;
+    }
+
     public function getId(): int
     {
         return (int) $this->id;
@@ -76,17 +90,8 @@ class Tag
         return $this->parent;
     }
 
-    public function setName(?string $name): void
+    private function setName(string $name): void
     {
-        if ($name) {
-            $name = (new AsciiSlugger())->slug($name);
-        }
-
-        $this->name = (string) $name;
-    }
-
-    public function setParent(?self $parent): void
-    {
-        $this->parent = $parent;
+        $this->name = (new AsciiSlugger())->slug($name)->toString();
     }
 }
