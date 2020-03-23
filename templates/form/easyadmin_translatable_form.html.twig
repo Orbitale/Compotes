@@ -1,0 +1,13 @@
+{% block translatable_string_widget %}
+    {% for child in form.children %}
+        <div class="row mb-1">
+            <div class="col col-sm-1" style="text-transform: uppercase">
+                {{ form_label(child) }}
+            </div>
+            <div class="col col-sm-11">
+                {{ form_widget(child) }}
+                {{ form_errors(child) }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

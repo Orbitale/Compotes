@@ -49,7 +49,7 @@ class AdminBankAccountDTO implements EasyAdminDTOInterface
     /**
      * @param BankAccount $entity
      */
-    public static function createFromEntity(object $entity): EasyAdminDTOInterface
+    public static function createFromEntity(object $entity, array $options = []): EasyAdminDTOInterface
     {
         return self::fromBankAccount($entity);
     }
