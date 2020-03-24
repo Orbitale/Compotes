@@ -24,8 +24,8 @@ use Doctrine\ORM\Mapping as ORM;
 class BankAccount
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;

@@ -71,9 +71,6 @@ return PhpCsFixer\Config::create()
         'global_namespace_import' => true,
         'native_constant_invocation' => true,
         'native_function_invocation' => true,
-        'doctrine_annotation_braces' => [
-            'syntax' => 'with_braces',
-        ],
         'php_unit_test_case_static_method_calls' => [
             'call_type' => 'static',
         ],

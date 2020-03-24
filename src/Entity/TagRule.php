@@ -25,8 +25,8 @@ use Doctrine\ORM\Mapping as ORM;
 class TagRule
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(name="id", type="integer")
      */
     private $id;

@@ -26,8 +26,8 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class Tag
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(name="id", type="integer")
      */
     private $id;

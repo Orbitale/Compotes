@@ -34,8 +34,8 @@ class Operation
     public const STATE_PENDING_TRIAGE = 'pending_triage';
 
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(name="id", type="integer")
      */
     private $id;

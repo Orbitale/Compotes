@@ -28,8 +28,8 @@ class AdminBankAccountDTO implements EasyAdminDTOInterface
     /**
      * @var string
      *
-     * @Assert\NotBlank()
-     * @Assert\Currency()
+     * @Assert\NotBlank
+     * @Assert\Currency
      */
     public $currency = 'EUR';
 
