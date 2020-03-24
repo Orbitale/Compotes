@@ -14,12 +14,17 @@ declare(strict_types=1);
 namespace App\Form\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\Event\PostSetDataEvent;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 class TranslatableStringListener implements EventSubscriberInterface
 {
+    private const LOCALES_LABELS = [
+        'en' => '🇬🇧',
+        'fr' => '🇫🇷',
+    ];
+
     private array $locales;
 
     public function __construct(array $locales)
@@ -27,7 +32,14 @@ class TranslatableStringListener implements EventSubscriberInterface
         $this->locales = $locales;
     }
 
-    public function addTranslatableFields(PostSetDataEvent $event): void
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            FormEvents::POST_SET_DATA => 'addTranslatableFields',
+        ];
+    }
+
+    public function addTranslatableFields(FormEvent $event): void
     {
         $form = $event->getForm();
         $data = $event->getData();
@@ -40,29 +52,10 @@ class TranslatableStringListener implements EventSubscriberInterface
         }
 
         foreach ($data as $locale => $translatedString) {
-            switch ($locale) {
-                case 'fr': $label = '🇫🇷';
-
-break;
-                case 'en': $label = '🇬🇧';
-
-break;
-                default: $label = $locale;
-
-break;
-            }
-
             $form->add($locale, TextType::class, [
-                'label' => $label,
+                'label' => self::LOCALES_LABELS[$locale] ?? $locale,
                 'data' => $translatedString,
             ]);
         }
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            FormEvents::POST_SET_DATA => 'addTranslatableFields',
-        ];
     }
 }

@@ -16,8 +16,10 @@ namespace App\Form\DTO;
 use App\Entity\Tag;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class AdminTagDTO implements EasyAdminDTOInterface
+class AdminTagDTO implements EasyAdminDTOInterface, TranslatableDTOInterface
 {
+    use TranslatableDTOTrait;
+
     /**
      * @Assert\NotBlank()
      * @Assert\All(constraints={
@@ -34,28 +36,14 @@ class AdminTagDTO implements EasyAdminDTOInterface
 
     /**
      * @param Tag $entity
+     *
+     * @return self
      */
     public static function createFromEntity(object $entity, array $options = []): EasyAdminDTOInterface
     {
         $self = new self();
 
-        [
-            'translations' => $translations,
-            'locales' => $locales,
-        ] = $options;
-
-        if ($translations) {
-            foreach ($translations as $locale => $values) {
-                $self->translatedNames[$locale] = $values['name'];
-            }
-        }
-
-        foreach ($locales as $locale) {
-            if (isset($self->translatedNames[$locale])) {
-                continue;
-            }
-            $self->translatedNames[$locale] = $entity->getName();
-        }
+        $self->setTranslationsFromEntity($entity, $options);
 
         $self->parent = $entity->getParent();
 
@@ -68,5 +56,12 @@ class AdminTagDTO implements EasyAdminDTOInterface
     public static function createEmpty(): EasyAdminDTOInterface
     {
         return new self();
+    }
+
+    public static function getTranslatableFields(): array
+    {
+        return [
+            'name' => 'translatedNames',
+        ];
     }
 }

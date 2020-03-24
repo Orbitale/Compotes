@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Form\DTO\EasyAdminDTOInterface;
+use App\Form\DTO\TranslatableDTOInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +24,25 @@ use Symfony\Component\Form\FormInterface;
 
 trait BaseDTOControllerTrait
 {
+    private TranslationRepository $translationRepository;
+    private array $locales;
+
+    /**
+     * @required
+     */
+    public function setTranslationRepository(TranslationRepository $translationRepository): void
+    {
+        $this->translationRepository = $translationRepository;
+    }
+
+    /**
+     * @required
+     */
+    public function setLocales(array $locales): void
+    {
+        $this->locales = $locales;
+    }
+
     abstract protected function getDTOClass(): string;
 
     /**
@@ -32,9 +53,9 @@ trait BaseDTOControllerTrait
     /**
      * You can return a new instance if you want to override any existing entity instead of updating one (i.e when you have immutable objects).
      *
-     * @return null|object an instance of the configured Entity, or the same object that is passed as argument
+     * @return object an instance of the configured Entity, or the same object that is passed as argument
      */
-    abstract protected function updateEntityWithDTO(object $entity, EasyAdminDTOInterface $dto): ?object;
+    abstract protected function updateEntityWithDTO(object $entity, EasyAdminDTOInterface $dto): object;
 
     protected function createNewEntity(): EasyAdminDTOInterface
     {
@@ -43,7 +64,7 @@ trait BaseDTOControllerTrait
         return $dtoClass::createEmpty();
     }
 
-    protected function persistEntity($object): void
+    protected function persistEntity($object): object
     {
         $dtoClass = $this->doGetDTOClass();
 
@@ -51,7 +72,11 @@ trait BaseDTOControllerTrait
             throw new InvalidArgumentException('DTO is not of valid type.');
         }
 
-        parent::persistEntity($this->createEntityFromDTO($object));
+        $entity = $this->createEntityFromDTO($object);
+
+        parent::persistEntity($entity);
+
+        return $entity;
     }
 
     protected function getEntityFormOptions($entity, $view): array
@@ -102,9 +127,28 @@ trait BaseDTOControllerTrait
 
     protected function createDTOFromEntity(object $entity): EasyAdminDTOInterface
     {
-        $class = $this->doGetDTOClass();
+        /** @var EasyAdminDTOInterface $dtoClass */
+        $dtoClass = $this->getDTOClass();
 
-        return $class::createFromEntity($entity);
+        $options = [];
+
+        if (\is_subclass_of($dtoClass, TranslatableDTOInterface::class, true)) {
+            $options['translations'] = $this->translationRepository->findTranslations($entity);
+            $options['locales'] = $this->locales;
+        }
+
+        return $dtoClass::createFromEntity($entity, $options);
+    }
+
+    protected function translateEntityFieldsFromDTO(object $entity, EasyAdminDTOInterface $dto): void
+    {
+        if ($dto instanceof TranslatableDTOInterface) {
+            foreach ($this->locales as $locale) {
+                foreach ($dto::getTranslatableFields() as $entityField => $dtoField) {
+                    $this->translationRepository->translate($entity, $entityField, $locale, $dto->{$dtoField}[$locale]);
+                }
+            }
+        }
     }
 
     /**

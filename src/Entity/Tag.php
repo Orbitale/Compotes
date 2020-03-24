@@ -45,6 +45,9 @@ class Tag
      */
     private ?Tag $parent = null;
 
+    /**
+     * @Gedmo\Locale()
+     */
     private ?string $locale = null;
 
     public function __toString(): string
