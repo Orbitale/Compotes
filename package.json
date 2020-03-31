@@ -4,7 +4,7 @@
         "core-js": "^3.0.0",
         "highcharts": "^8.0.0",
         "regenerator-runtime": "^0.13.2",
-        "ts-loader": "^6.2.1",
+        "ts-loader": "^5.3.3",
         "typescript": "^3.7.5",
         "@shopify/draggable": "^1.0.0-beta.9",
         "webpack-notifier": "^1.6.0"
