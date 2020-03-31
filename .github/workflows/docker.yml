@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - master
+            - docker
         tags:
             - '*'
 
@@ -16,14 +17,6 @@ jobs:
               with:
                   fetch-depth: 1
 
-            - name: 'Set up version name'
-              run: |
-                # Uses implicit behavior from opspresso/action-docker to check for "./target/TAG_NAME"
-                # Transforms things like "refs/tags/v1.0.0" into "v1.0.0"
-                mkdir ./target/
-                GITHUB_REF="${{ github.ref }}"
-                echo ${GITHUB_REF/#refs\/*\/} > ./target/TAG_NAME
-
             - name: Build & push base PHP image
               uses: opspresso/action-docker@master
               with:
@@ -34,13 +27,12 @@ jobs:
                   IMAGE_NAME: "orbitale/compotes-php"
 
             # Wait until https://github.com/opspresso/action-docker/pull/6 is merged.
-            #- name: Build & push Compotes image
-            #  uses: opspresso/action-docker@master
-            #  with:
-            #      args: --docker
-            #  env:
-            #      USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            #      PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-            #      BUILD_PATH: "Dockerfile.standalone"
-            #      TAG_NAME: "latest"
-            #      IMAGE_NAME: "orbitale/compotes"
+            - name: Build & push Compotes image
+              uses: opspresso/action-docker@master
+              with:
+                  args: --docker
+              env:
+                  USERNAME: ${{ secrets.DOCKER_USERNAME }}
+                  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+                  DOCKERFILE: "Dockerfile.full"
+                  IMAGE_NAME: "orbitale/compotes"
