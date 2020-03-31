@@ -20,6 +20,7 @@ RUN set -xe \
         openssh-client \
         unzip \
     \
+    && chmod a+x /bin/entrypoint \
     && `# Deb Sury PHP repository` \
     && apt-get -y install apt-transport-https lsb-release ca-certificates curl \
     && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
@@ -28,7 +29,7 @@ RUN set -xe \
     \
     && `# User management for entrypoint` \
     && curl -L -s -o /bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture | awk -F- '{ print $NF }') \
-    && chmod +x /bin/gosu \
+    && chmod a+x /bin/gosu \
     && mkdir -p /home \
     && groupadd ${RUN_USER} \
     && adduser --home=/home --shell=/bin/bash --ingroup=${RUN_USER} --disabled-password --quiet --gecos "" --force-badname ${RUN_USER} \

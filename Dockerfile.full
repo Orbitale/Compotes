@@ -48,6 +48,7 @@ RUN cd /srv \
     && composer install --optimize-autoloader --no-dev --no-progress \
     && bin/console --no-interaction cache:warmup \
     && bin/console --no-interaction doctrine:database:create \
-    && bin/console --no-interaction doctrine:migration:migrate
+    && bin/console --no-interaction doctrine:schema:create \
+    && bin/console --no-interaction doctrine:fixtures:load
 
 VOLUME ["/srv/var"]
