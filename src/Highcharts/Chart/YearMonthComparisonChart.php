@@ -37,7 +37,7 @@ class YearMonthComparisonChart extends AbstractSplineChart
             }
 
             if (!isset($series[$year]['data'][$month])) {
-                $series[$year]['data'][$month] = 0;
+                $series[$year]['data'][$month] = null;
             }
 
             $series[$year]['data'][$month] += (int) ($operation->getAmountInCents() / 100);
@@ -47,7 +47,7 @@ class YearMonthComparisonChart extends AbstractSplineChart
             for ($i = 1; $i <= 12; $i++) {
                 $y = str_pad((string) $i, 2, '0', STR_PAD_LEFT);
                 if (!isset($data['data'][$y])){
-                    $data['data'][$y] = 0;
+                    $data['data'][$y] = null;
                 }
             }
             ksort($data['data']);
