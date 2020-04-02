@@ -1,0 +1,54 @@
+############################
+# Start by building assets #
+############################
+FROM node:12 as assets
+
+WORKDIR /srv
+
+COPY ./package.json /srv/package.json
+COPY ./package-lock.json /srv/package-lock.json
+COPY ./webpack.config.js /srv/webpack.config.js
+COPY ./tsconfig.json /srv/tsconfig.json
+COPY ./assets /srv/assets
+
+RUN mkdir -p /srv/public/build \
+    && cd /srv \
+    && npm install \
+    && npm run build
+
+############################
+# Now, build the PHP image #
+############################
+FROM orbitale/compotes-php:latest
+
+LABEL maintainer="pierstoval@gmail.com"
+
+ENV DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db \
+    APP_ENV=prod \
+    ADMIN_PASSWORD='\$argon2id\$v=19\$m=65536,t=4,p=1\$WnZYQUFKM0FJMTVlYVhobQ\$WHgKMaQDf27iwXQHW/xQg2w7vg0/bnSNERqJ4j5pnWA'
+
+COPY composer.json /srv/composer.json
+COPY composer.json /srv/composer.json
+COPY .env /srv/.env
+COPY LICENSE /srv/LICENSE
+COPY symfony.lock /srv/symfony.lock
+COPY account_exports /srv/account_exports
+COPY bin /srv/bin
+COPY config /srv/config
+COPY public /srv/public
+COPY resources /srv/resources
+COPY src /srv/src
+COPY templates /srv/templates
+COPY translations /srv/translations
+COPY --from=assets /srv/public/build /srv/public/build
+
+RUN cd /srv \
+    && mkdir -p /srv/vendor \
+    && chown -R ${RUN_USER}:${RUN_USER} /srv/vendor \
+    && composer install --optimize-autoloader --no-dev --no-progress \
+    && bin/console --no-interaction cache:warmup \
+    && bin/console --no-interaction doctrine:database:create \
+    && bin/console --no-interaction doctrine:schema:create \
+    && bin/console --no-interaction doctrine:fixtures:load
+
+VOLUME ["/srv/var"]
