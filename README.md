@@ -22,7 +22,9 @@ This is a PHP/Symfony project, so:
 * Make sure you have [Docker](https://www.docker.com/) installed and accessible globally, as well as Docker Compose.
   > Note: if you do not want to use Docker, then you need a MySQL server and you must change the `DATABASE_URL` value in `.env.local` to point it to your running server. You will also need to install Node.js 12+.
 * Run `make install` to install the dependencies (if you do not use Docker, check the `Makefile` to know what commands to execute).
-* That's it, it's running! Go to [https://127.0.0.1:8000](https://127.0.0.1:8000), default credentials are `admin`/`admin`.
+* That's it, it's running! 
+ * At this stage, you can go to [https://127.0.0.1:8000](https://127.0.0.1:8000), default credentials are `admin`/`admin`.
+ * Or you can also run `make open` and enjoy :)
 
 For any further question on how to customize the setup, feel free to run `make` to list all available commands, or directly check the `Makefile` itself.
 
