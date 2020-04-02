@@ -1,6 +1,11 @@
-## Upcoming
+## v0.9.0
 
 * Added automatic Heroku installer, so you can `git clone ...` and `make heroku-init` just to create your own instance! 🚀
+* Made Tag entity translatable and configured translations in EasyAdmin's backoffice.
+* Updated all PHP and NodeJS dependencies.
+* Simplified deploy script a bit.
+* Added Docker images for PHP and for the full app! Documentation will come soon :)
+* Fix issue with YearMonthComparison chart where data wasn't properly sorted with months.
 
 ## v0.8.0 (08 Mar 2020)
 
