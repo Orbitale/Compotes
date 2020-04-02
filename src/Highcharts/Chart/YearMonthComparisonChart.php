@@ -44,6 +44,13 @@ class YearMonthComparisonChart extends AbstractSplineChart
         }
 
         foreach ($series as $year => $data) {
+            for ($i = 1; $i <= 12; $i++) {
+                $y = str_pad((string) $i, 2, '0', STR_PAD_LEFT);
+                if (!isset($data['data'][$y])){
+                    $data['data'][$y] = 0;
+                }
+            }
+            ksort($data['data']);
             $series[$year]['data'] = \array_values($data['data']);
         }
 
