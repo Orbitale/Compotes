@@ -77,7 +77,7 @@ class OperationMonthFilterType extends FilterType
         ));
 
         $queryBuilder
-            ->where('entity.operationDate >= :first_day')
+            ->andWhere('entity.operationDate >= :first_day')
             ->andWhere('entity.operationDate <= :last_day')
             ->setParameter('first_day', $firstDay)
             ->setParameter('last_day', $lastDay)
