@@ -1,3 +1,7 @@
+## v0.9.1
+
+* Fix issue preventing filtering the list of operations while using the search engine
+
 ## v0.9.0
 
 * Added automatic Heroku installer, so you can `git clone ...` and `make heroku-init` just to create your own instance! 🚀
