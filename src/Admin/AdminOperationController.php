@@ -22,6 +22,18 @@ class AdminOperationController extends EasyAdminController
     {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
+        return $this->joinTags($qb);
+    }
+
+    protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = null, $sortDirection = null, $dqlFilter = null)
+    {
+        $qb = parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
+
+        return $this->joinTags($qb);
+    }
+
+    protected function joinTags(QueryBuilder $qb): QueryBuilder
+    {
         $qb
             ->leftJoin('entity.tags', 'tags')
             ->addSelect('tags')
