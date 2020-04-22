@@ -2,7 +2,7 @@ index:
     path: /
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
     defaults:
-        route: easyadmin
+        route: dashboard
 
 logout:
     path: /logout

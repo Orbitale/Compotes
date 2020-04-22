@@ -14,12 +14,16 @@ services:
 
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Form\EventListener,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{Admin,DependencyInjection,Entity,Form\EventListener,Migrations,Tests,Kernel.php}'
 
     App\Controller\:
         resource: '../src/Controller'
         public: true
         autoconfigure: false
+
+    App\Controller\Admin\:
+        resource: '../src/Controller/Admin'
+        public: true
 
     Gedmo\Translatable\Entity\Repository\TranslationRepository:
         factory: [ '@doctrine', 'getRepository' ]
