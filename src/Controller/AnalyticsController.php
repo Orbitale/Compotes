@@ -72,6 +72,10 @@ class AnalyticsController
                 'tab.comparisons' => [
                     new YearMonthComparisonChart($operations),
                 ],
+                'tab.earnings_expenses' => [
+                    new MonthlyEarningsChart($operations),
+                    new MonthlyExpensesChart($operations),
+                ],
             ],
         ]));
     }
