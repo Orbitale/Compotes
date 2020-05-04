@@ -62,19 +62,19 @@ class AnalyticsFilters
 
                     return;
                 case DateRanges::THIS_MONTH:
-                    $this->startDate = (new DateTimeImmutable())->setDate((int) date('Y'), date('m'), 1)->setTime(0, 0, 0);
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) \date('Y'), \date('m'), 1)->setTime(0, 0, 0);
 
                     return;
                 case DateRanges::LAST_MONTH:
-                    $this->startDate = (new DateTimeImmutable())->setDate((int) date('Y'), date('m')-1, 1)->setTime(0, 0, 0);
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) \date('Y'), \date('m') - 1, 1)->setTime(0, 0, 0);
 
                     return;
                 case DateRanges::THIS_YEAR:
-                    $this->startDate = (new DateTimeImmutable())->setDate((int) date('Y'), 1, 1)->setTime(0, 0, 0);
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) \date('Y'), 1, 1)->setTime(0, 0, 0);
 
                     return;
                 case DateRanges::LAST_YEAR:
-                    $this->startDate = (new DateTimeImmutable())->setDate((int) date('Y') - 1, 1, 1)->setTime(0, 0, 0);
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) \date('Y') - 1, 1, 1)->setTime(0, 0, 0);
 
                     return;
                 default:
@@ -109,11 +109,11 @@ class AnalyticsFilters
 
                     return;
                 case DateRanges::THIS_YEAR:
-                    $this->endDate = (new DateTimeImmutable())->setDate((int) date('Y'), 12, 31)->setTime(23, 59, 59);
+                    $this->endDate = (new DateTimeImmutable())->setDate((int) \date('Y'), 12, 31)->setTime(23, 59, 59);
 
                     return;
                 case DateRanges::LAST_YEAR:
-                    $this->endDate = (new DateTimeImmutable())->setDate((int) date('Y') - 1, 12, 31)->setTime(23, 59, 59);
+                    $this->endDate = (new DateTimeImmutable())->setDate((int) \date('Y') - 1, 12, 31)->setTime(23, 59, 59);
 
                     return;
                 default:
