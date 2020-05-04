@@ -16,6 +16,8 @@ namespace App\Controller;
 use App\Form\DTO\AnalyticsFilters;
 use App\Form\Type\AnalyticsFiltersType;
 use App\Highcharts\Chart\MonthlyBalanceChart;
+use App\Highcharts\Chart\MonthlyEarningsChart;
+use App\Highcharts\Chart\MonthlyExpensesChart;
 use App\Highcharts\Chart\TagAmountChart;
 use App\Highcharts\Chart\TagUsageChart;
 use App\Highcharts\Chart\YearlyBalanceChart;
@@ -59,15 +61,15 @@ class AnalyticsController
         return new Response($this->twig->render('analytics.html.twig', [
             'filters_form' => $form->createView(),
             'charts_list' => [
-                'tags' => [
+                'tab.tags' => [
                     new TagUsageChart($operations),
                     new TagAmountChart($operations),
                 ],
-                'balance' => [
+                'tab.balance' => [
                     new YearlyBalanceChart($operations),
                     new MonthlyBalanceChart($operations),
                 ],
-                'comparisons' => [
+                'tab.comparisons' => [
                     new YearMonthComparisonChart($operations),
                 ],
             ],

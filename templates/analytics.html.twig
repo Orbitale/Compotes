@@ -10,36 +10,38 @@
 
     <ul class="nav nav-tabs" role="tablist">
         {% for key, charts in charts_list %}
+            {% set slug = key|slug %}
             <li class="nav-item">
                 <a class="nav-link{{ loop.first ? ' active' }}"
-                   id="{{ key }}-tab"
+                   id="{{ slug }}-tab"
                    data-toggle="tab"
-                   href="#{{ key }}"
+                   href="#{{ slug }}"
                    role="tab"
-                   aria-controls="{{ key }}"
+                   aria-controls="{{ slug }}"
                    aria-selected="true"
                 >
-                    {{ key|title }}
+                    {{ key|trans }}
                 </a>
             </li>
         {% endfor %}
     </ul>
     <div class="tab-content" id="myTabContent">
         {% for key, charts in charts_list %}
-        <div class="tab-pane fade {{ loop.first ? ' show active' }}"
-             id="{{ key }}"
-             role="tabpanel"
-             aria-labelledby="{{ key }}-tab"
-        >
-            {% for chart in charts %}
-                <div id="{{ chart.name|slug }}"></div>
-                {% if not loop.last %}
-                    <hr>
-                    <br>
-                    <hr>
-                {% endif %}
-            {% endfor %}
-        </div>
+            {% set slug = key|slug %}
+            <div class="tab-pane fade {{ loop.first ? ' show active' }}"
+                 id="{{ slug }}"
+                 role="tabpanel"
+                 aria-labelledby="{{ slug }}-tab"
+            >
+                {% for chart in charts %}
+                    <div id="{{ chart.name|slug }}"></div>
+                    {% if not loop.last %}
+                        <hr>
+                        <br>
+                        <hr>
+                    {% endif %}
+                {% endfor %}
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
