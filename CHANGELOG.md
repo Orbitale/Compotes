@@ -1,10 +1,19 @@
+## Next version
+
+* Fix date ranges for analytics filter that triggered an error.
+* Added "Monthly earnings" chart.
+* Added "Monthly expenses" chart.
+* Added a config to set up the project on a dedicated server or VPS via `make setup-prod`.
+* Updated documentation and reorganized it a bit.
+* Analytics tab names are now translatable
+
 ## v0.9.1
 
 * Fix issue preventing filtering the list of operations while using the search engine
 
 ## v0.9.0
 
-* Added automatic Heroku installer, so you can `git clone ...` and `make heroku-init` just to create your own instance! 🚀
+* Added automatic Heroku installer, so you can `git clone ...` and `make setup-heroku` just to create your own instance! 🚀
 * Made Tag entity translatable and configured translations in EasyAdmin's backoffice.
 * Updated all PHP and NodeJS dependencies.
 * Simplified deploy script a bit.

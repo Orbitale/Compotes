@@ -1,11 +1,32 @@
+![](https://github.com/Orbitale/compotes/workflows/Docker%20Image/badge.svg)
+![](https://github.com/Orbitale/compotes/workflows/Node.js/badge.svg)
+![](https://github.com/Orbitale/compotes/workflows/PHP/badge.svg)
+
+
 🍎 Compotes 🍏
 =============
 
-A <abbr title="Work in progress">WIP</abbr> application to view bank operations.
-
-This is meant to be used locally, for **your local machine**, not online. That would be quite unfortunate to view all your bank operations in a row.
+A small application to visualise bank operations in graphs and plots.
 
 **🧮**
+
+![Compotes screenshot](./doc/assets/compotes_screenshot.png)
+
+---
+
+# Documentation index
+
+* [Contribute](#contribute)
+* [Install](#install)
+  * [Install on Heroku](./doc/install_heroku.md)
+  * [Install on a dedicated server, VM or VPS](./doc/install_server.md)
+    * [Troubleshooting](./doc/install_server.md#troubleshooting)
+    * [How to restart `php-fpm` without `sudo` asking for my password?](./doc/install_server.md#how-to-restart-php-fpm-without-sudo-asking-for-my-password)
+* [Operations](#operations)
+* [Set up the administration panel](#set-up-the-administration-panel)
+* [Project's roadmap](#roadmaptodo-list)
+
+---
 
 # Contribute
 
@@ -14,6 +35,8 @@ If you want to contribute, you can directly go to the [Roadmap](#roadmaptodo-lis
 Some of them are really straightforward!
 
 # Install
+
+**Note:** This project is meant to be used **locally**. Put it online **at your own risk**, since these may contain sensitive information of your own.
 
 This is a PHP/Symfony project, so:
 
@@ -30,96 +53,42 @@ For any further question on how to customize the setup, feel free to run `make` 
 
 ## Install Compotes on services
 
-Compotes is made to be self-hostable! We provide built-in solutions for easy setups and faster deployments.
+Compotes is made to be self-hostable!
 
-### Install on Heroku
+We provide built-in solutions for easy setups and faster deployments.
 
-To install on Heroku, here are the requirements:
-
-* [Create an account on Heroku](https://signup.heroku.com/).
-* Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
-* Run `heroku login` as stated in the docs, to be able to create projects from the command line.
-* Have `git` installed.
-* Make sure you have **PHP 7.4** installed on your machine (it is used to generate the administration panel's password).
-
-If you fulfill all these, all you have to do is:
-
-* Clone the Compotes project on your machine.
-* Run `make heroku-init`.
-* Done!
-
-Once the project is created, you can open it via `heroku open`, with the password you specified during the installation command.
-
-If you encounter **any trouble**, please post a new Issue on the project, we will be glad to help!
-
-**Notes:**
-* If you do not have `make`, you can still run the same command via `heroku/create_project` with `bash`.
-  However, and even for Windows users, you can still have `make` on your machine by installing MinGW or Chocolatey.
-* This command is **interactive**, so you cannot automatize the creation of a project. The reason is that the password **must** be specified, at least for security reasons. Using the default `admin` password is insecure, and generating a random password might be too cumbersome for users now.
-* This creates a server instance with the `eu` region, not changeable for now.
-* It uses JawsDB MySQL with the verson 5.7, for now. If the project becomes compatible with more versions, we will update the project 😉.
-
----
+### [Install on Heroku](./doc/install_heroku.md)
+### [Install on a dedicated server, VM or VPS](./doc/install_server.md)
 
 # Operations
 
-Operations can be imported **from the backoffice** in the `Import operations` admin panel.
+The concept of `Operation` is omnipresent in Compotes.
 
-The administration displays all the necessary requirements to make this work. Nothing to add here ☺.
+An operation represents a single bank account operation that you must have imported from your bank data.
 
-Here are the overall requirements:
-
-* File format must be CSV.
-* File name must be `{year}-{month}.csv`.
-* **First line of the file is ignored**, so it can contain headers or an empty line or anything.
-* Each line column must be the following, **in this order**:
-  1. Date in `d/m/Y` format (nothing else supported for now).
-  2. Operation type (given by bank provider, can be an empty string).
-  3. Display type (not mandatory, can be an empty string).
-  4. Operation details (can be a longer string).
-  5. Amount of the operation. Can be a negative number.
-     > Note that this can be a string like `1 234,55` or `1,234.55`. Every non-digit character (except `+` and `-`) will be removed and all remaining numbers will make the amount **in cents**. Do not store floats to avoid [floating point issues](https://0.30000000000000004.com/) (read this link, if you need to know why you should avoid storing floats).
+Check the [operations documentation](./doc/operations.md) for more.
 
 # Set up the administration panel
 
-The default **username** for the admin panel is `admin`, but you can change it by overriding the `ADMIN_USER` environment variable in your `.env.local` file.
+As everything is made on Compotes for a quick setup, there might be things you want to change, such as the **administration password**.
 
-If you want to change the password, you can run the `make admin-password` command and inject the password as an environment variable, like this:
-
-```
-$ make -e DEFAULT_ADMIN_PASSWORD=yourpassword admin-password
-[PHP] Overwrite existing password in ".env.local"
-```
-
-The password will be saved inside an `.env.local` file at the root of the project, which may look like this:
-
-```
-# .env.local
-
-# Set to "admin" by default, but could be overriden to anything you like with the "make admin-password" command.
-ADMIN_PASSWORD='$argon2id$v=19$m=65536,t=4,p=1$N0R4Zi5hUWQ3QXB0bjVGdg$VsVcHzGRfGPlEbLo/JK0M4S0QT5Mx7wd+vbwXanjpb8'
-
-# Not here by default, but you can override it, if you need.
-ADMIN_USER=admin
-
-```
-
-**Important note:** do not forget to add single quotes `'` around the hashed password, else the `$` sign will cause issues (or you can also escape it with `\$` instead of `$`).
+Check the [admin panel documentation](./doc/setup_admin.md) for more.
 
 # Roadmap/TODO list
 
 Feel free to contribute 😉.
 
-* (Easy pick!) Make many analytics dashboards (that's what this app is for in the first place, with Highcharts).
+* (Easy pick!) Make many **more analytics dashboards** (that's what this app is for in the first place, with Highcharts).
 * Use the "triage" feature in the "import file" command.
+* Allow a **preview of an imported CSV file** (really important!).
 * Support JS closures in Chart objects (by using a placeholder to remove quotes maybe?).
-* Add translations for tags (maybe using an extension like gedmo or knp?).
+* Add **tags translations** (maybe using an extension like gedmo or knp?).
 * Implement more source file types like xls, ods, etc., that could be transformed to CSV before importing them. [PHPSpreadsheet](https://phpspreadsheet.readthedocs.io/) is already installed, though not used yet.
 * Custom source file format (only CSV for now, and that's perfectly fine for me).
-* Change input operation date format (for now it's `d/m/Y H:i:s O` as of French date format).
-* Add tests (this is a continuous task anyway ☺ ).
-* Support for Bills (a Bill object and a BillItem one, and maybe associate a Bill with one or more Operation objects with a OneToMany relationship so multiple operations can associate with one bill).
-* Support for "sub-operations" (to allow cutting an operation in multiple sub-operations so we can get the "details" of an operation, each sub-operation should also be able to be tagged).
+* Change input **operation date format** (for now it's `d/m/Y H:i:s O` as of French date format).
+* Add **tests** (this is a continuous task anyway ☺ ).
+* Support for **Bills** (a Bill object and a BillItem one, and maybe associate a Bill with one or more Operation objects with a OneToMany relationship so multiple operations can associate with one bill).
+* Support for **sub-operations** (to allow cutting an operation in multiple sub-operations so we can get the "details" of an operation, each sub-operation should also be able to be tagged).
 * Imagine a support for Sylius bundles?
 
 **✔️ Done already:**
