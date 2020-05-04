@@ -46,7 +46,7 @@ class AnalyticsFilters
         if ($this->dateRange) {
             switch ($this->dateRange) {
                 case DateRanges::TODAY:
-                    $this->startDate = new DateTimeImmutable('today 00:00:00');
+                    $this->startDate = (new DateTimeImmutable())->setTime(0, 0, 0);
 
                     return;
                 case DateRanges::THIS_WEEK:
@@ -62,19 +62,19 @@ class AnalyticsFilters
 
                     return;
                 case DateRanges::THIS_MONTH:
-                    $this->startDate = new DateTimeImmutable('first day of this month 00:00:00');
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) date('Y'), date('m'), 1)->setTime(0, 0, 0);
 
                     return;
                 case DateRanges::LAST_MONTH:
-                    $this->startDate = new DateTimeImmutable('first day of last month 00:00:00');
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) date('Y'), date('m')-1, 1)->setTime(0, 0, 0);
 
                     return;
                 case DateRanges::THIS_YEAR:
-                    $this->startDate = new DateTimeImmutable('first day of this year 00:00:00');
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) date('Y'), 1, 1)->setTime(0, 0, 0);
 
                     return;
                 case DateRanges::LAST_YEAR:
-                    $this->startDate = new DateTimeImmutable('first day of last year 00:00:00');
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) date('Y') - 1, 1, 1)->setTime(0, 0, 0);
 
                     return;
                 default:
@@ -109,11 +109,11 @@ class AnalyticsFilters
 
                     return;
                 case DateRanges::THIS_YEAR:
-                    $this->endDate = new DateTimeImmutable('last day of this year 23:59:59');
+                    $this->endDate = (new DateTimeImmutable())->setDate((int) date('Y'), 12, 31)->setTime(23, 59, 59);
 
                     return;
                 case DateRanges::LAST_YEAR:
-                    $this->endDate = new DateTimeImmutable('last day of last year 23:59:59');
+                    $this->endDate = (new DateTimeImmutable())->setDate((int) date('Y') - 1, 12, 31)->setTime(23, 59, 59);
 
                     return;
                 default:
