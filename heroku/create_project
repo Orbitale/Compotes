@@ -45,7 +45,7 @@ read -r USER_PASSWORD
 
 printf "${SCRIPT_TITLE_PATTERN}" "Heroku" "Add default environment variables to Heroku"
 DATABASE_URL=$(${HEROKU_BIN} config:get JAWSDB_URL)
-ADMIN_PASSWORD=$(php -r "echo password_hash('${USER_PASSWORD}', (defined('PASSWORD_ARGON2ID') ? PASSWORD_ARGON2ID : (defined('PASSWORD_ARGON2I') ? PASSWORD_ARGON2I : PASSWORD_BCRYPT)), ['cost'=>13,'time_cost'=>4,'memory_cost'=>(64*1024*1024)>>10,'threads'=>1]);")
+ADMIN_PASSWORD=$(php bin/generate_password.php "${USER_PASSWORD}")
 SECRET=$(</dev/urandom tr -dc '12345qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c50; echo "")
 ${HEROKU_BIN} config:set APP_ENV=prod APP_SECRET="${SECRET}" DATABASE_URL="${DATABASE_URL}" ADMIN_PASSWORD="${ADMIN_PASSWORD}"
 
