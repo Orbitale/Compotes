@@ -15,13 +15,18 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class OperationCrudController extends AbstractCrudController
 {
-    public static $entityFqcn = Operation::class;
+    public static function getEntityFqcn(): string
+    {
+        return Operation::class;
+    }
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setSearchFields(['id', 'type', 'typeDisplay', 'details', 'amountInCents', 'hash', 'state'])
             ->setPaginatorPageSize(100)
-            ->overrideTemplate('crud/index', 'easy_admin/Triage/list.html.twig');
+            ->overrideTemplate('crud/index', 'easy_admin/Triage/list.html.twig')
+        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -41,11 +46,14 @@ class OperationCrudController extends AbstractCrudController
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $operationDate, $type, $details, $amount];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
+        }
+        if (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $operationDate, $type, $typeDisplay, $details, $amountInCents, $hash, $state, $bankAccount, $tags];
-        } elseif (Crud::PAGE_NEW === $pageName) {
+        }
+        if (Crud::PAGE_NEW === $pageName) {
             return [$operationDate, $type, $typeDisplay, $details, $amountInCents, $hash, $state, $bankAccount, $tags];
-        } elseif (Crud::PAGE_EDIT === $pageName) {
+        }
+        if (Crud::PAGE_EDIT === $pageName) {
             return [$operationDate, $type, $amount, $initialDetails, $details];
         }
     }

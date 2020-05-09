@@ -13,13 +13,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Form\DTO\AdminTagDTO;
 use App\Form\DTO\EasyAdminDTOInterface;
 use App\Form\DTO\TranslatableDTOInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Controller\CrudControllerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 use InvalidArgumentException;
 use RuntimeException;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 
 trait BaseDTOControllerTrait
@@ -43,6 +46,9 @@ trait BaseDTOControllerTrait
         $this->locales = $locales;
     }
 
+    /**
+     * @return
+     */
     abstract protected function getDTOClass(): string;
 
     /**
@@ -57,72 +63,71 @@ trait BaseDTOControllerTrait
      */
     abstract protected function updateEntityWithDTO(object $entity, EasyAdminDTOInterface $dto): object;
 
-    protected function createNewEntity(): EasyAdminDTOInterface
+    /**
+     * @return EasyAdminDTOInterface
+     */
+    public function createEntity(string $entityFqcn)
     {
+        /** @var EasyAdminDTOInterface $dtoClass */
         $dtoClass = $this->doGetDTOClass();
 
         return $dtoClass::createEmpty();
     }
 
-    protected function persistEntity($object): object
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $dtoClass = $this->doGetDTOClass();
 
-        if (!($object instanceof $dtoClass)) {
+        if (!($entityInstance instanceof $dtoClass)) {
             throw new InvalidArgumentException('DTO is not of valid type.');
         }
 
-        $entity = $this->createEntityFromDTO($object);
-
-        parent::persistEntity($entity);
-
-        return $entity;
+        $entityManager->persist($this->createEntityFromDTO($entityInstance));
+        $entityManager->flush();
     }
 
-    protected function getEntityFormOptions($entity, $view): array
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $dtoClass = $this->doGetDTOClass();
 
-        $options = parent::getEntityFormOptions($entity, $view);
-        $options['data_class'] = $dtoClass;
-
-        return $options;
-    }
-
-    protected function createEntityFormBuilder($entity, $view): FormBuilderInterface
-    {
-        $dtoClass = $this->doGetDTOClass();
-
-        if (!($entity instanceof $dtoClass)) {
-            $entity = $this->createDTOFromEntity($entity);
-        }
-
-        return parent::createEntityFormBuilder($entity, $view);
-    }
-
-    protected function updateEntity($entity, FormInterface $editForm = null): object
-    {
-        if (!$editForm) {
-            throw new InvalidArgumentException('Form is mandatory to update entity.');
-        }
-
-        $dtoClass = $this->doGetDTOClass();
-        $entityClass = $this->entity['class'];
-        $dto = $editForm->getData();
-
-        if (!($dto instanceof $dtoClass)) {
+        if (!($entityInstance instanceof $dtoClass)) {
             throw new InvalidArgumentException(\sprintf('DTO is not of valid type, expected %s.', $dtoClass));
         }
 
-        if (!($entity instanceof $entityClass)) {
-            throw new InvalidArgumentException(\sprintf('Only %s is supported in this controller.', $entityClass));
-        }
+        dd($entityInstance);
 
         $updatedEntity = $this->updateEntityWithDTO($entity, $dto);
 
-        parent::updateEntity($updatedEntity);
+        parent::updateEntity($entityManager, $entityInstance);
+    }
 
-        return $updatedEntity;
+    public function createNewForm(EntityDto $entityDto, KeyValueStore $formOptions): FormInterface
+    {
+        $formOptions->set('data_class', $this->doGetDTOClass());
+
+        return parent::createNewForm($entityDto, $formOptions);
+    }
+
+    public function createEditForm(EntityDto $entityDto, KeyValueStore $formOptions): FormInterface
+    {
+        $formOptions->set('data_class', AdminTagDTO::class);
+
+        $entity = $entityDto->getInstance();
+        dd($entity);
+
+        $options = [];
+
+        if (\is_subclass_of(AdminTagDTO::class, TranslatableDTOInterface::class, true)) {
+            $options['translations'] = $this->translationRepository->findTranslations($entity);
+            $options['locales'] = $this->locales;
+        }
+
+        $dtoClass = $this->getDTOClass();
+        $instance = $entityDto->getInstance();
+        $entityDto->setInstance($dtoClass::createFromEntity($instance));
+        $formOptions->set('data', $instance);
+
+        return parent::createEditForm($entityDto, $formOptions);
     }
 
     protected function createDTOFromEntity(object $entity): EasyAdminDTOInterface
@@ -163,7 +168,7 @@ trait BaseDTOControllerTrait
 
     private function validateDTOClass(): void
     {
-        if (!($this instanceof EasyAdminController)) {
+        if (!($this instanceof CrudControllerInterface)) {
             throw new RuntimeException(\sprintf('The DTO-based controller %s must extend %s.', \get_class($this), EasyAdminController::class));
         }
 

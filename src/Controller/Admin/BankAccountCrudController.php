@@ -1,31 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Compotes package.
+ *
+ * (c) Alex "Pierstoval" Rock <pierstoval@gmail.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\BankAccount;
-use App\Form\DTO\AdminBankAccountDTO;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class BankAccountCrudController extends AbstractCrudController
 {
-    public static $entityFqcn = BankAccount::class;
+    public static function getEntityFqcn(): string
+    {
+        return BankAccount::class;
+    }
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setSearchFields(['id', 'name', 'slug', 'currency'])
             ->setPaginatorPageSize(100)
         ;
-    }
-
-    public function createEntity(string $entityFqcn)
-    {
-        return AdminBankAccountDTO::createEmpty();
     }
 
     public function configureFields(string $pageName): iterable
@@ -37,11 +43,14 @@ class BankAccountCrudController extends AbstractCrudController
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name, $slug, $currency];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
+        }
+        if (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $name, $slug, $currency];
-        } elseif (Crud::PAGE_NEW === $pageName) {
+        }
+        if (Crud::PAGE_NEW === $pageName) {
             return [$name, $currency];
-        } elseif (Crud::PAGE_EDIT === $pageName) {
+        }
+        if (Crud::PAGE_EDIT === $pageName) {
             return [$name, $currency];
         }
     }

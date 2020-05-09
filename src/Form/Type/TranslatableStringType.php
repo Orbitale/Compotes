@@ -16,6 +16,7 @@ namespace App\Form\Type;
 use App\Form\EventListener\TranslatableStringListener;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TranslatableStringType extends AbstractType
 {
@@ -29,6 +30,11 @@ class TranslatableStringType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventSubscriber(new TranslatableStringListener($this->locales));
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefault('label', 'wow');
     }
 
     public function getBlockPrefix(): string

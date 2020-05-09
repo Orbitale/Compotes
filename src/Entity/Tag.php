@@ -50,6 +50,10 @@ class Tag
      */
     private ?string $locale = null;
 
+    private function __construct()
+    {
+    }
+
     public function __toString(): string
     {
         $names = [];

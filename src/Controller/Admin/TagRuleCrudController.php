@@ -13,12 +13,20 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 
 class TagRuleCrudController extends AbstractCrudController
 {
-    public static $entityFqcn = TagRule::class;
+    public static function getEntityFqcn(): string
+    {
+        return TagRule::class;
+    }
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPaginatorPageSize(100);
+            ->setSearchFields(['id', 'matchingPattern'])
+            ->setPaginatorPageSize(100)
+            ->setFormOptions([
+                'something' => 'somethat',
+            ])
+        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -31,11 +39,14 @@ class TagRuleCrudController extends AbstractCrudController
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $matchingPattern, $isRegex, $tags];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
+        }
+        if (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $matchingPattern, $regex, $tags];
-        } elseif (Crud::PAGE_NEW === $pageName) {
+        }
+        if (Crud::PAGE_NEW === $pageName) {
             return [$matchingPattern, $isRegex, $tags];
-        } elseif (Crud::PAGE_EDIT === $pageName) {
+        }
+        if (Crud::PAGE_EDIT === $pageName) {
             return [$matchingPattern, $isRegex, $tags];
         }
     }
