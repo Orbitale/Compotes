@@ -15,9 +15,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Tag;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Orbitale\Component\DoctrineTools\AbstractFixture;
+use Orbitale\Component\ArrayFixture\ArrayFixture;
 
-class TagFixtures extends AbstractFixture implements ORMFixtureInterface
+class TagFixtures extends ArrayFixture implements ORMFixtureInterface
 {
     protected function getEntityClass(): string
     {

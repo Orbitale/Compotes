@@ -14,11 +14,23 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\BankAccount;
+use App\Repository\BankAccountRepository;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Orbitale\Component\DoctrineTools\AbstractFixture;
+use Doctrine\ORM\EntityManagerInterface;
+use Orbitale\Component\ArrayFixture\ArrayFixture;
 
-class BankAccountFixtures extends AbstractFixture implements ORMFixtureInterface
+class BankAccountFixtures extends ArrayFixture implements ORMFixtureInterface
 {
+    private EntityManagerInterface $em;
+    private BankAccountRepository $repo;
+
+    public function __construct(EntityManagerInterface $em, BankAccountRepository $repo)
+    {
+        parent::__construct();
+        $this->em = $em;
+        $this->repo = $repo;
+    }
+
     protected function getEntityClass(): string
     {
         return BankAccount::class;
@@ -40,8 +52,8 @@ class BankAccountFixtures extends AbstractFixture implements ORMFixtureInterface
 
         if ($default) {
             // Default can be present since it's in the migrations.
-            $this->manager->remove($default);
-            $this->manager->flush();
+            $this->em->remove($default);
+            $this->em->flush();
         }
 
         return [
