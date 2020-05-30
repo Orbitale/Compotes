@@ -20,6 +20,7 @@ use App\Repository\OperationRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use InvalidArgumentException;
 use RuntimeException;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 
 class AdminTriageController extends EasyAdminController
@@ -32,7 +33,7 @@ class AdminTriageController extends EasyAdminController
     }
 
     /** @param Operation $entity */
-    protected function createEntityFormBuilder($entity, $view)
+    protected function createEntityFormBuilder($entity, $view): FormBuilderInterface
     {
         if ('edit' !== $view) {
             throw new InvalidArgumentException('Only edit view is supported.');

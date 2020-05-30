@@ -16,16 +16,16 @@ namespace App\DataFixtures;
 use App\Entity\Tag;
 use App\Entity\TagRule;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Orbitale\Component\DoctrineTools\AbstractFixture;
+use Orbitale\Component\ArrayFixture\ArrayFixture;
 
-class TagRuleFixtures extends AbstractFixture implements ORMFixtureInterface
+class TagRuleFixtures extends ArrayFixture implements ORMFixtureInterface
 {
     protected function getEntityClass(): string
     {
         return TagRule::class;
     }
 
-    protected function getObjects(): array
+    protected function getObjects(): iterable
     {
         return [
             [

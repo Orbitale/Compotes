@@ -17,9 +17,9 @@ use App\Entity\BankAccount;
 use App\Entity\Operation;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Orbitale\Component\DoctrineTools\AbstractFixture;
+use Orbitale\Component\ArrayFixture\ArrayFixture;
 
-class OperationFixtures extends AbstractFixture implements ORMFixtureInterface
+class OperationFixtures extends ArrayFixture implements ORMFixtureInterface
 {
     public function getOrder(): int
     {
@@ -31,7 +31,7 @@ class OperationFixtures extends AbstractFixture implements ORMFixtureInterface
         return Operation::class;
     }
 
-    protected function getObjects(): array
+    protected function getObjects(): iterable
     {
         /** @var BankAccount $bankAccount */
         $bankAccount = $this->getReference('bank-account-default');

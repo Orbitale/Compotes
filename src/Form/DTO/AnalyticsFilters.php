@@ -62,11 +62,11 @@ class AnalyticsFilters
 
                     return;
                 case DateRanges::THIS_MONTH:
-                    $this->startDate = (new DateTimeImmutable())->setDate((int) \date('Y'), \date('m'), 1)->setTime(0, 0, 0);
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) \date('Y'), (int) \date('m'), 1)->setTime(0, 0, 0);
 
                     return;
                 case DateRanges::LAST_MONTH:
-                    $this->startDate = (new DateTimeImmutable())->setDate((int) \date('Y'), \date('m') - 1, 1)->setTime(0, 0, 0);
+                    $this->startDate = (new DateTimeImmutable())->setDate((int) \date('Y'), (int) \date('m') - 1, 1)->setTime(0, 0, 0);
 
                     return;
                 case DateRanges::THIS_YEAR:

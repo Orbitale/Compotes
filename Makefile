@@ -1,26 +1,30 @@
 SHELL := /bin/bash
 
+## Variable to use for "dry run" mode.
+DR :=
+
 # Config vars
 PASSWORD := admin
 
 CURRENT_DATE = `date "+%Y-%m-%d_%H-%M-%S"`
 
 ##
-## General purpose commands
-## ------------------------
+## General purpose
+## ---------------
 ##
 
 .DEFAULT_GOAL := help
 help: ## Show this help.
+	@printf "\n Available commands:\n\n"
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-25s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m## */[33m/'
 .PHONY: help
 
-install: vendor node_modules db migrations fixtures test-db admin-password assets start ## Install and start the project.
+install: vendor node_modules db migrations test-db assets start ## Install and start the project.
 .PHONY: install
 
 ##
-## Development
-## -----------
+## Project
+## -------
 ##
 
 start: start-php start-db ## Start the servers.
@@ -28,81 +32,84 @@ start: start-php start-db ## Start the servers.
 
 stop: ## Stop the servers. [1][2]
 	@printf $(_TITLE) "Server" "Stop PHP"
-	-@symfony server:stop
+	-@$(DR) symfony server:stop
 	@printf $(_TITLE) "Server" "Stop DB"
-	-@docker-compose stop
+	-@$(DR) docker-compose stop
 .PHONY: stop
 
 restart: stop start ## Restart the servers.
 .PHONY: restart
 
-open: ## Open the web browser at the homepage [1]
-	@symfony open:local
+open: ## Open the web browser at the homepage
+	@$(DR) symfony open:local
 .PHONY: open
 
 cc: ## Clear the cache and warm it up.
 	@printf $(_TITLE) "PHP" "Clear cache"
-	-@php bin/console cache:clear --no-warmup
+	-@$(DR) php bin/console cache:clear --no-warmup
 	@printf $(_TITLE) "PHP" "Warmup cache"
-	-@php bin/console cache:warmup
+	-@$(DR) php bin/console cache:warmup
 .PHONY: cc
 
 vendor: ## Install Composer dependencies.
 	@printf ""$(_TITLE) "PHP" "Install Composer dependencies"
-	composer install --optimize-autoloader --prefer-dist --no-progress
+	@$(DR) composer install --optimize-autoloader --prefer-dist --no-progress
 .PHONY: vendor
 
-node_modules: start-node ## Install Node.js dependencies. [2]
+node_modules: ## Install Node.js dependencies.
 	@printf ""$(_TITLE) "JS" "Install Node.js dependencies"
-	@docker-compose exec -T node npm install
+	@$(DR) npm install
 
-assets: start-node ## Build frontend assets. [2]
+assets: ## Build frontend assets.
 	@printf ""$(_TITLE) "JS" "Build frontend assets"
-	@docker-compose exec -T node npm run-script dev
+	-@$(DR) npm run-script dev
 .PHONY: assets
 
-assets-watch: start-node ## Watch assets to rebuild them on change (runs in the foreground). [2]
+assets-watch: ## Watch assets to rebuild them on change (runs in the foreground)
 	@printf ""$(_TITLE) "JS" "Watch assets to rebuild them on change"
-	@docker-compose exec node npm run-script watch
+	@$(DR) npm run-script watch
 .PHONY: assets-watch
 
 db: start-db wait-for-db ## Create a database for the project
 	@printf ""$(_TITLE) "DB" "Drop existing database"
-	@php bin/console doctrine:database:drop --no-interaction --if-exists --force
+	@$(DR) php bin/console doctrine:database:drop --no-interaction --if-exists --force
 	@printf ""$(_TITLE) "DB" "Create database"
-	@php bin/console doctrine:database:create --no-interaction --if-not-exists
-.PHONY: db-container
+	@$(DR) php bin/console doctrine:database:create --no-interaction --if-not-exists
+	@printf ""$(_TITLE) "DB" "Apply migrations"
+	@$(DR) php bin/console doctrine:migration:migrate --no-interaction
+	@printf ""$(_TITLE) "DB" "Add fixtures in the database"
+	@$(DR) php bin/console doctrine:fixtures:load --no-interaction --append
+.PHONY: db
 
-start-db: ## Start the database server. [2]
+start-db:
 	@printf $(_TITLE) "Server" "Start DB"
-	@docker-compose up --detach database
+	@$(DR) docker-compose up --detach database
 .PHONY: start-db
 
 wait-for-db:
-	@set -xe \
-	&& printf "\n"$(_TITLE) "DB" "Waiting for database..." \
-	&& bin/wait-for-db.bash
+	@printf ""$(_TITLE) "DB" "Waiting for database..."
+	@$(DR) bin/wait-for-db.bash
 .PHONY: wait-for-db
 
 migrations: wait-for-db ## Create database schema through migrations.
 	@printf ""$(_TITLE) "DB" "Run migrations"
-	@php bin/console doctrine:migrations:migrate --no-interaction
+	@$(DR) php bin/console doctrine:migrations:migrate --no-interaction
 .PHONY: migrations
 
 fixtures: wait-for-db ## Add default data to the project.
 	@printf ""$(_TITLE) "DB" "Install fixture data in the database"
-	@php bin/console doctrine:fixtures:load --no-interaction --append
-	@php bin/console operations:update-tags --no-interaction
+	@$(DR) php bin/console doctrine:fixtures:load --no-interaction --append
+	@$(DR) php bin/console operations:update-tags --no-interaction
 .PHONY: fixtures
 
 start-node:
-	@docker-compose up --detach node
+	@$(DR) docker-compose up --detach node
 .PHONY: start-node
 
 start-php:
 	@printf $(_TITLE) "Server" "Start PHP"
-	-@symfony server:stop >/dev/null 2>&1
-	-@symfony server:start --daemon
+	-@$(DR) symfony server:stop >/dev/null 2>&1
+	-@$(DR) symfony server:start --daemon
 .PHONY: start-php
 
 admin-password: ## Reset the admin password in ".env.local". Use "make -e PASSWORD=your-password admin-password" to use something else than "admin".
@@ -123,7 +130,7 @@ admin-password: ## Reset the admin password in ".env.local". Use "make -e PASSWO
 
 dump: ## Dump the current database to keep a track of it.
 	@printf $(_TITLE) "DB" "Dump current database to var/dump_$(CURRENT_DATE).sql"; \
-	docker-compose exec -T database mysqldump -uroot -proot main > var/dump_$(CURRENT_DATE).sql
+	$(DR) docker-compose exec -T database mysqldump -uroot -proot main > var/dump_$(CURRENT_DATE).sql
 .PHONY: dump
 
 ##
@@ -133,57 +140,57 @@ dump: ## Dump the current database to keep a track of it.
 
 test-db: start-db wait-for-db ## Set up the test database
 	@printf ""$(_TITLE) "Test DB" "Drop existing database"
-	@APP_ENV=test php bin/console doctrine:database:drop --no-interaction --if-exists --force
+	@$(DR) APP_ENV=test php bin/console doctrine:database:drop --no-interaction --if-exists --force
 	@printf ""$(_TITLE) "Test DB" "Create database"
-	@APP_ENV=test php bin/console doctrine:database:create --no-interaction
-	@APP_ENV=test php bin/console doctrine:schema:create --no-interaction
-	@printf ""$(_TITLE) "Test DB" "Install fixture data in the database"
-	@APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction --append
-	@APP_ENV=test php bin/console operations:update-tags --no-interaction
+	@$(DR) APP_ENV=test php bin/console doctrine:database:create --no-interaction
+	@$(DR) APP_ENV=test php bin/console doctrine:schema:create --no-interaction
+	@printf ""$(_TITLE) "Test DB" "Add fixtures in the database"
+	@$(DR) APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction --append
+	@$(DR) APP_ENV=test php bin/console operations:update-tags --no-interaction
 .PHONY: test-db
 
 install-phpunit:
-	@APP_ENV=test php bin/phpunit --version
+	@$(DR) APP_ENV=test php bin/phpunit --version
 .PHONY: install-phpunit
 
-phpunit: ## Execute the PHPUnit test suite.
-	@APP_ENV=test php bin/phpunit
+phpunit: ## Execute the PHPUnit test suite
+	@$(DR) APP_ENV=test php bin/phpunit
 .PHONY: phpunit
 
-qa: ## Execute QA tools.
-	$(MAKE) security-check
-	$(MAKE) cs
-	$(MAKE) phpstan
+qa: ## Execute QA tools
+	$(DR) $(MAKE) security-check
+	$(DR) $(MAKE) cs
+	$(DR) $(MAKE) phpstan
 .PHONY: qa
 
 security-check: ## Execute the Symfony Security checker. [1]
-	@symfony security:check
+	@$(DR) symfony security:check
 .PHONY: security-check
 
 phpstan: ## Execute PHPStan.
 	@printf "\n"$(_TITLE) "QA" "phpstan"
-	@php vendor/phpstan/phpstan/phpstan analyse
+	@$(DR) php vendor/phpstan/phpstan/phpstan analyse
 .PHONY: phpstan
 
 cs: ## Execute php-cs-fixer.
 	@printf $(_TITLE) "QA" "php-cs-fixer"
-	@php bin/php-cs-fixer fix
+	@$(DR) php bin/php-cs-fixer fix
 .PHONY: cs
 
 cs-dry: ## Execute php-cs-fixer with a DRY RUN.
 	@printf $(_TITLE) "QA" "php-cs-fixer"
-	@php bin/php-cs-fixer fix --dry-run
+	@$(DR) php bin/php-cs-fixer fix --dry-run
 .PHONY: cs-dry
 
 lint: ## Execute some linters on the project.
 	@printf $(_TITLE) "QA" "lint:yaml"
-	@php bin/console lint:yaml src config translations
+	@$(DR) php bin/console lint:yaml src config translations
 
 	@printf $(_TITLE) "QA" "lint:container"
-	@php bin/console lint:container
+	@$(DR) php bin/console lint:container
 
 	@printf $(_TITLE) "QA" "lint:twig"
-	@php bin/console lint:twig --show-deprecations
+	@$(DR) php bin/console lint:twig --show-deprecations
 .PHONY: lint
 
 ##
@@ -192,7 +199,7 @@ lint: ## Execute some linters on the project.
 ##
 
 setup-heroku: ## Set the project up to use Heroku.
-	bash heroku/create_project
+	@$(DR) bash heroku/create_project
 
 	@printf $(_TITLE) "Heroku" "Heroku project is set and pushed! If you want to entirely delete your application later, you can use the \"heroku apps:destroy\" command."
 .PHONY: setup-heroku
@@ -215,10 +222,16 @@ setup-prod: ## Set the project up when installed on a server (dedicated, VPS, et
 .PHONY: setup-prod
 
 deploy: ## Common script after pushing the changes on the server.
-	bin/deploy.bash
+	@$(DR) bin/deploy.bash
 .PHONY: deploy
+
+dry: ## Only display commands that have to be executed rather than executing them
+	@printf "#"$(_TITLE) "Dry run" ""
+	@$(eval DR := "echo")
+	@$(eval _TITLE := "") # Hide informational messages
+	@$(eval _ERROR := "") # Hide potential error messages (this is a dry run after all)
+.PHONY: dry
 
 # Helper vars
 _TITLE := "\033[32m[%s]\033[0m %s\n"
-_INFO := "\033[32m %s\033[0m\n"
 _ERROR := "\033[31m[%s]\033[0m %s\n"

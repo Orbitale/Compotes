@@ -31,9 +31,8 @@ parameters:
         objectManagerLoader: tests/phpstan-object-manager.php
 
     ignoreErrors:
+        - message: '#.#'
+          path: %currentWorkingDirectory%/src/Admin/
 
-#        - message: '#does not call parent constructor#'
-#          path: %currentWorkingDirectory%/tests/
-
-#        - message: '#^Service "[^"]+" is private.$#'
-#          path: %currentWorkingDirectory%/tests/
+        - message: '#Fixtures::getObjects\(\) should return#'
+          path: %currentWorkingDirectory%/src/DataFixtures/
