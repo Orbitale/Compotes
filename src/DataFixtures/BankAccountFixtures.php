@@ -46,7 +46,7 @@ class BankAccountFixtures extends ArrayFixture implements ORMFixtureInterface
         return 'getSlug';
     }
 
-    protected function getObjects(): array
+    protected function getObjects(): iterable
     {
         $default = $this->repo->findOneBy(['slug' => 'default']);
 

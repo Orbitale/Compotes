@@ -34,7 +34,7 @@ class TagFixtures extends ArrayFixture implements ORMFixtureInterface
         return 'tag-';
     }
 
-    protected function getObjects(): array
+    protected function getObjects(): iterable
     {
         $getParentClosure = function ($parent) {
             return function () use ($parent) {

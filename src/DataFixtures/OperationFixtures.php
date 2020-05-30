@@ -31,7 +31,7 @@ class OperationFixtures extends ArrayFixture implements ORMFixtureInterface
         return Operation::class;
     }
 
-    protected function getObjects(): array
+    protected function getObjects(): iterable
     {
         /** @var BankAccount $bankAccount */
         $bankAccount = $this->getReference('bank-account-default');

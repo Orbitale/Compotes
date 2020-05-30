@@ -25,7 +25,7 @@ class TagRuleFixtures extends ArrayFixture implements ORMFixtureInterface
         return TagRule::class;
     }
 
-    protected function getObjects(): array
+    protected function getObjects(): iterable
     {
         return [
             [

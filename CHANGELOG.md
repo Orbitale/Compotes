@@ -1,11 +1,14 @@
-## Next version
+## v0.9.2
 
 * Fix date ranges for analytics filter that triggered an error.
 * Added "Monthly earnings" chart.
 * Added "Monthly expenses" chart.
 * Added a config to set up the project on a dedicated server or VPS via `make setup-prod`.
 * Updated documentation and reorganized it a bit.
-* Analytics tab names are now translatable
+* Updated fixtures to use `orbitale/array-fixture`.
+* Updated coding style with `phpstan`.
+* Analytics tab names are now translatable.
+* Deploy script now uses `init.d` instead of `sudo service`. It's easier to add the new command to `/etc/sudoers` to make the deploying user able to restart php-fpm without having to enter a `sudo` password.
 
 ## v0.9.1
 
