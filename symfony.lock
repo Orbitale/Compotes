@@ -145,6 +145,9 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.1"
     },
+    "maennchen/zipstream-php": {
+        "version": "2.1.0"
+    },
     "markbaker/complex": {
         "version": "1.4.7"
     },
@@ -153,6 +156,9 @@
     },
     "monolog/monolog": {
         "version": "2.0.2"
+    },
+    "myclabs/php-enum": {
+        "version": "1.7.6"
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
@@ -198,6 +204,9 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/link": {
         "version": "1.0.0"
@@ -265,6 +274,9 @@
     },
     "symfony/dependency-injection": {
         "version": "v5.0.3"
+    },
+    "symfony/deprecation-contracts": {
+        "version": "v2.1.2"
     },
     "symfony/doctrine-bridge": {
         "version": "v5.0.3"
@@ -405,6 +417,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.13.1"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.17.0"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"
