@@ -136,6 +136,15 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.39"
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.0.1"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.6.1"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -205,6 +214,9 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
     "psr/http-message": {
         "version": "1.0.1"
     },
@@ -216,6 +228,9 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "stof/doctrine-extensions-bundle": {
         "version": "1.2",
