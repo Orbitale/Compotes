@@ -14,7 +14,7 @@ parameters:
         - %currentWorkingDirectory%/src/
         - %currentWorkingDirectory%/tests/
 
-    autoload_files:
+    bootstrapFiles:
         - %currentWorkingDirectory%/config/bootstrap.php
         - %currentWorkingDirectory%/bin/.phpunit/phpunit-8.5-0/vendor/autoload.php
 

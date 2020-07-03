@@ -88,7 +88,7 @@ start-db:
 
 wait-for-db:
 	@printf ""$(_TITLE) "DB" "Waiting for database..."
-	@$(DR) bin/wait-for-db.bash
+	@$(DR) ./bin/wait-for-db.bash
 .PHONY: wait-for-db
 
 migrations: wait-for-db ## Create database schema through migrations.
