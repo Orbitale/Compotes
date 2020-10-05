@@ -241,8 +241,6 @@ class Operation
                     $addedTags = true;
                 }
             }
-
-            return $addedTags;
         }
 
         return $addedTags;
