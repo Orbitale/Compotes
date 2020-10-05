@@ -136,15 +136,6 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.39"
     },
-    "guzzlehttp/guzzle": {
-        "version": "7.0.1"
-    },
-    "guzzlehttp/promises": {
-        "version": "v1.3.1"
-    },
-    "guzzlehttp/psr7": {
-        "version": "1.6.1"
-    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -217,6 +208,9 @@
     "psr/http-client": {
         "version": "1.0.1"
     },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
     "psr/http-message": {
         "version": "1.0.1"
     },
@@ -228,9 +222,6 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
-    },
-    "ralouphie/getallheaders": {
-        "version": "3.0.3"
     },
     "stof/doctrine-extensions-bundle": {
         "version": "1.2",
@@ -355,13 +346,13 @@
             "./src/Kernel.php"
         ]
     },
+    "symfony/http-client-contracts": {
+        "version": "v2.3.1"
+    },
     "symfony/http-foundation": {
         "version": "v5.0.3"
     },
     "symfony/http-kernel": {
-        "version": "v5.0.3"
-    },
-    "symfony/inflector": {
         "version": "v5.0.3"
     },
     "symfony/intl": {
@@ -375,9 +366,6 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
-    },
-    "symfony/mime": {
-        "version": "v5.0.3"
     },
     "symfony/monolog-bridge": {
         "version": "v5.0.3"
@@ -421,9 +409,6 @@
     "symfony/polyfill-intl-icu": {
         "version": "v1.13.1"
     },
-    "symfony/polyfill-intl-idn": {
-        "version": "v1.13.1"
-    },
     "symfony/polyfill-intl-normalizer": {
         "version": "v1.13.1"
     },
@@ -441,6 +426,9 @@
     },
     "symfony/property-access": {
         "version": "v5.0.3"
+    },
+    "symfony/property-info": {
+        "version": "v5.1.8"
     },
     "symfony/routing": {
         "version": "4.2",
