@@ -15,7 +15,7 @@ namespace App\Repository;
 
 use App\Entity\TagRule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method null|TagRule find($id, $lockMode = null, $lockVersion = null)

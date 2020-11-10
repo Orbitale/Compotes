@@ -17,7 +17,7 @@ use App\Entity\Operation;
 use App\Form\DTO\AnalyticsFilters;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method null|Operation find($id, $lockMode = null, $lockVersion = null)
