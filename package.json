@@ -1,12 +1,12 @@
 {
     "devDependencies": {
-        "@shopify/draggable": "^1.0.0-beta.10",
-        "@symfony/webpack-encore": "^0.30.2",
-        "core-js": "^3.6.5",
-        "highcharts": "^8.1.2",
-        "regenerator-runtime": "^0.13.2",
+        "@shopify/draggable": "^1.0.0-beta.12",
+        "@symfony/webpack-encore": "^0.31.0",
+        "core-js": "^3.7.0",
+        "highcharts": "^8.2.2",
+        "regenerator-runtime": "^0.13.7",
         "ts-loader": "^7.0.5",
-        "typescript": "^3.9.6",
+        "typescript": "^3.9.7",
         "webpack-notifier": "^1.8.0"
     },
     "license": "UNLICENSED",
