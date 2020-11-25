@@ -1,3 +1,9 @@
+## v0.10.0
+
+* Updated all dependencies
+* Some minor fixes in project setup
+* Add Operation::$isIgnoredFromCharts field, to ignore some operations in charts, just in case they might be erroneous.
+
 ## v0.9.2
 
 * Fix date ranges for analytics filter that triggered an error.
