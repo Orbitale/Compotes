@@ -1,3 +1,10 @@
+# EasyAdmin still has some strange translation strategies,
+# so some names must be forced-translated, just in case.
+Operation: Operation
+Date range: Date range
+Start date: Start date
+End date: End date
+
 admin.menu.account_operations: Account operations
 admin.menu.tags: Tags
 admin.menu.actions: Actions
