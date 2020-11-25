@@ -107,6 +107,7 @@ class OperationRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('operation')
             ->addSelect('tags')
+            ->where('operation.ignoredFromCharts = false')
             ->leftJoin('operation.tags', 'tags')
         ;
 

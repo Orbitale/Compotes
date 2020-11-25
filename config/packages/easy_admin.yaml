@@ -94,6 +94,9 @@ easy_admin:
                     - property: amount
                       label: 'admin.operations.fields.amount'
                       type: float
+                    - property: ignoredFromCharts
+                      label: 'admin.operations.fields.ignored_from_charts'
+                      type: toggle
                     - property: tags
                       label: 'admin.operations.fields.tags'
                       template: easy_admin/field_with_tags.html.twig

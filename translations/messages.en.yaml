@@ -16,6 +16,7 @@ admin.operations.fields.bankAccount: Bank account
 admin.operations.fields.type: Type
 admin.operations.fields.details: Details
 admin.operations.fields.amount: Amount
+admin.operations.fields.ignored_from_charts: Ignored from charts
 admin.operations.fields.tags: Tags
 
 admin.sync_operations.no_operations_synced: No operation needs to be synchronized with tag rules for the moment.

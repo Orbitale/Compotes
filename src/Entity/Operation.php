@@ -89,6 +89,11 @@ class Operation
     private string $state = self::STATE_OK;
 
     /**
+     * @ORM\Column(name="ignored_from_charts", type="boolean", options={"default" = "0"})
+     */
+    private bool $ignoredFromCharts = false;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\BankAccount", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -215,6 +220,11 @@ class Operation
     public function flagForTriage(): void
     {
         $this->state = self::STATE_PENDING_TRIAGE;
+    }
+
+    public function isIgnoredFromCharts(): bool
+    {
+        return $this->ignoredFromCharts;
     }
 
     public function triageDone(): void
