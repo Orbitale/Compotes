@@ -1,9 +1,3 @@
-# EasyAdmin still has some strange translation strategies,
-# so some names must be forced-translated, just in case.
-Operation: Operation
-Date range: Date range
-Start date: Start date
-End date: End date
 
 admin.menu.account_operations: Account operations
 admin.menu.tags: Tags
@@ -17,7 +11,6 @@ admin.menu.import_operations: Import operations
 admin.menu.sync_operations: Sync operations
 
 admin.operations.title: Bank account operations
-admin.operations.fields.id: Id
 admin.operations.fields.operationDate: Operation date
 admin.operations.fields.bankAccount: Bank account
 admin.operations.fields.type: Type

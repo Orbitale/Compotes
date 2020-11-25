@@ -81,8 +81,7 @@ easy_admin:
                     - tags
                     - bankAccount
                 fields:
-                    - property: id
-                      label: 'admin.operations.fields.id'
+                    - id
                     - property: operationDate
                       label: 'admin.operations.fields.operationDate'
                     - property: bankAccount
@@ -115,8 +114,7 @@ easy_admin:
                 dql_filter: |
                     entity.state = 'pending_triage'
                 fields:
-                    - property: id
-                      label: 'admin.operations.fields.id'
+                    - id
                     - property: operationDate
                       label: 'admin.operations.fields.operationDate'
                     - property: type
