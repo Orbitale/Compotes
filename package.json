@@ -7,7 +7,7 @@
         "regenerator-runtime": "^0.13.7",
         "ts-loader": "^7.0.5",
         "typescript": "^3.9.7",
-        "webpack-notifier": "^1.8.0"
+        "webpack-notifier": "^1.10.1"
     },
     "license": "UNLICENSED",
     "private": true,
