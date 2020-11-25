@@ -46,7 +46,7 @@ trait TranslatableDTOTrait
                         throw new InvalidArgumentException(\sprintf(
                             'Impossible to find field %s in DTO %s.',
                             $entityPropertyName,
-                            \get_class($this)
+                            static::class
                         ));
                     }
 

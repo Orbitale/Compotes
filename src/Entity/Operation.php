@@ -41,29 +41,21 @@ class Operation
     private $id;
 
     /**
-     * @var DateTimeImmutable
-     *
      * @ORM\Column(name="operation_date", type="datetime_immutable")
      */
     private DateTimeImmutable $operationDate;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="type", type="string", length=255)
      */
     private string $type;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="type_display", type="string", length=255)
      */
     private string $typeDisplay = '';
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="details", type="text")
      */
     private string $details = '';
@@ -71,8 +63,6 @@ class Operation
     /**
      * Always in cents.
      * To get float value, use self::getAmount.
-     *
-     * @var int
      *
      * @ORM\Column(name="amount_in_cents", type="integer")
      */
@@ -134,7 +124,7 @@ class Operation
 
         $self->type = $line['type'];
         $self->typeDisplay = $line['type_display'];
-        $self->details = \preg_replace('~\s+~', ' ', $line['details']);
+        $self->details = (string) \preg_replace('~\s+~', ' ', $line['details']);
 
         $amount = \preg_replace('~[^0-9+-]+~', '', $line['amount']);
 
@@ -227,6 +217,11 @@ class Operation
         return $this->ignoredFromCharts;
     }
 
+    public function setIgnoredFromCharts(bool $value): void
+    {
+        $this->ignoredFromCharts = $value;
+    }
+
     public function triageDone(): void
     {
         $this->state = self::STATE_OK;
@@ -262,7 +257,7 @@ class Operation
             throw new LogicException('Cannot update an operation after triage if operation itself is not pending triage.');
         }
 
-        $this->details = $dto->details;
+        $this->details = (string) $dto->details;
         $this->triageDone();
         $this->recomputeHash();
     }

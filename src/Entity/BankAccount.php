@@ -31,22 +31,16 @@ class BankAccount
     private $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private string $name;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private string $slug;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="currency", type="string", length=255)
      */
     private string $currency;

@@ -164,7 +164,7 @@ trait BaseDTOControllerTrait
     private function validateDTOClass(): void
     {
         if (!($this instanceof EasyAdminController)) {
-            throw new RuntimeException(\sprintf('The DTO-based controller %s must extend %s.', \get_class($this), EasyAdminController::class));
+            throw new RuntimeException(\sprintf('The DTO-based controller %s must extend %s.', static::class, EasyAdminController::class));
         }
 
         $dtoClass = $this->getDTOClass();
