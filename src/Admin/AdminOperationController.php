@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\Tag;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class AdminOperationController extends EasyAdminController
 {
@@ -23,6 +25,24 @@ class AdminOperationController extends EasyAdminController
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
 
         return $this->joinTags($qb);
+    }
+
+    protected function renderTemplate($actionName, $templatePath, array $parameters = [])
+    {
+        if ('list' === $actionName) {
+            $parameters['tags_form'] = $this->container
+                ->get('form.factory')
+                ->createNamed('operation_tags', EntityType::class, [], [
+                    'class' => Tag::class,
+                    'attr' => ['data-widget' => 'select2'],
+                    'multiple' => true,
+                    'required' => false,
+                ])
+                ->createView()
+            ;
+        }
+
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 
     protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = null, $sortDirection = null, $dqlFilter = null)

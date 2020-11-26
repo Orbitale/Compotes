@@ -227,6 +227,13 @@ class Operation
         $this->state = self::STATE_OK;
     }
 
+    public function addTag(Tag $tag): void
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+    }
+
     /**
      * @return bool true if rule was applied
      */
@@ -297,12 +304,5 @@ class Operation
             $this->amountInCents,
             $this->bankAccount
         );
-    }
-
-    private function addTag(Tag $tag): void
-    {
-        if (!$this->tags->contains($tag)) {
-            $this->tags->add($tag);
-        }
     }
 }

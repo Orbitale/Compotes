@@ -19,6 +19,9 @@ admin.operations.fields.amount: Amount
 admin.operations.fields.ignored_from_charts: Ignored from charts
 admin.operations.fields.tags: Tags
 
+admin.operations.actions.add_tags: Add tags
+admin.operations.actions.add_new_tags: Add new tags
+
 admin.sync_operations.no_operations_synced: No operation needs to be synchronized with tag rules for the moment.
 admin.sync_operations.success: |
     ]-Inf, 0] Noop

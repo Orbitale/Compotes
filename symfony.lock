@@ -1,4 +1,21 @@
 {
+    "api-platform/api-pack": {
+        "version": "v1.3.0"
+    },
+    "api-platform/core": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "a93061567140e386f107be75340ac2aee3f86cbf"
+        },
+        "files": [
+            "./config/packages/api_platform.yaml",
+            "./config/routes/api_platform.yaml",
+            "./src/Entity/.gitignore"
+        ]
+    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -118,6 +135,9 @@
             "./config/routes/easy_admin.yaml"
         ]
     },
+    "fig/link-util": {
+        "version": "1.1.1"
+    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.39"
     },
@@ -145,6 +165,18 @@
     "myclabs/php-enum": {
         "version": "1.7.6"
     },
+    "nelmio/cors-bundle": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "6388de23860284db9acce0a7a5d9d13153bcb571"
+        },
+        "files": [
+            "./config/packages/nelmio_cors.yaml"
+        ]
+    },
     "nikic/php-parser": {
         "version": "v4.3.0"
     },
@@ -162,6 +194,15 @@
     },
     "php": {
         "version": "7.4"
+    },
+    "phpdocumentor/reflection-common": {
+        "version": "2.2.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "5.2.2"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "1.4.0"
     },
     "phpoffice/phpspreadsheet": {
         "version": "1.10.1"
@@ -372,6 +413,9 @@
     "symfony/options-resolver": {
         "version": "v5.0.3"
     },
+    "symfony/orm-pack": {
+        "version": "v2.0.0"
+    },
     "symfony/phpunit-bridge": {
         "version": "4.3",
         "recipe": {
@@ -452,6 +496,12 @@
     },
     "symfony/security-http": {
         "version": "v5.0.3"
+    },
+    "symfony/serializer": {
+        "version": "v5.1.8"
+    },
+    "symfony/serializer-pack": {
+        "version": "v1.0.4"
     },
     "symfony/service-contracts": {
         "version": "v2.0.1"
@@ -564,6 +614,12 @@
     },
     "webimpress/safe-writer": {
         "version": "2.0.0"
+    },
+    "webmozart/assert": {
+        "version": "1.9.1"
+    },
+    "willdurand/negotiation": {
+        "version": "v2.3.1"
     },
     "zendframework/zend-code": {
         "version": "3.4.0"

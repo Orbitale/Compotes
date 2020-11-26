@@ -1,0 +1,7 @@
+<button class="btn btn-sm operation-add-tags" data-operation-id="{{ item.id }}" data-toggle="modal" data-target="#operation-tags-modal">
+    <i class="fa fa-plus"></i>
+</button>
+{% for tag in item.tags %}
+    {{ include('easy_admin/field_single_tag.html.twig', {item: tag}, with_context=false) }}
+{% endfor %}
+

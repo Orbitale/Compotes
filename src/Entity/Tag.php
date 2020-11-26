@@ -13,12 +13,18 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Form\DTO\AdminTagDTO;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"}
+ * )
+ *
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  * @ORM\Table(name="tags")
  * @ORM\ChangeTrackingPolicy(value="DEFERRED_EXPLICIT")

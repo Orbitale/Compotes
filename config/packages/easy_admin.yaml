@@ -69,6 +69,8 @@ easy_admin:
             class: App\Entity\Operation
             label: admin.operations.title
             controller: App\Admin\AdminOperationController
+            templates:
+                list: easy_admin/Operation/list.html.twig
             list:
                 actions:
                     - show
@@ -98,7 +100,7 @@ easy_admin:
                       type: toggle
                     - property: tags
                       label: 'admin.operations.fields.tags'
-                      template: easy_admin/field_with_tags.html.twig
+                      template: easy_admin/Operation/tag.html.twig
 
         Triage:
             class: App\Entity\Operation

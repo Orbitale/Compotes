@@ -1,3 +1,7 @@
+## v0.11.0
+
+* Allow users to add tags directly from the operations list
+
 ## v0.10.0
 
 * Updated all dependencies
