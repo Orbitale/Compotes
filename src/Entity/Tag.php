@@ -62,10 +62,14 @@ class Tag
 
         $parent = $this->parent;
 
-        while ($parent) {
+        $maxLevels = 4;
+
+        while ($parent && $maxLevels > 0) {
             \array_unshift($names, $parent->getName());
 
             $parent = $parent->getParent();
+
+            $maxLevels--;
         }
 
         $names[] = $this->name;
