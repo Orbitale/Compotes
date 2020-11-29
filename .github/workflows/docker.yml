@@ -25,6 +25,7 @@ jobs:
                   USERNAME: ${{ secrets.DOCKER_USERNAME }}
                   PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
                   IMAGE_NAME: "orbitale/compotes-php"
+                  LATEST: true
 
             # Wait until https://github.com/opspresso/action-docker/pull/6 is merged.
             - name: Build & push Compotes image
@@ -36,3 +37,4 @@ jobs:
                   PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
                   DOCKERFILE: "Dockerfile.full"
                   IMAGE_NAME: "orbitale/compotes"
+                  LATEST: true
