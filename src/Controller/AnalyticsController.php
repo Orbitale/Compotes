@@ -19,9 +19,9 @@ use App\Highcharts\Chart\MonthlyBalanceChart;
 use App\Highcharts\Chart\MonthlyEarningsChart;
 use App\Highcharts\Chart\MonthlyExpensesChart;
 use App\Highcharts\Chart\TagAmountChart;
+use App\Highcharts\Chart\TagMonthlyAmountChart;
 use App\Highcharts\Chart\TagUsageChart;
 use App\Highcharts\Chart\YearlyBalanceChart;
-use App\Highcharts\Chart\YearMonthComparisonChart;
 use App\Repository\OperationRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,20 +61,15 @@ class AnalyticsController
         return new Response($this->twig->render('analytics.html.twig', [
             'filters_form' => $form->createView(),
             'charts_list' => [
+                'tab.earnings_expenses' => [
+                    new MonthlyBalanceChart($operations),
+                    new YearlyBalanceChart($operations),
+                    new MonthlyEarningsChart($operations),
+                    new MonthlyExpensesChart($operations),
+                ],
                 'tab.tags' => [
                     new TagUsageChart($operations),
                     new TagAmountChart($operations),
-                ],
-                'tab.balance' => [
-                    new YearlyBalanceChart($operations),
-                    new MonthlyBalanceChart($operations),
-                ],
-                'tab.comparisons' => [
-                    new YearMonthComparisonChart($operations),
-                ],
-                'tab.earnings_expenses' => [
-                    new MonthlyEarningsChart($operations),
-                    new MonthlyExpensesChart($operations),
                 ],
             ],
         ]));

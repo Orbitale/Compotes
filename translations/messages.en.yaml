@@ -94,7 +94,5 @@ date_ranges.last_month: Last month
 date_ranges.this_year: This year
 date_ranges.last_year: Last year
 
-tab.tags: Tags
-tab.balance: Balance
-tab.comparisons: Comparisons
 tab.earnings_expenses: Earnings & expenses
+tab.tags: Tags
