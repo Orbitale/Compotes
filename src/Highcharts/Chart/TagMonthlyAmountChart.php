@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Highcharts\Chart;
 
 use App\Model\JsClosure;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TagMonthlyAmountChart extends AbstractSplineChart
 {
@@ -28,7 +27,8 @@ class TagMonthlyAmountChart extends AbstractSplineChart
         $options = parent::getOptions();
 
         $options['plotOptions'][$options['chart']['type']]['enableMouseTracking'] = true;
-        $options['plotOptions']['series']['events']['click'] = new JsClosure(<<<JS
+        $options['plotOptions']['series']['events']['click'] = new JsClosure(
+            <<<'JS'
             function() {
                 this.chart.series.forEach((serie) => {serie.setVisible(false, false)});
                 this.show();
@@ -36,7 +36,8 @@ class TagMonthlyAmountChart extends AbstractSplineChart
         JS
         );
 
-        $options['chart']['events']['click'] = new JsClosure(<<<JS
+        $options['chart']['events']['click'] = new JsClosure(
+            <<<'JS'
             function () {
                 this.series.forEach((serie) => {serie.setVisible(true, true)});
             }
