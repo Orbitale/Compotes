@@ -51,7 +51,7 @@
     <script type="text/javascript" async>
         {% for charts in charts_list %}
             {% for chart in charts %}
-                Highcharts.chart("{{ chart.name|slug }}", {{ chart.config|json_encode|raw }});
+                Highcharts.chart("{{ chart.name|slug }}", {{ chart|json_encode_chart }});
             {% endfor %}
         {% endfor %}
     </script>

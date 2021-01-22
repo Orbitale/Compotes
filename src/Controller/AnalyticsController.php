@@ -68,6 +68,7 @@ class AnalyticsController
                     new MonthlyExpensesChart($operations),
                 ],
                 'tab.tags' => [
+                    new TagMonthlyAmountChart($operations),
                     new TagUsageChart($operations),
                     new TagAmountChart($operations),
                 ],
