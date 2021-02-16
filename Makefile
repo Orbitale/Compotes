@@ -6,6 +6,12 @@ DR :=
 # Config vars
 PASSWORD := admin
 
+# Executor variables (can be changed at runtime)
+EXEC_PHP ?= php
+EXEC_COMPOSER ?= composer
+EXEC_SYMFONY ?= symfony
+EXEC_NPM ?= npm
+
 CURRENT_DATE = `date "+%Y-%m-%d_%H-%M-%S"`
 
 ##
@@ -32,7 +38,7 @@ start: start-php start-db ## Start the servers.
 
 stop: ## Stop the servers. [1][2]
 	@printf $(_TITLE) "Server" "Stop PHP"
-	-@$(DR) symfony server:stop
+	-@$(DR) $(EXEC_SYMFONY) server:stop
 	@printf $(_TITLE) "Server" "Stop DB"
 	-@$(DR) docker-compose stop
 .PHONY: stop
@@ -41,44 +47,44 @@ restart: stop start ## Restart the servers.
 .PHONY: restart
 
 open: ## Open the web browser at the homepage
-	@$(DR) symfony open:local
+	@$(DR) $(EXEC_SYMFONY) open:local
 .PHONY: open
 
 cc: ## Clear the cache and warm it up.
 	@printf $(_TITLE) "PHP" "Clear cache"
-	-@$(DR) php bin/console cache:clear --no-warmup
+	-@$(DR) $(EXEC_PHP) bin/console cache:clear --no-warmup
 	@printf $(_TITLE) "PHP" "Warmup cache"
-	-@$(DR) php bin/console cache:warmup
+	-@$(DR) $(EXEC_PHP) bin/console cache:warmup
 .PHONY: cc
 
 vendor: ## Install Composer dependencies.
 	@printf ""$(_TITLE) "PHP" "Install Composer dependencies"
-	@$(DR) composer install --optimize-autoloader --prefer-dist --no-progress
+	@$(DR) $(EXEC_COMPOSER) install --optimize-autoloader --prefer-dist --no-progress
 .PHONY: vendor
 
 node_modules: ## Install Node.js dependencies.
 	@printf ""$(_TITLE) "JS" "Install Node.js dependencies"
-	@$(DR) npm install
+	@$(DR) $(EXEC_NPM) install
 
 assets: ## Build frontend assets.
 	@printf ""$(_TITLE) "JS" "Build frontend assets"
-	-@$(DR) npm run-script dev
+	-@$(DR) $(EXEC_NPM) run-script dev
 .PHONY: assets
 
 assets-watch: ## Watch assets to rebuild them on change (runs in the foreground)
 	@printf ""$(_TITLE) "JS" "Watch assets to rebuild them on change"
-	@$(DR) npm run-script watch
+	@$(DR) $(EXEC_NPM) run-script watch
 .PHONY: assets-watch
 
 db: start-db wait-for-db ## Create a database for the project
 	@printf ""$(_TITLE) "DB" "Drop existing database"
-	@$(DR) php bin/console doctrine:database:drop --no-interaction --if-exists --force
+	@$(DR) $(EXEC_PHP) bin/console doctrine:database:drop --no-interaction --if-exists --force
 	@printf ""$(_TITLE) "DB" "Create database"
-	@$(DR) php bin/console doctrine:database:create --no-interaction --if-not-exists
+	@$(DR) $(EXEC_PHP) bin/console doctrine:database:create --no-interaction --if-not-exists
 	@printf ""$(_TITLE) "DB" "Apply migrations"
-	@$(DR) php bin/console doctrine:migration:migrate --no-interaction
+	@$(DR) $(EXEC_PHP) bin/console doctrine:migration:migrate --no-interaction
 	@printf ""$(_TITLE) "DB" "Add fixtures in the database"
-	@$(DR) php bin/console doctrine:fixtures:load --no-interaction --append
+	@$(DR) $(EXEC_PHP) bin/console doctrine:fixtures:load --no-interaction --append
 .PHONY: db
 
 start-db:
@@ -93,13 +99,13 @@ wait-for-db:
 
 migrations: wait-for-db ## Create database schema through migrations.
 	@printf ""$(_TITLE) "DB" "Run migrations"
-	@$(DR) php bin/console doctrine:migrations:migrate --no-interaction
+	@$(DR) $(EXEC_PHP) bin/console doctrine:migrations:migrate --no-interaction
 .PHONY: migrations
 
 fixtures: wait-for-db ## Add default data to the project.
 	@printf ""$(_TITLE) "DB" "Install fixture data in the database"
-	@$(DR) php bin/console doctrine:fixtures:load --no-interaction --append
-	@$(DR) php bin/console operations:update-tags --no-interaction
+	@$(DR) $(EXEC_PHP) bin/console doctrine:fixtures:load --no-interaction --append
+	@$(DR) $(EXEC_PHP) bin/console operations:update-tags --no-interaction
 .PHONY: fixtures
 
 start-node:
@@ -108,8 +114,8 @@ start-node:
 
 start-php:
 	@printf $(_TITLE) "Server" "Start PHP"
-	-@$(DR) symfony server:stop >/dev/null 2>&1
-	-@$(DR) symfony server:start --daemon
+	-@$(DR) $(EXEC_SYMFONY) server:stop >/dev/null 2>&1
+	-@$(DR) $(EXEC_SYMFONY) server:start --daemon
 .PHONY: start-php
 
 admin-password: ## Reset the admin password in ".env.local". Use "make -e PASSWORD=your-password admin-password" to use something else than "admin".
@@ -140,21 +146,21 @@ dump: ## Dump the current database to keep a track of it.
 
 test-db: start-db wait-for-db ## Set up the test database
 	@printf ""$(_TITLE) "Test DB" "Drop existing database"
-	@$(DR) APP_ENV=test php bin/console doctrine:database:drop --no-interaction --if-exists --force
+	@$(DR) APP_ENV=test $(EXEC_PHP) bin/console doctrine:database:drop --no-interaction --if-exists --force
 	@printf ""$(_TITLE) "Test DB" "Create database"
-	@$(DR) APP_ENV=test php bin/console doctrine:database:create --no-interaction
-	@$(DR) APP_ENV=test php bin/console doctrine:schema:create --no-interaction
+	@$(DR) APP_ENV=test $(EXEC_PHP) bin/console doctrine:database:create --no-interaction
+	@$(DR) APP_ENV=test $(EXEC_PHP) bin/console doctrine:schema:create --no-interaction
 	@printf ""$(_TITLE) "Test DB" "Add fixtures in the database"
-	@$(DR) APP_ENV=test php bin/console doctrine:fixtures:load --no-interaction --append
-	@$(DR) APP_ENV=test php bin/console operations:update-tags --no-interaction
+	@$(DR) APP_ENV=test $(EXEC_PHP) bin/console doctrine:fixtures:load --no-interaction --append
+	@$(DR) APP_ENV=test $(EXEC_PHP) bin/console operations:update-tags --no-interaction
 .PHONY: test-db
 
 install-phpunit:
-	@$(DR) APP_ENV=test php bin/phpunit --version
+	@$(DR) APP_ENV=test $(EXEC_PHP) bin/phpunit --version
 .PHONY: install-phpunit
 
 phpunit: ## Execute the PHPUnit test suite
-	@$(DR) APP_ENV=test php bin/phpunit
+	@$(DR) APP_ENV=test $(EXEC_PHP) bin/phpunit
 .PHONY: phpunit
 
 qa: ## Execute QA tools
@@ -164,33 +170,33 @@ qa: ## Execute QA tools
 .PHONY: qa
 
 security-check: ## Execute the Symfony Security checker. [1]
-	@$(DR) symfony security:check
+	@$(DR) $(EXEC_SYMFONY) security:check
 .PHONY: security-check
 
 phpstan: ## Execute PHPStan.
 	@printf "\n"$(_TITLE) "QA" "phpstan"
-	@$(DR) php vendor/phpstan/phpstan/phpstan analyse
+	@$(DR) $(EXEC_PHP) vendor/phpstan/phpstan/phpstan analyse
 .PHONY: phpstan
 
 cs: ## Execute php-cs-fixer.
 	@printf $(_TITLE) "QA" "php-cs-fixer"
-	@$(DR) php bin/php-cs-fixer fix
+	@$(DR) $(EXEC_PHP) bin/php-cs-fixer fix
 .PHONY: cs
 
 cs-dry: ## Execute php-cs-fixer with a DRY RUN.
 	@printf $(_TITLE) "QA" "php-cs-fixer"
-	@$(DR) php bin/php-cs-fixer fix --dry-run
+	@$(DR) $(EXEC_PHP) bin/php-cs-fixer fix --dry-run
 .PHONY: cs-dry
 
 lint: ## Execute some linters on the project.
 	@printf $(_TITLE) "QA" "lint:yaml"
-	@$(DR) php bin/console lint:yaml src config translations
+	@$(DR) $(EXEC_PHP) bin/console lint:yaml src config translations
 
 	@printf $(_TITLE) "QA" "lint:container"
-	@$(DR) php bin/console lint:container
+	@$(DR) $(EXEC_PHP) bin/console lint:container
 
 	@printf $(_TITLE) "QA" "lint:twig"
-	@$(DR) php bin/console lint:twig --show-deprecations
+	@$(DR) $(EXEC_PHP) bin/console lint:twig --show-deprecations
 .PHONY: lint
 
 ##
@@ -206,7 +212,7 @@ setup-heroku: ## Set the project up to use Heroku.
 
 setup-prod: ## Set the project up when installed on a server (dedicated, VPS, etc.).
 	@printf $(_TITLE) "Deploy" "Installing PHP dependencies (necessary for Symfony Flex)..."
-	-@APP_ENV=prod composer install --no-interaction --prefer-dist --no-dev --no-scripts
+	-@APP_ENV=prod $(EXEC_COMPOSER) install --no-interaction --prefer-dist --no-dev --no-scripts
 
 	@printf $(_TITLE) "Deploy" "Please enter the password for the administration panel" \
 	&& echo -n " > " \
@@ -214,7 +220,7 @@ setup-prod: ## Set the project up when installed on a server (dedicated, VPS, et
 	&& APP_ENV=prod \
 	 APP_SECRET=$(php bin/generate_password.php "${PASSWORD}") \
 	 ADMIN_PASSWORD=$(php bin/generate_secret.php") \
-	 composer symfony:dump-env prod
+	 $(EXEC_COMPOSER) symfony:dump-env prod
 
 	@echo ""
 	@printf $(_INFO) "Almost finished!"
