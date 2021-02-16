@@ -135,6 +135,9 @@
             "./config/routes/easy_admin.yaml"
         ]
     },
+    "ezyang/htmlpurifier": {
+        "version": "v4.13.0"
+    },
     "fig/link-util": {
         "version": "1.1.1"
     },
@@ -611,9 +614,6 @@
     },
     "twig/twig": {
         "version": "v3.0.1"
-    },
-    "webimpress/safe-writer": {
-        "version": "2.0.0"
     },
     "webmozart/assert": {
         "version": "1.9.1"
