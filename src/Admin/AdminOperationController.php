@@ -29,7 +29,7 @@ class AdminOperationController extends EasyAdminController
 
     protected function renderTemplate($actionName, $templatePath, array $parameters = [])
     {
-        if ('list' === $actionName) {
+        if ('list' === $actionName || 'search' === $actionName) {
             $parameters['tags_form'] = $this->container
                 ->get('form.factory')
                 ->createNamed('operation_tags', EntityType::class, [], [

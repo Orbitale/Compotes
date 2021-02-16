@@ -18,6 +18,9 @@ admin.operations.fields.details: Details
 admin.operations.fields.amount: Amount
 admin.operations.fields.ignored_from_charts: Ignored from charts
 admin.operations.fields.tags: Tags
+admin.operations.items_in_warning_explanation: |
+    Lines having a <span class="badge badge-warning">colored background</span> correspond to operations that <strong>have no tag</strong> associated.<br>
+    It is highly recommended to use the <i class="fa fa-plus"></i> icon to add new tags to them.
 
 admin.operations.actions.add_tags: Add tags
 admin.operations.actions.add_new_tags: Add new tags
