@@ -11,7 +11,7 @@ services:
         environment: [MYSQL_ROOT_PASSWORD=root]
 
     node:
-        image: node:12
+        image: node:14
         volumes: ['./:/srv']
         working_dir: '/srv'
         command: 'sleep 9999d'
