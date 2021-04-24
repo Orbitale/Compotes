@@ -29,6 +29,7 @@
     "@tauri-apps/cli": "^1.0.0-beta-rc.2",
     "bootstrap": "^4.6.0",
     "node-sass": "^5.0.0",
+    "postcss": "^8.2.12",
     "sirv-cli": "^1.0.0"
   }
 }
