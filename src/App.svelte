@@ -1,9 +1,19 @@
 <script lang="ts">
 	export let name: string;
 
+	import { tauri } from '@tauri-apps/api';
+
 	import { onMount } from 'svelte';
 
 	onMount(() => {
+
+		//*
+		console.info({tauri});
+		const value = tauri.invoke('my_custom_command').then(function() {
+			console.info('okay', arguments);
+		})
+		console.info({value});
+		//*/
 
 		setTimeout(() => {
 			document.getElementById('splash_screen').classList.add('remove');
