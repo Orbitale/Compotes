@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let name: string;
 
-	import { tauri } from '@tauri-apps/api';
+	import { tauri } from '../tauri/tooling/api/dist/index.ts';
 
 	import { onMount } from 'svelte';
 
