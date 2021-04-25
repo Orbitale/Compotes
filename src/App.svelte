@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let name: string;
 
-	import { tauri } from '../tauri/tooling/api/dist/index.ts';
+	import { tauri } from '@tauri-apps/api';
 
 	import { onMount } from 'svelte';
 
@@ -15,6 +15,7 @@
 		console.info({value});
 		//*/
 
+		//*
 		setTimeout(() => {
 			document.getElementById('splash_screen').classList.add('remove');
 		}, 1000);
@@ -24,6 +25,7 @@
 			splash_screen.parentElement.removeChild(splash_screen);
 			splash_screen_style.parentElement.removeChild(splash_screen_style);
 		}, 4000);
+		//*/
 	})
 </script>
 
