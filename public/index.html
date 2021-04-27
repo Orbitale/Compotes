@@ -9,6 +9,9 @@
 	<link rel='icon' type='image/png' href='/logo.svg'>
 
 	<style id="splash_screen_style">
+		html {
+			overflow: hidden;
+		}
 		@keyframes orbitale_logo_rotation {
 			from {
 				transform: rotate(0deg);
@@ -30,6 +33,7 @@
 			height: 100%;
 			background: #adbfd2;
 			z-index: 1;
+			display: none; /* TODO: remove when releasing */
 		}
 		#splash_screen.remove {
 			animation: fade 2s ease-in-out forwards;
@@ -58,6 +62,7 @@
 
 	<main id="app"></main>
 
+	<script defer src='/build/bootstrap.min.js'></script>
 	<script defer src='/build/bundle.js'></script>
 </body>
 </html>

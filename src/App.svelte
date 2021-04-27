@@ -1,4 +1,4 @@
-<script lang="ts">
+<script global lang="ts">
 	import {onMount} from 'svelte';
 	import Home from "./pages/Home.svelte";
 
