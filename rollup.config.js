@@ -67,10 +67,16 @@ export default {
 		}),
 
 		copy({
-			targets: [{
-				src: 'node_modules/bootstrap/dist/js/*',
-				dest: 'public/build/'
-			}]
+			targets: [
+				{
+					src: 'node_modules/bootstrap/dist/js/bootstrap.min.*',
+					dest: 'public/build/'
+				},
+				{
+					src: 'node_modules/@popperjs/core/dist/umd/popper-lite.min*',
+					dest: 'public/build/'
+				},
+			]
 		}),
 
 		// In dev mode, call `npm run start` once

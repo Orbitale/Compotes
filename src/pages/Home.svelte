@@ -6,7 +6,7 @@
 </script>
 
 <div class="container">
-    <h1>Compotes app, new version!</h1>
+    <h1 class="container">Compotes app, new version!</h1>
 
     <div class="row">
         <div class="col mb-6">
@@ -22,7 +22,6 @@
     h1 {
         text-align: center;
         padding: 1em;
-        max-width: 240px;
         margin: 0 auto;
     }
 </style>
