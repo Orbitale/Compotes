@@ -1,1 +1,7 @@
 @import "bootstrap";
+
+.toast {
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: cubic-bezier(0, 0, 0, 1);
+}

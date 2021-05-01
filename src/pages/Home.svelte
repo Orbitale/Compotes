@@ -1,19 +1,35 @@
 <script lang="ts">
     import Login from "../components/Login.svelte";
     import Register from "../components/Register.svelte";
-
-    let user_id_value;
 </script>
 
 <div class="container">
     <h1 class="container">Compotes app, new version!</h1>
 
-    <div class="row">
-        <div class="col mb-6">
-            <Login/>
+    <div class="accordion" id="homeaccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#loginCollapse" aria-expanded="true" aria-controls="loginCollapse">
+                    Login
+                </button>
+            </h2>
+            <div id="loginCollapse" class="accordion-collapse collapse show" data-bs-parent="#homeaccordion">
+                <div class="accordion-body">
+                    <Login/>
+                </div>
+            </div>
         </div>
-        <div class="col mb-6">
-            <Register/>
+        <div id="login" class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#registerCollapse" aria-expanded="true" aria-controls="registerCollapse">
+                    Create a new account
+                </button>
+            </h2>
+            <div id="registerCollapse" class="accordion-collapse collapse" data-bs-parent="#homeaccordion">
+                <div class="accordion-body">
+                    <Register/>
+                </div>
+            </div>
         </div>
     </div>
 </div>

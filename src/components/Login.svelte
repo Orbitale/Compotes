@@ -1,18 +1,30 @@
-<script>
-    import {Stronghold, Location} from 'tauri-plugin-stronghold-api'
+<script lang="ts">
+    import { users } from '../db/users.ts';
+    import message from "../utils/Toast";
 
-    import {user_id} from '../utils/stores.ts';
+    function onFormSubmit (e: Event) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        message('TODO: Attempt login');
+
+        return false;
+    }
 </script>
 
-<h2>Login</h2>
-
-<form id="login">
-    <label for="login_username" class="col-sm-2 col-form-label">Username</label>
+<form id="login" on:submit={onFormSubmit}>
+    <label for="login_username" class="form-label">Username</label>
     <select name="login_username" id="login_username" class="form-select">
         <option value="">- Select a username -</option>
+        {#each users as {id, username}}
+            <option value="{id}">{username}</option>
+        {/each}
     </select>
-    <label for="login_password" class="col-sm-2 col-form-label">Password</label>
-    <div class="col-sm-10">
-        <input type="password" class="form-control" id="login_password">
-    </div>
+
+    <label for="login_password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="login_password">
+
+    <button type="submit" class="btn btn-primary">
+        Login
+    </button>
 </form>
