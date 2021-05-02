@@ -16,7 +16,7 @@
         }
     });
 
-    function onFormSubmit (e: Event) {
+    function onFormSubmit(e: Event) {
         e.stopPropagation();
         e.preventDefault();
 

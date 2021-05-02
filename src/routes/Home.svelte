@@ -3,6 +3,7 @@
     import Register from "../components/Register.svelte";
 
     import {getUser} from '../auth/current_user.ts';
+
     let user = getUser();
 </script>
 

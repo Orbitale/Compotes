@@ -20,6 +20,7 @@
      */
     import {onMount} from 'svelte';
     import removeSplashScreen from "./utils/remove_splashscreen.ts";
+
     onMount(() => {
         removeSplashScreen(document);
     })
@@ -29,8 +30,8 @@
     @import "./style/_app.scss";
 </style>
 
-<Navigation />
+<Navigation/>
 
 <main class="container">
-    <Router {routes} />
+    <Router {routes}/>
 </main>

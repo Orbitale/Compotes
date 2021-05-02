@@ -9,8 +9,7 @@ export function getUsers() {
     return users;
 }
 
-export function getUserById(id: string): User|null
-{
+export function getUserById(id: string): User | null {
     for (const user of users) {
         if (user.id === id) {
             return user;

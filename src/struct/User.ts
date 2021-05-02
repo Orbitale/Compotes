@@ -1,5 +1,4 @@
-export default class User
-{
+export default class User {
     private readonly _id: string;
     private readonly _username: string;
     private readonly _password: string;
