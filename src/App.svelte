@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {isAuthenticatedStore} from './auth/current_user.ts';
+    import {getUser} from './auth/current_user.ts';
     import Navigation from "./components/Navigation.svelte";
     import router from 'page';
     import Home from './routes/Home.svelte';
@@ -16,13 +16,12 @@
         '/': () => page = Home,
 
         '/dashboard': () => {
-            isAuthenticatedStore.subscribe((isAuthenticated) => {
-                if (!isAuthenticated) {
-                    router.redirect('/');
-                    return;
-                }
-                page = Dashboard;
-            });
+            const user = getUser();
+            if (!user) {
+                router.redirect('/');
+                return;
+            }
+            page = Dashboard;
         },
 
         '/*': () => page = Error,
@@ -47,4 +46,6 @@
 
 <Navigation />
 
-<svelte:component this="{page}" params="{params}" />
+<main class="container">
+    <svelte:component this="{page}" params="{params}" />
+</main>

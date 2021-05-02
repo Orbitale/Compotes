@@ -1,11 +1,20 @@
 <script lang="ts">
     import { users, get_by_id } from '../db/users.ts';
     import message from "../utils/message.ts";
-    import {isAuthenticatedStore, userStore} from '../auth/current_user.ts';
+    import {setUser, getUser} from '../auth/current_user.ts';
     import router from 'page';
+    import {onMount} from "svelte";
 
     let login_id = '';
     let login_password = '';
+
+    onMount(() => {
+        let user = getUser();
+        console.info('debug user', {user});
+        if (user) {
+            router.redirect('/dashboard');
+        }
+    });
 
     function onFormSubmit (e: Event) {
         e.stopPropagation();
@@ -24,14 +33,15 @@
 
             return;
         }
+
         if (!user.isValidPassword(login_password)) {
             message('Invalid password.');
 
             return;
         }
 
-        isAuthenticatedStore.set(true);
-        userStore.set(user);
+        setUser(user);
+
         message('Successfully logged in!');
 
         router.redirect('/dashboard');

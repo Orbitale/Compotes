@@ -1,7 +1,7 @@
 import Toast from '../struct/Toast';
 
 function createContainerElement(): HTMLElement {
-    const html = '<div class="toast-container position-absolute p-3 top-0 start-0"></div>';
+    const html = '<div class="toast-container position-absolute p-3 top-0 end-0"></div>';
 
     const div = document.createElement('div');
 

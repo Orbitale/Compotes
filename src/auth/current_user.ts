@@ -1,9 +1,12 @@
-import { writable } from "svelte/store";
+import { writable, get } from "svelte/store";
+import type User from "../struct/User.ts";
 
-const isAuthenticatedStore = writable(false);
-const userStore = writable({});
+const userStore = writable(null);
+
+const getUser = (): User|null => get(userStore);
+const setUser = (user: User|null): void => userStore.set(user);
 
 export {
-    userStore,
-    isAuthenticatedStore,
+    getUser,
+    setUser,
 };

@@ -5,7 +5,7 @@
         e.stopPropagation();
         e.preventDefault();
 
-        message('TODO: Attempt register');
+        message('Feature not implemented yet 😉');
 
         return false;
     }

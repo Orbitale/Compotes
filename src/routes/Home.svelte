@@ -2,18 +2,15 @@
     import Login from "../components/Login.svelte";
     import Register from "../components/Register.svelte";
 
-    import {userStore, isAuthenticatedStore} from '../auth/current_user.ts';
-    let isAuthenticated = false;
-    let user = null;
-    userStore.subscribe(userInStore => user = userInStore);
-    isAuthenticatedStore.subscribe(isAuthenticatedInStore => isAuthenticated = isAuthenticatedInStore);
+    import {getUser} from '../auth/current_user.ts';
+    let user = getUser();
 </script>
 
 <div class="container">
     <h1 class="container">Compotes app, new version!</h1>
 
-    {#if isAuthenticated === true}
-        Hello {user.name}!
+    {#if user === true}
+        Hello {user.username}!
     {:else}
         <div class="accordion" id="homeaccordion">
             <div class="accordion-item">
