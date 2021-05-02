@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { users, get_by_id } from '../db/users.ts';
+    import {getUsers, getUserById} from '../db/users.ts';
     import message from "../utils/message.ts";
     import {setUser, getUser} from '../auth/current_user.ts';
-    import router from 'page';
+    import {replace} from 'svelte-spa-router'
     import {onMount} from "svelte";
 
     let login_id = '';
@@ -12,7 +12,7 @@
         let user = getUser();
         console.info('debug user', {user});
         if (user) {
-            router.redirect('/dashboard');
+            replace('#/dashboard');
         }
     });
 
@@ -26,7 +26,7 @@
             return;
         }
 
-        const user = get_by_id(login_id);
+        const user = getUserById(login_id);
 
         if (!user) {
             message('Invalid user.');
@@ -44,7 +44,7 @@
 
         message('Successfully logged in!');
 
-        router.redirect('/dashboard');
+        replace('#/dashboard');
 
         return true;
     }
@@ -54,7 +54,7 @@
     <label for="login_username" class="form-label">Username</label>
     <select name="login_username" id="login_username" class="form-select" bind:value={login_id}>
         <option value="">- Select a username -</option>
-        {#each users as {id, username}}
+        {#each getUsers() as {id, username}}
             <option value="{id}">{username}</option>
         {/each}
     </select>

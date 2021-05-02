@@ -19,7 +19,7 @@ function createContainerElement(): HTMLElement {
 let container;
 let addedToBody = false;
 
-function message(content: string) {
+export default function message(content: string) {
     if (!addedToBody) {
         container = createContainerElement();
         document.body.appendChild(container);
@@ -28,6 +28,4 @@ function message(content: string) {
 
     const toast = new Toast(content, container, bootstrap.Toast);
     toast.show();
-}
-
-export default message;
+};

@@ -1,5 +1,6 @@
-import { writable, get } from "svelte/store";
+// @ts-ignore
 import type User from "../struct/User.ts";
+import { writable, get } from "svelte/store";
 
 const userStore = writable(null);
 
