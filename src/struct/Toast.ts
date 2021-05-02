@@ -1,4 +1,4 @@
-class Toast {
+export default class Toast {
     private readonly _content: string;
     private readonly _containerElement: HTMLElement;
     private readonly _toastElement: HTMLElement;
@@ -49,35 +49,3 @@ class Toast {
         return toast;
     }
 }
-
-function createContainerElement(): HTMLElement {
-    const html = '<div class="toast-container position-absolute p-3 top-0 start-0"></div>';
-
-    const div = document.createElement('div');
-
-    div.innerHTML = html;
-
-    const container = div.firstChild;
-
-    if (!(container instanceof HTMLElement)) {
-        throw 'Toast container could not be created successfully.';
-    }
-
-    return container;
-}
-
-const container = createContainerElement();
-let addedToBody = false;
-
-function message(content: string) {
-    const toast = new Toast(content, container);
-
-    if (!addedToBody) {
-        document.body.appendChild(container);
-        addedToBody = true;
-    }
-
-    toast.show();
-}
-
-export default message;

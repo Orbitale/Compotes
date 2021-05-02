@@ -30,6 +30,7 @@
     "@tauri-apps/cli": "^1.0.0-beta-rc.4",
     "bootstrap": "^5.0.0-beta3",
     "node-sass": "^5.0.0",
+    "page": "^1.11.6",
     "postcss": "^8.2.12",
     "rollup-plugin-copy": "^3.4.0",
     "sirv-cli": "^1.0.11",

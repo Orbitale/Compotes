@@ -1,18 +1,10 @@
 <script global lang="ts">
 	import {onMount} from 'svelte';
-	import Home from "./pages/Home.svelte";
+    import router from 'page';
+    import Home from './routes/Home.svelte';
+    import removeSplashScreen from "./utils/remove_splashscreen.ts";
 
-	onMount(() => {
-		setTimeout(() => {
-			document.getElementById('splash_screen').classList.add('remove');
-		}, 1000);
-		setTimeout(() => {
-			let splash_screen = document.getElementById('splash_screen');
-			let splash_screen_style = document.getElementById('splash_screen_style');
-			splash_screen.parentElement.removeChild(splash_screen);
-			splash_screen_style.parentElement.removeChild(splash_screen_style);
-		}, 4000);
-	})
+    onMount(() => removeSplashScreen())
 </script>
 
 <Home />

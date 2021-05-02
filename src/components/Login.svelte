@@ -1,17 +1,17 @@
 <script lang="ts">
     import { users, get_by_id } from '../db/users.ts';
-    import message from "../utils/Toast";
+    import message from "../utils/message.ts";
     import {isAuthenticatedStore, userStore} from '../auth/current_user.ts';
 
     let login_id = '';
     let login_password = '';
 
     function onFormSubmit (e: Event) {
+        e.stopPropagation();
+        e.preventDefault();
 
         if (!login_id) {
             message('Please select a user.');
-            e.stopPropagation();
-            e.preventDefault();
 
             return;
         }
@@ -20,15 +20,11 @@
 
         if (!user) {
             message('Invalid user.');
-            e.stopPropagation();
-            e.preventDefault();
 
             return;
         }
         if (!user.isValidPassword(login_password)) {
             message('Invalid password.');
-            e.stopPropagation();
-            e.preventDefault();
 
             return;
         }
