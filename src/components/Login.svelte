@@ -2,6 +2,7 @@
     import { users, get_by_id } from '../db/users.ts';
     import message from "../utils/message.ts";
     import {isAuthenticatedStore, userStore} from '../auth/current_user.ts';
+    import router from 'page';
 
     let login_id = '';
     let login_password = '';
@@ -32,6 +33,8 @@
         isAuthenticatedStore.set(true);
         userStore.set(user);
         message('Successfully logged in!');
+
+        router.redirect('/dashboard');
 
         return true;
     }

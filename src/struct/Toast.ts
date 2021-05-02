@@ -1,11 +1,15 @@
+import type {Toast as BootstrapToast} from 'bootstrap';
+
 export default class Toast {
     private readonly _content: string;
     private readonly _containerElement: HTMLElement;
     private readonly _toastElement: HTMLElement;
+    private readonly _BootstrapToast: BootstrapToast;
 
-    constructor(content: string, containerElement: HTMLElement) {
+    constructor(content: string, containerElement: HTMLElement, bootstrapToast: BootstrapToast) {
         this._content = content;
 
+        this._BootstrapToast = bootstrapToast;
         this._containerElement = containerElement;
         this._toastElement = this.createToastElement();
     }
@@ -13,7 +17,7 @@ export default class Toast {
     show() {
         this._containerElement.appendChild(this._toastElement);
 
-        new bootstrap.Toast(this._toastElement);
+        new this._BootstrapToast(this._toastElement);
 
         setTimeout(() => this._toastElement.classList.add('show'), 50);
         setTimeout(() => this.hide(), 4000);

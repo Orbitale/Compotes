@@ -26,7 +26,7 @@ function message(content: string) {
         addedToBody = true;
     }
 
-    const toast = new Toast(content, container);
+    const toast = new Toast(content, container, bootstrap.Toast);
     toast.show();
 }
 

@@ -1,5 +1,5 @@
 
-export default function removeSplashScreen() {
+export default function removeSplashScreen(document: Document) {
     setTimeout(() => {
         document.getElementById('splash_screen').classList.add('remove');
     }, 1000);
