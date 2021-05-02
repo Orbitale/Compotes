@@ -1,4 +1,5 @@
-export default class User {
+export default class User
+{
     private readonly _id: string;
     private readonly _username: string;
     private readonly _password: string;
@@ -19,5 +20,9 @@ export default class User {
 
     get password(): string {
         return this._password;
+    }
+
+    isValidPassword(input_password: string) {
+        return this._password === input_password;
     }
 }
