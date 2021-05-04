@@ -2,3 +2,8 @@
 # will have compiled files and executables
 /target/
 WixTools
+
+# Development database
+/data.db3
+/data_sqlite.sql
+/mysql2sqlite
