@@ -20,7 +20,8 @@ rusqlite = { version = "0.24", features = [] }
 refinery = { version = "0.5", features = ["rusqlite-bundled"] }
 
 [dependencies.tauri]
-version = "1.0.0-beta-rc.4"
+git = "https://github.com/tauri-apps/tauri"
+branch = "dev"
 
 [features]
 default = [ "custom-protocol" ]
