@@ -4,6 +4,6 @@
 WixTools
 
 # Development database
-/data.db3
-/data_sqlite.sql
+/*.db3
+/*_sqlite.sql
 /mysql2sqlite
