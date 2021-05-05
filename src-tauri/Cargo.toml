@@ -13,6 +13,7 @@ build = "src/build.rs"
 tauri-build = "1.0.0-beta-rc.1"
 
 [dependencies]
+chrono = "0.4.19"
 serde_json = "1.0"
 serde = { version = "1.0", features = [ "derive" ] }
 rusqlite = { version = "0.24", features = [] }

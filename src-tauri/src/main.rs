@@ -4,6 +4,7 @@ windows_subsystem = "windows"
 )]
 
 use rusqlite::Connection;
+use chrono::prelude::*;
 
 fn main() {
     let mut db_connection = Connection::open("./data.db3").expect("Could not open database.");
@@ -12,17 +13,35 @@ fn main() {
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            my_custom_command
+            get_operations
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
 
-#[tauri::command]
-fn my_custom_command() -> String {
-    "I was invoked from JS!".into()
-}
-
 mod embedded {
     refinery::embed_migrations!("src/migrations/");
+}
+
+#[tauri::command]
+fn get_operations() -> String {
+    "{}".into()
+}
+
+enum OperationState {
+    Ok,
+    PendingTriage,
+}
+
+struct Operation {
+    _id: usize,
+    _operation_date: String,
+    _type: DateTime<Utc>,
+    _type_display: String,
+    _details: String,
+    _amount_in_cents: isize,
+    _hash: String,
+    _state: OperationState,
+    _ignored_from_charts: bool,
+    _bank_account_id: usize,
 }
