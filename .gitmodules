@@ -1,3 +1,0 @@
-[submodule "tauri"]
-	path = tauri
-	url = git@github.com:tauri-apps/tauri.git
