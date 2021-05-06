@@ -37,11 +37,13 @@ checksum = "28b2cd92db5cbd74e8e5028f7e27dd7aa3090e89e4f2a197cc7c8dfb69c7063b"
 name = "app"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "chrono",
  "refinery",
  "rusqlite",
  "serde",
  "serde_json",
+ "serde_rusqlite",
  "tauri",
  "tauri-build",
 ]
@@ -264,6 +266,7 @@ dependencies = [
  "libc",
  "num-integer",
  "num-traits",
+ "serde",
  "time",
  "winapi",
 ]
@@ -626,12 +629,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bd0c93bb4b0c6d9b77f4435b0ae98c24d17f1c45b2ff844c6151a07256ca923b"
 
 [[package]]
-name = "doc-comment"
-version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fea41bba32d969b513997752735605054bc0dfa92b4c56bf1189f2e174be7a10"
-
-[[package]]
 name = "dtoa"
 version = "0.4.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -933,7 +930,7 @@ checksum = "c9495705279e7140bf035dde1f6e750c162df8b625267cd52cc44e0b156732c8"
 dependencies = [
  "cfg-if 1.0.0",
  "libc",
- "wasi 0.10.0+wasi-snapshot-preview1",
+ "wasi 0.10.2+wasi-snapshot-preview1",
 ]
 
 [[package]]
@@ -2476,6 +2473,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde_rusqlite"
+version = "0.26.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1023b4e2409dc2daa72310e80f81627d7e499416f00d1d1d6a1f3f5eac133b14"
+dependencies = [
+ "rusqlite",
+ "serde",
+]
+
+[[package]]
 name = "serde_urlencoded"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2629,22 +2636,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sysinfo"
-version = "0.17.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f5e4b56d92c7c56cc8a06df0cc06860a8ec6102e9a8a5ee85dff90afbeadf3d"
-dependencies = [
- "cfg-if 1.0.0",
- "core-foundation-sys 0.8.2",
- "doc-comment",
- "libc",
- "ntapi",
- "once_cell",
- "rayon",
- "winapi",
-]
-
-[[package]]
 name = "system-deps"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2662,7 +2653,7 @@ dependencies = [
 [[package]]
 name = "tao"
 version = "0.1.0"
-source = "git+https://github.com/wusyong/tao?branch=dev#466d8b4d728bc0afb7e593957c4edc5eb44a5032"
+source = "git+https://github.com/wusyong/tao?branch=dev#05a793bf5543408515d1668109747a69fa0baacc"
 dependencies = [
  "bitflags",
  "cairo-rs",
@@ -2705,7 +2696,7 @@ dependencies = [
 [[package]]
 name = "tauri"
 version = "1.0.0-beta-rc.4"
-source = "git+https://github.com/tauri-apps/tauri?branch=dev#879f2965ecbc769cbe611b877f53198a904a536a"
+source = "git+https://github.com/tauri-apps/tauri?branch=dev#9c10ccf8d30af92cb90044a732e904c53507771a"
 dependencies = [
  "base64",
  "bytes",
@@ -2757,7 +2748,7 @@ dependencies = [
 [[package]]
 name = "tauri-codegen"
 version = "1.0.0-beta-rc.1"
-source = "git+https://github.com/tauri-apps/tauri?branch=dev#879f2965ecbc769cbe611b877f53198a904a536a"
+source = "git+https://github.com/tauri-apps/tauri?branch=dev#9c10ccf8d30af92cb90044a732e904c53507771a"
 dependencies = [
  "blake3",
  "proc-macro2",
@@ -2773,7 +2764,7 @@ dependencies = [
 [[package]]
 name = "tauri-macros"
 version = "1.0.0-beta-rc.1"
-source = "git+https://github.com/tauri-apps/tauri?branch=dev#879f2965ecbc769cbe611b877f53198a904a536a"
+source = "git+https://github.com/tauri-apps/tauri?branch=dev#9c10ccf8d30af92cb90044a732e904c53507771a"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2784,7 +2775,7 @@ dependencies = [
 [[package]]
 name = "tauri-utils"
 version = "1.0.0-beta-rc.1"
-source = "git+https://github.com/tauri-apps/tauri?branch=dev#879f2965ecbc769cbe611b877f53198a904a536a"
+source = "git+https://github.com/tauri-apps/tauri?branch=dev#9c10ccf8d30af92cb90044a732e904c53507771a"
 dependencies = [
  "html5ever",
  "kuchiki",
@@ -2793,7 +2784,6 @@ dependencies = [
  "quote",
  "serde",
  "serde_json",
- "sysinfo",
  "thiserror",
  "url",
  "zstd",
@@ -2872,12 +2862,11 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.1.44"
+version = "0.1.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6db9e6914ab8b1ae1c260a4ae7a49b6c5611b40328a735b21862567685e73255"
+checksum = "ca8a50ef2360fbd1eeb0ecd46795a87a19024eb4b53c5dc916ca1fd95fe62438"
 dependencies = [
  "libc",
- "wasi 0.10.0+wasi-snapshot-preview1",
  "winapi",
 ]
 
@@ -3112,9 +3101,9 @@ checksum = "cccddf32554fecc6acb585f82a32a72e28b48f8c4c1883ddfeeeaa96f7d8e519"
 
 [[package]]
 name = "wasi"
-version = "0.10.0+wasi-snapshot-preview1"
+version = "0.10.2+wasi-snapshot-preview1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
+checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm-bindgen"
