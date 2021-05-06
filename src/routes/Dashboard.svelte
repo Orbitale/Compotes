@@ -3,8 +3,14 @@
     import {invoke} from "@tauri-apps/api/tauri";
     import {replace} from 'svelte-spa-router';
     import {onMount} from "svelte";
+    import OperationLine from "../components/Dashboard/OperationLine.svelte";
 
     let user = getUser();
+
+    let page = 1;
+    let total = 0;
+    let all_operations = [];
+    let operations = [];
 
     onMount(async () => {
         user = getUser();
@@ -13,14 +19,14 @@
             return await replace('#/');
         }
 
-        console.info('Mounted!');
+        let res: String = await invoke("get_operations");
+        all_operations = JSON.parse(res);
 
-        console.info('Resetted user!');
-
-        let res = await invoke("get_operations");
-
-        console.info(res);
+        total = all_operations.length;
+        operations = all_operations.slice(0, 10);
     });
 </script>
 
-Hey {user?.username}!
+{#each operations as operation}
+    <OperationLine operation={operation} />
+{/each}
