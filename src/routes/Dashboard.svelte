@@ -3,7 +3,7 @@
     import {invoke} from "@tauri-apps/api/tauri";
     import {replace} from 'svelte-spa-router';
     import {onMount} from "svelte";
-    import OperationLine from "../components/Dashboard/OperationLine.svelte";
+    import OperationsTable from "../components/Dashboard/OperationsTable.svelte";
 
     let user = getUser();
 
@@ -27,6 +27,4 @@
     });
 </script>
 
-{#each operations as operation}
-    <OperationLine operation={operation} />
-{/each}
+<OperationsTable operations={operations} />
