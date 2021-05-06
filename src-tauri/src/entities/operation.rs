@@ -10,7 +10,7 @@ pub(crate) struct Operation
     pub(crate) op_type: String,
     pub(crate) type_display: String,
     pub(crate) details: String,
-    pub(crate) amount_in_cents: u32,
+    pub(crate) amount_in_cents: i32,
     pub(crate) hash: String,
     pub(crate) state: OperationState,
     pub(crate) ignored_from_charts: bool,

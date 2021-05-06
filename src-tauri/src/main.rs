@@ -37,18 +37,16 @@ mod embedded {
     refinery::embed_migrations!("src/migrations/");
 }
 
-struct Database(Mutex<Connection>);
-
 #[tauri::command]
-fn get_operations(conn_state: State<'_, Database>) -> String {
-    let conn = conn_state.0.lock().unwrap();
-    let conn: &Connection = conn.deref();
+fn get_operations(conn_state: State<'_, Mutex<Connection>>) -> String {
+    let conn = conn_state.inner().lock().expect("Could not retrieve connection");
+    let conn = conn.deref();
 
     let mut stmt = conn.prepare("
         SELECT
             id,
             operation_date,
-            type,
+            type as op_type,
             type_display,
             details,
             amount_in_cents,
@@ -67,7 +65,7 @@ fn get_operations(conn_state: State<'_, Database>) -> String {
         match rows_iter.next() {
             None => { break; },
             Some(operation) => {
-                let operation = operation.unwrap();
+                let operation = operation.expect("Could not deserialize Operation item");
                 operations.push(operation);
             }
         }
