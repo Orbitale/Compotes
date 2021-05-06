@@ -1,20 +1,11 @@
 <script lang="ts">
     import {getUsers, getUserById} from '../db/users.ts';
     import message from "../utils/message.ts";
-    import {setUser, getUser} from '../auth/current_user.ts';
-    import {replace} from 'svelte-spa-router'
-    import {onMount} from "svelte";
+    import {setUser} from '../auth/current_user.ts';
+    import {replace} from "svelte-spa-router";
 
     let login_id = '';
     let login_password = '';
-
-    onMount(() => {
-        let user = getUser();
-        console.info('debug user', {user});
-        if (user) {
-            replace('#/dashboard');
-        }
-    });
 
     function onFormSubmit(e: Event) {
         e.stopPropagation();

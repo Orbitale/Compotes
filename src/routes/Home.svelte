@@ -3,8 +3,15 @@
     import Register from "../components/Register.svelte";
 
     import {getUser} from '../auth/current_user.ts';
+    import {replace} from "svelte-spa-router";
 
     let user = getUser();
+
+    if (user && user.id) {
+        if (user) {
+            replace('#/dashboard');
+        }
+    }
 </script>
 
 <div class="container">
