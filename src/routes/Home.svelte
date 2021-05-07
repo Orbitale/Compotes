@@ -8,9 +8,7 @@
     let user = getUser();
 
     if (user && user.id) {
-        if (user) {
-            replace('#/dashboard');
-        }
+        replace('#/dashboard');
     }
 </script>
 

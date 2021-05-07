@@ -1,10 +1,13 @@
 // @ts-ignore
-import type User from "../struct/User.ts";
+import User from "../struct/User.ts";
 import {writable, get} from "svelte/store";
 
 const userStore = writable(null);
 
-const getUser = (): User | null => get(userStore);
+const getUser = (): User | null => {
+    // TODO: Use this later: get(userStore);
+    return new User("1", "admin", "admin");
+};
 const setUser = (user: User | null): void => userStore.set(user);
 
 export {
