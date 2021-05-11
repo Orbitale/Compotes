@@ -4,15 +4,13 @@ windows_subsystem = "windows"
 )]
 
 use rusqlite::Connection;
-use rusqlite::NO_PARAMS;
 use std::ops::Deref;
 use std::sync::Mutex;
-use serde_rusqlite::from_rows;
 use tauri::State;
-use crate::entities::operation::Operation;
+use crate::entities::operations;
 
 mod entities {
-    pub(crate) mod operation;
+    pub(crate) mod operations;
 }
 
 mod structs {
@@ -42,34 +40,7 @@ fn get_operations(conn_state: State<'_, Mutex<Connection>>) -> String {
     let conn = conn_state.inner().lock().expect("Could not retrieve connection");
     let conn = conn.deref();
 
-    let mut stmt = conn.prepare("
-        SELECT
-            id,
-            operation_date,
-            type as op_type,
-            type_display,
-            details,
-            amount_in_cents,
-            hash,
-            state,
-            bank_account_id,
-            ignored_from_charts
-        FROM operations
-    ").expect("Could not fetch operations");
-
-    let mut operations: Vec<Operation> = Vec::new();
-
-    let mut rows_iter = from_rows::<Operation>(stmt.query(NO_PARAMS).unwrap());
-
-    loop {
-        match rows_iter.next() {
-            None => { break; },
-            Some(operation) => {
-                let operation = operation.expect("Could not deserialize Operation item");
-                operations.push(operation);
-            }
-        }
-    }
+    let operations = operations::find_all(&conn);
 
     serde_json::to_string(&operations).expect("Could not serialize Operations properly")
 }
