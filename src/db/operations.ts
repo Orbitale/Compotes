@@ -2,7 +2,7 @@
 import Operation from '../entities/Operation.ts';
 import {invoke} from "@tauri-apps/api/tauri";
 
-let operations = [];
+let operations: Operation[] = [];
 
 export async function getOperations()
 {
@@ -14,10 +14,14 @@ export async function getOperations()
     return operations;
 }
 
-export function getOperationById(id: string): Operation | null
+export async function getOperationById(id: string): Promise<Operation | null>
 {
+    if (!operations.length) {
+        await getOperations();
+    }
+
     for (const operation of operations) {
-        if (operation.id === id) {
+        if (operation.id.toString() === id) {
             return operation;
         }
     }
