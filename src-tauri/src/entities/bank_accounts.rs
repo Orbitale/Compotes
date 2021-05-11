@@ -23,6 +23,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount>
             slug,
             currency
         FROM bank_accounts
+        ORDER BY name ASC
     ").expect("Could not fetch bank accounts");
 
     let mut bank_accounts: Vec<BankAccount> = Vec::new();

@@ -36,6 +36,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation>
             bank_account_id,
             ignored_from_charts
         FROM operations
+        ORDER BY operation_date DESC
     ").expect("Could not fetch operations");
 
     let mut operations: Vec<Operation> = Vec::new();
