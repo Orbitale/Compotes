@@ -4,14 +4,20 @@
     export let operation: Operation;
 
     let date = new Date(operation.operation_date);
-    let date_as_string = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay();
+    let date_as_string = date.toLocaleDateString();
 </script>
+
+<style lang="scss">
+    .operation-date {
+        white-space: nowrap;
+    }
+</style>
 
 <tr>
     <td>
         {operation.id}
     </td>
-    <td>{date_as_string}</td>
+    <td class="operation-date">{date_as_string}</td>
     <td>{operation.bank_account_id}</td>
     <td>{operation.op_type}</td>
     <td>{operation.details}</td>
