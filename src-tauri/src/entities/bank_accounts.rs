@@ -21,7 +21,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount>
             id,
             name,
             slug,
-            crrency
+            currency
         FROM bank_accounts
     ").expect("Could not fetch bank accounts");
 
