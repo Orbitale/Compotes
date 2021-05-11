@@ -10,7 +10,7 @@ edition = "2018"
 build = "src/build.rs"
 
 [build-dependencies]
-tauri-build = "1.0.0-beta-rc.1"
+tauri-build = "1.0.0-beta.0"
 
 [dependencies]
 anyhow = "1.0"
