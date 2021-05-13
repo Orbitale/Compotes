@@ -54,7 +54,7 @@
     "windows": [
       {
         "title": "Compotes",
-        "width": 900,
+        "width": 1024,
         "height": 800,
         "resizable": true,
         "fullscreen": false
