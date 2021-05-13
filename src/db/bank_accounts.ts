@@ -4,7 +4,7 @@ import {invoke} from "@tauri-apps/api/tauri";
 
 let bank_accounts: BankAccount[] = [];
 
-export async function getBankAccounts()
+export async function getBankAccounts(): Promise<Array<BankAccount>>
 {
     if (!bank_accounts.length) {
         let res: string = await invoke("get_bank_accounts");

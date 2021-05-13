@@ -4,7 +4,7 @@ import {invoke} from "@tauri-apps/api/tauri";
 
 let operations: Operation[] = [];
 
-export async function getOperations()
+export async function getOperations(): Promise<Array<Operation>>
 {
     if (!operations.length) {
         let res: string = await invoke("get_operations");

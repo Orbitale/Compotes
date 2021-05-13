@@ -35,7 +35,7 @@
 
         message('Successfully logged in!');
 
-        replace('#/dashboard');
+        replace('#/operations');
 
         return true;
     }

@@ -9,10 +9,14 @@ use std::sync::Mutex;
 use tauri::State;
 use crate::entities::operations;
 use crate::entities::bank_accounts;
+use crate::entities::tags;
+use crate::entities::tag_rules;
 
 mod entities {
     pub(crate) mod operations;
     pub(crate) mod bank_accounts;
+    pub(crate) mod tags;
+    pub(crate) mod tag_rules;
 }
 
 mod structs {
@@ -28,7 +32,9 @@ fn main() {
         .manage(Mutex::new(conn))
         .invoke_handler(tauri::generate_handler![
             get_operations,
-            get_bank_accounts
+            get_bank_accounts,
+            get_tags,
+            get_tag_rules
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -52,4 +58,20 @@ fn get_bank_accounts(conn_state: State<'_, Mutex<Connection>>) -> String {
     let conn = conn.deref();
 
     serde_json::to_string(&bank_accounts::find_all(&conn)).expect("Could not serialize BankAccount properly")
+}
+
+#[tauri::command]
+fn get_tags(conn_state: State<'_, Mutex<Connection>>) -> String {
+    let conn = conn_state.inner().lock().expect("Could not retrieve connection");
+    let conn = conn.deref();
+
+    serde_json::to_string(&tags::find_all(&conn)).expect("Could not serialize Tag properly")
+}
+
+#[tauri::command]
+fn get_tag_rules(conn_state: State<'_, Mutex<Connection>>) -> String {
+    let conn = conn_state.inner().lock().expect("Could not retrieve connection");
+    let conn = conn.deref();
+
+    serde_json::to_string(&tag_rules::find_all(&conn)).expect("Could not serialize Tag rules properly")
 }

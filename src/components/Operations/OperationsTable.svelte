@@ -76,8 +76,8 @@
     <thead>
         <tr>
             <td colspan="8">
-                <button type="button" class="btn btn-outline-primary" on:click={previousPage} id="previous-page">&lt;</button>
-                <button type="button" class="btn btn-outline-primary" on:click={nextPage} id="next-page">&gt;</button>
+                <button type="button" class="btn btn-outline-primary" disabled="{page === 1}" on:click={previousPage} id="previous-page">&lt;</button>
+                <button type="button" class="btn btn-outline-primary" disabled="{page === number_of_pages}" on:click={nextPage} id="next-page">&gt;</button>
                 <div id="pages-text">
                     Page: {page} / {number_of_pages}
                 </div>

@@ -1,19 +1,7 @@
 <script lang="ts">
     import Navigation from "./components/Navigation.svelte";
     import Router from 'svelte-spa-router';
-    import Home from './routes/Home.svelte';
-    import Error from './routes/Error.svelte';
-    import Dashboard from './routes/Dashboard.svelte';
-
-    /**
-     * Routing
-     */
-    let routes = {
-        '/': Home,
-        '/dashboard': Dashboard,
-        '*': Error,
-
-    };
+    import routes from './routes.ts';
 
     /**
      * Post-Startup actions

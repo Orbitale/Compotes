@@ -23,9 +23,7 @@
 </style>
 
 <tr>
-    <td>
-        {operation.id}
-    </td>
+    <td>{operation.id}</td>
     <td class="operation-date">{date_as_string}</td>
     <td class="operation-bank-account">{bank_account.name}</td>
     <td>{operation.op_type}</td>
