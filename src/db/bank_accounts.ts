@@ -8,7 +8,10 @@ export async function getBankAccounts(): Promise<Array<BankAccount>>
 {
     if (!bank_accounts.length) {
         let res: string = await invoke("get_bank_accounts");
-        bank_accounts = JSON.parse(res);
+        bank_accounts = JSON.parse(res).map((data: object) => {
+            // @ts-ignore
+            return new BankAccount(data.id, data.name, data.slug, data.currency);
+        });
     }
 
     return bank_accounts;
