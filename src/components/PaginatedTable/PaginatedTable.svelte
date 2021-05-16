@@ -12,7 +12,6 @@
     let number_of_pages = 1;
     let number_of_items;
     let displayed_items = [];
-    let mounted = false;
 
     function firstPage() {
         page = number_of_items > 0 ? 1 : 0;
