@@ -8,7 +8,7 @@
 
     needsUser();
 
-    let tags: Tag[] = [];
+    let tags: Tag[];
 
     let fields = [
         new FieldToDisplay('id', 'ID'),
@@ -18,10 +18,4 @@
     onMount(async () => tags = await getTags())
 </script>
 
-{#if tags.length}
-    <PaginatedTable bind:items={tags} fields={fields} />
-{:else}
-    <div class="alert alert-warning">
-        No tags yet.
-    </div>
-{/if}
+<PaginatedTable items={tags} fields={fields} />
