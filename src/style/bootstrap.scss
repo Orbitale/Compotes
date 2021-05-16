@@ -7,6 +7,9 @@
 @import "../../node_modules/bootstrap/scss/mixins";
 @import "../../node_modules/bootstrap/scss/utilities";
 
+$navbar-light-color: rgba($black, .3);
+$navbar-light-active-color: rgba($black, 1);
+
 // Layout & components
 @import "../../node_modules/bootstrap/scss/root";
 @import "../../node_modules/bootstrap/scss/reboot";
