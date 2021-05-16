@@ -2,6 +2,7 @@
     import ItemLine from "./ItemLine.svelte";
     import {onMount} from "svelte";
     import FieldToDisplay from "../../struct/FieldToDisplay.ts";
+    import EmptyCollectionMessageLine from "./EmptyCollectionMessageLine.svelte";
 
     export let items: object[];
     export let fields: FieldToDisplay[];
@@ -48,8 +49,6 @@
         number_of_pages = items ? Math.ceil(number_of_items / number_per_page) : 0;
 
         firstPage();
-
-        mounted = true;
     });
 </script>
 
@@ -71,40 +70,30 @@
     #next-page { float: right; }
 </style>
 
-{#if !mounted}
-    <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-{:else}
-    <table class="table table-bordered table-responsive table-striped table-sm">
-        <thead>
-        <tr>
-            <td colspan="{fields.length}">
-                <button type="button" class="btn btn-outline-primary" disabled="{page === 1}" on:click={previousPage} id="previous-page">&lt;</button>
-                <button type="button" class="btn btn-outline-primary" disabled="{page === number_of_pages}" on:click={nextPage} id="next-page">&gt;</button>
-                <div id="pages-text">
-                    Page: {page} / {number_of_pages}
-                </div>
-            </td>
-        </tr>
-        <tr>
-            {#each fields as field}
-                <th>{field.text}</th>
-            {/each}
-        </tr>
-        </thead>
-        <tbody>
+<table class="table table-bordered table-responsive table-striped table-sm">
+    <thead>
+    <tr>
+        <td colspan="{fields.length}">
+            <button type="button" class="btn btn-outline-primary" disabled="{page === 1}" on:click={previousPage} id="previous-page">&lt;</button>
+            <button type="button" class="btn btn-outline-primary" disabled="{page === number_of_pages}" on:click={nextPage} id="next-page">&gt;</button>
+            <div id="pages-text">
+                Page: {page} / {number_of_pages}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        {#each fields as field}
+            <th>{field.text}</th>
+        {/each}
+    </tr>
+    </thead>
+    <tbody>
         {#if displayed_items.length}
-            {#each displayed_items as item}
-                <ItemLine item={item} fields={fields} />
+            {#each displayed_items as item, key}
+                <ItemLine item={displayed_items[key]} {fields} />
             {/each}
         {:else}
-            <tr class="table-warning">
-                <td colspan="{fields.length}">
-                    Nothing to display here yet...
-                </td>
-            </tr>
+            <EmptyCollectionMessageLine number_of_fields={fields.length} />
         {/if}
-        </tbody>
-    </table>
-{/if}
+    </tbody>
+</table>

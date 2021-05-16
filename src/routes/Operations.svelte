@@ -4,6 +4,7 @@
     import PaginatedTable from "../components/PaginatedTable/PaginatedTable.svelte";
     import Operation from "../entities/Operation.ts";
     import FieldToDisplay from "../struct/FieldToDisplay.ts";
+    import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
 
     needsUser();
 
@@ -45,9 +46,7 @@
         It is highly recommended to use the <i class="fa fa-plus"></i> icon to add new tags to them.
     </div>
 
-    <PaginatedTable bind:items={operations} fields={fields} />
+    <PaginatedTable items={operations} fields={fields} />
 {:else}
-    <div class="alert alert-warning">
-        No operations yet.
-    </div>
+    <EmptyCollection />
 {/if}

@@ -7,6 +7,7 @@
     import AssociatedItem from "../struct/AssociatedItem.ts";
     import FieldToDisplay from "../struct/FieldToDisplay.ts";
     import AssociatedCollection from "../struct/AssociatedCollection.ts";
+    import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
 
     needsUser();
 
@@ -64,9 +65,7 @@
 </script>
 
 {#if tag_rules.length}
-    <PaginatedTable bind:items={tag_rules} fields={fields} />
+    <PaginatedTable items={tag_rules} fields={fields} />
 {:else}
-    <div class="alert alert-warning">
-        No tag rules yet.
-    </div>
+    <EmptyCollection />
 {/if}

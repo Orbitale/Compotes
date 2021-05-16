@@ -3,6 +3,7 @@
     import {getBankAccounts} from "../db/bank_accounts.ts";
     import PaginatedTable from "../components/PaginatedTable/PaginatedTable.svelte";
     import {onMount} from "svelte";
+    import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
 
     needsUser();
 
@@ -19,9 +20,7 @@
 </script>
 
 {#if bank_accounts.length}
-    <PaginatedTable bind:items={bank_accounts} fields={fields} />
+    <PaginatedTable items={bank_accounts} fields={fields} />
 {:else}
-    <div class="alert alert-warning">
-        No bank accounts yet.
-    </div>
+    <EmptyCollection />
 {/if}
