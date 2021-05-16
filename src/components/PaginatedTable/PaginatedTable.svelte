@@ -88,7 +88,7 @@
     </thead>
     <tbody>
         {#if displayed_items.length}
-            {#each displayed_items as item, key}
+            {#each displayed_items as item, key (displayed_items[key])}
                 <ItemLine item={displayed_items[key]} {fields} />
             {/each}
         {:else}
