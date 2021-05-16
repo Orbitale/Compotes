@@ -4,7 +4,7 @@ import FieldHtmlProperties from "./FieldHtmlProperties.ts";
 export default class FieldToDisplay {
     public readonly name: string;
     public readonly text: string;
-    public readonly field_html_properties: null|FieldHtmlProperties;
+    public readonly field_html_properties: FieldHtmlProperties;
     private readonly _associated_field: null|AssociatedFieldToDisplay;
 
     constructor(
@@ -15,6 +15,9 @@ export default class FieldToDisplay {
     ) {
         this.name = name;
         this.text = text === '' ? name : text;
+        if (!field_html_properties) {
+            field_html_properties = FieldHtmlProperties.defaults();
+        }
         this.field_html_properties = field_html_properties;
         this._associated_field = associated_field;
     }

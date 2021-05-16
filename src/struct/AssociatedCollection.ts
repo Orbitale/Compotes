@@ -1,4 +1,4 @@
-import AssociatedItem from "./AssociatedItem.ts";
+import type AssociatedItem from "./AssociatedItem.ts";
 
 export default class AssociatedCollection {
     public readonly items: AssociatedItem[];

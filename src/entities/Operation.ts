@@ -20,7 +20,7 @@ export default class Operation
     public readonly ignored_from_charts!: boolean;
     public readonly bank_account_id!: number;
 
-    public readonly bank_account: BankAccount|null = null;
+    private _bank_account: BankAccount|null = null;
 
     constructor(id: number, operation_date: String, op_type: String, type_display: String, details: String, amount_in_cents: number, hash: String, state: OperationState, ignored_from_charts: boolean, bank_account_id: number) {
         this.id = id;
@@ -43,11 +43,18 @@ export default class Operation
     }
 
     get amount_display() {
-        if (!this.bank_account) {
+        if (!this._bank_account) {
             throw new Error('Cannot display Operation amount if no bank account is present.');
         }
 
-        return this.amount.toLocaleString() + ' ' + this.bank_account.currency;
+        return this.amount.toLocaleString() + ' ' + this._bank_account.currency;
+    }
+
+    get bank_account(): BankAccount {
+        if (!this._bank_account) {
+            throw new Error('Bank account is not initialized, did you forget to run the ".sync()" method on this operation?');
+        }
+        return this._bank_account;
     }
 
     public async sync(): Promise<void> {
@@ -55,8 +62,8 @@ export default class Operation
     }
 
     public async fetch_bank_account(): Promise<BankAccount> {
-        if (this.bank_account) {
-            return this.bank_account;
+        if (this._bank_account) {
+            return this._bank_account;
         }
 
         const bank_account = await getBankAccountById(this.bank_account_id.toString());
@@ -65,7 +72,7 @@ export default class Operation
             throw new Error(`No bank account with id ${this.bank_account_id}`);
         }
 
-        this.bank_account = bank_account;
+        this._bank_account = bank_account;
 
         return bank_account;
     }

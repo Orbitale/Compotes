@@ -15,9 +15,9 @@
     let waiting_tag_rules = [];
 
     let fields = [
-        {name: 'id', text: 'ID'},
-        {name: 'tags', text: 'Tags'},
-        {name: 'matching_pattern', text: 'Matching pattern'},
+        new FieldToDisplay('id', 'ID'),
+        new FieldToDisplay('tags', 'Tags'),
+        new FieldToDisplay('matching_pattern', 'Matching pattern'),
     ];
 
     getTagRules()
