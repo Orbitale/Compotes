@@ -39,7 +39,7 @@
     }
 
     function displayitems() {
-        displayed_items = items.slice((page-1)*number_per_page, (page)*number_per_page);
+        displayed_items = items.slice((page - 1) * number_per_page, (page) * number_per_page);
     }
 
     onMount(() => {
