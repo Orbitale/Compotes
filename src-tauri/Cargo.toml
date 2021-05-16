@@ -10,7 +10,7 @@ edition = "2018"
 build = "src/build.rs"
 
 [build-dependencies]
-tauri-build = "1.0.0-beta.0"
+tauri-build = "1.0.0-beta"
 
 [dependencies]
 anyhow = "1.0"
@@ -21,8 +21,8 @@ chrono = { version = "0.4", features = [ "serde" ] }
 rusqlite = { version = "0.24", features = [ ] }
 refinery = { version = "0.5", features = [ "rusqlite-bundled" ] }
 
-  [dependencies.tauri]
-  version = "1.0.0-beta"
+[dependencies.tauri]
+version = "1.0.0-beta"
 
 [features]
 default = [ "custom-protocol" ]

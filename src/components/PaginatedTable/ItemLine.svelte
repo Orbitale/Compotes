@@ -8,7 +8,9 @@
 
 <tr>
     {#each fields as field}
-        <td>
+        <td
+            class={field.field_html_properties.html_class}
+        >
             <ItemFieldValue item={item} field={field} />
         </td>
     {/each}

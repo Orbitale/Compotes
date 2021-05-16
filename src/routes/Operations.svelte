@@ -5,6 +5,7 @@
     import Operation from "../entities/Operation.ts";
     import FieldToDisplay from "../struct/FieldToDisplay.ts";
     import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
+    import FieldHtmlProperties from "../struct/FieldHtmlProperties.ts";
 
     needsUser();
 
@@ -12,11 +13,11 @@
 
     let fields = [
         new FieldToDisplay('id', 'ID'),
-        new FieldToDisplay('operation_date', 'Date'),
+        new FieldToDisplay('date', 'Date'),
         new FieldToDisplay('bank_account', 'Bank account', new FieldToDisplay('name')),
         new FieldToDisplay('op_type', 'Type'),
         new FieldToDisplay('details', 'Details'),
-        new FieldToDisplay('amount_in_cents', 'Amount'),
+        new FieldToDisplay('amount_display', 'Amount', null, new FieldHtmlProperties('operation-amount')),
         new FieldToDisplay('ignored_from_charts', 'Ignored from charts'),
         new FieldToDisplay('tags', 'Tags'),
     ];
