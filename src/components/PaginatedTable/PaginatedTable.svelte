@@ -1,9 +1,10 @@
 <script lang="ts">
     import ItemLine from "./ItemLine.svelte";
     import {onMount} from "svelte";
+    import FieldToDisplay from "../../struct/FieldToDisplay.ts";
 
-    export let items;
-    export let fields: Object;
+    export let items: object[];
+    export let fields: FieldToDisplay[];
 
     let number_per_page = 10;
     let page = 1;
@@ -47,7 +48,6 @@
         number_of_pages = Math.ceil(number_of_items / number_per_page);
 
         firstPage();
-
     });
 </script>
 
