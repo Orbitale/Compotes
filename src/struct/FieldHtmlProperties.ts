@@ -5,7 +5,7 @@ export default class FieldHtmlProperties {
         this.html_class = html_class;
     }
 
-    static default() {
+    static defaults() {
         return new FieldHtmlProperties();
     }
 }

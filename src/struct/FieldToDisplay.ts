@@ -7,7 +7,12 @@ export default class FieldToDisplay {
     public readonly field_html_properties: null|FieldHtmlProperties;
     private readonly _associated_field: null|AssociatedFieldToDisplay;
 
-    constructor(name: string, text: string = '', associated_field: null|AssociatedFieldToDisplay = null, field_html_properties: FieldHtmlProperties = FieldHtmlProperties.default()) {
+    constructor(
+        name: string,
+        text: string = '',
+        associated_field: null|AssociatedFieldToDisplay = null,
+        field_html_properties: FieldHtmlProperties = FieldHtmlProperties.defaults()
+    ) {
         this.name = name;
         this.text = text === '' ? name : text;
         this.field_html_properties = field_html_properties;
