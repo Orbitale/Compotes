@@ -1,3 +1,7 @@
+⚠ This app is being rewritten to simplify installation for end-users. The work is ongoing in the [rewrite](https://github.com/Orbitale/Compotes/tree/rewrite) branch.
+
+---
+
 ![](https://github.com/Orbitale/compotes/workflows/Docker%20Image/badge.svg)
 ![](https://github.com/Orbitale/compotes/workflows/Node.js/badge.svg)
 ![](https://github.com/Orbitale/compotes/workflows/PHP/badge.svg)
