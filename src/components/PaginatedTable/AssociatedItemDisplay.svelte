@@ -1,9 +1,9 @@
 <script lang="ts">
     import AssociatedItem from "../../struct/AssociatedItem.ts";
-    import FieldToDisplay from "../../struct/FieldToDisplay.ts";
+    import Field from "../../struct/Field.ts";
 
     export let item: AssociatedItem;
-    export let fields: FieldToDisplay[] = item.fields;
+    export let fields: Field[] = item.fields;
 </script>
 
 <style lang="scss">

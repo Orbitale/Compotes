@@ -1,11 +1,11 @@
 <script lang="ts">
     import ItemLine from "./ItemLine.svelte";
     import {onMount} from "svelte";
-    import FieldToDisplay from "../../struct/FieldToDisplay.ts";
+    import Field from "../../struct/Field.ts";
     import EmptyCollectionMessageLine from "./EmptyCollectionMessageLine.svelte";
 
     export let items: object[];
-    export let fields: FieldToDisplay[];
+    export let fields: Field[];
 
     let number_per_page = 10;
     let page = 0;

@@ -4,17 +4,17 @@
     import PaginatedTable from "../components/PaginatedTable/PaginatedTable.svelte";
     import {onMount} from "svelte";
     import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
-    import FieldToDisplay from "../struct/FieldToDisplay.ts";
+    import Field from "../struct/Field.ts";
 
     needsUser();
 
     let bank_accounts = [];
 
     let fields = [
-        new FieldToDisplay('id', 'ID'),
-        new FieldToDisplay('name', 'Name'),
-        new FieldToDisplay('slug', 'Slug'),
-        new FieldToDisplay('currency', 'Currency'),
+        new Field('id', 'ID'),
+        new Field('name', 'Name'),
+        new Field('slug', 'Slug'),
+        new Field('currency', 'Currency'),
     ];
 
     onMount(async () => bank_accounts = await getBankAccounts());

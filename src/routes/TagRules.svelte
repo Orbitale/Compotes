@@ -5,7 +5,7 @@
     import Tag from "../entities/Tag.ts";
     import TagRule from "../entities/TagRule.ts";
     import AssociatedItem from "../struct/AssociatedItem.ts";
-    import FieldToDisplay from "../struct/FieldToDisplay.ts";
+    import Field from "../struct/Field.ts";
     import AssociatedCollection from "../struct/AssociatedCollection.ts";
     import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
 
@@ -15,9 +15,9 @@
     let waiting_tag_rules = [];
 
     let fields = [
-        new FieldToDisplay('id', 'ID'),
-        new FieldToDisplay('tags', 'Tags'),
-        new FieldToDisplay('matching_pattern', 'Matching pattern'),
+        new Field('id', 'ID'),
+        new Field('tags', 'Tags'),
+        new Field('matching_pattern', 'Matching pattern'),
     ];
 
     getTagRules()
@@ -46,7 +46,7 @@
                 awaited_tags.forEach((promised_tag: Promise<Tag>) => {
                     promised_tag.then((tag: Tag) => {
                         tags.push(new AssociatedItem<Tag>(tag, [
-                            new FieldToDisplay('name', 'Name'),
+                            new Field('name', 'Name'),
                         ]));
                         current_tag++;
                         if (current_tag === number_of_tags) {

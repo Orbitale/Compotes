@@ -1,10 +1,10 @@
-import type FieldToDisplay from "./FieldToDisplay.ts";
+import type Field from "./Field.ts";
 
 export default class AssociatedItem {
     public readonly item: object;
-    public readonly fields: FieldToDisplay[];
+    public readonly fields: Field[];
 
-    constructor(item: object, fields: FieldToDisplay[]) {
+    constructor(item: object, fields: Field[]) {
         this.item = item;
         this.fields = fields;
     }

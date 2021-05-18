@@ -3,9 +3,9 @@
     import AssociatedItem from "../../struct/AssociatedItem.ts";
     import AssociatedCollection from "../../struct/AssociatedCollection.ts";
     import AssociatedItemCollectionDisplay from "./AssociatedItemCollectionDisplay.svelte";
-    import FieldToDisplay from "../../struct/FieldToDisplay.ts";
+    import Field from "../../struct/Field.ts";
 
-    export let field: FieldToDisplay;
+    export let field: Field;
     export let item: object;
 
     let field_value;

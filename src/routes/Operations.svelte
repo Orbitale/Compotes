@@ -3,7 +3,7 @@
     import {getOperations} from "../db/operations.ts";
     import PaginatedTable from "../components/PaginatedTable/PaginatedTable.svelte";
     import Operation from "../entities/Operation.ts";
-    import FieldToDisplay from "../struct/FieldToDisplay.ts";
+    import Field from "../struct/Field.ts";
     import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
     import FieldHtmlProperties from "../struct/FieldHtmlProperties.ts";
 
@@ -12,14 +12,14 @@
     let operations: Operation[] = [];
 
     let fields = [
-        new FieldToDisplay('id', 'ID'),
-        new FieldToDisplay('date', 'Date'),
-        new FieldToDisplay('bank_account', 'Bank account', new FieldToDisplay('name')),
-        new FieldToDisplay('op_type', 'Type'),
-        new FieldToDisplay('details', 'Details'),
-        new FieldToDisplay('amount_display', 'Amount', null, new FieldHtmlProperties('operation-amount')),
-        new FieldToDisplay('ignored_from_charts', 'Ignored from charts'),
-        new FieldToDisplay('tags', 'Tags'),
+        new Field('id', 'ID'),
+        new Field('date', 'Date'),
+        new Field('bank_account', 'Bank account', new Field('name')),
+        new Field('op_type', 'Type'),
+        new Field('details', 'Details'),
+        new Field('amount_display', 'Amount', null, new FieldHtmlProperties('operation-amount')),
+        new Field('ignored_from_charts', 'Ignored from charts'),
+        new Field('tags', 'Tags'),
     ];
 
     getOperations()

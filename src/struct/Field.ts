@@ -1,16 +1,16 @@
-import type AssociatedFieldToDisplay from "./AssociatedFieldToDisplay.ts";
+import type AssociatedField from "./AssociatedField.ts";
 import FieldHtmlProperties from "./FieldHtmlProperties.ts";
 
-export default class FieldToDisplay {
+export default class Field {
     public readonly name: string;
     public readonly text: string;
     public readonly field_html_properties: FieldHtmlProperties;
-    private readonly _associated_field: null|AssociatedFieldToDisplay;
+    private readonly _associated_field: null|AssociatedField;
 
     constructor(
         name: string,
         text: string = '',
-        associated_field: null|AssociatedFieldToDisplay = null,
+        associated_field: null|AssociatedField = null,
         field_html_properties: FieldHtmlProperties = FieldHtmlProperties.defaults()
     ) {
         this.name = name;
@@ -22,7 +22,7 @@ export default class FieldToDisplay {
         this._associated_field = associated_field;
     }
 
-    public get associated_field(): null|AssociatedFieldToDisplay {
+    public get associated_field(): null|AssociatedField {
         return this._associated_field;
     }
 

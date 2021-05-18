@@ -1,9 +1,9 @@
 <script lang="ts">
     import ItemFieldValue from "./ItemFieldValue.svelte";
-    import FieldToDisplay from "../../struct/FieldToDisplay.ts";
+    import Field from "../../struct/Field.ts";
 
     export let item: object;
-    export let fields: Array<FieldToDisplay>;
+    export let fields: Array<Field>;
 </script>
 
 <tr>

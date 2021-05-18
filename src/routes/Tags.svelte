@@ -3,7 +3,7 @@
     import {getTags} from "../db/tags.ts";
     import PaginatedTable from "../components/PaginatedTable/PaginatedTable.svelte";
     import Tag from "../entities/Tag.ts";
-    import FieldToDisplay from "../struct/FieldToDisplay.ts";
+    import Field from "../struct/Field.ts";
     import {onMount} from "svelte";
     import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
     import ItemAction from "../struct/ItemAction.ts";
@@ -13,8 +13,8 @@
     let tags: Tag[] = [];
 
     let fields = [
-        new FieldToDisplay('id', 'ID'),
-        new FieldToDisplay('name', 'Date'),
+        new Field('id', 'ID'),
+        new Field('name', 'Date'),
     ];
 
     let actions = [
