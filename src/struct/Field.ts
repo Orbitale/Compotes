@@ -22,11 +22,16 @@ export default class Field {
         this._associated_field = associated_field;
     }
 
-    public get associated_field(): null|AssociatedField {
-        return this._associated_field;
-    }
+    public get_from_item(item: object|any): any {
+        let field: Field|AssociatedField;
 
-    public get is_association() {
-        return this._associated_field !== null;
+        if (this._associated_field) {
+            item = item[this.name];
+            field = this._associated_field;
+        } else {
+            field = this;
+        }
+
+        return item[field.name];
     }
 }

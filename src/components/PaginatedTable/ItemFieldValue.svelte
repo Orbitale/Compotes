@@ -8,14 +8,7 @@
     export let field: Field;
     export let item: object;
 
-    let field_value;
-
-    if (field.is_association) {
-        item = item[field.name];
-        field = field.associated_field;
-    }
-
-    field_value = item[field.name];
+    let field_value = field.get_from_item(item);
 </script>
 
 {#if field_value instanceof AssociatedCollection}

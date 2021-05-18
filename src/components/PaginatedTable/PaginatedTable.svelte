@@ -3,9 +3,11 @@
     import {onMount} from "svelte";
     import Field from "../../struct/Field.ts";
     import EmptyCollectionMessageLine from "./EmptyCollectionMessageLine.svelte";
+    import ItemAction from "../../struct/ItemAction.ts";
 
     export let items: object[];
     export let fields: Field[];
+    export let actions: ItemAction[] = [];
 
     let number_per_page = 10;
     let page = 0;
@@ -55,6 +57,9 @@
     table {
         font-size: 0.8em;
     }
+    .actions-header {
+        text-align: center;
+    }
     #previous-page, #next-page {
         font-size: 2.5em;
         width: 2.5em;
@@ -72,7 +77,7 @@
 <table class="table table-bordered table-responsive table-striped table-sm">
     <thead>
     <tr>
-        <td colspan="{fields.length}">
+        <td colspan="{fields.length + (actions.length ? 1 : 0)}">
             <button type="button" class="btn btn-outline-primary" disabled="{page === 1}" on:click={previousPage} id="previous-page">&lt;</button>
             <button type="button" class="btn btn-outline-primary" disabled="{page === number_of_pages}" on:click={nextPage} id="next-page">&gt;</button>
             <div id="pages-text">
@@ -84,12 +89,15 @@
         {#each fields as field}
             <th>{field.text}</th>
         {/each}
+        {#if actions.length}
+            <th class="actions-header">Actions</th>
+        {/if}
     </tr>
     </thead>
     <tbody>
         {#if displayed_items.length}
             {#each displayed_items as item, key (displayed_items[key])}
-                <ItemLine item={displayed_items[key]} {fields} />
+                <ItemLine item={displayed_items[key]} {fields} {actions} />
             {/each}
         {:else}
             <EmptyCollectionMessageLine number_of_fields={fields.length} />
