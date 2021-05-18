@@ -5,6 +5,7 @@ import Analytics from './routes/Analytics.svelte';
 import Triage from './routes/Triage.svelte';
 import TagRules from './routes/TagRules.svelte';
 import Tags from './routes/Tags.svelte';
+import TagEdit from './routes/TagEdit.svelte';
 import Import from './routes/Import.svelte';
 import Operations from './routes/Operations.svelte';
 
@@ -16,6 +17,7 @@ const routes = {
     '/triage': Triage,
     '/tag-rules': TagRules,
     '/tags': Tags,
+    '/tag/edit/:id': TagEdit,
     '/import': Import,
     '*': Error,
 };
