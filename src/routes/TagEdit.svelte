@@ -3,6 +3,8 @@
     import type Tag from "../entities/Tag.ts";
     import {onMount} from "svelte";
     import random_bytes from "../utils/random.ts";
+    import {success} from "../utils/message.ts";
+    import {pop} from "svelte-spa-router";
 
     export let params: {id: string};
 
@@ -29,6 +31,9 @@
 
         saveTag(tag).catch(function() {
             console.error('NOT OK', arguments);
+        }).then(function() {
+            success('Tag saved!');
+            pop();
         });
 
         return false;
