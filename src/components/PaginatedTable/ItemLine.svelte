@@ -9,8 +9,11 @@
 </script>
 
 <style lang="scss">
-    .action-link {
-        display: block;
+    td {
+        vertical-align: middle;
+    }
+    .item-actions {
+        text-align: center;
     }
 </style>
 
@@ -23,9 +26,9 @@
         </td>
     {/each}
     {#if actions.length}
-        <td>
+        <td class="item-actions">
             {#each actions as action}
-                <a href="{action.url(item)}" class="action-link">
+                <a href="{action.url(item)}" class="btn btn-sm btn-primary">
                     {action.name}
                 </a>
             {/each}
