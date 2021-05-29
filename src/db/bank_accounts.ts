@@ -1,13 +1,13 @@
 // @ts-ignore
 import BankAccount from '../entities/BankAccount.ts';
-import {invoke} from "@tauri-apps/api/tauri";
+import api_fetch from "../utils/api_fetch.ts";
 
 let bank_accounts: BankAccount[] = [];
 
 export async function getBankAccounts(): Promise<Array<BankAccount>>
 {
     if (!bank_accounts.length) {
-        let res: string = await invoke("get_bank_accounts");
+        let res: string = await api_fetch("get_bank_accounts");
         bank_accounts = JSON.parse(res).map((data: object) => {
             // @ts-ignore
             return new BankAccount(data.id, data.name, data.slug, data.currency);

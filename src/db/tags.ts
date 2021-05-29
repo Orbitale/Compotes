@@ -1,13 +1,13 @@
 // @ts-ignore
 import Tag, {serializeTag} from '../entities/Tag.ts';
-import {invoke} from "@tauri-apps/api/tauri";
+import api_fetch from "../utils/api_fetch.ts";
 
 let tags: Tag[] = [];
 
 export async function getTags(): Promise<Array<Tag>>
 {
     if (!tags.length) {
-        let res: string = await invoke("get_tags");
+        let res: string = await api_fetch("get_tags");
         tags = JSON.parse(res).map((data: object) => {
             // @ts-ignore
             return new Tag(data.id, data.name);
@@ -34,7 +34,7 @@ export async function getTagById(id: string): Promise<Tag | null>
 
 export async function saveTag(tag: Tag): Promise<void>
 {
-    await invoke("save_tag", {tag: tag.serialize()});
+    await api_fetch("save_tag", {tag: tag.serialize()});
 
     const tag_entity = await getTagById(tag.id.toString());
 

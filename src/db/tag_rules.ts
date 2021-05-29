@@ -1,8 +1,7 @@
 // @ts-ignore
 import TagRule from '../entities/TagRule.ts';
-import {invoke} from "@tauri-apps/api/tauri";
-import Tag from "../entities/Tag.ts";
 import {getTagById, getTags} from "./tags.ts";
+import api_fetch from "../utils/api_fetch.ts";
 
 export default class DeserializedTagRule
 {
@@ -17,7 +16,7 @@ let tag_rules: TagRule[] = [];
 export async function getTagRules(): Promise<Array<TagRule>>
 {
     if (!tag_rules.length) {
-        let res: string = await invoke("get_tag_rules");
+        let res: string = await api_fetch("get_tag_rules");
         const deserialized_tag_rules: Array<DeserializedTagRule> = JSON.parse(res);
 
         tag_rules = await deserialized_tag_rules.map((deserialized_tag_rule: DeserializedTagRule) => {
