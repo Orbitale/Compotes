@@ -1,4 +1,4 @@
-import Toast from '../struct/Toast';
+import Toast, {ToastType} from '../struct/Toast';
 
 function createContainerElement(): HTMLElement {
     const html = '<div class="toast-container position-absolute p-3 top-0 end-0"></div>';
@@ -16,16 +16,27 @@ function createContainerElement(): HTMLElement {
     return container;
 }
 
-let container;
+let container: HTMLElement;
 let addedToBody = false;
 
-export default function message(content: string) {
+export function success(content: string): Toast {
+    return message(content, ToastType.success);
+}
+
+export default function message(content: string, type: ToastType): Toast {
     if (!addedToBody) {
         container = createContainerElement();
         document.body.appendChild(container);
         addedToBody = true;
     }
 
-    const toast = new Toast(content, container, bootstrap.Toast);
+    if (!type) {
+        type = ToastType.info;
+    }
+
+    const toast = new Toast(content, container, type);
+
     toast.show();
+
+    return toast;
 };

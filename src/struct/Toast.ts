@@ -1,37 +1,44 @@
-import type {Toast as BootstrapToast} from 'bootstrap';
+import {Toast as BootstrapToast} from 'bootstrap';
+
+export enum ToastType {
+    info = 'alert-info',
+    success = 'alert-success',
+    warning = 'alert-warning',
+    error = 'alert-danger',
+}
 
 export default class Toast {
     private readonly _content: string;
     private readonly _containerElement: HTMLElement;
     private readonly _toastElement: HTMLElement;
-    private readonly _BootstrapToast: BootstrapToast;
+    private readonly _bootstrapToast: BootstrapToast;
+    private readonly _toast_type: ToastType;
 
-    constructor(content: string, containerElement: HTMLElement, bootstrapToast: BootstrapToast) {
+    constructor(content: string, containerElement: HTMLElement, type: ToastType) {
         this._content = content;
 
-        this._BootstrapToast = bootstrapToast;
         this._containerElement = containerElement;
+        this._toast_type = type;
         this._toastElement = this.createToastElement();
+        this._bootstrapToast = new BootstrapToast(this._toastElement);
     }
 
     show() {
         this._containerElement.appendChild(this._toastElement);
 
-        new this._BootstrapToast(this._toastElement);
-
-        setTimeout(() => this._toastElement.classList.add('show'), 50);
-        setTimeout(() => this.hide(), 4000);
-        setTimeout(() => this._containerElement.removeChild(this._toastElement), 5000);
+        this._toastElement.classList.add('show');
+        this._bootstrapToast.show();
     }
 
     hide() {
-        this._toastElement.classList.remove('show');
+        // this._toastElement.classList.remove('show');
+        this._bootstrapToast.hide();
     }
 
     private createToastElement(): HTMLElement {
         const html =
             '<div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">' +
-            '    <div class="d-flex">' +
+            `    <div class="d-flex ${this._toast_type}">` +
             '        <div class="toast-body">' +
             '            ' + this._content +
             '        </div>' +
