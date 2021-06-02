@@ -1,9 +1,19 @@
 import type AssociatedItem from "./AssociatedItem.ts";
 
-export default class AssociatedCollection {
-    public readonly items: AssociatedItem[];
-
-    constructor(items: AssociatedItem[]) {
-        this.items = items;
+class Collection<T> extends Array<T> {
+    constructor(items?: T[]) {
+        super();
+        items && this.addItems(items);
     }
+
+    private addItems(items: T[]) {
+        if (!items.length) {
+            console.warn(`Tried to add item to collection, got ${items} instead.`);
+            return;
+        }
+        items.forEach(item => this.push(item));
+    }
+}
+
+export default class AssociatedCollection extends Collection<AssociatedItem> {
 }

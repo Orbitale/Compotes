@@ -1,9 +1,9 @@
 <script lang="ts">
-    import {getTagById, saveTag} from "../db/tags.ts";
-    import type Tag from "../entities/Tag.ts";
+    import {getTagById, saveTag} from "../../db/tags.ts";
+    import type Tag from "../../entities/Tag.ts";
     import {onMount} from "svelte";
-    import random_bytes from "../utils/random.ts";
-    import {success} from "../utils/message.ts";
+    import random_bytes from "../../utils/random.ts";
+    import {error, success} from "../../utils/message.ts";
     import {pop} from "svelte-spa-router";
 
     export let params: {id: string};
@@ -24,17 +24,20 @@
         submit_button_disabled = !tag.name;
     }
 
-    function submitForm(e: Event) {
+    async function submitForm(e: Event) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
 
-        saveTag(tag).catch(function() {
-            console.error('NOT OK', arguments);
-        }).then(function() {
-            success('Tag saved!');
-            pop();
-        });
+        try {
+            await saveTag(tag);
+        } catch (e) {
+            error(e);
+            return;
+        }
+
+        success('Tag saved!');
+        await pop();
 
         return false;
     }

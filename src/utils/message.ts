@@ -23,6 +23,10 @@ export function success(content: string): Toast {
     return message(content, ToastType.success);
 }
 
+export function error(content: string): Toast {
+    return message(content, ToastType.error);
+}
+
 export default function message(content: string, type: ToastType): Toast {
     if (!addedToBody) {
         container = createContainerElement();

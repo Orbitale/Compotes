@@ -5,6 +5,6 @@
     export let collection: AssociatedCollection;
 </script>
 
-{#each collection.items as item}
+{#each collection as item}
     <AssociatedItemDisplay item={item} />
 {/each}

@@ -1,13 +1,15 @@
 <script lang="ts">
-    import {needsUser} from '../auth/current_user.ts';
-    import {getTagRules} from "../db/tag_rules.ts";
-    import PaginatedTable from "../components/PaginatedTable/PaginatedTable.svelte";
-    import Tag from "../entities/Tag.ts";
-    import TagRule from "../entities/TagRule.ts";
-    import AssociatedItem from "../struct/AssociatedItem.ts";
-    import Field from "../struct/Field.ts";
-    import AssociatedCollection from "../struct/AssociatedCollection.ts";
-    import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
+    import {needsUser} from '../../auth/current_user.ts';
+    import {getTagRules} from "../../db/tag_rules.ts";
+    import PaginatedTable from "../../components/PaginatedTable/PaginatedTable.svelte";
+    import Tag from "../../entities/Tag.ts";
+    import TagRule from "../../entities/TagRule.ts";
+    import AssociatedItem from "../../struct/AssociatedItem.ts";
+    import Field from "../../struct/Field.ts";
+    import AssociatedCollection from "../../struct/AssociatedCollection.ts";
+    import EmptyCollection from "../../components/PaginatedTable/EmptyCollection.svelte";
+    import ItemAction from "../../struct/ItemAction.ts";
+    import ActionParams from "../../struct/ActionParams.ts";
 
     needsUser();
 
@@ -18,6 +20,10 @@
         new Field('id', 'ID'),
         new Field('tags', 'Tags'),
         new Field('matching_pattern', 'Matching pattern'),
+    ];
+
+    let actions = [
+        new ItemAction('Edit', '/tag-rule/edit/:id', ActionParams.id()),
     ];
 
     getTagRules()
@@ -34,7 +40,7 @@
             }
 
             awaited_tag_rules.forEach((tag_rule: TagRule) => {
-                let tags = [];
+                let tags: AssociatedItem<Tag>[] = [];
                 let awaited_tags: Array<Promise<Tag>> = tag_rule.tags;
                 let number_of_tags = awaited_tags.length;
                 let current_tag = 0;
@@ -65,7 +71,7 @@
 </script>
 
 {#if tag_rules.length}
-    <PaginatedTable items={tag_rules} fields={fields} />
+    <PaginatedTable items={tag_rules} fields={fields} actions={actions} />
 {:else}
     <EmptyCollection />
 {/if}

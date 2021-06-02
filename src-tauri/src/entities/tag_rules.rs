@@ -25,7 +25,7 @@ pub fn deserialize_tags_ids<'de, D>(deserializer: D) -> Result<Vec<u32>, D::Erro
         type Value = Vec<u32>;
 
         fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
-            formatter.write_str("a string containing a list of integer IDs")
+            formatter.write_str("a string containing a list of integer IDs separated by commas.")
         }
 
         fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
@@ -34,8 +34,10 @@ pub fn deserialize_tags_ids<'de, D>(deserializer: D) -> Result<Vec<u32>, D::Erro
         {
             let mut ids = Vec::new();
             for id in v.split(",") {
-                let id = id.parse::<u32>().unwrap();
-                ids.push(id);
+                let id = id.parse::<u32>().unwrap_or(0);
+                if id != 0 {
+                    ids.push(id);
+                }
             }
             Ok(ids)
         }
@@ -73,4 +75,21 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule>
     }
 
     tag_rules
+}
+
+pub(crate) fn save(conn: &Connection, tag_rule: TagRule)
+{
+    let mut stmt = conn.prepare("
+        UPDATE tag_rules
+        SET
+            is_regex = :is_regex,
+            matching_pattern = :matching_pattern
+        WHERE id = :id
+    ").unwrap();
+
+    stmt.execute_named(&[
+        (":id", &tag_rule.id),
+        (":is_regex", &tag_rule.is_regex),
+        (":matching_pattern", &tag_rule.matching_pattern),
+    ]).expect("Could not update tag");
 }

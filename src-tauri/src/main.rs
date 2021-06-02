@@ -12,6 +12,7 @@ use crate::entities::bank_accounts;
 use crate::entities::tags;
 use crate::entities::tag_rules;
 use crate::entities::tags::Tag;
+use crate::entities::tag_rules::TagRule;
 
 mod entities {
     pub(crate) mod operations;
@@ -37,6 +38,7 @@ fn main() {
             get_tags,
             get_tag_rules,
             save_tag,
+            save_tag_rule,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -85,4 +87,13 @@ fn save_tag(conn_state: State<'_, Mutex<Connection>>, tag: String) {
 
     let tag_entity: Tag = serde_json::from_str(&tag).unwrap();
     tags::save(conn, tag_entity);
+}
+
+#[tauri::command]
+fn save_tag_rule(conn_state: State<'_, Mutex<Connection>>, tag_rule: String) {
+    let conn = conn_state.inner().lock().expect("Could not retrieve connection");
+    let conn = conn.deref();
+
+    let tag_rule_entity: TagRule = serde_json::from_str(&tag_rule).unwrap();
+    tag_rules::save(conn, tag_rule_entity);
 }

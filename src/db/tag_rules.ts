@@ -1,6 +1,6 @@
 // @ts-ignore
 import TagRule from '../entities/TagRule.ts';
-import {getTagById, getTags} from "./tags.ts";
+import {getTagById} from "./tags.ts";
 import api_fetch from "../utils/api_fetch.ts";
 
 export default class DeserializedTagRule
@@ -33,7 +33,7 @@ export async function getTagRules(): Promise<Array<TagRule>>
         });
     }
 
-    return tag_rules;
+    return Promise.resolve(tag_rules);
 }
 
 export async function getTagRuleById(id: string): Promise<TagRule | null>
@@ -49,4 +49,15 @@ export async function getTagRuleById(id: string): Promise<TagRule | null>
     }
 
     return null;
+}
+
+export async function saveTagRule(tag_rule: TagRule): Promise<void>
+{
+    await api_fetch("save_tag_rule", {tagRule: tag_rule.serialize()});
+
+    const tag_rule_entity = await getTagRuleById(tag_rule.id.toString());
+
+    if (!tag_rule_entity) throw new Error('Data corruption detected in tag rule.');
+
+    tag_rule_entity.mergeWith(tag_rule);
 }
