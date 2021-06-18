@@ -13,6 +13,10 @@ use crate::entities::tags;
 use crate::entities::tag_rules;
 use crate::entities::tags::Tag;
 use crate::entities::tag_rules::TagRule;
+use crate::db::get_database_connection;
+
+mod db;
+mod config;
 
 mod entities {
     pub(crate) mod operations;
@@ -26,7 +30,7 @@ mod structs {
 }
 
 fn main() {
-    let mut conn = Connection::open("./data.db3").expect("Could not open database.");
+    let mut conn = get_database_connection();
 
     embedded::migrations::runner().run(&mut conn).expect("Could not execute database migrations.");
 
