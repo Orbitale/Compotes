@@ -31,3 +31,18 @@ export async function getBankAccountById(id: string): Promise<BankAccount | null
 
     return null;
 }
+
+export async function saveBankAccount(bank_account: BankAccount): Promise<void>
+{
+    await api_fetch("save_bank_account", {bankAccount: bank_account.serialize()});
+
+    if (bank_account.id) {
+        const bank_account_entity = await getBankAccountById(bank_account.id.toString());
+
+        if (!bank_account_entity) throw new Error('Data corruption detected in bank account.');
+
+        bank_account_entity.mergeWith(bank_account);
+    } else {
+        bank_accounts = []; // Reset to reload again afterwards
+    }
+}

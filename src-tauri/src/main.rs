@@ -14,6 +14,7 @@ use crate::entities::tag_rules;
 use crate::entities::tags::Tag;
 use crate::entities::tag_rules::TagRule;
 use crate::db::get_database_connection;
+use crate::entities::bank_accounts::BankAccount;
 
 mod db;
 mod config;
@@ -39,6 +40,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             get_operations,
             get_bank_accounts,
+            save_bank_account,
             get_tags,
             get_tag_rules,
             save_tag,
@@ -66,6 +68,15 @@ fn get_bank_accounts(conn_state: State<'_, Mutex<Connection>>) -> String {
     let conn = conn.deref();
 
     serde_json::to_string(&bank_accounts::find_all(&conn)).expect("Could not serialize BankAccount properly")
+}
+
+#[tauri::command]
+fn save_bank_account(conn_state: State<'_, Mutex<Connection>>, bank_account: String) {
+    let conn = conn_state.inner().lock().expect("Could not retrieve connection");
+    let conn = conn.deref();
+
+    let bank_account_entity: BankAccount = serde_json::from_str(&bank_account).unwrap();
+    bank_accounts::save(conn, bank_account_entity);
 }
 
 #[tauri::command]
