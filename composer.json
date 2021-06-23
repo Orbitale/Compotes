@@ -30,6 +30,8 @@
         "symfony/monolog-bundle": "^3.6",
         "symfony/property-access": "^5.3",
         "symfony/property-info": "^5.3",
+        "symfony/security-core": "^5.3",
+        "symfony/security-http": "^5.3",
         "symfony/security-bundle": "^5.3",
         "symfony/serializer": "^5.3",
         "symfony/string": "^5.3",
@@ -52,8 +54,8 @@
         "symfony/css-selector": "^5.3",
         "symfony/debug-bundle": "^5.3",
         "symfony/maker-bundle": "^1.32",
+        "symfony/phpunit-bridge": "^5.3",
         "symfony/stopwatch": "^5.3",
-        "symfony/test-pack": "^1.0",
         "symfony/var-dumper": "^5.3",
         "symfony/web-profiler-bundle": "^5.3"
     },

@@ -16,6 +16,7 @@ namespace App\Controller;
 use App\Operations\OperationTagsSynchronizer;
 use App\Operations\TriageSynchronizer;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,21 +45,25 @@ class SyncOperationsController
     /**
      * @Route("/admin/sync-operations", name="sync_operations", methods={"GET"})
      */
-    public function __invoke(Session $session): Response
+    public function __invoke(Request $request): Response
     {
         $pendingTriage = $this->triageSynchronizer->syncOperations();
         $synced = $this->synchronizer->applyRulesOnAllOperations();
 
+        /** @var Session $session */
+        $session = $request->getSession();
+        $flashBag = $session->getFlashBag();
+
         if ($synced) {
-            $session->getFlashBag()->add('success', $this->translator->trans('admin.sync_operations.success', [
+            $flashBag->add('success', $this->translator->trans('admin.sync_operations.success', [
                 '%count%' => $synced,
             ]));
         } else {
-            $session->getFlashBag()->add('info', $this->translator->trans('admin.sync_operations.no_operations_synced'));
+            $flashBag->add('info', $this->translator->trans('admin.sync_operations.no_operations_synced'));
         }
 
         if ($pendingTriage) {
-            $session->getFlashBag()->add('warning', $this->translator->trans('admin.sync_operations.pending_triage', [
+            $flashBag->add('warning', $this->translator->trans('admin.sync_operations.pending_triage', [
                 '%count%' => $pendingTriage,
             ]));
         }

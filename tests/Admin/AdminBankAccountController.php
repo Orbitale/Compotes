@@ -29,23 +29,23 @@ class AdminBankAccountController extends WebTestCase
         $this->login($client);
         $client->request('GET', '/admin/?entity=BankAccount&action=new');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $client->submitForm('Save changes', [
             'bankaccount[name]' => $accountName = 'Test account',
             'bankaccount[currency]' => $currency = 'EUR',
         ]);
 
-        $this->assertResponseRedirects('/admin/?action=list&entity=BankAccount');
+        self::assertResponseRedirects('/admin/?action=list&entity=BankAccount');
 
         /** @var BankAccountRepository $repo */
-        $repo = static::$container->get(BankAccountRepository::class);
+        $repo = self::getContainer()->get(BankAccountRepository::class);
 
         $account = $repo->findOneBy(['slug' => 'test-account']);
 
-        static::assertInstanceOf(BankAccount::class, $account);
-        static::assertSame($accountName, $account->getName());
-        static::assertSame($currency, $account->getCurrency());
+        self::assertInstanceOf(BankAccount::class, $account);
+        self::assertSame($accountName, $account->getName());
+        self::assertSame($currency, $account->getCurrency());
     }
 
     public function test edit account(): void
@@ -64,7 +64,7 @@ class AdminBankAccountController extends WebTestCase
         $client->request('GET', \sprintf('/admin/?entity=BankAccount&action=edit&id=%s', $account->getId()));
         unset($account);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         static::$container->get(EntityManagerInterface::class)->clear();
 
@@ -73,7 +73,7 @@ class AdminBankAccountController extends WebTestCase
             'bankaccount[currency]' => $currency = 'USD',
         ]);
 
-        $this->assertResponseRedirects('/admin/?action=list&entity=BankAccount');
+        self::assertResponseRedirects('/admin/?action=list&entity=BankAccount');
 
         $account = $repo->findOneBy(['slug' => $existingSlug]);
         static::assertSame($accountName, $account->getName());

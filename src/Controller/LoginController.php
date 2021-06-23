@@ -43,7 +43,7 @@ class LoginController
     public function __invoke(): Response
     {
         $token = $this->tokenStorage->getToken();
-        if ($token->getUser() instanceof UserInterface) {
+        if ($token && $token->getUser() instanceof UserInterface) {
             return new RedirectResponse($this->router->generate('easyadmin'));
         }
 

@@ -25,7 +25,7 @@ class LoginControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/login');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $client->followRedirects();
 
@@ -34,7 +34,7 @@ class LoginControllerTest extends WebTestCase
             '_password' => 'admin',
         ]);
 
-        $this->assertSelectorTextSame('.user .user-name', 'admin');
+        self::assertSelectorTextSame('.user .user-name', 'admin');
     }
 
     public function test login page whiled logged in redirects to admin(): void
@@ -43,6 +43,6 @@ class LoginControllerTest extends WebTestCase
         $this->login($client);
         $client->request('GET', '/login');
 
-        $this->assertResponseRedirects('/admin/', 302);
+        self::assertResponseRedirects('/admin/', 302);
     }
 }

@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
@@ -32,20 +32,17 @@ class ImportOperationsController
 {
     private Environment $twig;
     private FormFactoryInterface $formFactory;
-    private FlashBagInterface $flashBag;
     private TranslatorInterface $translator;
     private OperationsImporter $importer;
 
     public function __construct(
         Environment $twig,
         FormFactoryInterface $formFactory,
-        FlashBagInterface $flashBag,
         TranslatorInterface $translator,
         OperationsImporter $importer
     ) {
         $this->twig = $twig;
         $this->formFactory = $formFactory;
-        $this->flashBag = $flashBag;
         $this->translator = $translator;
         $this->importer = $importer;
     }
@@ -69,7 +66,11 @@ class ImportOperationsController
                     ImportOptions::create($data->getCsvSeparator(), $data->getCsvDelimiter(), $data->getCsvEscapeCharacter())
                 );
 
-                $this->flashBag->add(
+                /** @var Session $session */
+                $session = $request->getSession();
+                $flashBag = $session->getFlashBag();
+
+                $flashBag->add(
                     $created > 0 ? 'success' : 'warning',
                     $this->translator->trans('import_operations.form.success', [
                         '%count%' => $created,

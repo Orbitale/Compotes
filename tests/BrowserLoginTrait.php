@@ -15,11 +15,12 @@ namespace App\Tests;
 
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\TestContainer;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -41,6 +42,14 @@ trait BrowserLoginTrait
         array $roles = [],
         string $firewallName = 'main'
     ): TokenInterface {
+        if (!($this instanceof KernelTestCase)) {
+            throw new RuntimeException(\sprintf(
+                '"%s" can only be used if the class extends the "%s" interface.',
+                self::class,
+                KernelTestCase::class,
+            ));
+        }
+
         if (!\class_exists(UsernamePasswordToken::class)) {
             throw new RuntimeException('You must install the "symfony/security-core" component to use this feature.');
         }
@@ -50,9 +59,9 @@ trait BrowserLoginTrait
         // This allows faking users that are not in the main provider.
         if (\is_string($user)) {
             try {
-                $userObject = static::$container->get(UserProviderInterface::class)->loadUserByUsername($user);
+                $userObject = self::getContainer()->get(UserProviderInterface::class)->loadUserByUsername($user);
                 $user = $userObject;
-            } catch (UsernameNotFoundException $e) {
+            } catch (UserNotFoundException $e) {
                 // noop
             }
         }

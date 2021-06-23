@@ -24,7 +24,7 @@ class AdminTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/');
 
-        $this->assertResponseRedirects('http://localhost/admin/', 302);
+        self::assertResponseRedirects('http://localhost/admin/', 302);
     }
 
     public function test root admin page while not logged in redirects to login(): void
@@ -32,7 +32,7 @@ class AdminTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/admin/');
 
-        $this->assertResponseRedirects('http://localhost/login', 302);
+        self::assertResponseRedirects('http://localhost/login', 302);
     }
 
     public function test root admin page while logged as standard user returns 403(): void
@@ -41,7 +41,7 @@ class AdminTest extends WebTestCase
         $this->login($client, 'test-user', ['ROLE_USER']);
         $client->request('GET', '/admin/');
 
-        $this->assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
     }
 
     public function test root admin page while logged as admin user redirects to admin homepage(): void
@@ -50,8 +50,8 @@ class AdminTest extends WebTestCase
         $this->login($client, 'test-user', ['ROLE_ADMIN']);
         $client->request('GET', '/admin/');
 
-        $this->assertResponseRedirects('/admin/analytics?menuIndex=1&submenuIndex=-1', 302);
+        self::assertResponseRedirects('/admin/analytics?menuIndex=1&submenuIndex=-1', 302);
         $client->followRedirect();
-        $this->assertResponseStatusCodeSame(200);
+        self::assertResponseStatusCodeSame(200);
     }
 }
