@@ -36,7 +36,7 @@ class AdminBankAccountDTO implements EasyAdminDTOInterface
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     private ?string $name = null;
 

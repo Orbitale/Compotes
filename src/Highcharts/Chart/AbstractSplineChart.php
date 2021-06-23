@@ -22,7 +22,7 @@ abstract class AbstractSplineChart extends AbstractChart
         $categories = [];
 
         for ($i = 1; $i <= 12; $i++) {
-            $categories[] = \strftime('%B', (DateTime::createFromFormat('m', (string) $i))->getTimestamp());
+            $categories[] = strftime('%B', (DateTime::createFromFormat('m', (string) $i))->getTimestamp());
         }
 
         return [

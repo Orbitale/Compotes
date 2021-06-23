@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class ImportOperations
 {
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public ?UploadedFile $file = null;
 
@@ -35,7 +35,7 @@ class ImportOperations
     public array $csvColumns = ImportOptions::CSV_COLUMNS;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Type(BankAccount::class)
      */
     public ?BankAccount $bankAccount = null;
@@ -71,7 +71,7 @@ class ImportOperations
 
         $originalName = $this->file->getClientOriginalName();
 
-        if (!\preg_match('~^\d{4}-\d{2}\.csv$~i', $originalName)) {
+        if (!preg_match('~^\d{4}-\d{2}\.csv$~i', $originalName)) {
             $context
                 ->buildViolation('import_operations.validators.invalid_file_name')
                 ->setParameter('{{ file_name }}', $originalName)
@@ -82,13 +82,13 @@ class ImportOperations
 
         $csvColumns = $this->csvColumns;
         $defaultHeaders = ImportOptions::CSV_COLUMNS;
-        \sort($csvColumns);
-        \sort($defaultHeaders);
+        sort($csvColumns);
+        sort($defaultHeaders);
 
         if ($csvColumns !== $defaultHeaders) {
             $context
                 ->buildViolation('import_operations.validators.invalid_line_headers')
-                ->setParameter('{{ headers }}', \implode(', ', $defaultHeaders))
+                ->setParameter('{{ headers }}', implode(', ', $defaultHeaders))
                 ->setTranslationDomain('messages')
                 ->addViolation()
             ;

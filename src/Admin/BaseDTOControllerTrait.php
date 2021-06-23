@@ -111,11 +111,11 @@ trait BaseDTOControllerTrait
         $dto = $editForm->getData();
 
         if (!($dto instanceof $dtoClass)) {
-            throw new InvalidArgumentException(\sprintf('DTO is not of valid type, expected %s.', $dtoClass));
+            throw new InvalidArgumentException(sprintf('DTO is not of valid type, expected %s.', $dtoClass));
         }
 
         if (!($entity instanceof $entityClass)) {
-            throw new InvalidArgumentException(\sprintf('Only %s is supported in this controller.', $entityClass));
+            throw new InvalidArgumentException(sprintf('Only %s is supported in this controller.', $entityClass));
         }
 
         $updatedEntity = $this->updateEntityWithDTO($entity, $dto);
@@ -132,7 +132,7 @@ trait BaseDTOControllerTrait
 
         $options = [];
 
-        if (\is_subclass_of($dtoClass, TranslatableDTOInterface::class, true)) {
+        if (is_subclass_of($dtoClass, TranslatableDTOInterface::class, true)) {
             $options['translations'] = $this->translationRepository->findTranslations($entity);
             $options['locales'] = $this->locales;
         }
@@ -164,12 +164,12 @@ trait BaseDTOControllerTrait
     private function validateDTOClass(): void
     {
         if (!($this instanceof EasyAdminController)) {
-            throw new RuntimeException(\sprintf('The DTO-based controller %s must extend %s.', static::class, EasyAdminController::class));
+            throw new RuntimeException(sprintf('The DTO-based controller %s must extend %s.', static::class, EasyAdminController::class));
         }
 
         $dtoClass = $this->getDTOClass();
-        if (!\is_subclass_of($dtoClass, EasyAdminDTOInterface::class, true)) {
-            throw new RuntimeException(\sprintf('DTO class %s must implement %s.', $dtoClass, EasyAdminDTOInterface::class));
+        if (!is_subclass_of($dtoClass, EasyAdminDTOInterface::class, true)) {
+            throw new RuntimeException(sprintf('DTO class %s must implement %s.', $dtoClass, EasyAdminDTOInterface::class));
         }
     }
 }

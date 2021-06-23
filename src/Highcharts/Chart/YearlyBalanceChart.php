@@ -35,8 +35,8 @@ class YearlyBalanceChart extends AbstractBarChart
             $series[$year]['data'][0] += (int) ($operation->getAmountInCents() / 100);
         }
 
-        \ksort($series);
+        ksort($series);
 
-        return \array_values($series);
+        return array_values($series);
     }
 }

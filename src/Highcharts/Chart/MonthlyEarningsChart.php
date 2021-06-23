@@ -63,17 +63,17 @@ class MonthlyEarningsChart extends AbstractSplineChart
 
         foreach ($series as $year => $data) {
             for ($i = 1; $i <= 12; $i++) {
-                $y = \str_pad((string) $i, 2, '0', \STR_PAD_LEFT);
+                $y = str_pad((string) $i, 2, '0', \STR_PAD_LEFT);
                 if (!isset($data['data'][$y])) {
                     $data['data'][$y] = null;
                 }
             }
-            \ksort($data['data']);
-            $series[$year]['data'] = \array_values($data['data']);
+            ksort($data['data']);
+            $series[$year]['data'] = array_values($data['data']);
         }
 
-        \ksort($series);
+        ksort($series);
 
-        return \array_values($series);
+        return array_values($series);
     }
 }

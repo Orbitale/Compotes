@@ -51,7 +51,7 @@ class AddTagsController
         }
 
         try {
-            $tagsIds = \json_decode($request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
+            $tagsIds = json_decode($request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             return new BadRequestException('Invalid request body.');
         }

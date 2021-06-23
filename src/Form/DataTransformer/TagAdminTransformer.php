@@ -58,7 +58,7 @@ class TagAdminTransformer implements DataTransformerInterface
             $this->em->flush();
         }
 
-        return \array_map(function (Tag $tag) {
+        return array_map(function (Tag $tag) {
             return $tag->getId();
         }, $tags);
     }

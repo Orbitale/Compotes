@@ -49,9 +49,9 @@ class ImportOptions
     {
         $self = new self();
 
-        $self->separator = $separator ?? \array_key_first(self::CSV_SEPARATORS);
-        $self->delimiter = $delimiter ?? \array_key_first(self::CSV_DELIMITERS);
-        $self->escapeCharacter = $escapeCharacter ?? \array_key_first(self::CSV_SEPARATORS);
+        $self->separator = $separator ?? array_key_first(self::CSV_SEPARATORS);
+        $self->delimiter = $delimiter ?? array_key_first(self::CSV_DELIMITERS);
+        $self->escapeCharacter = $escapeCharacter ?? array_key_first(self::CSV_SEPARATORS);
 
         return $self;
     }

@@ -41,7 +41,7 @@ class Tag
     /**
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      *
-     * @Gedmo\Translatable()
+     * @Gedmo\Translatable
      */
     private string $name = '';
 
@@ -52,7 +52,7 @@ class Tag
     private ?Tag $parent = null;
 
     /**
-     * @Gedmo\Locale()
+     * @Gedmo\Locale
      */
     private ?string $locale = null;
 
@@ -65,7 +65,7 @@ class Tag
         $maxLevels = 4;
 
         while ($parent && $maxLevels > 0) {
-            \array_unshift($names, $parent->getName());
+            array_unshift($names, $parent->getName());
 
             $parent = $parent->getParent();
 
@@ -74,7 +74,7 @@ class Tag
 
         $names[] = $this->name;
 
-        return \implode(' > ', $names);
+        return implode(' > ', $names);
     }
 
     public static function fromAdmin(AdminTagDTO $dto): self

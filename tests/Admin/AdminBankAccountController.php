@@ -43,9 +43,9 @@ class AdminBankAccountController extends WebTestCase
 
         $account = $repo->findOneBy(['slug' => 'test-account']);
 
-        self::assertInstanceOf(BankAccount::class, $account);
-        self::assertSame($accountName, $account->getName());
-        self::assertSame($currency, $account->getCurrency());
+        static::assertInstanceOf(BankAccount::class, $account);
+        static::assertSame($accountName, $account->getName());
+        static::assertSame($currency, $account->getCurrency());
     }
 
     public function test edit account(): void
@@ -61,7 +61,7 @@ class AdminBankAccountController extends WebTestCase
         $existingSlug = $account->getSlug();
         static::assertInstanceOf(BankAccount::class, $account);
 
-        $client->request('GET', \sprintf('/admin/?entity=BankAccount&action=edit&id=%s', $account->getId()));
+        $client->request('GET', sprintf('/admin/?entity=BankAccount&action=edit&id=%s', $account->getId()));
         unset($account);
 
         self::assertResponseIsSuccessful();
@@ -69,7 +69,7 @@ class AdminBankAccountController extends WebTestCase
         static::$container->get(EntityManagerInterface::class)->clear();
 
         $client->submitForm('Save changes', [
-            'bankaccount[name]' => $accountName = 'New account name '.\uniqid('', true),
+            'bankaccount[name]' => $accountName = 'New account name '.uniqid('', true),
             'bankaccount[currency]' => $currency = 'USD',
         ]);
 

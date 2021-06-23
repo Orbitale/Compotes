@@ -38,8 +38,8 @@ class TagUsageChart extends AbstractBarChart
             }
         }
 
-        \ksort($series);
+        ksort($series);
 
-        return \array_values($series);
+        return array_values($series);
     }
 }

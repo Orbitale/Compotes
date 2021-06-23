@@ -39,7 +39,9 @@ $finder = PhpCsFixer\Finder::create()
     ])
 ;
 
-return PhpCsFixer\Config::create()
+$config = (new PhpCsFixer\Config());
+
+$config
     ->setRules([
         'header_comment' => [
             'header' => $header,
@@ -49,7 +51,6 @@ return PhpCsFixer\Config::create()
         '@Symfony' => true,
         '@Symfony:risky' => true,
         '@PhpCsFixer' => true,
-        '@PHP56Migration' => true,
         '@PHP70Migration' => true,
         '@PHP70Migration:risky' => true,
         '@PHP71Migration' => true,
@@ -62,7 +63,6 @@ return PhpCsFixer\Config::create()
         'logical_operators' => true,
         'no_null_property_initialization' => true,
         'no_php4_constructor' => true,
-        'no_short_echo_tag' => true,
         'no_superfluous_phpdoc_tags' => true,
         'no_useless_else' => true,
         'no_useless_return' => true,
@@ -100,3 +100,5 @@ return PhpCsFixer\Config::create()
     ->setUsingCache(true)
     ->setFinder($finder)
 ;
+
+return $config;

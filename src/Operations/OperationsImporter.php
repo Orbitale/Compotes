@@ -91,12 +91,12 @@ class OperationsImporter
     {
         $filename = $file instanceof UploadedFile ? $file->getClientOriginalName() : $file->getBasename();
 
-        $month = \pathinfo($filename, \PATHINFO_FILENAME);
+        $month = pathinfo($filename, \PATHINFO_FILENAME);
 
         $monthDate = DateTimeImmutable::createFromFormat(ImportOptions::FILE_DATE_FORMAT, $month);
 
         if (false === $monthDate) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'File date format was expected to be a valid date respecting the "%s" format, "%s" given.',
                 ImportOptions::FILE_DATE_FORMAT,
                 $month,
@@ -104,18 +104,18 @@ class OperationsImporter
         }
 
         if ($this->repository->monthIsPopulated($monthDate)) {
-            throw new RuntimeException(\sprintf('The month %s is already persisted.', $month));
+            throw new RuntimeException(sprintf('The month %s is already persisted.', $month));
         }
 
-        $h = \fopen($file->getPathname(), 'rb+');
+        $h = fopen($file->getPathname(), 'rb+');
 
         $csvFunctionArguments = $importOptions->getCsvFunctionArguments();
 
         // Line 1 must be headers or details for you so we ignore it
-        \fgetcsv($h, ...$csvFunctionArguments);
+        fgetcsv($h, ...$csvFunctionArguments);
 
-        while ($line = \fgetcsv($h, ...$csvFunctionArguments)) {
-            yield Operation::fromImportLine($bankAccount, \array_combine($csvColumns, $line));
+        while ($line = fgetcsv($h, ...$csvFunctionArguments)) {
+            yield Operation::fromImportLine($bankAccount, array_combine($csvColumns, $line));
         }
     }
 }

@@ -43,14 +43,14 @@ trait BrowserLoginTrait
         string $firewallName = 'main'
     ): TokenInterface {
         if (!($this instanceof KernelTestCase)) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 '"%s" can only be used if the class extends the "%s" interface.',
                 self::class,
                 KernelTestCase::class,
             ));
         }
 
-        if (!\class_exists(UsernamePasswordToken::class)) {
+        if (!class_exists(UsernamePasswordToken::class)) {
             throw new RuntimeException('You must install the "symfony/security-core" component to use this feature.');
         }
 
@@ -67,7 +67,7 @@ trait BrowserLoginTrait
         }
 
         if ($user instanceof UserInterface) {
-            $roles = \array_merge($user->getRoles(), $roles);
+            $roles = array_merge($user->getRoles(), $roles);
         }
 
         $token = $this->getLoginToken($browser, $user, $roles, $firewallName);
@@ -87,7 +87,7 @@ trait BrowserLoginTrait
         $context = $this->getFirewallContext($browser, $firewallName);
 
         $session = $browser->getContainer()->get('session');
-        $session->set('_security_'.$context, \serialize($token));
+        $session->set('_security_'.$context, serialize($token));
         $session->save();
 
         $cookie = new Cookie($session->getName(), $session->getId());
@@ -96,14 +96,14 @@ trait BrowserLoginTrait
 
     private function getFirewallContext(KernelBrowser $browser, string $firewallName = 'main'): string
     {
-        $config = \sprintf('security.firewall.map.config.%s', $firewallName);
+        $config = sprintf('security.firewall.map.config.%s', $firewallName);
 
         if (!$browser->getContainer()->has($config)) {
             if (static::$container instanceof TestContainer && static::$container->has($config)) {
                 return static::$container->get($config)->getContext();
             }
 
-            throw new RuntimeException(\sprintf('Firewall "%s" does not exists or is not a public service.', $firewallName));
+            throw new RuntimeException(sprintf('Firewall "%s" does not exists or is not a public service.', $firewallName));
         }
 
         return $browser->getContainer()->get($config)->getContext();

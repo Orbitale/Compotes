@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class Triage
 {
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
     public ?string $details;
 
@@ -52,7 +52,7 @@ class Triage
 
     public function validate(ExecutionContextInterface $context): void
     {
-        if (false === \strpos($this->details, $this->initialDetails)) {
+        if (false === strpos($this->details, $this->initialDetails)) {
             $context
                 ->buildViolation('admin.triage.validators.initials_details_must_not_be_lost')
                 ->setTranslationDomain('messages')

@@ -107,13 +107,13 @@ class Operation
 
         $self->bankAccount = $bankAccount;
 
-        $date = DateTimeImmutable::createFromFormat($dateFormat, \sprintf(
+        $date = DateTimeImmutable::createFromFormat($dateFormat, sprintf(
             '%s 00:00:00 +000',
             $line['date']
         ));
 
         if (false === $date) {
-            throw new InvalidArgumentException(\sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Operation date was expected to be a valid date respecting the "%s" format, "%s" given.',
                 ImportOptions::OPERATION_DATE_FORMAT,
                 $line['date'],
@@ -124,12 +124,12 @@ class Operation
 
         $self->type = $line['type'];
         $self->typeDisplay = $line['type_display'];
-        $self->details = (string) \preg_replace('~\s+~', ' ', $line['details']);
+        $self->details = (string) preg_replace('~\s+~', ' ', $line['details']);
 
-        $amount = \preg_replace('~[^0-9+-]+~', '', $line['amount']);
+        $amount = preg_replace('~[^0-9+-]+~', '', $line['amount']);
 
-        if (!\is_numeric($amount)) {
-            throw new InvalidArgumentException(\sprintf(
+        if (!is_numeric($amount)) {
+            throw new InvalidArgumentException(sprintf(
                 'Operation amount was expected to be a number, "%s" given.',
                 $line['amount'],
             ));
@@ -242,8 +242,8 @@ class Operation
         $addedTags = false;
 
         $matches = $rule->isRegex()
-            ? \preg_match($rule->getMatchingPattern(), $this->details)
-            : false !== \stripos($this->details, $rule->getMatchingPattern())
+            ? preg_match($rule->getMatchingPattern(), $this->details)
+            : false !== stripos($this->details, $rule->getMatchingPattern())
         ;
 
         if ($matches) {
@@ -286,7 +286,7 @@ class Operation
             '_'.$amountInCents
         ;
 
-        return \hash('sha512', $str);
+        return hash('sha512', $str);
     }
 
     private function isPendingTriage(): bool

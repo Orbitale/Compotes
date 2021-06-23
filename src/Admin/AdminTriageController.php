@@ -44,7 +44,7 @@ class AdminTriageController extends EasyAdminController
         $formOptions = $this->executeDynamicMethod('get<EntityName>EntityFormOptions', [$dto, $view]);
 
         return $this->get('form.factory')->createNamedBuilder(
-            \mb_strtolower($this->entity['name']),
+            mb_strtolower($this->entity['name']),
             TriageType::class,
             $dto,
             $formOptions

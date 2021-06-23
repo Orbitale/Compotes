@@ -25,7 +25,7 @@ class OperationMonthFilterType extends FilterType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'empty_value' => \date('m'),
+            'empty_value' => date('m'),
             'choices' => [
                 'This month' => 'this_month',
                 'January' => '01',
@@ -56,20 +56,20 @@ class OperationMonthFilterType extends FilterType
             $baseDate = new DateTimeImmutable('now');
         } else {
             // A number
-            $baseDate = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
+            $baseDate = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
                 '%s-%s-1 00:00:00 +000',
-                \date('Y'),
+                date('Y'),
                 $data
             ));
         }
 
-        $firstDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
+        $firstDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
             '%s-%s-1 00:00:00 +000',
             $baseDate->format('Y'),
             $baseDate->format('m')
         ));
 
-        $lastDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
+        $lastDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
             '%s-%s-%s 23:59:59 +000',
             $baseDate->format('Y'),
             $baseDate->format('m'),

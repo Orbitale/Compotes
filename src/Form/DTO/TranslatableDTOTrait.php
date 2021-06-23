@@ -43,7 +43,7 @@ trait TranslatableDTOTrait
             foreach ($translations as $locale => $values) {
                 foreach ($values as $entityPropertyName => $value) {
                     if (!isset($translatableFields[$entityPropertyName])) {
-                        throw new InvalidArgumentException(\sprintf(
+                        throw new InvalidArgumentException(sprintf(
                             'Impossible to find field %s in DTO %s.',
                             $entityPropertyName,
                             static::class

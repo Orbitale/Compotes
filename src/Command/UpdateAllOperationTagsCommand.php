@@ -38,7 +38,7 @@ class UpdateAllOperationTagsCommand extends Command
         $updatedCount = $this->synchronizer->applyRulesOnAllOperations();
 
         if ($updatedCount) {
-            $io->success(\sprintf('Updated %d operations!', $updatedCount));
+            $io->success(sprintf('Updated %d operations!', $updatedCount));
         } else {
             $io->comment('No tag rule was applied.');
         }

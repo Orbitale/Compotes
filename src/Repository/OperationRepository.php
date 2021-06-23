@@ -34,13 +34,13 @@ class OperationRepository extends ServiceEntityRepository
 
     public function monthIsPopulated(DateTimeImmutable $month): bool
     {
-        $firstDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
+        $firstDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
             '%s-%s-1 00:00:00 +000',
             $month->format('Y'),
             $month->format('m')
         ));
 
-        $lastDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', \sprintf(
+        $lastDay = DateTimeImmutable::createFromFormat('Y-m-d H:i:s O', sprintf(
             '%s-%s-%s 23:59:59 +000',
             $firstDay->format('Y'),
             $firstDay->format('m'),
