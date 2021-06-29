@@ -70,6 +70,8 @@
     }
 </script>
 
+<h1>Tag rules</h1>
+
 {#if tag_rules.length}
     <PaginatedTable items={tag_rules} fields={fields} actions={actions} />
 {:else}

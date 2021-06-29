@@ -41,6 +41,8 @@
     ;
 </script>
 
+<h1>Operations</h1>
+
 {#if operations.length}
     <div class="alert alert-info">
         Lines having a <span class="badge bg-warning">colored background</span> correspond to operations that have no tag associated.

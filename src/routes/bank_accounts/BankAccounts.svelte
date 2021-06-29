@@ -20,7 +20,16 @@
     onMount(async () => bank_accounts = await getBankAccounts());
 </script>
 
-<a href="#/bank-accounts/new" class="btn btn-primary">New</a>
+<style lang="scss">
+    #new-button {
+        float: right;
+        margin-top: 8px;
+    }
+</style>
+
+<a href="#/bank-accounts/new" class="btn btn-primary" id="new-button">New</a>
+
+<h1>Bank accounts</h1>
 
 {#if bank_accounts.length}
     <PaginatedTable items={bank_accounts} {fields} />

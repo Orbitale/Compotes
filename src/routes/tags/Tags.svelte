@@ -25,6 +25,8 @@
     onMount(async () => tags = await getTags())
 </script>
 
+<h1>Tags</h1>
+
 {#if tags.length}
     <PaginatedTable items={tags} fields={fields} actions={actions} />
 {:else}
