@@ -28,5 +28,5 @@
 {#if tags.length}
     <PaginatedTable items={tags} fields={fields} actions={actions} />
 {:else}
-    <EmptyCollection />
+    <EmptyCollection {fields} />
 {/if}

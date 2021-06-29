@@ -73,5 +73,5 @@
 {#if tag_rules.length}
     <PaginatedTable items={tag_rules} fields={fields} actions={actions} />
 {:else}
-    <EmptyCollection />
+    <EmptyCollection {fields} />
 {/if}

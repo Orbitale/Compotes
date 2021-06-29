@@ -23,7 +23,7 @@
 <a href="#/bank-accounts/new" class="btn btn-primary">New</a>
 
 {#if bank_accounts.length}
-    <PaginatedTable items={bank_accounts} fields={fields} />
+    <PaginatedTable items={bank_accounts} {fields} />
 {:else}
-    <EmptyCollection />
+    <EmptyCollection {fields} />
 {/if}

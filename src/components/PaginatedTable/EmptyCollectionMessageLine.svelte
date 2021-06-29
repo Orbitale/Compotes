@@ -2,8 +2,8 @@
     export let number_of_fields = 1;
 </script>
 
-<tr class="table-warning">
+<tr>
     <td colspan={number_of_fields}>
-        Nothing to display here yet...
+        No elements found.
     </td>
 </tr>

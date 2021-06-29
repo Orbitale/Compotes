@@ -49,5 +49,5 @@
 
     <PaginatedTable items={operations} fields={fields} />
 {:else}
-    <EmptyCollection />
+    <EmptyCollection {fields} />
 {/if}
