@@ -2534,9 +2534,9 @@ dependencies = [
 
 [[package]]
 name = "tauri"
-version = "1.0.0-beta.3"
+version = "1.0.0-beta.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b09062bc47792decc1ebabc3bddc74f3a886291d9c8015d0e5ad1fb94f30938a"
+checksum = "402ed3f4f284573d060bc5c5a6cb369b90c2c84c2d65be2bb1fdb16b7ff4aab7"
 dependencies = [
  "attohttpc",
  "bincode",
@@ -3067,9 +3067,9 @@ dependencies = [
 
 [[package]]
 name = "wry"
-version = "0.10.2"
+version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dc4a6568ef196373e2ede3c375d2b61fa679e3de223d770c4039ba2749407b19"
+checksum = "dc08dc42962ffcf98b40a08399ccdfefea8095807d8c6b7d245277c29977f747"
 dependencies = [
  "cocoa",
  "core-graphics 0.22.2",
