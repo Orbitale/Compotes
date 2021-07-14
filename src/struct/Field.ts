@@ -1,5 +1,5 @@
-import type AssociatedField from "./AssociatedField.ts";
-import FieldHtmlProperties from "./FieldHtmlProperties.ts";
+import type AssociatedField from "./AssociatedField";
+import FieldHtmlProperties from "./FieldHtmlProperties";
 
 export default class Field {
     public readonly name: string;

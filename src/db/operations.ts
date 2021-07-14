@@ -1,6 +1,6 @@
 // @ts-ignore
-import Operation from '../entities/Operation.ts';
-import api_fetch from "../utils/api_fetch.ts";
+import Operation from '../entities/Operation';
+import api_fetch from "../utils/api_fetch";
 
 let operations: Operation[] = [];
 

@@ -1,5 +1,5 @@
-import type ActionParams from "./ActionParams.ts";
-import type Field from "./Field.ts";
+import type ActionParams from "./ActionParams";
+import type Field from "./Field";
 
 export default class ItemAction {
     public readonly name: string;

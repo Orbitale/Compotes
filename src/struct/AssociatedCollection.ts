@@ -1,4 +1,4 @@
-import type AssociatedItem from "./AssociatedItem.ts";
+import type AssociatedItem from "./AssociatedItem";
 
 class Collection<T> extends Array<T> {
     constructor(items?: T[]) {
@@ -15,5 +15,5 @@ class Collection<T> extends Array<T> {
     }
 }
 
-export default class AssociatedCollection extends Collection<AssociatedItem> {
+export default class AssociatedCollection<T> extends Collection<AssociatedItem<T>> {
 }

@@ -1,4 +1,4 @@
-import type Field from "./Field.ts";
+import type Field from "./Field";
 
 export default class AssociatedItem<T> {
     public readonly item: T;

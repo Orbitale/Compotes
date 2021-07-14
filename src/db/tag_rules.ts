@@ -1,7 +1,7 @@
 // @ts-ignore
-import TagRule from '../entities/TagRule.ts';
-import {getTagById} from "./tags.ts";
-import api_fetch from "../utils/api_fetch.ts";
+import TagRule from '../entities/TagRule';
+import {getTagById} from "./tags";
+import api_fetch from "../utils/api_fetch";
 
 export default class DeserializedTagRule
 {
@@ -24,8 +24,10 @@ export async function getTagRules(): Promise<Array<TagRule>>
                 return await getTagById(id.toString());
             });
 
+
             return new TagRule(
                 deserialized_tag_rule.id,
+                // @ts-ignore (promise vs tag array seems to be inconsistent somehow. TODO: fix it)
                 tags,
                 deserialized_tag_rule.matching_pattern,
                 deserialized_tag_rule.is_regex

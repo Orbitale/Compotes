@@ -27,6 +27,14 @@ export function error(content: string): Toast {
     return message(content, ToastType.error);
 }
 
+export function warning(content: string): Toast {
+    return message(content, ToastType.warning);
+}
+
+export function info(content: string): Toast {
+    return message(content, ToastType.info);
+}
+
 export default function message(content: string, type: ToastType): Toast {
     if (!addedToBody) {
         container = createContainerElement();

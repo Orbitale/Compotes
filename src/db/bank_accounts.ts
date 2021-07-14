@@ -1,6 +1,6 @@
 // @ts-ignore
-import BankAccount from '../entities/BankAccount.ts';
-import api_fetch from "../utils/api_fetch.ts";
+import BankAccount from '../entities/BankAccount';
+import api_fetch from "../utils/api_fetch";
 
 let bank_accounts: BankAccount[] = [];
 

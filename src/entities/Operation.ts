@@ -1,5 +1,5 @@
-import type BankAccount from "./BankAccount.ts";
-import {getBankAccountById} from "../db/bank_accounts.ts";
+import type BankAccount from "./BankAccount";
+import {getBankAccountById} from "../db/bank_accounts";
 
 enum OperationState {
     ok = "ok",
