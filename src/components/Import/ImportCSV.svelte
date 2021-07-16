@@ -1,11 +1,13 @@
 <script lang="ts">
     import {warning} from "../../utils/message";
     import DragDropList from "../DragDrop/DragDropList.svelte";
+    import * as Papaparse from "papaparse";
 
     let file: File = null;
     let fileContent: string = null;
     let filePreview: string = '';
     let files: FileList = null;
+    let numberOfLinesToRemove: number = 1;
 
     let csvContent = [];
 
@@ -17,7 +19,6 @@
         'Amount',
     ];
 
-    const flipDurationMs = 300;
     function handleDndConsider(e) {
         csvFields = e.detail.items;
     }
@@ -33,6 +34,7 @@
     }
 
     function uploadFile() {
+
         if (!files || !files.length) {
             warning('Please upload a CSV file.');
             reset();
@@ -57,11 +59,15 @@
             if (contentAsArray.length > 20) {
                 filePreview += "\n(…)";
             }
+
+            csvContent = Papaparse.parse(fileContent);
+
+            console.info({csvContent});
+
+            // TODO
         };
 
         reader.readAsText(file);
-
-        console.info({file});
     }
 
 </script>
@@ -85,7 +91,9 @@
     <div class="row">
 
         <div class="col form-group">
-            <label class="form-control-label required" for="import_operations_csvSeparator">Csv separator</label>
+            <label class="form-control-label required" for="import_operations_csvSeparator">
+                Csv separator
+            </label>
             <div class="form-widget">
                 <select id="import_operations_csvSeparator" name="import_operations[csvSeparator]" class="form-control">
                     <option value=";" selected="selected">;</option>
@@ -95,7 +103,9 @@
         </div>
 
         <div class="col form-group">
-            <label class="form-control-label required" for="import_operations_csvDelimiter">Csv delimiter</label>
+            <label class="form-control-label required" for="import_operations_csvDelimiter">
+                Csv delimiter
+            </label>
             <div class="form-widget">
                 <select id="import_operations_csvDelimiter" name="import_operations[csvDelimiter]" class="form-control">
                     <option value="&quot;" selected="selected">"</option>
@@ -106,8 +116,9 @@
         </div>
 
         <div class="col form-group">
-            <label class="form-control-label required" for="import_operations_csvEscapeCharacter">Csv escape
-                character</label>
+            <label class="form-control-label required" for="import_operations_csvEscapeCharacter">
+                Csv escape character
+            </label>
             <div class="form-widget">
                 <select id="import_operations_csvEscapeCharacter" name="import_operations[csvEscapeCharacter]" class="form-control">
                     <option value="\" selected="selected">\</option>
@@ -115,10 +126,19 @@
                 </select>
             </div>
         </div>
+
+        <div class="col form-group">
+            <label class="form-control-label required" for="import_operations_csvEscapeCharacter">
+                Number of first lines to remove
+            </label>
+            <div class="form-widget">
+                <input type="number" min="0" bind:value={numberOfLinesToRemove}>
+            </div>
+        </div>
     </div>
 
     <div class="col form-group">
-        <label>Csv columns</label>
+        <label for="csv_columns">Csv columns</label>
         <div class="form-widget">
 
             <DragDropList bind:data={csvFields} />
@@ -126,7 +146,7 @@
             <ol>
                 {#each csvFields as csvField, i}
                     <li>
-                        <input type="hidden" id="csv_columns_{i}" name="csv_columns[{i}]" value="{csvField}">
+                        <input class="form-control" type="hidden" id="csv_columns_{i}" name="csv_columns[{i}]" value="{csvField}">
                         {csvField}
                     </li>
                 {/each}
