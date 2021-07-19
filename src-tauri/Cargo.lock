@@ -1801,11 +1801,11 @@ checksum = "692fcb63b64b1758029e0a96ee63e049ce8c5948587f2f7208df04625e5f6b56"
 
 [[package]]
 name = "open"
-version = "1.7.0"
+version = "1.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1711eb4b31ce4ad35b0f316d8dfba4fe5c7ad601c448446d84aae7a896627b20"
+checksum = "dcea7a30d6b81a2423cc59c43554880feff7b57d12916f231a79f8d6d9470201"
 dependencies = [
- "which",
+ "pathdiff",
  "winapi",
 ]
 
@@ -1909,6 +1909,12 @@ dependencies = [
  "smallvec",
  "winapi",
 ]
+
+[[package]]
+name = "pathdiff"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "877630b3de15c0b64cc52f659345724fbf6bdad9bd9566699fc53688f3c34a34"
 
 [[package]]
 name = "percent-encoding"
@@ -2836,9 +2842,9 @@ dependencies = [
 
 [[package]]
 name = "tao"
-version = "0.3.1"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ecd33dd36dd20ca8a1222c770b13390b04c1a792a7cdf89ee29675d94f172ce5"
+checksum = "478cdfef38dfd24a9362031450f22a7d4ffb260bf67df53ea694b5e2567b48a7"
 dependencies = [
  "bitflags 1.2.1",
  "cairo-rs",
@@ -2885,9 +2891,9 @@ dependencies = [
 
 [[package]]
 name = "tauri"
-version = "1.0.0-beta.4"
+version = "1.0.0-beta.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "402ed3f4f284573d060bc5c5a6cb369b90c2c84c2d65be2bb1fdb16b7ff4aab7"
+checksum = "64150bb36424744bd05b68c4f4a6e133a9e6fbb24d01fc3aa64fe0f3b6c2c151"
 dependencies = [
  "attohttpc",
  "base64",
@@ -2897,6 +2903,8 @@ dependencies = [
  "either",
  "flate2",
  "futures",
+ "glib",
+ "gtk",
  "http",
  "ignore",
  "minisign-verify",
@@ -2928,9 +2936,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-build"
-version = "1.0.0-beta.2"
+version = "1.0.0-beta.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bcefc20a0068157a26623f431aefa165601fe7e612b3bba8fc7b16995f91d86a"
+checksum = "78fbf1de4ceafab0706c586a4abbb920051899d13aeb67a1d6953a79aced5d99"
 dependencies = [
  "anyhow",
  "proc-macro2",
@@ -2942,13 +2950,15 @@ dependencies = [
 
 [[package]]
 name = "tauri-codegen"
-version = "1.0.0-beta.2"
+version = "1.0.0-beta.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9ce718568b0d350153207ecccc1e6230120cbe172ef17a8509a038fffc760b7b"
+checksum = "25daa8d7cbb24e5432cf54eaaa88d0efd539eef1bdda340233caea2872bca416"
 dependencies = [
  "blake3",
+ "kuchiki",
  "proc-macro2",
  "quote 1.0.9",
+ "regex",
  "serde",
  "serde_json",
  "tauri-utils",
@@ -2959,9 +2969,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-macros"
-version = "1.0.0-beta.3"
+version = "1.0.0-beta.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "80bc96f49730223b245bc9faa3abd20f4a87d9f093a001e14110064b24717b82"
+checksum = "c3e4c78916b832b1623a15b4f6a9e91538363ed7fd90834b8524f71b384ea99c"
 dependencies = [
  "proc-macro2",
  "quote 1.0.9",
@@ -2971,10 +2981,11 @@ dependencies = [
 
 [[package]]
 name = "tauri-runtime"
-version = "0.1.3"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "723b47b0bc453b6b5b1bab9a395c1b4deed68bb47f563cc8ebaac1df151fd0aa"
+checksum = "f9da2bf17eed04ccf580773dba506e3b84dc57a77e9e90c1bb4e8a9cc79d0bbf"
 dependencies = [
+ "gtk",
  "serde",
  "serde_json",
  "tauri-utils",
@@ -2985,10 +2996,11 @@ dependencies = [
 
 [[package]]
 name = "tauri-runtime-wry"
-version = "0.1.3"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0eec0d7fda47c035dee40333bc0b939f6b65463d9d98d7de5d81e4030a9e8fc9"
+checksum = "8e1922bca95ef9e1473c38d25856f92aeec88a9853701abff36a32055b1f79b5"
 dependencies = [
+ "gtk",
  "ico",
  "infer",
  "png 0.16.8",
@@ -3001,9 +3013,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-utils"
-version = "1.0.0-beta.1"
+version = "1.0.0-beta.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0e2d97d530d708dc61c1185425ea5fbcebb04fd33e31739ee8ed1eb50a79b3b4"
+checksum = "9870bff4bcd4b795d8ce2efaba31a19012634fee211e7c86694c8d045b8edb73"
 dependencies = [
  "heck",
  "html5ever",
@@ -3405,16 +3417,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "which"
-version = "4.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b55551e42cbdf2ce2bedd2203d0cc08dba002c27510f86dab6d0ce304cba3dfe"
-dependencies = [
- "either",
- "libc",
-]
-
-[[package]]
 name = "widestring"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3490,9 +3492,9 @@ dependencies = [
 
 [[package]]
 name = "wry"
-version = "0.10.3"
+version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dc08dc42962ffcf98b40a08399ccdfefea8095807d8c6b7d245277c29977f747"
+checksum = "9272387911b8612688d1e6a90f191ab394561a88634e81b064f98880b4874245"
 dependencies = [
  "cocoa",
  "core-graphics 0.22.2",
