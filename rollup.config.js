@@ -19,9 +19,9 @@ function serve() {
 	}
 
 	return {
-		writeBundle() {
+		writeBundle: function () {
 			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+			server = require('child_process').spawn('yarn', ['run', 'start', '--', '--dev'], {
 				stdio: ['ignore', 'inherit', 'inherit'],
 				shell: true
 			});
@@ -55,7 +55,7 @@ export default {
 		css({ output: 'bundle.css' }),
 
 		// If you have external dependencies installed from
-		// npm, you'll most likely need these plugins. In
+		// yarn, you'll most likely need these plugins. In
 		// some cases you'll need additional configuration -
 		// consult the documentation for details:
 		// https://github.com/rollup/plugins/tree/master/packages/commonjs
@@ -82,7 +82,7 @@ export default {
 			]
 		}),
 
-		// In dev mode, call `npm run start` once
+		// In dev mode, call `yarn run start` once
 		// the bundle has been generated
 		!production && serve(),
 
@@ -90,8 +90,8 @@ export default {
 		// browser on changes when not in production
 		!production && livereload('public'),
 
-		// If we're building for production (npm run build
-		// instead of npm run dev), minify
+		// If we're building for production (yarn run build
+		// instead of yarn run dev), minify
 		production && terser()
 	],
 	watch: {
