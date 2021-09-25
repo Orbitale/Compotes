@@ -1,15 +1,13 @@
 <script lang="ts">
     import {warning} from "../../utils/message";
     import DragDropList from "../DragDrop/DragDropList.svelte";
-    import * as Papaparse from "papaparse";
+    import api_fetch from "../../utils/api_fetch.ts";
 
     let file: File = null;
     let fileContent: string = null;
     let filePreview: string = '';
     let files: FileList = null;
     let numberOfLinesToRemove: number = 1;
-
-    let csvContent = [];
 
     let csvFields = [
         'Date',
@@ -18,13 +16,6 @@
         'Details',
         'Amount',
     ];
-
-    function handleDndConsider(e) {
-        csvFields = e.detail.items;
-    }
-    function handleDndFinalize(e) {
-        csvFields = e.detail.items;
-    }
 
     function reset() {
         file = null;
@@ -42,7 +33,7 @@
         }
 
         if (files.length > 1) {
-            warning('Only one OFX file per import is supported (for now).');
+            warning('Only one CSV file per import is supported (for now).');
             reset();
             return;
         }
@@ -59,17 +50,14 @@
             if (contentAsArray.length > 20) {
                 filePreview += "\n(…)";
             }
-
-            csvContent = Papaparse.parse(fileContent);
-
-            console.info({csvContent});
-
-            // TODO
         };
 
         reader.readAsText(file);
     }
 
+    async function importFile() {
+        await api_fetch("import_csv", {fileContent: filePreview});
+    }
 </script>
 
 <div>
@@ -77,7 +65,10 @@
 </div>
 
 <div>
-    <button class="btn btn-primary" type="button" on:click={uploadFile}>Import</button>
+    <button class="btn btn-primary" type="button" on:click={uploadFile}>Preview</button>
+    {#if filePreview && filePreview.length}
+        <button class="btn btn-primary" type="button" on:click={importFile}>Import</button>
+    {/if}
 </div>
 
 <h3>Preview:</h3>
@@ -143,7 +134,7 @@
 
             <DragDropList bind:data={csvFields} />
 
-            <ol>
+            <ol id="csv_columns">
                 {#each csvFields as csvField, i}
                     <li>
                         <input class="form-control" type="hidden" id="csv_columns_{i}" name="csv_columns[{i}]" value="{csvField}">

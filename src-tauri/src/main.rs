@@ -45,6 +45,7 @@ fn main() {
             get_tag_rules,
             save_tag,
             save_tag_rule,
+            import_ofx,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -111,4 +112,13 @@ fn save_tag_rule(conn_state: State<'_, Mutex<Connection>>, tag_rule: String) {
 
     let tag_rule_entity: TagRule = serde_json::from_str(&tag_rule).unwrap();
     tag_rules::save(conn, tag_rule_entity);
+}
+
+#[tauri::command]
+fn import_ofx(conn_state: State<'_, Mutex<Connection>>, file_content: String) {
+    println!("OFX File:\n{}", file_content);
+}
+#[tauri::command]
+fn import_csv(conn_state: State<'_, Mutex<Connection>>, file_content: String) {
+    println!("CSV File:\n{}", file_content);
 }
