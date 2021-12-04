@@ -16,7 +16,6 @@ tauri-build = "1.0.0-beta"
 anyhow = "1.0"
 dirs = "4.0"
 serde_json = "1.0"
-sgmlish = "0.2"
 serde_rusqlite = "0.26"
 serde = { version = "1.0", features = [ "derive" ] }
 chrono = { version = "0.4", features = [ "serde" ] }
