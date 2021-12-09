@@ -45,6 +45,7 @@ fn main() {
             get_tag_rules,
             save_tag,
             save_tag_rule,
+            import_ofx,
             import_csv,
         ])
         .run(tauri::generate_context!())
@@ -112,6 +113,27 @@ fn save_tag_rule(conn_state: State<'_, Mutex<Connection>>, tag_rule: String) {
 
     let tag_rule_entity: TagRule = serde_json::from_str(&tag_rule).unwrap();
     tag_rules::save(conn, tag_rule_entity);
+}
+
+#[tauri::command]
+fn import_ofx(_conn_state: State<'_, Mutex<Connection>>, file_content: String) {
+    let splitted = file_content.split_once("<OFX>").unwrap();
+
+    let headers: String = splitted.0.to_string();
+    let mut xml_body: String = String::from("<OFX>");
+    xml_body.push_str(splitted.1);
+    let xml_body = xml_body;
+
+    let sgml = sgmlish::Parser::builder()
+        .lowercase_names()
+        .parse(&xml_body)
+        .expect("Could not parse SGML content from OFX data");
+    let sgml = sgmlish::transforms::normalize_end_tags(sgml)
+        .expect("Could not normalize SGML content from OFX data");
+
+    println!("Headers:\n{}\n\nXML body:\n{}", headers, xml_body);
+
+    dbg!(sgml);
 }
 
 #[tauri::command]
