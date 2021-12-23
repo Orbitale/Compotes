@@ -1,6 +1,6 @@
 
 use rusqlite::Connection;
-use rusqlite::NO_PARAMS;
+use rusqlite::named_params;
 use serde::Serialize;
 use serde::Deserialize;
 use serde_rusqlite::from_rows;
@@ -35,7 +35,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount>
 
     let mut bank_accounts: Vec<BankAccount> = Vec::new();
 
-    let mut rows_iter = from_rows::<BankAccount>(stmt.query(NO_PARAMS).unwrap());
+    let mut rows_iter = from_rows::<BankAccount>(stmt.query([]).unwrap());
 
     loop {
         match rows_iter.next() {
@@ -60,10 +60,10 @@ pub(crate) fn save(conn: &Connection, bank_account: BankAccount)
             WHERE id = :id
         ").unwrap();
 
-        stmt.execute_named(&[
-            (":id", &bank_account.id),
-            (":name", &bank_account.name),
-        ]).expect("Could not update tag");
+        stmt.execute(named_params! {
+            ":id": &bank_account.id,
+            ":name": &bank_account.name,
+        }).expect("Could not update tag");
     } else {
         let mut stmt = conn.prepare("
             INSERT INTO bank_accounts (
@@ -80,10 +80,10 @@ pub(crate) fn save(conn: &Connection, bank_account: BankAccount)
             )
         ").expect("An error occured when preparing the SQL statement.");
 
-        stmt.execute_named(&[
-            (":name", &bank_account.name),
-            (":slug", &create_slug(&bank_account.name)),
-            (":currency", &bank_account.currency),
-        ]).expect("Could not create bank account");
+        stmt.execute(named_params! {
+            ":name": &bank_account.name,
+            ":slug": &create_slug(&bank_account.name),
+            ":currency": &bank_account.currency,
+        }).expect("Could not create bank account");
     }
 }

@@ -1,6 +1,5 @@
 
 use rusqlite::Connection;
-use rusqlite::NO_PARAMS;
 use serde::Serialize;
 use serde::Deserialize;
 use serde_rusqlite::from_rows;
@@ -41,7 +40,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation>
 
     let mut operations: Vec<Operation> = Vec::new();
 
-    let mut rows_iter = from_rows::<Operation>(stmt.query(NO_PARAMS).unwrap());
+    let mut rows_iter = from_rows::<Operation>(stmt.query([]).unwrap());
 
     loop {
         match rows_iter.next() {

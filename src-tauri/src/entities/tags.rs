@@ -1,6 +1,5 @@
-
 use rusqlite::Connection;
-use rusqlite::NO_PARAMS;
+use rusqlite::named_params;
 use serde::Serialize;
 use serde::Deserialize;
 use serde_rusqlite::from_rows;
@@ -22,7 +21,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Tag>
         ORDER BY name ASC
     ").unwrap();
 
-    let tags_result = stmt.query(NO_PARAMS).expect("Could not fetch tags");
+    let tags_result = stmt.query([]).expect("Could not fetch tags");
 
     let mut tags: Vec<Tag> = Vec::new();
 
@@ -49,8 +48,8 @@ pub(crate) fn save(conn: &Connection, tag: Tag)
         WHERE id = :id
     ").unwrap();
 
-    stmt.execute_named(&[
-        (":id", &tag.id),
-        (":name", &tag.name),
-    ]).expect("Could not update tag");
+    stmt.execute(named_params! {
+        ":id": &tag.id,
+        ":name": &tag.name,
+    }).expect("Could not update tag");
 }

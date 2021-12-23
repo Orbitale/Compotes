@@ -1,6 +1,6 @@
 
 use rusqlite::Connection;
-use rusqlite::NO_PARAMS;
+use rusqlite::named_params;
 use serde::Serialize;
 use serde::Deserialize;
 use serde_rusqlite::from_rows;
@@ -62,7 +62,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule>
 
     let mut tag_rules: Vec<TagRule> = Vec::new();
 
-    let mut rows_iter = from_rows::<TagRule>(stmt.query(NO_PARAMS).unwrap());
+    let mut rows_iter = from_rows::<TagRule>(stmt.query([]).unwrap());
 
     loop {
         match rows_iter.next() {
@@ -87,9 +87,9 @@ pub(crate) fn save(conn: &Connection, tag_rule: TagRule)
         WHERE id = :id
     ").unwrap();
 
-    stmt.execute_named(&[
-        (":id", &tag_rule.id),
-        (":is_regex", &tag_rule.is_regex),
-        (":matching_pattern", &tag_rule.matching_pattern),
-    ]).expect("Could not update tag");
+    stmt.execute(named_params! {
+        ":id": &tag_rule.id,
+        ":is_regex": &tag_rule.is_regex,
+        ":matching_pattern": &tag_rule.matching_pattern,
+    }).expect("Could not update tag");
 }
