@@ -1,5 +1,5 @@
 // @ts-ignore
-import Tag, {serializeTag} from '../entities/Tag';
+import Tag from '../entities/Tag';
 import api_fetch from "../utils/api_fetch";
 
 let tags: Tag[] = [];
