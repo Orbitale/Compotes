@@ -17,15 +17,19 @@ anyhow = "1.0"
 dirs = "4.0"
 serde_json = "1.0"
 sgmlish = "0.2"
-serde_rusqlite = "0.26"
+serde_rusqlite = "0.29"
 serde = { version = "1.0", features = [ "derive" ] }
 chrono = { version = "0.4", features = [ "serde" ] }
-rusqlite = { version = "0.24", features = [ ] }
-refinery = { version = "0.5", features = [ "rusqlite-bundled" ] }
+rusqlite = { version = "0.26", features = [ ] }
+
+  [dependencies.refinery]
+  rev = "cfe9eb8439ec44a6da8cae41afb9007487ed0e08"
+  git = "https://github.com/rust-db/refinery"
+  features = [ "rusqlite-bundled" ]
 
   [dependencies.tauri]
   version = "1.0.0-beta.8"
-  features = ["api-all"]
+  features = [ "api-all" ]
 
 [features]
 default = [ "custom-protocol" ]
