@@ -1,31 +1,43 @@
 <script lang="ts">
-    import {warning} from "../../utils/message";
+    import {error, warning} from "../../utils/message";
     import DragDropList from "../DragDrop/DragDropList.svelte";
     import api_fetch from "../../utils/api_fetch.ts";
 
     let file: File = null;
     let fileContent: string = null;
-    let filePreview: string = '';
     let files: FileList = null;
-    let numberOfLinesToRemove: number = 1;
+    let preview: string = '';
+    let previewOperations: Array<Array<String>> = [];
+
+    const csvFieldsReferences = {
+        DATE: '📅 Date',
+        TYPE: '🏷 Type',
+        TYPE_DISPLAY: '🔖 Type (display)',
+        DETAILS: '✏ Details',
+        AMOUNT: '💰 Amount',
+    };
 
     let csvFields = [
-        'Date',
-        'Type',
-        'Type (display)',
-        'Details',
-        'Amount',
+        csvFieldsReferences.DATE,
+        csvFieldsReferences.TYPE,
+        csvFieldsReferences.TYPE_DISPLAY,
+        csvFieldsReferences.DETAILS,
+        csvFieldsReferences.AMOUNT,
     ];
+
+    let numberOfLinesToRemove: number = 1;
+    let separator: string = ';';
+    let delimiter: string = '"';
+    let escapeCharacter: string = '\\';
 
     function reset() {
         file = null;
         fileContent = null;
-        filePreview = '';
+        preview = '';
         files = null;
     }
 
     function uploadFile() {
-
         if (!files || !files.length) {
             warning('Please upload a CSV file.');
             reset();
@@ -40,109 +52,199 @@
 
         file = files[0];
         let reader = new FileReader();
-
-        reader.onload = () => {
-            fileContent = reader.result.toString();
-
-            let contentAsArray = fileContent.split("\n");
-
-            filePreview = contentAsArray.splice(0, 20).join("\n");
-            if (contentAsArray.length > 20) {
-                filePreview += "\n(…)";
-            }
-        };
-
+        reader.onload = () => readCsvFile(reader);
         reader.readAsText(file);
     }
 
+    function readCsvFile(reader: FileReader) {
+        fileContent = reader.result.toString();
+
+        const firstLine = fileContent.split("\n")[0] || null;
+        if (!firstLine) {
+            error("This file seems to be empty, or is not a CSV file.");
+            reset();
+            return;
+        }
+        determineCsvParameters(firstLine);
+
+        previewOperations = getCsvFromData(fileContent);
+
+        const firstOperation: Array<string> = previewOperations[0] ?? null;
+        if (!firstOperation) { return; }
+    }
+
+    function determineCsvParameters(firstLine: string) {
+        if (firstLine.match(/^[^;]+;/)) {
+            separator = ';';
+        } else if (firstLine.match(/^[^,]+,/)) {
+            separator = ',';
+        }
+
+        if (firstLine.match(/^[^']+'/)) {
+            delimiter = "'";
+        } else if (firstLine.match(/^[^"]+"/)) {
+            delimiter = '"';
+        }
+
+        let values = getCsvFromData(firstLine);
+
+        // TODO: determine headers!
+    }
+
     async function importFile() {
-        await api_fetch("import_csv", {fileContent: filePreview});
+        await api_fetch("import_csv", {
+            fileContent,
+            numberOfLinesToRemove,
+            csvSeparator: separator,
+            csvDelimiter: delimiter,
+            csvEscapeCharacter: escapeCharacter
+        });
+    }
+
+    function getCsvFromData(strData: string) {
+        const objPattern = new RegExp(
+            '(' + escapeCharacter + separator + '|\r?\n|\r|^)' +
+            '(?:'+delimiter+'([^'+delimiter+']*(?:'+delimiter+''+delimiter+'[^'+delimiter+']*)*)'+delimiter+'|' +
+            '([^'+delimiter+escapeCharacter+separator+'\r\n]*))'
+        , 'gi');
+
+        const arrData = [[]];
+        let arrMatches;
+        let strMatchedValue: string;
+
+        while (arrMatches = objPattern.exec(strData)) {
+            const strMatchedDelimiter = arrMatches[1];
+            if (strMatchedDelimiter.length && (strMatchedDelimiter != separator)) {
+                arrData.push([]);
+            }
+
+            if (arrMatches[2]) {
+                strMatchedValue = arrMatches[2].replace(/""/g, '"');
+            } else {
+                strMatchedValue = arrMatches[3];
+            }
+
+            arrData[arrData.length-1].push(strMatchedValue);
+        }
+
+        return arrData;
     }
 </script>
 
 <div>
-    <input type="file" id="file_to_import" bind:files/>
+    <input type="file" id="file_to_import" bind:files on:change={uploadFile} />
 </div>
 
 <div>
-    <button class="btn btn-primary" type="button" on:click={uploadFile}>Preview</button>
-    {#if filePreview && filePreview.length}
+    {#if fileContent && fileContent.length}
         <button class="btn btn-primary" type="button" on:click={importFile}>Import</button>
     {/if}
 </div>
 
-<h3>Preview:</h3>
-<pre id="preview">
-    {filePreview}
-</pre>
+<hr>
 
-{#if filePreview.length || true}
-    <h3>CSV parameters</h3>
+<h3>CSV parameters</h3>
 
-    <div class="row">
+<div class="row">
 
-        <div class="col form-group">
-            <label class="form-control-label required" for="import_operations_csvSeparator">
-                Csv separator
-            </label>
-            <div class="form-widget">
-                <select id="import_operations_csvSeparator" name="import_operations[csvSeparator]" class="form-control">
-                    <option value=";" selected="selected">;</option>
-                    <option value=",">,</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col form-group">
-            <label class="form-control-label required" for="import_operations_csvDelimiter">
-                Csv delimiter
-            </label>
-            <div class="form-widget">
-                <select id="import_operations_csvDelimiter" name="import_operations[csvDelimiter]" class="form-control">
-                    <option value="&quot;" selected="selected">"</option>
-                    <option value="'">'</option>
-                    <option value=""></option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col form-group">
-            <label class="form-control-label required" for="import_operations_csvEscapeCharacter">
-                Csv escape character
-            </label>
-            <div class="form-widget">
-                <select id="import_operations_csvEscapeCharacter" name="import_operations[csvEscapeCharacter]" class="form-control">
-                    <option value="\" selected="selected">\</option>
-                    <option value=""></option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col form-group">
-            <label class="form-control-label required" for="import_operations_csvEscapeCharacter">
-                Number of first lines to remove
-            </label>
-            <div class="form-widget">
-                <input type="number" min="0" bind:value={numberOfLinesToRemove}>
-            </div>
+    <div class="col form-group">
+        <label class="form-control-label required" for="import_operations_csvSeparator">
+            Values separator
+        </label>
+        <div class="form-widget">
+            <select bind:value={separator} on:change={uploadFile} id="import_operations_csvSeparator" name="import_operations[csvSeparator]" class="form-control">
+                <option value=";" selected="selected">;</option>
+                <option value=",">,</option>
+            </select>
         </div>
     </div>
 
     <div class="col form-group">
-        <label for="csv_columns">Csv columns</label>
+        <label class="form-control-label required" for="import_operations_csvDelimiter">
+            Text delimiter
+        </label>
         <div class="form-widget">
-
-            <DragDropList bind:data={csvFields} />
-
-            <ol id="csv_columns">
-                {#each csvFields as csvField, i}
-                    <li>
-                        <input class="form-control" type="hidden" id="csv_columns_{i}" name="csv_columns[{i}]" value="{csvField}">
-                        {csvField}
-                    </li>
-                {/each}
-            </ol>
-
+            <select bind:value={delimiter} on:change={uploadFile} id="import_operations_csvDelimiter" name="import_operations[csvDelimiter]" class="form-control">
+                <option value="&quot;" selected="selected">"</option>
+                <option value="'">'</option>
+                <option value=""></option>
+            </select>
         </div>
     </div>
-{/if}
+
+    <div class="col form-group">
+        <label class="form-control-label required" for="import_operations_csvEscapeCharacter">
+            Escape character
+        </label>
+        <div class="form-widget">
+            <select bind:value={escapeCharacter} on:change={uploadFile} id="import_operations_csvEscapeCharacter" name="import_operations[csvEscapeCharacter]"
+                    class="form-control">
+                <option value="\" selected="selected">\</option>
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col form-group">
+        <label for="csv_columns">Csv columns</label>
+        <div class="form-widget" id="csv_columns">
+            <DragDropList bind:data={csvFields}/>
+            <p>
+                <span class="badge rounded-pill bg-info">ℹ</span> Remember to sort these fields <strong>manually</strong> in order to
+                make sure CSV fields are parsed properly by the application.
+            </p>
+        </div>
+    </div>
+    <div class="col form-group">
+        <label class="form-control-label required" for="import_operations_csvEscapeCharacter">
+            Number of first lines to remove
+        </label>
+        <input bind:value={numberOfLinesToRemove} type="number" class="form-control" min="0">
+    </div>
+</div>
+
+<hr>
+
+<h3>Preview:</h3>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr class="table-info">
+            {#each csvFields as field}
+                <th>{field}</th>
+            {/each}
+        </tr>
+    </thead>
+    <tbody>
+        {#each previewOperations as line, key}
+            <tr class="{key < numberOfLinesToRemove ? 'line-to-remove' : ''}">
+                {#each line as value}
+                    <td>{value}</td>
+                {/each}
+            </tr>
+        {/each}
+    </tbody>
+</table>
+
+<style lang="scss">
+  th {
+    font-weight: normal;
+  }
+
+  .line-to-remove {
+    opacity: 0.5;
+    position: relative;
+  }
+
+  .line-to-remove td:first-child::before {
+    content: "🗑";
+    display: block;
+    position: absolute;
+    left: -25px;
+  }
+
+  .table-info {
+    margin-bottom: 5px;
+  }
+</style>
