@@ -9,6 +9,7 @@
     let preview: string = '';
     let previewOperations: Array<Array<String>> = [];
 
+    const numberOfCsvFieldsReferences = 5;
     const csvFieldsReferences = {
         DATE: '📅 Date',
         TYPE: '🏷 Type',
@@ -16,6 +17,13 @@
         DETAILS: '✏ Details',
         AMOUNT: '💰 Amount',
     };
+    const csvFieldsReferencesList = [
+        csvFieldsReferences.DATE,
+        csvFieldsReferences.TYPE,
+        csvFieldsReferences.TYPE_DISPLAY,
+        csvFieldsReferences.DETAILS,
+        csvFieldsReferences.AMOUNT,
+    ];
 
     let csvFields = [
         csvFieldsReferences.DATE,
@@ -86,9 +94,40 @@
             delimiter = '"';
         }
 
-        let values = getCsvFromData(firstLine);
+        let values = getCsvFromData(firstLine)[0] || [];
 
-        // TODO: determine headers!
+        values.forEach((value: string, index) => {
+            if (!csvFields[index]) return;
+
+            if (value.match(/date/gi)) {
+                csvFields[index] = csvFieldsReferences.DATE;
+            }
+
+            if (value.match(/display/gi)) {
+                csvFields[index] = csvFieldsReferences.TYPE_DISPLAY;
+            } else if (value.match(/type/gi)) {
+                csvFields[index] = csvFieldsReferences.TYPE;
+            }
+
+            if (value.match(/amount|montant/gi)) {
+                csvFields[index] = csvFieldsReferences.AMOUNT;
+            }
+
+            if (value.match(/details|label/gi)) {
+                csvFields[index] = csvFieldsReferences.DETAILS;
+            }
+        });
+
+        // Remove duplicates
+        csvFields = csvFields.filter((value, index, self) => self.indexOf(value) === index);
+
+        if (csvFields.length !== numberOfCsvFieldsReferences) {
+            csvFieldsReferencesList.forEach((fieldReference) => {
+                if (csvFields.indexOf(fieldReference) < 0) {
+                    csvFields.push(fieldReference);
+                }
+            });
+        }
     }
 
     async function importFile() {
