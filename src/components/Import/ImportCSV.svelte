@@ -4,6 +4,7 @@
     import api_fetch from "../../utils/api_fetch.ts";
     import {getBankAccounts} from '../../db/bank_accounts';
     import type BankAccount from "../../entities/BankAccount";
+    import Operation, {OperationState} from "../../entities/Operation";
     import {onMount} from "svelte";
 
     let bankAccounts: Array<BankAccount> = [];
@@ -20,6 +21,15 @@
         TYPE_DISPLAY: '🔖 Type (display)',
         DETAILS: '✏ Details',
         AMOUNT: '💰 Amount',
+    };
+    const referenceToEntityProperty = (ref) => {
+        for (let key in csvFieldsReferences) {
+            if (!csvFieldsReferences.hasOwnProperty(key)) continue;
+            if (csvFieldsReferences[key] === ref) {
+                return key;
+            }
+        }
+        throw `Invalid csv field ${ref}.`;
     };
     const csvFieldsReferencesList = [
         csvFieldsReferences.DATE,
@@ -81,6 +91,7 @@
         determineCsvParameters(firstLine);
 
         previewOperations = getCsvFromData(fileContent);
+        denormalizeIntoOperations();
 
         const firstOperation: Array<string> = previewOperations[0] ?? null;
         if (!firstOperation) { return; }
@@ -144,6 +155,38 @@
             csvSeparator: separator,
             csvDelimiter: delimiter,
             csvEscapeCharacter: escapeCharacter,
+        });
+    }
+
+    function denormalizeIntoOperations() {
+        let operations = [];
+        debugger;
+        previewOperations.forEach((normalized, index) => {
+            if (index < numberOfLinesToRemove) {
+                return;
+            }
+            let normalizedWithKeys = {};
+            normalized.forEach((value, index) => {
+                const csvField = csvFields[index];
+                if (!csvField) {
+                    throw `Invalid Csv field index ${index}`
+                }
+                const property = referenceToEntityProperty(csvField);
+                normalizedWithKeys[property] = value;
+            });
+            console.info({});
+            operations.push(new Operation(
+                0, //id
+                normalizedWithKeys.DATE, //operation_date
+                normalizedWithKeys.TYPE, //op_type
+                normalizedWithKeys.TYPE_DISPLAY, //type_display
+                normalizedWithKeys.DETAILS, //details
+                normalizedWithKeys.AMOUNT, //amount_in_cents
+                '', //hash
+                OperationState.pending_triage, //state
+                false, //ignored_from_charts
+                bankAccount.id, //bank_account_id
+            ));
         });
     }
 

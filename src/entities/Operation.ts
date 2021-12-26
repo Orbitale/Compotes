@@ -1,7 +1,7 @@
 import type BankAccount from "./BankAccount";
 import {getBankAccountById} from "../db/bank_accounts";
 
-enum OperationState {
+export enum OperationState {
     ok = "ok",
     pending_triage = "pending_triage",
 }
@@ -55,6 +55,23 @@ export default class Operation
             throw new Error('Bank account is not initialized, did you forget to run the ".sync()" method on this operation?');
         }
         return this._bank_account;
+    }
+
+    public static fromNormalized(normalized: Array<String>): Operation {
+        console.info({normalized});
+
+        return new Operation(
+            0, //id
+            '', //operation_date
+            '', //op_type
+            '', //type_display
+            '', //details
+            0, //amount_in_cents
+            '', //hash
+            OperationState.pending_triage, //state
+            false, //ignored_from_charts
+            0, //bank_account_id
+        )
     }
 
     public async sync(): Promise<void> {
