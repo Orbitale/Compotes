@@ -141,13 +141,17 @@ fn import_csv(
     _conn_state: State<'_, Mutex<Connection>>,
     file_content: String,
     number_of_lines_to_remove: u16,
+    bank_account: u16,
+    csv_fields: Vec<String>,
     csv_separator: String,
     csv_delimiter: String,
     csv_escape_character: String,
 ) {
-    println!("CSV File:\n{}", file_content);
-    println!("number_of_lines_to_remove:\n{}", number_of_lines_to_remove);
-    println!("csv_separator:\n{}", csv_separator);
-    println!("csv_delimiter:\n{}", csv_delimiter);
-    println!("csv_escape_character:\n{}", csv_escape_character);
+    println!("CSV File:                  {}", file_content);
+    println!("number_of_lines_to_remove: {}", number_of_lines_to_remove);
+    println!("bank_account:              {}", bank_account);
+    println!("csv_separator:             {}", csv_separator);
+    println!("csv_delimiter:             {}", csv_delimiter);
+    println!("csv_escape_character:      {}", csv_escape_character);
+    println!("csv_fields:                ");dbg!(csv_fields);
 }

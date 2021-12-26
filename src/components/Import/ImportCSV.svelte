@@ -2,7 +2,11 @@
     import {error, warning} from "../../utils/message";
     import DragDropList from "../DragDrop/DragDropList.svelte";
     import api_fetch from "../../utils/api_fetch.ts";
+    import {getBankAccounts} from '../../db/bank_accounts';
+    import type BankAccount from "../../entities/BankAccount";
+    import {onMount} from "svelte";
 
+    let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
     let fileContent: string = null;
     let files: FileList = null;
@@ -37,6 +41,7 @@
     let separator: string = ';';
     let delimiter: string = '"';
     let escapeCharacter: string = '\\';
+    let bankAccount: BankAccount = null;
 
     function reset() {
         file = null;
@@ -134,9 +139,11 @@
         await api_fetch("import_csv", {
             fileContent,
             numberOfLinesToRemove,
+            bankAccount: bankAccount.id,
+            csvFields,
             csvSeparator: separator,
             csvDelimiter: delimiter,
-            csvEscapeCharacter: escapeCharacter
+            csvEscapeCharacter: escapeCharacter,
         });
     }
 
@@ -168,6 +175,10 @@
 
         return arrData;
     }
+
+    onMount(async () => {
+        bankAccounts = await getBankAccounts();
+    });
 </script>
 
 <div>
@@ -242,6 +253,18 @@
         </label>
         <input bind:value={numberOfLinesToRemove} type="number" class="form-control" min="0">
     </div>
+    <div class="col form-group">
+        <label class="form-control-label required" for="import_operations_bankAccount">
+            Bank Account
+        </label>
+        <div class="form-widget">
+            <select bind:value={bankAccount} id="import_operations_bankAccount" name="import_operations[bankAccount]" class="form-control">
+                {#each bankAccounts as account}
+                    <option value={account}>{account.name}</option>
+                {/each}
+            </select>
+        </div>
+    </div>
 </div>
 
 <hr>
@@ -273,6 +296,10 @@
 
   .line-to-remove {
     opacity: 0.5;
+  }
+
+  .line-to-remove,
+  .line-to-remove td {
     position: relative;
   }
 
