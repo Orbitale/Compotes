@@ -57,21 +57,18 @@ export default class Operation
         return this._bank_account;
     }
 
-    public static fromNormalized(normalized: Array<String>): Operation {
-        console.info({normalized});
+    public static normalizeAmount(amount: string): number {
+        const normalized = parseInt(amount.replace(/[^0-9]+/gi, ''), 10);
+        if (isNaN(normalized)) {
+            throw new Error(`Could not normalize amount "${amount}". It does not seem to be a valid number.`);
+        }
 
-        return new Operation(
-            0, //id
-            '', //operation_date
-            '', //op_type
-            '', //type_display
-            '', //details
-            0, //amount_in_cents
-            '', //hash
-            OperationState.pending_triage, //state
-            false, //ignored_from_charts
-            0, //bank_account_id
-        )
+        return normalized;
+    }
+
+    public static normalizeDate(date: string, dateFormat: string): Date {
+        // TODO
+        return Date.now();
     }
 
     public async sync(): Promise<void> {

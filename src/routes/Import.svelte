@@ -21,11 +21,11 @@
 </ul>
 
 <div class="tab-content" id="tabs">
-    <div class="tab-pane fade show active" id="choose" role="tabpanel" aria-labelledby="choose">
+    <div class="tab-pane fade" id="choose" role="tabpanel" aria-labelledby="choose">
         Choose an import format.
     </div>
 
-    <div class="tab-pane fade" id="csv" role="tabpanel" aria-labelledby="csv">
+    <div class="tab-pane fade show active" id="csv" role="tabpanel" aria-labelledby="csv">
         <ImportCSV />
     </div>
 

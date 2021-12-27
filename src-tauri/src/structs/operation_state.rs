@@ -5,7 +5,7 @@ use rusqlite::types::ValueRef;
 use serde::Serialize;
 use serde::Deserialize;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub(crate) enum OperationState {
     #[serde(rename = "ok")]
     Ok,

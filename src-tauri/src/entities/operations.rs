@@ -5,7 +5,7 @@ use serde::Deserialize;
 use serde_rusqlite::from_rows;
 use crate::structs::operation_state::OperationState;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub(crate) struct Operation
 {
     pub(crate) id: u32,

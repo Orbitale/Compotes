@@ -15,6 +15,7 @@ use crate::entities::tags::Tag;
 use crate::entities::tag_rules::TagRule;
 use crate::db::get_database_connection;
 use crate::entities::bank_accounts::BankAccount;
+use crate::entities::operations::Operation;
 
 mod db;
 mod config;
@@ -139,19 +140,9 @@ fn import_ofx(_conn_state: State<'_, Mutex<Connection>>, file_content: String) {
 #[tauri::command]
 fn import_csv(
     _conn_state: State<'_, Mutex<Connection>>,
-    file_content: String,
-    number_of_lines_to_remove: u16,
-    bank_account: u16,
-    csv_fields: Vec<String>,
-    csv_separator: String,
-    csv_delimiter: String,
-    csv_escape_character: String,
+    operations: Vec<Operation>,
+    bank_account_id: u16,
 ) {
-    println!("CSV File:                  {}", file_content);
-    println!("number_of_lines_to_remove: {}", number_of_lines_to_remove);
-    println!("bank_account:              {}", bank_account);
-    println!("csv_separator:             {}", csv_separator);
-    println!("csv_delimiter:             {}", csv_delimiter);
-    println!("csv_escape_character:      {}", csv_escape_character);
-    println!("csv_fields:                ");dbg!(csv_fields);
+    println!("operations:");dbg!(operations);
+    println!("bank_account_id: {}", bank_account_id);
 }

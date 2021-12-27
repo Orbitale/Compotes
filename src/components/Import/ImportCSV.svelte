@@ -6,6 +6,7 @@
     import type BankAccount from "../../entities/BankAccount";
     import Operation, {OperationState} from "../../entities/Operation";
     import {onMount} from "svelte";
+    import {CsvFieldReference, DateFormat} from "../../struct/import";
 
     let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
@@ -13,17 +14,12 @@
     let files: FileList = null;
     let preview: string = '';
     let previewOperations: Array<Array<String>> = [];
+    let finalOperations: Array<Operation> = [];
 
     const numberOfCsvFieldsReferences = 5;
-    const csvFieldsReferences = {
-        DATE: '📅 Date',
-        TYPE: '🏷 Type',
-        TYPE_DISPLAY: '🔖 Type (display)',
-        DETAILS: '✏ Details',
-        AMOUNT: '💰 Amount',
-    };
+    const csvFieldsReferences: Array<CsvFieldReference> = Object.values(CsvFieldReference);
     const referenceToEntityProperty = (ref) => {
-        for (let key in csvFieldsReferences) {
+        for (let key in Object.keys(CsvFieldReference)) {
             if (!csvFieldsReferences.hasOwnProperty(key)) continue;
             if (csvFieldsReferences[key] === ref) {
                 return key;
@@ -32,32 +28,35 @@
         throw `Invalid csv field ${ref}.`;
     };
     const csvFieldsReferencesList = [
-        csvFieldsReferences.DATE,
-        csvFieldsReferences.TYPE,
-        csvFieldsReferences.TYPE_DISPLAY,
-        csvFieldsReferences.DETAILS,
-        csvFieldsReferences.AMOUNT,
+        CsvFieldReference.DATE,
+        CsvFieldReference.TYPE,
+        CsvFieldReference.TYPE_DISPLAY,
+        CsvFieldReference.DETAILS,
+        CsvFieldReference.AMOUNT,
     ];
 
     let csvFields = [
-        csvFieldsReferences.DATE,
-        csvFieldsReferences.TYPE,
-        csvFieldsReferences.TYPE_DISPLAY,
-        csvFieldsReferences.DETAILS,
-        csvFieldsReferences.AMOUNT,
+        CsvFieldReference.DATE,
+        CsvFieldReference.TYPE,
+        CsvFieldReference.TYPE_DISPLAY,
+        CsvFieldReference.DETAILS,
+        CsvFieldReference.AMOUNT,
     ];
 
     let numberOfLinesToRemove: number = 1;
     let separator: string = ';';
     let delimiter: string = '"';
     let escapeCharacter: string = '\\';
+    let dateFormat: string = DateFormat.YMD_SLASH;
     let bankAccount: BankAccount = null;
 
     function reset() {
         file = null;
         fileContent = null;
-        preview = '';
         files = null;
+        preview = null;
+        previewOperations = [];
+        finalOperations = [];
     }
 
     function uploadFile() {
@@ -116,21 +115,21 @@
             if (!csvFields[index]) return;
 
             if (value.match(/date/gi)) {
-                csvFields[index] = csvFieldsReferences.DATE;
+                csvFields[index] = CsvFieldReference.DATE;
             }
 
             if (value.match(/display/gi)) {
-                csvFields[index] = csvFieldsReferences.TYPE_DISPLAY;
+                csvFields[index] = CsvFieldReference.TYPE_DISPLAY;
             } else if (value.match(/type/gi)) {
-                csvFields[index] = csvFieldsReferences.TYPE;
+                csvFields[index] = CsvFieldReference.TYPE;
             }
 
             if (value.match(/amount|montant/gi)) {
-                csvFields[index] = csvFieldsReferences.AMOUNT;
+                csvFields[index] = CsvFieldReference.AMOUNT;
             }
 
             if (value.match(/details|label/gi)) {
-                csvFields[index] = csvFieldsReferences.DETAILS;
+                csvFields[index] = CsvFieldReference.DETAILS;
             }
         });
 
@@ -148,19 +147,14 @@
 
     async function importFile() {
         await api_fetch("import_csv", {
-            fileContent,
-            numberOfLinesToRemove,
-            bankAccount: bankAccount.id,
-            csvFields,
-            csvSeparator: separator,
-            csvDelimiter: delimiter,
-            csvEscapeCharacter: escapeCharacter,
+            finalOperations,
+            bankAccountId: bankAccount.id,
         });
     }
 
     function denormalizeIntoOperations() {
         let operations = [];
-        debugger;
+
         previewOperations.forEach((normalized, index) => {
             if (index < numberOfLinesToRemove) {
                 return;
@@ -174,20 +168,24 @@
                 const property = referenceToEntityProperty(csvField);
                 normalizedWithKeys[property] = value;
             });
-            console.info({});
-            operations.push(new Operation(
+            let operation = new Operation(
                 0, //id
-                normalizedWithKeys.DATE, //operation_date
+                Operation.normalizeDate(normalizedWithKeys.DATE, dateFormat), //operation_date
                 normalizedWithKeys.TYPE, //op_type
                 normalizedWithKeys.TYPE_DISPLAY, //type_display
                 normalizedWithKeys.DETAILS, //details
-                normalizedWithKeys.AMOUNT, //amount_in_cents
+                Operation.normalizeAmount(normalizedWithKeys.AMOUNT), //amount_in_cents
                 '', //hash
                 OperationState.pending_triage, //state
                 false, //ignored_from_charts
                 bankAccount.id, //bank_account_id
-            ));
+            );
+            operation.sync();
+            operations.push(operation);
         });
+
+        finalOperations = operations;
+        debugger;
     }
 
     function getCsvFromData(strData: string) {
@@ -277,6 +275,19 @@
             </select>
         </div>
     </div>
+
+    <div class="col form-group">
+        <label class="form-control-label required" for="import_operations_dateFormat">
+            Date format
+        </label>
+        <div class="form-widget">
+            <select bind:value={dateFormat} on:change={uploadFile} id="import_operations_dateFormat" name="import_operations[dateFormat]" class="form-control">
+                {#each Object.values(DateFormat) as format}
+                    <option value="{format}">{format}</option>
+                {/each}
+            </select>
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -291,10 +302,10 @@
         </div>
     </div>
     <div class="col form-group">
-        <label class="form-control-label required" for="import_operations_csvEscapeCharacter">
+        <label class="form-control-label required" for="import_operations_linesToRemove">
             Number of first lines to remove
         </label>
-        <input bind:value={numberOfLinesToRemove} type="number" class="form-control" min="0">
+        <input bind:value={numberOfLinesToRemove} id="import_operations_linesToRemove" type="number" class="form-control" min="0">
     </div>
     <div class="col form-group">
         <label class="form-control-label required" for="import_operations_bankAccount">
