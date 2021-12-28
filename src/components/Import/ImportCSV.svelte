@@ -6,7 +6,7 @@
     import type BankAccount from "../../entities/BankAccount";
     import Operation, {OperationState} from "../../entities/Operation";
     import {onMount} from "svelte";
-    import {CsvFieldReference, DateFormat} from "../../struct/import";
+    import {CsvFieldReference, DateFormat} from "../../utils/import";
 
     let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
@@ -47,7 +47,7 @@
     let separator: string = ';';
     let delimiter: string = '"';
     let escapeCharacter: string = '\\';
-    let dateFormat: string = DateFormat.YMD_SLASH;
+    let dateFormat: DateFormat = DateFormat.YMD_SLASH;
     let bankAccount: BankAccount = null;
 
     function reset() {
@@ -170,7 +170,7 @@
             });
             let operation = new Operation(
                 0, //id
-                Operation.normalizeDate(normalizedWithKeys.DATE, dateFormat), //operation_date
+                Operation.normalizeDate(normalizedWithKeys.DATE, dateFormat).toString(), //operation_date
                 normalizedWithKeys.TYPE, //op_type
                 normalizedWithKeys.TYPE_DISPLAY, //type_display
                 normalizedWithKeys.DETAILS, //details

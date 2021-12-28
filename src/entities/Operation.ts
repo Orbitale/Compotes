@@ -1,5 +1,6 @@
 import type BankAccount from "./BankAccount";
 import {getBankAccountById} from "../db/bank_accounts";
+import {DateFormat, dateFormatToRegex, NormalizedDate} from "../utils/import";
 
 export enum OperationState {
     ok = "ok",
@@ -66,9 +67,10 @@ export default class Operation
         return normalized;
     }
 
-    public static normalizeDate(date: string, dateFormat: string): Date {
-        // TODO
-        return Date.now();
+    public static normalizeDate(dateString: string, dateFormat: DateFormat): NormalizedDate {
+        const matches = dateFormatToRegex(dateFormat).exec(dateString);
+
+        return new NormalizedDate(new Date(Date.parse(matches.groups.year + '-' + matches.groups.month + '-' + matches.groups.day)));
     }
 
     public async sync(): Promise<void> {
