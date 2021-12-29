@@ -1,12 +1,14 @@
 <script lang="ts">
-    import {error, info, success, warning} from "../../utils/message";
+    import {error, success, warning} from "../../utils/message";
     import DragDropList from "../DragDrop/DragDropList.svelte";
     import api_fetch from "../../utils/api_fetch.ts";
     import {getBankAccounts} from '../../db/bank_accounts';
     import type BankAccount from "../../entities/BankAccount";
     import Operation, {OperationState} from "../../entities/Operation";
     import {onMount} from "svelte";
-    import {CsvFieldReference, DateFormat, NormalizedDate} from "../../utils/import";
+    import {CsvFieldReference, referenceToEntityProperty} from "../../utils/csv";
+    import {DateFormat} from "../../utils/date";
+    import {clearOperations} from "../../db/operations";
 
     let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
@@ -17,23 +19,6 @@
     let finalOperations: Array<Operation> = [];
 
     const numberOfCsvFieldsReferences = 5;
-    const csvFieldsReferences: Array<CsvFieldReference> = Object.values(CsvFieldReference);
-    const referenceToEntityProperty = (ref) => {
-        for (let key of Object.keys(CsvFieldReference)) {
-            if (!CsvFieldReference.hasOwnProperty(key)) continue;
-            if (CsvFieldReference[key] === ref) {
-                return key;
-            }
-        }
-        throw `Invalid csv field ${ref}.`;
-    };
-    const csvFieldsReferencesList = [
-        CsvFieldReference.DATE,
-        CsvFieldReference.TYPE,
-        CsvFieldReference.TYPE_DISPLAY,
-        CsvFieldReference.DETAILS,
-        CsvFieldReference.AMOUNT,
-    ];
 
     let csvFields = [
         CsvFieldReference.DATE,
@@ -79,9 +64,9 @@
 
         file = files[0];
         let reader = new FileReader();
-        reader.onload = () => {
+        reader.onload = async () => {
             try {
-                readCsvFile(reader);
+                await readCsvFile(reader);
             } finally {
                 loading = false;
             }
@@ -89,7 +74,7 @@
         reader.readAsText(file);
     }
 
-    function readCsvFile(reader: FileReader) {
+    async function readCsvFile(reader: FileReader) {
         fileContent = reader.result.toString();
 
         const firstLine = fileContent.split("\n")[0] || null;
@@ -101,7 +86,7 @@
         determineCsvParameters(firstLine);
 
         previewOperations = getCsvFromData(fileContent);
-        denormalizeIntoOperations();
+        await denormalizeIntoOperations();
 
         const firstOperation: Array<string> = previewOperations[0] ?? null;
         if (!firstOperation) { return; }
@@ -148,7 +133,7 @@
         csvFields = csvFields.filter((value, index, self) => self.indexOf(value) === index);
 
         if (csvFields.length !== numberOfCsvFieldsReferences) {
-            csvFieldsReferencesList.forEach((fieldReference) => {
+            Object.values(CsvFieldReference).forEach((fieldReference: CsvFieldReference) => {
                 if (csvFields.indexOf(fieldReference) < 0) {
                     csvFields.push(fieldReference);
                 }
@@ -162,16 +147,23 @@
             return;
         }
 
-        await api_fetch("import_csv", {
-            finalOperations,
-            bankAccountId: bankAccount.id,
-        });
+        if (!finalOperations || !finalOperations.length) {
+            warning('No operation was resolved from this CSV file.');
+            return;
+        }
+
+        await api_fetch("import_operations", {operations: finalOperations});
+
+        clearOperations();
+
+        success(`Successfully imported ${finalOperations.length} operations!`);
+        reset();
     }
 
     function denormalizeIntoOperations() {
         let operations = [];
 
-        previewOperations.forEach((normalized, index) => {
+        previewOperations.forEach(async (normalized, index) => {
             if (index < numberOfLinesToRemove) {
                 return;
             }
@@ -197,24 +189,21 @@
             }
 
             let operation = new Operation(
-                0, //id
+                0, // id
                 normalizedDate, //operation_date
                 normalizedWithKeys.TYPE, //op_type
                 normalizedWithKeys.TYPE_DISPLAY, //type_display
                 normalizedWithKeys.DETAILS, //details
                 amount, //amount_in_cents
-                '', //hash
                 OperationState.pending_triage, //state
                 false, //ignored_from_charts
                 bankAccount.id, //bank_account_id
             );
-            operation.sync();
+            await operation.sync();
             operations.push(operation);
         });
 
         finalOperations = operations;
-        success('Yeah, finished!');
-        console.info({finalOperations});
     }
 
     function getCsvFromData(strData: string) {

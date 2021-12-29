@@ -1,6 +1,8 @@
+use rusqlite::ToSql;
 use rusqlite::types::FromSql;
 use rusqlite::types::FromSqlError;
 use rusqlite::types::FromSqlResult;
+use rusqlite::types::ToSqlOutput;
 use rusqlite::types::ValueRef;
 use serde::Serialize;
 use serde::Deserialize;
@@ -21,5 +23,14 @@ impl FromSql for OperationState {
             "pending_triage" => FromSqlResult::Ok(OperationState::PendingTriage),
             _ => FromSqlResult::Err(FromSqlError::InvalidType)
         }
+    }
+}
+
+impl ToSql for OperationState {
+    fn to_sql(&self) -> rusqlite::Result<ToSqlOutput<'_>> {
+        rusqlite::Result::Ok(match self {
+            OperationState::Ok => ToSqlOutput::from("ok".to_string()),
+            OperationState::PendingTriage => ToSqlOutput::from("pending_triage".to_string()),
+        })
     }
 }

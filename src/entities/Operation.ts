@@ -1,6 +1,7 @@
 import type BankAccount from "./BankAccount";
 import {getBankAccountById} from "../db/bank_accounts";
-import {DateFormat, dateFormatToRegex, NormalizedDate} from "../utils/import";
+import sha512 from "../utils/sha512";
+import {DateFormat, dateFormatToRegex, NormalizedDate} from "../utils/date";
 
 export enum OperationState {
     ok = "ok",
@@ -16,14 +17,25 @@ export default class Operation
     public readonly details!: String;
     public readonly amount_in_cents!: number;
     public readonly amount!: number;
-    public readonly hash!: String;
+    public hash!: String;
     public readonly state!: OperationState;
     public readonly ignored_from_charts!: boolean;
     public readonly bank_account_id!: number;
 
     private _bank_account: BankAccount|null = null;
 
-    constructor(id: number, operation_date: String, op_type: String, type_display: String, details: String, amount_in_cents: number, hash: String, state: OperationState, ignored_from_charts: boolean, bank_account_id: number) {
+    constructor(
+        id: number,
+        operation_date: String,
+        op_type: String,
+        type_display: String,
+        details: String,
+        amount_in_cents: number,
+        state: OperationState,
+        ignored_from_charts: boolean,
+        bank_account_id: number,
+        hash: string = ''
+    ) {
         this.id = id;
         this.operation_date = operation_date;
         this.op_type = op_type;
@@ -31,10 +43,10 @@ export default class Operation
         this.details = details;
         this.amount_in_cents = amount_in_cents;
         this.amount = amount_in_cents / 100;
-        this.hash = hash;
         this.state = state;
         this.ignored_from_charts = ignored_from_charts;
         this.bank_account_id = bank_account_id;
+        this.hash = hash || '';
     }
 
     get date() {
@@ -79,21 +91,34 @@ export default class Operation
 
     public async sync(): Promise<void> {
         await this.fetch_bank_account();
+
+        await this.recomputeHash();
     }
 
-    public async fetch_bank_account(): Promise<BankAccount> {
+    private async fetch_bank_account() {
         if (this._bank_account) {
-            return this._bank_account;
+            return;
         }
 
         const bank_account = await getBankAccountById(this.bank_account_id.toString());
 
         if (!bank_account) {
-            throw new Error(`No bank account with id ${this.bank_account_id}`);
+            throw `No bank account with id ${this.bank_account_id}`;
         }
 
         this._bank_account = bank_account;
+    }
 
-        return bank_account;
+    private async recomputeHash() {
+        const str =
+            this.op_type+
+            '_'+this._bank_account.slug+
+            '_'+this.type_display+
+            '_'+this.details+
+            '_'+this.operation_date+
+            '_'+this.amount_in_cents
+        ;
+
+        this.hash = await sha512(str);
     }
 }

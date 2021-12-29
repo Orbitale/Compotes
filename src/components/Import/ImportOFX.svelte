@@ -33,8 +33,6 @@
         };
 
         reader.readAsText(file);
-
-        console.info({file});
     }
 
     async function importFile() {

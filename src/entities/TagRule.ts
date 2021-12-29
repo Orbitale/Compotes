@@ -19,7 +19,6 @@ export default class TagRule
     }
 
     serialize(): string {
-        console.info('serializing', this);
         return JSON.stringify({
             id: this.id,
             tags_ids: this.tagsIds().join(','),

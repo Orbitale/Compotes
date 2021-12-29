@@ -14,7 +14,6 @@ export default class BankAccount
     }
 
     serialize(): string {
-        console.info('serializing', this);
         return JSON.stringify({
             id: this.id,
             name: this.name,

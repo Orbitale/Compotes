@@ -1,5 +1,5 @@
 
-use rusqlite::Connection;
+use rusqlite::{Connection, named_params};
 use serde::Serialize;
 use serde::Deserialize;
 use serde_rusqlite::from_rows;
@@ -52,5 +52,55 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation>
         }
     }
 
+    dbg!(&operations);
+
     operations
+}
+
+pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>)
+{
+    let transaction = conn.transaction().expect("Could not create database transaction.");
+
+    for operation in operations.iter() {
+        let mut stmt = transaction.prepare("
+            INSERT INTO operations
+            (
+                operation_date,
+                type,
+                type_display,
+                details,
+                amount_in_cents,
+                hash,
+                state,
+                bank_account_id,
+                ignored_from_charts
+            )
+            VALUES
+            (
+                :operation_date,
+                :type,
+                :type_display,
+                :details,
+                :amount_in_cents,
+                :hash,
+                :state,
+                :bank_account_id,
+                :ignored_from_charts
+            )
+        ").expect("Could not create query to insert operation.");
+
+        stmt.execute(named_params! {
+            ":operation_date": &operation.operation_date,
+            ":type": &operation.op_type,
+            ":type_display": &operation.type_display,
+            ":details": &operation.details,
+            ":amount_in_cents": &operation.amount_in_cents,
+            ":hash": &operation.hash,
+            ":state": &operation.state,
+            ":bank_account_id": &operation.bank_account_id,
+            ":ignored_from_charts": &operation.ignored_from_charts,
+        }).expect("Could not insert operation");
+    }
+
+    transaction.commit().expect("Failed to insert operations. Cancelling action.");
 }
