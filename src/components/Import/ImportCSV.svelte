@@ -1,12 +1,12 @@
 <script lang="ts">
-    import {error, warning} from "../../utils/message";
+    import {error, info, success, warning} from "../../utils/message";
     import DragDropList from "../DragDrop/DragDropList.svelte";
     import api_fetch from "../../utils/api_fetch.ts";
     import {getBankAccounts} from '../../db/bank_accounts';
     import type BankAccount from "../../entities/BankAccount";
     import Operation, {OperationState} from "../../entities/Operation";
     import {onMount} from "svelte";
-    import {CsvFieldReference, DateFormat} from "../../utils/import";
+    import {CsvFieldReference, DateFormat, NormalizedDate} from "../../utils/import";
 
     let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
@@ -19,9 +19,9 @@
     const numberOfCsvFieldsReferences = 5;
     const csvFieldsReferences: Array<CsvFieldReference> = Object.values(CsvFieldReference);
     const referenceToEntityProperty = (ref) => {
-        for (let key in Object.keys(CsvFieldReference)) {
-            if (!csvFieldsReferences.hasOwnProperty(key)) continue;
-            if (csvFieldsReferences[key] === ref) {
+        for (let key of Object.keys(CsvFieldReference)) {
+            if (!CsvFieldReference.hasOwnProperty(key)) continue;
+            if (CsvFieldReference[key] === ref) {
                 return key;
             }
         }
@@ -50,6 +50,8 @@
     let dateFormat: DateFormat = DateFormat.YMD_SLASH;
     let bankAccount: BankAccount = null;
 
+    let loading = false;
+
     function reset() {
         file = null;
         fileContent = null;
@@ -57,9 +59,12 @@
         preview = null;
         previewOperations = [];
         finalOperations = [];
+        loading = false;
     }
 
     function uploadFile() {
+        loading = true;
+
         if (!files || !files.length) {
             warning('Please upload a CSV file.');
             reset();
@@ -74,7 +79,13 @@
 
         file = files[0];
         let reader = new FileReader();
-        reader.onload = () => readCsvFile(reader);
+        reader.onload = () => {
+            try {
+                readCsvFile(reader);
+            } finally {
+                loading = false;
+            }
+        };
         reader.readAsText(file);
     }
 
@@ -146,6 +157,11 @@
     }
 
     async function importFile() {
+        if (!bankAccount || !bankAccount.id) {
+            warning('Please specify a bank account.');
+            return;
+        }
+
         await api_fetch("import_csv", {
             finalOperations,
             bankAccountId: bankAccount.id,
@@ -168,13 +184,25 @@
                 const property = referenceToEntityProperty(csvField);
                 normalizedWithKeys[property] = value;
             });
+
+            let normalizedDate: string;
+            let amount: number;
+
+            try {
+                normalizedDate = Operation.normalizeDate(normalizedWithKeys.DATE, dateFormat).toString();
+                amount = Operation.normalizeAmount(normalizedWithKeys.AMOUNT);
+            } catch (e) {
+                console.warn(`CSV line number "${index}" does not contain a valid date. Received exception: ${e.message}`);
+                return;
+            }
+
             let operation = new Operation(
                 0, //id
-                Operation.normalizeDate(normalizedWithKeys.DATE, dateFormat).toString(), //operation_date
+                normalizedDate, //operation_date
                 normalizedWithKeys.TYPE, //op_type
                 normalizedWithKeys.TYPE_DISPLAY, //type_display
                 normalizedWithKeys.DETAILS, //details
-                Operation.normalizeAmount(normalizedWithKeys.AMOUNT), //amount_in_cents
+                amount, //amount_in_cents
                 '', //hash
                 OperationState.pending_triage, //state
                 false, //ignored_from_charts
@@ -185,7 +213,8 @@
         });
 
         finalOperations = operations;
-        debugger;
+        success('Yeah, finished!');
+        console.info({finalOperations});
     }
 
     function getCsvFromData(strData: string) {
@@ -222,14 +251,19 @@
     });
 </script>
 
-<div>
-    <input type="file" id="file_to_import" bind:files on:change={uploadFile} />
-</div>
-
-<div>
-    {#if fileContent && fileContent.length}
-        <button class="btn btn-primary" type="button" on:click={importFile}>Import</button>
-    {/if}
+<div class="row">
+    <div class="col">
+        {#if !loading && fileContent && fileContent.length}
+            <button class="btn btn-primary" type="button" on:click={importFile}>Import</button>
+            <button class="btn btn-info" type="button" on:click={uploadFile}>Refresh</button>
+        {/if}
+        {#if loading}
+            Loading...
+        {/if}
+    </div>
+    <div class="col">
+        <input type="file" id="file_to_import" bind:files on:change={uploadFile} />
+    </div>
 </div>
 
 <hr>
@@ -243,7 +277,7 @@
             Values separator
         </label>
         <div class="form-widget">
-            <select bind:value={separator} on:change={uploadFile} id="import_operations_csvSeparator" name="import_operations[csvSeparator]" class="form-control">
+            <select bind:value={separator} id="import_operations_csvSeparator" name="import_operations[csvSeparator]" class="form-control">
                 <option value=";" selected="selected">;</option>
                 <option value=",">,</option>
             </select>
@@ -255,7 +289,7 @@
             Text delimiter
         </label>
         <div class="form-widget">
-            <select bind:value={delimiter} on:change={uploadFile} id="import_operations_csvDelimiter" name="import_operations[csvDelimiter]" class="form-control">
+            <select bind:value={delimiter} id="import_operations_csvDelimiter" name="import_operations[csvDelimiter]" class="form-control">
                 <option value="&quot;" selected="selected">"</option>
                 <option value="'">'</option>
                 <option value=""></option>
@@ -268,7 +302,7 @@
             Escape character
         </label>
         <div class="form-widget">
-            <select bind:value={escapeCharacter} on:change={uploadFile} id="import_operations_csvEscapeCharacter" name="import_operations[csvEscapeCharacter]"
+            <select bind:value={escapeCharacter} id="import_operations_csvEscapeCharacter" name="import_operations[csvEscapeCharacter]"
                     class="form-control">
                 <option value="\" selected="selected">\</option>
                 <option value=""></option>
@@ -281,7 +315,7 @@
             Date format
         </label>
         <div class="form-widget">
-            <select bind:value={dateFormat} on:change={uploadFile} id="import_operations_dateFormat" name="import_operations[dateFormat]" class="form-control">
+            <select bind:value={dateFormat} id="import_operations_dateFormat" name="import_operations[dateFormat]" class="form-control">
                 {#each Object.values(DateFormat) as format}
                     <option value="{format}">{format}</option>
                 {/each}
@@ -327,6 +361,7 @@
 <table class="table table-bordered table-striped table-hover">
     <thead>
         <tr class="table-info">
+            <th>#</th>
             {#each csvFields as field}
                 <th>{field}</th>
             {/each}
@@ -335,6 +370,7 @@
     <tbody>
         {#each previewOperations as line, key}
             <tr class="{key < numberOfLinesToRemove ? 'line-to-remove' : ''}">
+                <td>{key}</td>
                 {#each line as value}
                     <td>{value}</td>
                 {/each}

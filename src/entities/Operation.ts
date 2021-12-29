@@ -59,7 +59,7 @@ export default class Operation
     }
 
     public static normalizeAmount(amount: string): number {
-        const normalized = parseInt(amount.replace(/[^0-9]+/gi, ''), 10);
+        const normalized = parseInt(amount.replace(/[^0-9-]+/gi, ''), 10);
         if (isNaN(normalized)) {
             throw new Error(`Could not normalize amount "${amount}". It does not seem to be a valid number.`);
         }
@@ -67,8 +67,12 @@ export default class Operation
         return normalized;
     }
 
-    public static normalizeDate(dateString: string, dateFormat: DateFormat): NormalizedDate {
+    public static normalizeDate(dateString: string, dateFormat: DateFormat): null|NormalizedDate {
         const matches = dateFormatToRegex(dateFormat).exec(dateString);
+
+        if (!matches) {
+            throw new Error(`Could not normalize date "${dateString}". It does not seem to be a valid date.`);
+        }
 
         return new NormalizedDate(new Date(Date.parse(matches.groups.year + '-' + matches.groups.month + '-' + matches.groups.day)));
     }

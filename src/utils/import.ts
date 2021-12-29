@@ -12,14 +12,14 @@ export enum DateFormat {
 
 export function dateFormatToRegex(format: DateFormat): RegExp {
     switch (format) {
-        case DateFormat.YMD_SLASH: return new RegExp('^(?<year>\d+)/(?<month>\d+)/(?<day>\d+)/$');
-        case DateFormat.YDM_SLASH: return new RegExp('^(?<year>\d+)/(?<day>\d+)/(?<month>\d+)/$');
-        case DateFormat.DMY_SLASH: return new RegExp('^(?<day>\d+)/(?<month>\d+)/(?<year>\d+)/$');
-        case DateFormat.MDY_SLASH: return new RegExp('^(?<month>\d+)/(?<day>\d+)/(?<year>\d+)/$');
-        case DateFormat.YMD_DASH: return new RegExp('^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/$');
-        case DateFormat.YDM_DASH: return new RegExp('^(?<year>\d+)-(?<day>\d+)-(?<month>\d+)/$');
-        case DateFormat.DMY_DASH: return new RegExp('^(?<day>\d+)-(?<month>\d+)-(?<year>\d+)/$');
-        case DateFormat.MDY_DASH: return new RegExp('^(?<month>\d+)-(?<day>\d+)-(?<year>\d+)/$');
+        case DateFormat.YMD_SLASH: return new RegExp('^(?<year>\\d+)/(?<month>\\d+)/(?<day>\\d+)$');
+        case DateFormat.YDM_SLASH: return new RegExp('^(?<year>\\d+)/(?<day>\\d+)/(?<month>\\d+)$');
+        case DateFormat.DMY_SLASH: return new RegExp('^(?<day>\\d+)/(?<month>\\d+)/(?<year>\\d+)$');
+        case DateFormat.MDY_SLASH: return new RegExp('^(?<month>\\d+)/(?<day>\\d+)/(?<year>\\d+)$');
+        case DateFormat.YMD_DASH: return new RegExp('^(?<year>\\d+)-(?<month>\\d+)-(?<day>\\d+)$');
+        case DateFormat.YDM_DASH: return new RegExp('^(?<year>\\d+)-(?<day>\\d+)-(?<month>\\d+)$');
+        case DateFormat.DMY_DASH: return new RegExp('^(?<day>\\d+)-(?<month>\\d+)-(?<year>\\d+)$');
+        case DateFormat.MDY_DASH: return new RegExp('^(?<month>\\d+)-(?<day>\\d+)-(?<year>\\d+)$');
         default: throw `Unsupported date format "${format}".`;
     }
 }
