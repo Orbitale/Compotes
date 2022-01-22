@@ -53,6 +53,7 @@ fn main() {
             save_tag_rule,
             import_operations,
             message,
+            sync,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -145,4 +146,10 @@ fn message(id: String, title: String, message: String) {
         .show()
         .unwrap()
     ;
+}
+
+#[tauri::command]
+fn sync(_conn_state: State<'_, Mutex<Connection>>) {
+    operations::refresh_statuses_with_hashes();
+    tag_rules::apply_rules();
 }

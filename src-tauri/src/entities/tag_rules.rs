@@ -93,3 +93,7 @@ pub(crate) fn save(conn: &Connection, tag_rule: TagRule)
         ":matching_pattern": &tag_rule.matching_pattern,
     }).expect("Could not update tag");
 }
+
+pub(crate) fn apply_rules() {
+    println!("TODO");
+}
