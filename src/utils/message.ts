@@ -1,4 +1,5 @@
 import Toast, {ToastType} from '../struct/Toast';
+import api_call from "./api_call";
 
 function createContainerElement(): HTMLElement {
     const html = '<div class="toast-container position-absolute p-3 top-0 end-0"></div>';
@@ -36,6 +37,13 @@ export function info(content: string): Toast {
 }
 
 export default function message(content: string, type: ToastType): Toast {
+    api_call("message", {
+        id: "compotes.notification",
+        title: type,
+        message: content
+    });
+
+    /* Info: keeping this code in case we need to fall back to app notifications instead of desktop notifications.
     if (!addedToBody) {
         container = createContainerElement();
         document.body.appendChild(container);
@@ -51,4 +59,5 @@ export default function message(content: string, type: ToastType): Toast {
     toast.show();
 
     return toast;
+    */
 };

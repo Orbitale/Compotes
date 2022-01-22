@@ -1,7 +1,7 @@
 // @ts-ignore
 import TagRule from '../entities/TagRule';
 import {getTagById} from "./tags";
-import api_fetch from "../utils/api_fetch";
+import api_call from "../utils/api_call";
 
 export default class DeserializedTagRule
 {
@@ -16,7 +16,7 @@ let tag_rules: TagRule[] = [];
 export async function getTagRules(): Promise<Array<TagRule>>
 {
     if (!tag_rules.length) {
-        let res: string = await api_fetch("get_tag_rules");
+        let res: string = await api_call("get_tag_rules");
         const deserialized_tag_rules: Array<DeserializedTagRule> = JSON.parse(res);
 
         tag_rules = await deserialized_tag_rules.map((deserialized_tag_rule: DeserializedTagRule) => {
@@ -55,7 +55,7 @@ export async function getTagRuleById(id: string): Promise<TagRule | null>
 
 export async function saveTagRule(tag_rule: TagRule): Promise<void>
 {
-    await api_fetch("save_tag_rule", {tagRule: tag_rule.serialize()});
+    await api_call("save_tag_rule", {tagRule: tag_rule.serialize()});
 
     const tag_rule_entity = await getTagRuleById(tag_rule.id.toString());
 

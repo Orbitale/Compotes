@@ -49,6 +49,10 @@ export default class Operation
         this.hash = hash || '';
     }
 
+    get tags() {
+        return [];
+    }
+
     get date() {
         let date = new Date(this.operation_date.toString());
 

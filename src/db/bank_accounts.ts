@@ -1,13 +1,13 @@
 // @ts-ignore
 import BankAccount from '../entities/BankAccount';
-import api_fetch from "../utils/api_fetch";
+import api_call from "../utils/api_call";
 
 let bank_accounts: BankAccount[] = [];
 
 export async function getBankAccounts(): Promise<Array<BankAccount>>
 {
     if (!bank_accounts.length) {
-        let res: string = await api_fetch("get_bank_accounts");
+        let res: string = await api_call("get_bank_accounts");
         bank_accounts = JSON.parse(res).map((data: object) => {
             // @ts-ignore
             return new BankAccount(data.id, data.name, data.slug, data.currency);
@@ -34,7 +34,7 @@ export async function getBankAccountById(id: string): Promise<BankAccount | null
 
 export async function saveBankAccount(bank_account: BankAccount): Promise<void>
 {
-    await api_fetch("save_bank_account", {bankAccount: bank_account.serialize()});
+    await api_call("save_bank_account", {bankAccount: bank_account.serialize()});
 
     if (bank_account.id) {
         const bank_account_entity = await getBankAccountById(bank_account.id.toString());

@@ -1,6 +1,6 @@
 <script lang="ts">
     import {warning} from "../../utils/message";
-    import api_fetch from "../../utils/api_fetch.ts";
+    import api_call from "../../utils/api_call.ts";
 
     let file: File = null;
     let fileContent: string = null;
@@ -36,7 +36,7 @@
     }
 
     async function importFile() {
-        await api_fetch("import_ofx", {fileContent: filePreview});
+        await api_call("import_ofx", {fileContent: filePreview});
     }
 </script>
 

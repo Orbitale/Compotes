@@ -1,10 +1,10 @@
 import {Toast as BootstrapToast} from 'bootstrap';
 
 export enum ToastType {
-    info = 'alert-info',
-    success = 'alert-success',
-    warning = 'alert-warning',
-    error = 'alert-danger',
+    info = 'ℹ Compotes info',
+    success = '✅ Compotes',
+    warning = '⚠ Compotes warning',
+    error = '❌ Compotes alert',
 }
 
 export default class Toast {

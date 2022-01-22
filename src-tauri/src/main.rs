@@ -16,9 +16,14 @@ use crate::entities::tag_rules::TagRule;
 use crate::db::get_database_connection;
 use crate::entities::bank_accounts::BankAccount;
 use crate::entities::operations::Operation;
+use crate::utils::logo;
 
 mod db;
 mod config;
+
+mod utils {
+    pub(crate) mod logo;
+}
 
 mod entities {
     pub(crate) mod operations;
@@ -47,6 +52,7 @@ fn main() {
             save_tag,
             save_tag_rule,
             import_operations,
+            message,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -124,4 +130,19 @@ fn import_operations(
     let mut conn = conn.deref_mut();
 
     operations::insert_all(&mut conn, operations);
+}
+
+#[tauri::command]
+fn message(id: String, title: String, message: String) {
+    if !logo::exists() {
+        logo::save();
+    }
+
+    tauri::api::notification::Notification::new(id)
+        .title(title)
+        .body(message)
+        .icon(logo::path().to_str().unwrap())
+        .show()
+        .unwrap()
+    ;
 }

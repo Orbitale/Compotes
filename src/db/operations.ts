@@ -1,18 +1,17 @@
 // @ts-ignore
 import Operation from '../entities/Operation';
-import api_fetch from "../utils/api_fetch";
+import api_call from "../utils/api_call";
 
 let operations: Operation[] = [];
 
 export async function getOperations(): Promise<Array<Operation>>
 {
     if (!operations.length) {
-        let res: string = await api_fetch("get_operations");
+        let res: string = await api_call("get_operations");
 
         console.info("res", res);
 
         operations = JSON.parse(res).map((data: object) => {
-            // @ts-ignore
             return new Operation(
                 data.id,
                 data.operation_date,

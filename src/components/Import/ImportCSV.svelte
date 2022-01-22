@@ -1,7 +1,7 @@
 <script lang="ts">
     import {error, success, warning} from "../../utils/message";
     import DragDropList from "../DragDrop/DragDropList.svelte";
-    import api_fetch from "../../utils/api_fetch.ts";
+    import api_call from "../../utils/api_call.ts";
     import {getBankAccounts} from '../../db/bank_accounts';
     import type BankAccount from "../../entities/BankAccount";
     import Operation, {OperationState} from "../../entities/Operation";
@@ -40,7 +40,7 @@
     function reset() {
         file = null;
         fileContent = null;
-        files = null;
+        files = [];
         preview = null;
         previewOperations = [];
         finalOperations = [];
@@ -152,7 +152,7 @@
             return;
         }
 
-        await api_fetch("import_operations", {operations: finalOperations});
+        await api_call("import_operations", {operations: finalOperations});
 
         clearOperations();
 

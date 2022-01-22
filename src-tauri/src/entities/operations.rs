@@ -52,8 +52,6 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation>
         }
     }
 
-    dbg!(&operations);
-
     operations
 }
 
