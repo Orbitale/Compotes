@@ -78,7 +78,7 @@ pub(crate) fn save(conn: &Connection, bank_account: BankAccount)
                 :slug,
                 :currency
             )
-        ").expect("An error occured when preparing the SQL statement.");
+        ").expect("An Error occured when preparing the SQL statement.");
 
         stmt.execute(named_params! {
             ":name": &bank_account.name,

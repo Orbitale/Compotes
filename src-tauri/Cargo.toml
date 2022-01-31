@@ -20,6 +20,8 @@ serde_rusqlite = "0.29"
 serde = { version = "1.0", features = [ "derive" ] }
 chrono = { version = "0.4", features = [ "serde" ] }
 rusqlite = { version = "0.26", features = [ ] }
+strum = "0.23"
+strum_macros = "0.23"
 
   [dependencies.refinery]
   rev = "cfe9eb8439ec44a6da8cae41afb9007487ed0e08"

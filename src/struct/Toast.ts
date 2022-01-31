@@ -1,10 +1,10 @@
 import {Toast as BootstrapToast} from 'bootstrap';
 
 export enum ToastType {
-    info = 'ℹ Compotes info',
-    success = '✅ Compotes',
-    warning = '⚠ Compotes warning',
-    error = '❌ Compotes alert',
+    info = 'info',
+    success = 'success',
+    warning = 'warning',
+    error = 'error',
 }
 
 export default class Toast {
@@ -19,13 +19,12 @@ export default class Toast {
 
         this._containerElement = containerElement;
         this._toast_type = type;
-        this._toastElement = this.createToastElement();
+        this._toastElement = Toast.createToastElement(type);
+        containerElement.appendChild(this._toastElement);
         this._bootstrapToast = new BootstrapToast(this._toastElement);
     }
 
     show() {
-        this._containerElement.appendChild(this._toastElement);
-
         this._toastElement.classList.add('show');
         this._bootstrapToast.show();
     }
@@ -35,10 +34,10 @@ export default class Toast {
         this._bootstrapToast.hide();
     }
 
-    private createToastElement(): HTMLElement {
+    private static createToastElement(toastType: ToastType): HTMLElement {
         const html =
             '<div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">' +
-            `    <div class="d-flex ${this._toast_type}">` +
+            `    <div class="d-flex ${Toast.toastTypeToClassName(toastType)}">` +
             '        <div class="toast-body">' +
             '            ' + this._content +
             '        </div>' +
@@ -54,9 +53,29 @@ export default class Toast {
         const toast = div.firstChild;
 
         if (!(toast instanceof HTMLElement)) {
-            throw 'Toast element could not be created successfully.';
+            throw 'Toast element could not be created.';
         }
 
         return toast;
+    }
+
+    private static toastTypeToClassName(type: ToastType) {
+        switch (type) {
+            case ToastType.info: return 'alert-info';
+            case ToastType.warning: return 'alert-warning';
+            case ToastType.error: return 'alert-error';
+            case ToastType.success: return 'alert-success';
+            default: throw 'Invalid toast type.';
+        }
+    }
+
+    private static toastTypeToMessageTitle(type: ToastType) {
+        switch (type) {
+            case ToastType.info: return 'ℹ Compotes info';
+            case ToastType.success: return '✅ Compotes';
+            case ToastType.warning: return '⚠ Compotes warning';
+            case ToastType.error: return '❌ Compotes alert';
+            default: throw 'Invalid toast type.';
+        }
     }
 }

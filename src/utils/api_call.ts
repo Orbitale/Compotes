@@ -8,7 +8,5 @@ export default function api_call(command: string, params = {}): Promise<string> 
         return invoke(command, params);
     }
 
-    console.error('No API detected.');
-
-    return Promise.resolve('{}');
+    return Promise.reject('No API detected.');
 };

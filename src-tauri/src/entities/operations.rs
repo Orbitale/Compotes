@@ -104,5 +104,5 @@ pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>)
 }
 
 pub(crate) fn refresh_statuses_with_hashes() {
-    println!("TODO");
+    println!("TODO: refresh statuses with hashes");
 }

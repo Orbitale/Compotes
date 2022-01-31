@@ -9,14 +9,14 @@
     }
 </style>
 
-<h1>Import (TODO)</h1>
+<h1>Import</h1>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#csv" type="button" role="tab" aria-selected="true">CSV</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ofx" type="button" role="tab" aria-selected="true">OFX</button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ofx" type="button" role="tab" aria-selected="true">OFX (TO DO)</button>
     </li>
 </ul>
 

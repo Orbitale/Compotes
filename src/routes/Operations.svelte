@@ -44,8 +44,8 @@
 <h1>Operations</h1>
 
 {#if operations.length}
-    <div class="alert alert-info">
-        Lines having a <span class="badge bg-warning">colored background</span> correspond to operations that have no tag associated.
+    <div class="alert alert-Info">
+        Lines having a <span class="badge bg-Warning">colored background</span> correspond to operations that have no tag associated.
         It is highly recommended to use the <i class="fa fa-plus"></i> icon to add new tags to them.
     </div>
 

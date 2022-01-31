@@ -95,5 +95,5 @@ pub(crate) fn save(conn: &Connection, tag_rule: TagRule)
 }
 
 pub(crate) fn apply_rules() {
-    println!("TODO");
+    println!("TODO: apply tag rules");
 }

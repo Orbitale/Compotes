@@ -152,6 +152,10 @@
             return;
         }
 
+        for (const operation of finalOperations) {
+            await operation.recomputeHash();
+        }
+
         await api_call("import_operations", {operations: finalOperations});
 
         clearOperations();
@@ -197,9 +201,8 @@
                 amount, //amount_in_cents
                 OperationState.pending_triage, //state
                 false, //ignored_from_charts
-                bankAccount.id, //bank_account_id
+                bankAccount ? bankAccount.id : 0, //bank_account_id
             );
-            await operation.sync();
             operations.push(operation);
         });
 
@@ -244,7 +247,7 @@
     <div class="col">
         {#if !loading && fileContent && fileContent.length}
             <button class="btn btn-primary" type="button" on:click={importFile}>Import</button>
-            <button class="btn btn-info" type="button" on:click={uploadFile}>Refresh</button>
+            <button class="btn btn-Info" type="button" on:click={uploadFile}>Refresh</button>
         {/if}
         {#if loading}
             Loading...
@@ -319,7 +322,7 @@
         <div class="form-widget" id="csv_columns">
             <DragDropList bind:data={csvFields}/>
             <p>
-                <span class="badge rounded-pill bg-info">ℹ</span> Remember to sort these fields <strong>manually</strong> in order to
+                <span class="badge rounded-pill bg-Info">ℹ</span> Remember to sort these fields <strong>manually</strong> in order to
                 make sure CSV fields are parsed properly by the application.
             </p>
         </div>
@@ -349,7 +352,7 @@
 <h3>Preview:</h3>
 <table class="table table-bordered table-striped table-hover">
     <thead>
-        <tr class="table-info">
+        <tr class="table-Info">
             <th>#</th>
             {#each csvFields as field}
                 <th>{field}</th>
@@ -389,7 +392,7 @@
     left: -25px;
   }
 
-  .table-info {
+  .table-Info {
     margin-bottom: 5px;
   }
 </style>

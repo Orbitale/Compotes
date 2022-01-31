@@ -99,6 +99,19 @@ export default class Operation
         await this.recomputeHash();
     }
 
+    public async recomputeHash() {
+        const str =
+            this.op_type+
+            '_'+this._bank_account.slug+
+            '_'+this.type_display+
+            '_'+this.details+
+            '_'+this.operation_date+
+            '_'+this.amount_in_cents
+        ;
+
+        this.hash = await sha512(str);
+    }
+
     private async fetch_bank_account() {
         if (this._bank_account) {
             return;
@@ -111,18 +124,5 @@ export default class Operation
         }
 
         this._bank_account = bank_account;
-    }
-
-    private async recomputeHash() {
-        const str =
-            this.op_type+
-            '_'+this._bank_account.slug+
-            '_'+this.type_display+
-            '_'+this.details+
-            '_'+this.operation_date+
-            '_'+this.amount_in_cents
-        ;
-
-        this.hash = await sha512(str);
     }
 }

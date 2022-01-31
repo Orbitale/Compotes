@@ -8,9 +8,11 @@
      */
     import {onMount} from 'svelte';
     import removeSplashScreen from "./utils/remove_splashscreen.ts";
+    import message from "./utils/message";
 
-    onMount(() => {
+    onMount(async () => {
         removeSplashScreen(document);
+        window['message'] = message;
     })
 </script>
 

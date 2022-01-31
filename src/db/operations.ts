@@ -9,7 +9,9 @@ export async function getOperations(): Promise<Array<Operation>>
     if (!operations.length) {
         let res: string = await api_call("get_operations");
 
-        console.info("res", res);
+        if (!res) {
+            throw 'No results from the API';
+        }
 
         operations = JSON.parse(res).map((data: object) => {
             return new Operation(

@@ -22,7 +22,7 @@
 
 {:else if field_value === true || field_value === false}
     {#if field_value === true}
-        <span class="badge rounded-pill bg-success">&check;</span>
+        <span class="badge rounded-pill bg-Success">&check;</span>
     {:else}
         <span class="badge rounded-pill bg-danger">&times;</span>
     {/if}

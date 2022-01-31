@@ -4,7 +4,8 @@ windows_subsystem = "windows"
 )]
 
 use rusqlite::Connection;
-use std::ops::{Deref, DerefMut};
+use std::ops::Deref;
+use std::ops::DerefMut;
 use std::sync::Mutex;
 use tauri::State;
 use crate::entities::operations;
@@ -36,6 +37,14 @@ mod structs {
     pub(crate) mod operation_state;
 }
 
+#[derive(strum_macros::Display, Clone, serde::Serialize)]
+enum ToastType {
+    Info,
+    Success,
+    Warning,
+    Error,
+}
+
 fn main() {
     let mut conn = get_database_connection();
 
@@ -56,7 +65,7 @@ fn main() {
             sync,
         ])
         .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .expect("Error while running tauri application");
 }
 
 mod embedded {
@@ -133,13 +142,19 @@ fn import_operations(
     operations::insert_all(&mut conn, operations);
 }
 
+#[derive(Clone, serde::Serialize)]
+struct Message {
+    message: String,
+    message_type: String,
+}
+
 #[tauri::command]
-fn message(id: String, title: String, message: String) {
+fn message(title: String, message: String) {
     if !logo::exists() {
         logo::save();
     }
 
-    tauri::api::notification::Notification::new(id)
+    tauri::api::notification::Notification::new("compotes.notification".to_string())
         .title(title)
         .body(message)
         .icon(logo::path().to_str().unwrap())
@@ -149,7 +164,10 @@ fn message(id: String, title: String, message: String) {
 }
 
 #[tauri::command]
-fn sync(_conn_state: State<'_, Mutex<Connection>>) {
+fn sync() -> String {
     operations::refresh_statuses_with_hashes();
     tag_rules::apply_rules();
+    std::thread::sleep(std::time::Duration::from_secs(1));
+
+    return "1".to_string();
 }
