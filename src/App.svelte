@@ -2,6 +2,7 @@
     import Navigation from "./components/Navigation.svelte";
     import Router from 'svelte-spa-router';
     import routes from './routes.ts';
+    import { listen } from '@tauri-apps/api/event';
 
     /**
      * Post-Startup actions
@@ -12,7 +13,10 @@
 
     onMount(async () => {
         removeSplashScreen(document);
-        window['message'] = message;
+
+        const unlistenMessage = await listen('message', event => {
+            message(event.payload.title, event.payload.type.toLowerCase());
+        });
     })
 </script>
 

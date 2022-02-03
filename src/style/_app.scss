@@ -1,10 +1,16 @@
 @import "bootstrap";
 
 .toast {
-    opacity: 0;
-    transition-property: opacity;
-    transition-duration: 1s;
-    transition-timing-function: cubic-bezier(0, 0, 0, 1);
+    //opacity: 0;
+    //transition-property: opacity;
+    //transition-duration: 1s;
+    //transition-timing-function: cubic-bezier(0, 0, 0, 1);
+    z-index: 1000;
+}
+
+button.nav-link {
+    border: none transparent;
+    background: none transparent;
 }
 
 .operation-amount {

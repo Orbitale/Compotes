@@ -34,13 +34,50 @@
 </script>
 
 <style lang="scss">
+  @-webkit-keyframes rotating /* Safari and Chrome */ {
+    from {
+      -webkit-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes rotating {
+    from {
+      -ms-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -ms-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
     .loader {
       display: none;
+      animation: rotating 2s linear infinite;
     }
-    .syncing {
-      color: darkgrey;
-      .loader {
-        display: inline;
+
+    .syncing.nav-item {
+      &, * {
+        cursor: not-allowed;
+      }
+      .nav-link {
+        pointer-events: none;
+        color: #ddd;
+
+        .loader {
+          display: inline-block;
+        }
       }
     }
 </style>
@@ -77,10 +114,10 @@
                     <li class="nav-item"><a class="nav-link" use:active={"/import"} href="#/import">
                         Import
                     </a></li>
-                    <li class="nav-item" class:syncing><a class="nav-link" href="#" on:click={sync}>
+                    <li class="nav-item" class:syncing><button class="nav-link" on:click={sync}>
                         Sync
-                        <i class="loader">🌙</i>
-                    </a></li>
+                        <img src="logo.svg" width="15px" height="15px" alt="" class="loader">
+                    </button></li>
                 {/if}
             </ul>
         </div>

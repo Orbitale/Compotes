@@ -1,4 +1,4 @@
-const { spawn } = require('child_process');
+import {spawn} from "child_process";
 
 const yarn_path = process.env.npm_execpath;
 const node_path = process.env.npm_node_execpath;
@@ -13,5 +13,5 @@ const create_process = function(name, args) {
     return child;
 }
 
-const frontend = create_process('FRONTEND', ['run', 'dev']);
-const backend = create_process('BACKEND', ['run', 'tauri', 'dev']);
+create_process('FRONTEND', ['run', 'dev']);
+create_process('BACKEND', ['run', 'tauri', 'dev']);

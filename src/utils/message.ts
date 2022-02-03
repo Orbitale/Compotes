@@ -36,7 +36,6 @@ export function info(content: string): Toast {
 }
 
 export default function message(content: string, type: ToastType) {
-    //* Info: keeping this code in case we need to fall back to app notifications instead of desktop notifications.
     container = getContainerElement();
 
     if (!type) {
@@ -48,5 +47,4 @@ export default function message(content: string, type: ToastType) {
     toast.show();
 
     return toast;
-    //*/
 };

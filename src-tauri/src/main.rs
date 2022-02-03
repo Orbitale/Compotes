@@ -17,14 +17,9 @@ use crate::entities::tag_rules::TagRule;
 use crate::db::get_database_connection;
 use crate::entities::bank_accounts::BankAccount;
 use crate::entities::operations::Operation;
-use crate::utils::logo;
 
 mod db;
 mod config;
-
-mod utils {
-    pub(crate) mod logo;
-}
 
 mod entities {
     pub(crate) mod operations;
@@ -35,14 +30,6 @@ mod entities {
 
 mod structs {
     pub(crate) mod operation_state;
-}
-
-#[derive(strum_macros::Display, Clone, serde::Serialize)]
-enum ToastType {
-    Info,
-    Success,
-    Warning,
-    Error,
 }
 
 fn main() {
@@ -61,7 +48,6 @@ fn main() {
             save_tag,
             save_tag_rule,
             import_operations,
-            message,
             sync,
         ])
         .run(tauri::generate_context!())
@@ -146,21 +132,6 @@ fn import_operations(
 struct Message {
     message: String,
     message_type: String,
-}
-
-#[tauri::command]
-fn message(title: String, message: String) {
-    if !logo::exists() {
-        logo::save();
-    }
-
-    tauri::api::notification::Notification::new("compotes.notification".to_string())
-        .title(title)
-        .body(message)
-        .icon(logo::path().to_str().unwrap())
-        .show()
-        .unwrap()
-    ;
 }
 
 #[tauri::command]

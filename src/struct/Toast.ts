@@ -19,27 +19,25 @@ export default class Toast {
 
         this._containerElement = containerElement;
         this._toast_type = type;
-        this._toastElement = Toast.createToastElement(type);
+        this._toastElement = Toast.createToastElement(content, type);
         containerElement.appendChild(this._toastElement);
         this._bootstrapToast = new BootstrapToast(this._toastElement);
     }
 
     show() {
-        this._toastElement.classList.add('show');
         this._bootstrapToast.show();
     }
 
     hide() {
-        // this._toastElement.classList.remove('show');
         this._bootstrapToast.hide();
     }
 
-    private static createToastElement(toastType: ToastType): HTMLElement {
+    private static createToastElement(content: string, toastType: ToastType): HTMLElement {
         const html =
             '<div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">' +
             `    <div class="d-flex ${Toast.toastTypeToClassName(toastType)}">` +
             '        <div class="toast-body">' +
-            '            ' + this._content +
+            '            ' + content +
             '        </div>' +
             '        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>' +
             '    </div>' +
@@ -63,7 +61,7 @@ export default class Toast {
         switch (type) {
             case ToastType.info: return 'alert-info';
             case ToastType.warning: return 'alert-warning';
-            case ToastType.error: return 'alert-error';
+            case ToastType.error: return 'alert-danger';
             case ToastType.success: return 'alert-success';
             default: throw 'Invalid toast type.';
         }
