@@ -1,13 +1,11 @@
-
-use rusqlite::{Connection, named_params};
-use serde::Serialize;
-use serde::Deserialize;
-use serde_rusqlite::from_rows;
 use crate::structs::operation_state::OperationState;
+use rusqlite::{named_params, Connection};
+use serde::Deserialize;
+use serde::Serialize;
+use serde_rusqlite::from_rows;
 
 #[derive(Debug, Serialize, Deserialize)]
-pub(crate) struct Operation
-{
+pub(crate) struct Operation {
     pub(crate) id: u32,
     pub(crate) operation_date: String,
     pub(crate) op_type: String,
@@ -20,9 +18,10 @@ pub(crate) struct Operation
     pub(crate) bank_account_id: u32,
 }
 
-pub(crate) fn find_all(conn: &Connection) -> Vec<Operation>
-{
-    let mut stmt = conn.prepare("
+pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
+    let mut stmt = conn
+        .prepare(
+            "
         SELECT
             id,
             operation_date,
@@ -36,7 +35,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation>
             ignored_from_charts
         FROM operations
         ORDER BY operation_date DESC
-    ").expect("Could not fetch operations");
+    ",
+        )
+        .expect("Could not fetch operations");
 
     let mut operations: Vec<Operation> = Vec::new();
 
@@ -44,7 +45,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation>
 
     loop {
         match rows_iter.next() {
-            None => { break; },
+            None => {
+                break;
+            }
             Some(operation) => {
                 let operation = operation.expect("Could not deserialize Operation item");
                 operations.push(operation);
@@ -55,12 +58,15 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation>
     operations
 }
 
-pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>)
-{
-    let transaction = conn.transaction().expect("Could not create database transaction.");
+pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>) {
+    let transaction = conn
+        .transaction()
+        .expect("Could not create database transaction.");
 
     for operation in operations.iter() {
-        let mut stmt = transaction.prepare("
+        let mut stmt = transaction
+            .prepare(
+                "
             INSERT INTO operations
             (
                 operation_date,
@@ -85,7 +91,9 @@ pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>)
                 :bank_account_id,
                 :ignored_from_charts
             )
-        ").expect("Could not create query to insert operation.");
+        ",
+            )
+            .expect("Could not create query to insert operation.");
 
         stmt.execute(named_params! {
             ":operation_date": &operation.operation_date,
@@ -97,10 +105,13 @@ pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>)
             ":state": &operation.state,
             ":bank_account_id": &operation.bank_account_id,
             ":ignored_from_charts": &operation.ignored_from_charts,
-        }).expect("Could not insert operation");
+        })
+        .expect("Could not insert operation");
     }
 
-    transaction.commit().expect("Failed to insert operations. Cancelling action.");
+    transaction
+        .commit()
+        .expect("Failed to insert operations. Cancelling action.");
 }
 
 pub(crate) fn refresh_statuses_with_hashes(conn: &Connection) {

@@ -1,25 +1,27 @@
-use rusqlite::Connection;
 use rusqlite::named_params;
-use serde::Serialize;
+use rusqlite::Connection;
 use serde::Deserialize;
+use serde::Serialize;
 use serde_rusqlite::from_rows;
 
 #[derive(Serialize, Deserialize, Debug)]
-pub(crate) struct Tag
-{
+pub(crate) struct Tag {
     pub(crate) id: u32,
     pub(crate) name: String,
 }
 
-pub(crate) fn find_all(conn: &Connection) -> Vec<Tag>
-{
-    let mut stmt = conn.prepare("
+pub(crate) fn find_all(conn: &Connection) -> Vec<Tag> {
+    let mut stmt = conn
+        .prepare(
+            "
         SELECT
             id,
             name
         FROM tags
         ORDER BY name ASC
-    ").unwrap();
+    ",
+        )
+        .unwrap();
 
     let tags_result = stmt.query([]).expect("Could not fetch tags");
 
@@ -29,7 +31,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Tag>
 
     loop {
         match rows_iter.next() {
-            None => { break; },
+            None => {
+                break;
+            }
             Some(tag) => {
                 let tag = tag.expect("Could not deserialize Tag item");
                 tags.push(tag);
@@ -40,16 +44,20 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Tag>
     tags
 }
 
-pub(crate) fn save(conn: &Connection, tag: Tag)
-{
-    let mut stmt = conn.prepare("
+pub(crate) fn save(conn: &Connection, tag: Tag) {
+    let mut stmt = conn
+        .prepare(
+            "
         UPDATE tags
         SET name = :name
         WHERE id = :id
-    ").unwrap();
+    ",
+        )
+        .unwrap();
 
     stmt.execute(named_params! {
         ":id": &tag.id,
         ":name": &tag.name,
-    }).expect("Could not update tag");
+    })
+    .expect("Could not update tag");
 }

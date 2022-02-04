@@ -1,31 +1,31 @@
 #![cfg_attr(
-all(not(debug_assertions), target_os = "windows"),
-windows_subsystem = "windows"
+    all(not(debug_assertions), target_os = "windows"),
+    windows_subsystem = "windows"
 )]
 
-use std::sync::Mutex;
 use crate::db::get_database_connection;
+use std::sync::Mutex;
 
-mod db;
 mod config;
+mod db;
 
 mod commands {
-    pub(crate) mod get_operations;
     pub(crate) mod get_bank_accounts;
-    pub(crate) mod save_bank_account;
-    pub(crate) mod get_tags;
+    pub(crate) mod get_operations;
     pub(crate) mod get_tag_rules;
+    pub(crate) mod get_tags;
+    pub(crate) mod import_operations;
+    pub(crate) mod save_bank_account;
     pub(crate) mod save_tag;
     pub(crate) mod save_tag_rule;
-    pub(crate) mod import_operations;
     pub(crate) mod sync;
 }
 
 mod entities {
-    pub(crate) mod operations;
     pub(crate) mod bank_accounts;
-    pub(crate) mod tags;
+    pub(crate) mod operations;
     pub(crate) mod tag_rules;
+    pub(crate) mod tags;
 }
 
 mod structs {
@@ -35,7 +35,9 @@ mod structs {
 fn main() {
     let mut conn = get_database_connection();
 
-    embedded::migrations::runner().run(&mut conn).expect("Could not execute database migrations.");
+    embedded::migrations::runner()
+        .run(&mut conn)
+        .expect("Could not execute database migrations.");
 
     tauri::Builder::default()
         .manage(Mutex::new(conn))

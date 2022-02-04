@@ -1,14 +1,13 @@
+use crate::config::compotes_dir;
 use rusqlite::Connection;
 use rusqlite::OpenFlags;
-use crate::config::compotes_dir;
 use std::path::PathBuf;
 
 pub(crate) fn get_database_connection() -> Connection {
     let database_path = get_database_path();
     let database_flags = get_database_flags();
 
-    Connection::open_with_flags(database_path, database_flags)
-        .expect("Could not open database.")
+    Connection::open_with_flags(database_path, database_flags).expect("Could not open database.")
 }
 
 fn get_database_path() -> PathBuf {

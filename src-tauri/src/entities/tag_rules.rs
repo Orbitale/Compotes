@@ -1,23 +1,21 @@
-
-use rusqlite::Connection;
 use rusqlite::named_params;
-use serde::Serialize;
+use rusqlite::Connection;
 use serde::Deserialize;
+use serde::Serialize;
 use serde_rusqlite::from_rows;
 
 #[derive(Serialize, Deserialize, Debug, Default)]
-pub(crate) struct TagRule
-{
+pub(crate) struct TagRule {
     pub(crate) id: u32,
     #[serde(deserialize_with = "deserialize_tags_ids")]
     pub(crate) tags_ids: Vec<u32>,
     pub(crate) matching_pattern: String,
-    pub(crate) is_regex: bool
+    pub(crate) is_regex: bool,
 }
 
 pub fn deserialize_tags_ids<'de, D>(deserializer: D) -> Result<Vec<u32>, D::Error>
-    where
-        D: serde::de::Deserializer<'de>,
+where
+    D: serde::de::Deserializer<'de>,
 {
     struct StringVecVisitor;
 
@@ -29,8 +27,8 @@ pub fn deserialize_tags_ids<'de, D>(deserializer: D) -> Result<Vec<u32>, D::Erro
         }
 
         fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
-            where
-                E: serde::de::Error,
+        where
+            E: serde::de::Error,
         {
             let mut ids = Vec::new();
             for id in v.split(",") {
@@ -46,9 +44,10 @@ pub fn deserialize_tags_ids<'de, D>(deserializer: D) -> Result<Vec<u32>, D::Erro
     deserializer.deserialize_any(StringVecVisitor)
 }
 
-pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule>
-{
-    let mut stmt = conn.prepare("
+pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule> {
+    let mut stmt = conn
+        .prepare(
+            "
         SELECT id,
         matching_pattern,
         is_regex,
@@ -58,7 +57,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule>
             WHERE tag_rule_id = tag_rules.id
         ) AS tags_ids
         FROM tag_rules
-    ").expect("Could not fetch tag_rules");
+    ",
+        )
+        .expect("Could not fetch tag_rules");
 
     let mut tag_rules: Vec<TagRule> = Vec::new();
 
@@ -66,7 +67,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule>
 
     loop {
         match rows_iter.next() {
-            None => { break; },
+            None => {
+                break;
+            }
             Some(tag_rule) => {
                 let tag_rule = tag_rule.expect("Could not deserialize TagRule item");
                 tag_rules.push(tag_rule);
@@ -77,21 +80,25 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule>
     tag_rules
 }
 
-pub(crate) fn save(conn: &Connection, tag_rule: TagRule)
-{
-    let mut stmt = conn.prepare("
+pub(crate) fn save(conn: &Connection, tag_rule: TagRule) {
+    let mut stmt = conn
+        .prepare(
+            "
         UPDATE tag_rules
         SET
             is_regex = :is_regex,
             matching_pattern = :matching_pattern
         WHERE id = :id
-    ").unwrap();
+    ",
+        )
+        .unwrap();
 
     stmt.execute(named_params! {
         ":id": &tag_rule.id,
         ":is_regex": &tag_rule.is_regex,
         ":matching_pattern": &tag_rule.matching_pattern,
-    }).expect("Could not update tag");
+    })
+    .expect("Could not update tag");
 }
 
 pub(crate) fn apply_rules(conn: &Connection) {

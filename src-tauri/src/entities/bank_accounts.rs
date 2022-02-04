@@ -1,29 +1,27 @@
-
-use rusqlite::Connection;
 use rusqlite::named_params;
-use serde::Serialize;
+use rusqlite::Connection;
 use serde::Deserialize;
+use serde::Serialize;
 use serde_rusqlite::from_rows;
 
 #[derive(Serialize, Deserialize)]
-pub(crate) struct BankAccount
-{
+pub(crate) struct BankAccount {
     pub(crate) id: u32,
     pub(crate) name: String,
     pub(crate) slug: String,
-    pub(crate) currency: String
+    pub(crate) currency: String,
 }
 
-pub(crate) fn create_slug(name: &String) -> String
-{
+pub(crate) fn create_slug(name: &String) -> String {
     let str = name.clone();
 
     str
 }
 
-pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount>
-{
-    let mut stmt = conn.prepare("
+pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount> {
+    let mut stmt = conn
+        .prepare(
+            "
         SELECT
             id,
             name,
@@ -31,7 +29,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount>
             currency
         FROM bank_accounts
         ORDER BY name ASC
-    ").expect("Could not fetch bank accounts");
+    ",
+        )
+        .expect("Could not fetch bank accounts");
 
     let mut bank_accounts: Vec<BankAccount> = Vec::new();
 
@@ -39,7 +39,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount>
 
     loop {
         match rows_iter.next() {
-            None => { break; },
+            None => {
+                break;
+            }
             Some(bank_account) => {
                 let bank_account = bank_account.expect("Could not deserialize BankAccount item");
                 bank_accounts.push(bank_account);
@@ -50,22 +52,28 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount>
     bank_accounts
 }
 
-pub(crate) fn save(conn: &Connection, bank_account: BankAccount)
-{
+pub(crate) fn save(conn: &Connection, bank_account: BankAccount) {
     if bank_account.id != 0 {
-        let mut stmt = conn.prepare("
+        let mut stmt = conn
+            .prepare(
+                "
             UPDATE bank_acccounts
             SET name = :name,
             currency = :currency
             WHERE id = :id
-        ").unwrap();
+        ",
+            )
+            .unwrap();
 
         stmt.execute(named_params! {
             ":id": &bank_account.id,
             ":name": &bank_account.name,
-        }).expect("Could not update tag");
+        })
+        .expect("Could not update tag");
     } else {
-        let mut stmt = conn.prepare("
+        let mut stmt = conn
+            .prepare(
+                "
             INSERT INTO bank_accounts (
                 id,
                 name,
@@ -78,12 +86,15 @@ pub(crate) fn save(conn: &Connection, bank_account: BankAccount)
                 :slug,
                 :currency
             )
-        ").expect("An Error occured when preparing the SQL statement.");
+        ",
+            )
+            .expect("An Error occured when preparing the SQL statement.");
 
         stmt.execute(named_params! {
             ":name": &bank_account.name,
             ":slug": &create_slug(&bank_account.name),
             ":currency": &bank_account.currency,
-        }).expect("Could not create bank account");
+        })
+        .expect("Could not create bank account");
     }
 }

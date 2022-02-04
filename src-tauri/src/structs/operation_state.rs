@@ -1,11 +1,11 @@
-use rusqlite::ToSql;
 use rusqlite::types::FromSql;
 use rusqlite::types::FromSqlError;
 use rusqlite::types::FromSqlResult;
 use rusqlite::types::ToSqlOutput;
 use rusqlite::types::ValueRef;
-use serde::Serialize;
+use rusqlite::ToSql;
 use serde::Deserialize;
+use serde::Serialize;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) enum OperationState {
@@ -17,11 +17,13 @@ pub(crate) enum OperationState {
 
 impl FromSql for OperationState {
     fn column_result(value: ValueRef<'_>) -> FromSqlResult<Self> {
-        let value_as_str = value.as_str().expect("Invalid Non-string value for OperationState fetched from database");
+        let value_as_str = value
+            .as_str()
+            .expect("Invalid Non-string value for OperationState fetched from database");
         match value_as_str {
             "ok" => FromSqlResult::Ok(OperationState::Ok),
             "pending_triage" => FromSqlResult::Ok(OperationState::PendingTriage),
-            _ => FromSqlResult::Err(FromSqlError::InvalidType)
+            _ => FromSqlResult::Err(FromSqlError::InvalidType),
         }
     }
 }
