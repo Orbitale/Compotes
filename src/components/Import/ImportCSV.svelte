@@ -153,6 +153,7 @@
         }
 
         for (const operation of finalOperations) {
+            operation.bank_account = bankAccount;
             await operation.recomputeHash();
         }
 
@@ -171,7 +172,13 @@
             if (index < numberOfLinesToRemove) {
                 return;
             }
-            let normalizedWithKeys = {};
+            let normalizedWithKeys = {
+                DATE: null,
+                AMOUNT: null,
+                TYPE: null,
+                TYPE_DISPLAY: null,
+                DETAILS: null
+            };
             normalized.forEach((value, index) => {
                 const csvField = csvFields[index];
                 if (!csvField) {

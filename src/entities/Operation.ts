@@ -74,6 +74,19 @@ export default class Operation
         return this._bank_account;
     }
 
+    set bank_account(bank_account: BankAccount) {
+        if (this._bank_account) {
+            if (this._bank_account.id !== bank_account.id) {
+                throw new Error('Bank account already initialized, you cannot change it for another one.');
+            }
+
+            // Same bank account, don't do anything;
+            return;
+        }
+
+        this._bank_account = bank_account;
+    }
+
     public static normalizeAmount(amount: string): number {
         const normalized = parseInt(amount.replace(/[^0-9-]+/gi, ''), 10);
         if (isNaN(normalized)) {
