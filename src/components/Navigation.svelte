@@ -13,12 +13,11 @@
         if (syncing) {
             return;
         }
-        message("Starting sync", ToastType.info);
         syncing = true;
         api_call("sync")
             .then(function (result) {
                 if (result === '1') {
-                    message('Done!', ToastType.success);
+                    message('Synced!', ToastType.success);
                 } else {
                     message('An unknown internal issue has occurred.', ToastType.error);
                 }
