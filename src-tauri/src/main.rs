@@ -128,12 +128,6 @@ fn import_operations(
     operations::insert_all(&mut conn, operations);
 }
 
-#[derive(Clone, serde::Serialize)]
-struct Message {
-    message: String,
-    message_type: String,
-}
-
 #[tauri::command]
 fn sync() -> String {
     operations::refresh_statuses_with_hashes();
