@@ -94,6 +94,6 @@ pub(crate) fn save(conn: &Connection, tag_rule: TagRule)
     }).expect("Could not update tag");
 }
 
-pub(crate) fn apply_rules() {
+pub(crate) fn apply_rules(conn: &Connection) {
     println!("TODO: apply tag rules");
 }
