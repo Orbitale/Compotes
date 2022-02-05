@@ -90,7 +90,7 @@ export default class Operation
     public static normalizeAmount(amount: string): number {
         const normalized = parseInt(amount.replace(/[^0-9-]+/gi, ''), 10);
         if (isNaN(normalized)) {
-            throw new Error(`Could not normalize amount "${amount}". It does not seem to be a valid number.`);
+            throw new Error(`Could not normalize amount "${amount}".\nIt does not seem to be a valid number.`);
         }
 
         return normalized;
@@ -100,10 +100,16 @@ export default class Operation
         const matches = dateFormatToRegex(dateFormat).exec(dateString);
 
         if (!matches) {
-            throw new Error(`Could not normalize date "${dateString}". It does not seem to be a valid date.`);
+            throw new Error(`Date "${dateString}" does not respect the "${dateFormat}" date format.\nPlease double-check the date format field.`);
         }
 
-        return new NormalizedDate(new Date(Date.parse(matches.groups.year + '-' + matches.groups.month + '-' + matches.groups.day)));
+        const parsedDate = Date.parse(matches.groups.year + '-' + matches.groups.month + '-' + matches.groups.day);
+        if (isNaN(parsedDate)) {
+            throw new Error(`Could not parse date "${dateString}".\nIt does not seem to be a valid date.\nPlease check the date format option.`)
+        }
+        const dateObject = new Date(parsedDate);
+
+        return new NormalizedDate(dateObject);
     }
 
     public async sync(): Promise<void> {

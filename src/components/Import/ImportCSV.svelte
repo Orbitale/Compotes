@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {error, success, warning} from "../../utils/message";
+    import message, {error, success, warning} from "../../utils/message";
     import DragDropList from "../DragDrop/DragDropList.svelte";
     import api_call from "../../utils/api_call.ts";
     import {getBankAccounts} from '../../db/bank_accounts';
@@ -9,6 +9,7 @@
     import {CsvFieldReference, referenceToEntityProperty} from "../../utils/csv";
     import {DateFormat} from "../../utils/date";
     import {clearOperations} from "../../db/operations";
+    import {ToastType} from "../../struct/Toast";
 
     let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
@@ -37,17 +38,22 @@
 
     let loading = false;
 
-    function reset() {
-        file = null;
-        fileContent = null;
-        files = [];
+    function resetPreview() {
         preview = null;
         previewOperations = [];
         finalOperations = [];
+    }
+
+    function reset() {
+        resetPreview();
+        file = null;
+        fileContent = null;
+        files = null;
         loading = false;
     }
 
     function uploadFile() {
+        resetPreview();
         loading = true;
 
         if (!files || !files.length) {
@@ -75,7 +81,7 @@
     }
 
     async function readCsvFile(reader: FileReader) {
-        fileContent = reader.result.toString();
+        fileContent = reader.result.toString().trim();
 
         const firstLine = fileContent.split("\n")[0] || null;
         if (!firstLine) {
@@ -85,11 +91,18 @@
         }
         determineCsvParameters(firstLine);
 
-        previewOperations = getCsvFromData(fileContent);
-        await denormalizeIntoOperations();
+        const previewOperationsFromData = getCsvFromData(fileContent);
 
-        const firstOperation: Array<string> = previewOperations[0] ?? null;
-        if (!firstOperation) { return; }
+        try {
+            await denormalizeIntoOperations(previewOperationsFromData);
+        } catch (e) {
+            const errorMessage = e.message.replace("\n", "<br>");
+            message(errorMessage, ToastType.error);
+
+            return;
+        }
+
+        previewOperations = previewOperationsFromData;
     }
 
     function determineCsvParameters(firstLine: string) {
@@ -165,12 +178,17 @@
         reset();
     }
 
-    function denormalizeIntoOperations() {
+    async function denormalizeIntoOperations(previewOperations: Array<Array<any>>) {
         let operations = [];
 
-        previewOperations.forEach(async (normalized, index) => {
+        if (!bankAccount || !bankAccount.id) {
+            throw new Error('Bank account is not set.\nPlease set the bank account in the proper field.')
+        }
+
+        for (const normalized of previewOperations) {
+            const index = previewOperations.indexOf(normalized);
             if (index < numberOfLinesToRemove) {
-                return;
+                continue;
             }
             let normalizedWithKeys = {
                 DATE: null,
@@ -195,8 +213,7 @@
                 normalizedDate = Operation.normalizeDate(normalizedWithKeys.DATE, dateFormat).toString();
                 amount = Operation.normalizeAmount(normalizedWithKeys.AMOUNT);
             } catch (e) {
-                console.warn(`CSV line number "${index}" does not contain a valid date. Received exception: ${e.message}`);
-                return;
+                throw new Error(`CSV line number "${index}" does not contain a valid date.\nError:\n${e.message}`);
             }
 
             let operation = new Operation(
@@ -208,12 +225,13 @@
                 amount, //amount_in_cents
                 OperationState.pending_triage, //state
                 false, //ignored_from_charts
-                bankAccount ? bankAccount.id : 0, //bank_account_id
+                bankAccount.id, //bank_account_id
             );
             operations.push(operation);
-        });
+        }
 
         finalOperations = operations;
+        console.info({finalOperations});
     }
 
     function getCsvFromData(strData: string) {
@@ -252,9 +270,12 @@
 
 <div class="row">
     <div class="col">
-        {#if !loading && fileContent && fileContent.length}
+        {#if finalOperations.length}
             <button class="btn btn-primary" type="button" on:click={importFile}>Import</button>
-            <button class="btn btn-Info" type="button" on:click={uploadFile}>Refresh</button>
+        {/if}
+        {#if !loading && fileContent && fileContent.length}
+            <button class="btn btn-info" type="button" on:click={uploadFile}>Refresh</button>
+            <small class="muted">(Remember to refresh on any change)</small>
         {/if}
         {#if loading}
             Loading...
@@ -309,6 +330,9 @@
         </div>
     </div>
 
+</div>
+<div class="row rowWithTopPadding">
+
     <div class="col form-group">
         <label class="form-control-label required" for="import_operations_dateFormat">
             Date format
@@ -321,25 +345,14 @@
             </select>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col form-group">
-        <label for="csv_columns">Csv columns</label>
-        <div class="form-widget" id="csv_columns">
-            <DragDropList bind:data={csvFields}/>
-            <p>
-                <span class="badge rounded-pill bg-Info">ℹ</span> Remember to sort these fields <strong>manually</strong> in order to
-                make sure CSV fields are parsed properly by the application.
-            </p>
-        </div>
-    </div>
     <div class="col form-group">
         <label class="form-control-label required" for="import_operations_linesToRemove">
             Number of first lines to remove
         </label>
         <input bind:value={numberOfLinesToRemove} id="import_operations_linesToRemove" type="number" class="form-control" min="0">
     </div>
+
     <div class="col form-group">
         <label class="form-control-label required" for="import_operations_bankAccount">
             Bank Account
@@ -352,33 +365,54 @@
             </select>
         </div>
     </div>
+
+</div>
+<div class="row rowWithTopPadding">
+
+    <div class="col form-group">
+        <label for="csv_columns">Csv columns</label>
+        <div class="form-widget" id="csv_columns">
+            <DragDropList bind:data={csvFields}/>
+            <p>
+                <span class="badge rounded-pill bg-info">ℹ</span> Remember to sort these fields <strong>manually</strong> in order to
+                make sure CSV fields are parsed properly by the application.
+            </p>
+        </div>
+    </div>
+
 </div>
 
 <hr>
 
-<h3>Preview:</h3>
-<table class="table table-bordered table-striped table-hover">
-    <thead>
-        <tr class="table-Info">
-            <th>#</th>
-            {#each csvFields as field}
-                <th>{field}</th>
-            {/each}
-        </tr>
-    </thead>
-    <tbody>
-        {#each previewOperations as line, key}
-            <tr class="{key < numberOfLinesToRemove ? 'line-to-remove' : ''}">
-                <td>{key}</td>
-                {#each line as value}
-                    <td>{value}</td>
+{#if previewOperations.length}
+    <h3>Preview:</h3>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr class="table-Info">
+                <th>#</th>
+                {#each csvFields as field}
+                    <th>{field}</th>
                 {/each}
             </tr>
-        {/each}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {#each previewOperations as line, key}
+                <tr class="{key < numberOfLinesToRemove ? 'line-to-remove' : ''}">
+                    <td>{key}</td>
+                    {#each line as value}
+                        <td>{value}</td>
+                    {/each}
+                </tr>
+            {/each}
+        </tbody>
+    </table>
+{/if}
 
 <style lang="scss">
+  .rowWithTopPadding {
+    margin-top: 15px;
+  }
+
   th {
     font-weight: normal;
   }
