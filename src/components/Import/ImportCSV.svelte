@@ -388,7 +388,7 @@
     <h3>Preview:</h3>
     <table class="table table-bordered table-striped table-hover">
         <thead>
-            <tr class="table-Info">
+            <tr class="table-info">
                 <th>#</th>
                 {#each csvFields as field}
                     <th>{field}</th>
@@ -433,7 +433,7 @@
     left: -25px;
   }
 
-  .table-Info {
+  .table-info {
     margin-bottom: 5px;
   }
 </style>
