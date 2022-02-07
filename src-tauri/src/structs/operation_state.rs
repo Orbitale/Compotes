@@ -7,7 +7,7 @@ use rusqlite::ToSql;
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(strum_macros::Display, Debug, Serialize, Deserialize)]
 pub(crate) enum OperationState {
     #[serde(rename = "ok")]
     Ok,

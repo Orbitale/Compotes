@@ -96,8 +96,7 @@
         try {
             await denormalizeIntoOperations(previewOperationsFromData);
         } catch (e) {
-            const errorMessage = e.message.replace("\n", "<br>");
-            message(errorMessage, ToastType.error);
+            message(e.message, ToastType.error);
 
             return;
         }
@@ -223,7 +222,7 @@
                 normalizedWithKeys.TYPE_DISPLAY, //type_display
                 normalizedWithKeys.DETAILS, //details
                 amount, //amount_in_cents
-                OperationState.pending_triage, //state
+                OperationState.ok, //state
                 false, //ignored_from_charts
                 bankAccount.id, //bank_account_id
             );

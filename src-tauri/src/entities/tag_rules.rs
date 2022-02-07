@@ -101,6 +101,8 @@ pub(crate) fn save(conn: &Connection, tag_rule: TagRule) {
     .expect("Could not update tag");
 }
 
-pub(crate) fn apply_rules(conn: &Connection) {
+pub(crate) fn apply_rules(conn: &Connection) -> usize {
     println!("TODO: apply tag rules");
+
+    0
 }

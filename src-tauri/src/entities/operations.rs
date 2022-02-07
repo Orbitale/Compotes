@@ -114,6 +114,31 @@ pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>) {
         .expect("Failed to insert operations. Cancelling action.");
 }
 
-pub(crate) fn refresh_statuses_with_hashes(conn: &Connection) {
-    println!("TODO: refresh statuses with hashes");
+pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> usize {
+    let transaction = conn
+        .transaction()
+        .expect("Could not create database transaction.");
+
+    let mut stmt = transaction
+        .prepare("
+            update operations
+            set state = :triage
+            where state != :triage
+            and operations.hash in (
+                select t2.hash from operations as t2 group by t2.hash having count(t2.hash) > 1
+            )
+        ;",
+        )
+        .expect("Could not create query to update operations state.");
+
+    let result = stmt.execute(named_params! {
+            ":triage": &OperationState::PendingTriage.to_string(),
+        })
+        .expect("Could not execute update operations state query");
+
+    transaction
+        .commit()
+        .expect("Could not execute update operations state transaction");
+
+    result
 }

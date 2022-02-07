@@ -15,11 +15,11 @@ export default class Toast {
     private readonly _toast_type: ToastType;
 
     constructor(content: string, containerElement: HTMLElement, type: ToastType) {
-        this._content = content;
+        this._content = content.replace("\n", "<br>");
 
         this._containerElement = containerElement;
         this._toast_type = type;
-        this._toastElement = Toast.createToastElement(content, type);
+        this._toastElement = Toast.createToastElement(this._content, type);
         containerElement.appendChild(this._toastElement);
         this._bootstrapToast = new BootstrapToast(this._toastElement);
     }

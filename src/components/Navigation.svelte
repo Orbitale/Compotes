@@ -16,8 +16,18 @@
         syncing = true;
         api_call("sync")
             .then(function (result) {
-                if (result === '1') {
-                    message('Synced!', ToastType.success);
+                const parsedResult = JSON.parse(result);
+                const {rules_applied, duplicates_refreshed} = parsedResult;
+                if ((typeof rules_applied !== 'undefined') && (typeof duplicates_refreshed !== 'undefined')) {
+                    let msg = "Synced!\n" +
+                        ((rules_applied > 0)
+                            ? `Applied ${rules_applied} tag rules.\n`
+                            : "No tag rules to apply.\n") +
+                        ((duplicates_refreshed > 0)
+                            ? `Detected ${duplicates_refreshed} new duplicates for triage.\n`
+                            : "No new duplicate operations.\n")
+                        ;
+                    message(msg, ToastType.success);
                 } else {
                     message('An unknown internal issue has occurred.', ToastType.error);
                 }
