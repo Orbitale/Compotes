@@ -15,6 +15,12 @@ pub(crate) enum OperationState {
     PendingTriage,
 }
 
+impl OperationState {
+    pub(crate) fn to_string(&self) -> String {
+        serde_json::to_string(&self).unwrap()
+    }
+}
+
 impl FromSql for OperationState {
     fn column_result(value: ValueRef<'_>) -> FromSqlResult<Self> {
         let value_as_str = value

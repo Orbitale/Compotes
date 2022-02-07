@@ -48,8 +48,8 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
             None => {
                 break;
             }
-            Some(operation) => {
-                let operation = operation.expect("Could not deserialize Operation item");
+            Some(result) => {
+                let operation = result.expect("Could not deserialize Operation item");
                 operations.push(operation);
             }
         }
@@ -119,22 +119,29 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> usize {
         .transaction()
         .expect("Could not create database transaction.");
 
-    let mut stmt = transaction
+    let result = {
+        let mut stmt = transaction
         .prepare("
-            update operations
-            set state = :triage
+        update operations
+        set state = :triage
+        where operations.state != :triage
+        and operations.hash in (
+            select t2.hash
+            from operations as t2
             where state != :triage
-            and operations.hash in (
-                select t2.hash from operations as t2 group by t2.hash having count(t2.hash) > 1
-            )
-        ;",
+            group by t2.hash
+            having count(t2.hash) > 1
+            and state != :triage
+        )
+        ",
         )
         .expect("Could not create query to update operations state.");
 
-    let result = stmt.execute(named_params! {
+        stmt.execute(named_params! {
             ":triage": &OperationState::PendingTriage.to_string(),
         })
-        .expect("Could not execute update operations state query");
+            .expect("Could not execute update operations state query")
+    };
 
     transaction
         .commit()
