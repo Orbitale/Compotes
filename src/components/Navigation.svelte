@@ -1,45 +1,14 @@
 <script lang="ts">
     import {getUser} from '../auth/current_user.ts';
     import active from 'svelte-spa-router/active';
-    import api_call from "../utils/api_call";
-    import message from "../utils/message";
-    import {ToastType} from "../struct/Toast";
+    import OperationsSynchronizer from "../struct/OperationsSynchronizer";
 
+    let syncing: boolean;
     let user = getUser();
 
-    let syncing = false;
+    const synchronizer = new OperationsSynchronizer();
 
-    let sync = function() {
-        if (syncing) {
-            return;
-        }
-        syncing = true;
-        api_call("sync")
-            .then(function (result) {
-                const parsedResult = JSON.parse(result);
-                const {rules_applied, duplicates_refreshed} = parsedResult;
-                if ((typeof rules_applied !== 'undefined') && (typeof duplicates_refreshed !== 'undefined')) {
-                    let msg = "Synced!\n" +
-                        ((rules_applied > 0)
-                            ? `Applied ${rules_applied} tag rules.\n`
-                            : "No tag rules to apply.\n") +
-                        ((duplicates_refreshed > 0)
-                            ? `Detected ${duplicates_refreshed} new duplicates for triage.\n`
-                            : "No new duplicate operations.\n")
-                        ;
-                    message(msg, ToastType.success);
-                } else {
-                    message('An unknown internal issue has occurred.', ToastType.error);
-                }
-            })
-            .catch(function (error: Error) {
-                message(`An error occurred:\n${error.message}`, ToastType.error);
-            })
-            .finally(function () {
-                syncing = false;
-            })
-        ;
-    };
+    $: syncing = synchronizer.syncing;
 </script>
 
 <style lang="scss">
@@ -123,7 +92,7 @@
                     <li class="nav-item"><a class="nav-link" use:active={"/import"} href="#/import">
                         Import
                     </a></li>
-                    <li class="nav-item" class:syncing><button class="nav-link" on:click={sync}>
+                    <li class="nav-item" class:syncing><button class="nav-link" on:click={synchronizer.sync}>
                         Sync
                         <img src="logo.svg" width="15px" height="15px" alt="" class="loader">
                     </button></li>

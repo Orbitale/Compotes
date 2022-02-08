@@ -70,6 +70,15 @@
     }
 </script>
 
+<style lang="scss">
+  #new-button {
+    float: right;
+    margin-top: 8px;
+  }
+</style>
+
+<a href="#/tag-rule/new" class="btn btn-primary" id="new-button">New</a>
+
 <h1>Tag rules</h1>
 
 {#if tag_rules.length}

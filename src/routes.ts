@@ -10,6 +10,7 @@ import Tags from './routes/tags/Tags.svelte';
 import TagEdit from './routes/tags/TagEdit.svelte';
 import Import from './routes/Import.svelte';
 import Operations from './routes/Operations.svelte';
+import NewTagRule from "./routes/tag_rules/NewTagRule.svelte";
 
 const routes = {
     '/': Home,
@@ -20,6 +21,7 @@ const routes = {
     '/triage': Triage,
     '/tag-rules': TagRules,
     '/tag-rule/edit/:id': EditTagRule,
+    '/tag-rule/new': NewTagRule,
     '/tags': Tags,
     '/tag/edit/:id': TagEdit,
     '/import': Import,

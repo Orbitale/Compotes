@@ -14,6 +14,10 @@ export default class TagRule
         this.is_regex = is_regex;
     }
 
+    static empty(): TagRule {
+        return new TagRule(0, [], '', false);
+    }
+
     clone(): TagRule {
         return new TagRule(this.id, this.tags, this.matching_pattern, this.is_regex);
     }
