@@ -17,7 +17,10 @@ pub(crate) enum OperationState {
 
 impl OperationState {
     pub(crate) fn to_string(&self) -> String {
-        serde_json::to_string(&self).unwrap()
+        match self {
+            OperationState::Ok => "ok".to_string(),
+            OperationState::PendingTriage => "pending_triage".to_string(),
+        }
     }
 }
 
@@ -36,9 +39,6 @@ impl FromSql for OperationState {
 
 impl ToSql for OperationState {
     fn to_sql(&self) -> rusqlite::Result<ToSqlOutput<'_>> {
-        rusqlite::Result::Ok(match self {
-            OperationState::Ok => ToSqlOutput::from("ok".to_string()),
-            OperationState::PendingTriage => ToSqlOutput::from("pending_triage".to_string()),
-        })
+        rusqlite::Result::Ok(ToSqlOutput::from(self.to_string()))
     }
 }
