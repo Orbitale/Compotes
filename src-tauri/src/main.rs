@@ -29,6 +29,10 @@ mod entities {
     pub(crate) mod tags;
 }
 
+mod serialization {
+    pub(crate) mod deserialize_tags_ids;
+}
+
 mod structs {
     pub(crate) mod operation_state;
 }

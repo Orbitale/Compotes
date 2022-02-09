@@ -2,62 +2,14 @@ use rusqlite::named_params;
 use rusqlite::Connection;
 use serde::Deserialize;
 use serde::Serialize;
-use std::marker::PhantomData;
 
 #[derive(Serialize, Deserialize, Debug, Default)]
 pub(crate) struct TagRule {
     pub(crate) id: u32,
-    #[serde(default)]
-    #[serde(deserialize_with = "deserialize_tags_ids")]
+    #[serde(deserialize_with = "crate::serialization::deserialize_tags_ids::deserialize_tags_ids")]
     pub(crate) tags_ids: Vec<u32>,
     pub(crate) matching_pattern: String,
     pub(crate) is_regex: bool,
-}
-
-pub fn deserialize_tags_ids<'de, D>(deserializer: D) -> Result<Vec<u32>, D::Error>
-where
-    D: serde::de::Deserializer<'de>,
-{
-    #[derive(Debug)]
-    struct StringVecVisitor(PhantomData<Vec<u32>>);
-
-    impl<'de> serde::de::Visitor<'de> for StringVecVisitor {
-        type Value = Vec<u32>;
-
-        fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
-            dbg!(&self);
-            formatter.write_str("a string containing a list of integer IDs separated by commas.")
-        }
-
-
-        fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
-        where
-            E: serde::de::Error,
-        {
-            let mut ids = Vec::new();
-            for id in v.split(",") {
-                let id = id.parse::<u32>().unwrap_or(0);
-                if id != 0 {
-                    ids.push(id);
-                }
-            }
-            Ok(ids)
-        }
-
-        fn visit_none<E>(self) -> Result<Self::Value, E>
-            where E: serde::de::Error
-        {
-            Ok(Vec::new())
-        }
-
-        fn visit_seq<S>(self, visitor: S) -> Result<Self::Value, S::Error>
-            where S: serde::de::SeqAccess<'de>
-        {
-            Deserialize::deserialize(serde::de::value::SeqAccessDeserializer::new(visitor))
-        }
-    }
-
-    deserializer.deserialize_any(StringVecVisitor(PhantomData))
 }
 
 pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule> {

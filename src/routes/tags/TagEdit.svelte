@@ -8,7 +8,7 @@
 
     export let params: {id: string};
 
-    const id = params.id;
+    const id = parseInt(params.id, 10);
     let tag: Tag;
     let submit_button_disabled: boolean = false;
 

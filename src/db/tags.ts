@@ -17,14 +17,14 @@ export async function getTags(): Promise<Array<Tag>>
     return tags;
 }
 
-export async function getTagById(id: string): Promise<Tag | null>
+export async function getTagById(id: number): Promise<Tag | null>
 {
     if (!tags.length) {
         await getTags();
     }
 
     for (const tag of tags) {
-        if (tag.id.toString() === id) {
+        if (tag.id === id) {
             return Promise.resolve(tag);
         }
     }
@@ -32,11 +32,30 @@ export async function getTagById(id: string): Promise<Tag | null>
     return Promise.resolve(null);
 }
 
+export async function getTagsByIds(ids: Array<number>): Promise<Array<Tag>>
+{
+    if (!tags.length) {
+        await getTags();
+    }
+
+    let tags_found: Array<Tag> = [];
+
+    for (const id of ids) {
+        const tag = await getTagById(id);
+        if (!tag) {
+            throw new Error(`Could not find tag with id ${id}`);
+        }
+        tags_found.push(tag);
+    }
+
+    return Promise.resolve(tags_found);
+}
+
 export async function saveTag(tag: Tag): Promise<void>
 {
     await api_call("save_tag", {tag: tag.serialize()});
 
-    const tag_entity = await getTagById(tag.id.toString());
+    const tag_entity = await getTagById(tag.id);
 
     if (!tag_entity) throw new Error('Data corruption detected in tags.');
 

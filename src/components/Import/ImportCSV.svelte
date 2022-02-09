@@ -217,14 +217,15 @@
 
             let operation = new Operation(
                 0, // id
-                normalizedDate, //operation_date
-                normalizedWithKeys.TYPE, //op_type
-                normalizedWithKeys.TYPE_DISPLAY, //type_display
-                normalizedWithKeys.DETAILS, //details
-                amount, //amount_in_cents
-                OperationState.ok, //state
-                false, //ignored_from_charts
-                bankAccount.id, //bank_account_id
+                normalizedDate, // operation_date
+                normalizedWithKeys.TYPE, // op_type
+                normalizedWithKeys.TYPE_DISPLAY, // type_display
+                normalizedWithKeys.DETAILS, // details
+                amount, // amount_in_cents
+                OperationState.ok, // state
+                false, // ignored_from_charts
+                bankAccount, // bank_account
+                '' // hash
             );
             operations.push(operation);
         }

@@ -6,6 +6,8 @@
     import Field from "../struct/Field.ts";
     import EmptyCollection from "../components/PaginatedTable/EmptyCollection.svelte";
     import FieldHtmlProperties from "../struct/FieldHtmlProperties.ts";
+    import CollectionField from "../struct/CollectionField";
+    import {onMount} from "svelte";
 
     needsUser();
 
@@ -19,26 +21,12 @@
         new Field('details', 'Details'),
         new Field('amount_display', 'Amount', null, new FieldHtmlProperties('operation-amount')),
         new Field('ignored_from_charts', 'Ignored from charts'),
-        new Field('tags', 'Tags'),
+        new CollectionField('tags', new Field('name')),
     ];
 
-    getOperations()
-        .then((awaited_operations: Operation[]) => {
-            let number_of_operations = awaited_operations.length;
-            let current_operations = 0;
-            let pending_operations: Operation[] = [];
-
-            awaited_operations.forEach((operation: Operation) => {
-                operation.sync().then(() => {
-                    pending_operations.push(operation);
-                    current_operations++;
-                    if (current_operations === number_of_operations) {
-                        operations = pending_operations;
-                    }
-                });
-            });
-        })
-    ;
+    onMount(async () => {
+        operations = await getOperations();
+    });
 </script>
 
 <h1>Operations</h1>

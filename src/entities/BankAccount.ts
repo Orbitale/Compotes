@@ -2,11 +2,11 @@
 export default class BankAccount
 {
     public readonly id!: number;
-    public name!: String;
-    public slug!: String;
-    public currency!: String;
+    public name!: string;
+    public slug!: string;
+    public currency!: string;
 
-    constructor(id: number, name: String, slug: String, currency: String) {
+    constructor(id: number, name: string, slug: string, currency: string) {
         this.id = id;
         this.name = name;
         this.slug = slug;

@@ -19,9 +19,6 @@ export default class CollectionField extends Field
 
         field = this._associated_field;
 
-        return items
-            .map((singleItem) => field.displayFromItem(singleItem))
-            .join(", ")
-        ;
+        return items.map((singleItem) => field.displayFromItem(singleItem));
     }
 }

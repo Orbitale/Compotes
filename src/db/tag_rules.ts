@@ -8,7 +8,7 @@ export default class DeserializedTagRule
 {
     public readonly id!: number;
     public readonly tags_ids!: Array<number>;
-    public readonly matching_pattern!: String;
+    public readonly matching_pattern!: string;
     public readonly is_regex!: boolean;
 }
 
@@ -21,19 +21,15 @@ export async function getTagRules(): Promise<Array<TagRule>>
         const deserialized_tag_rules: Array<DeserializedTagRule> = JSON.parse(res);
 
         tag_rules = await Promise.all(deserialized_tag_rules.map(async (deserialized_tag_rule: DeserializedTagRule) => {
-            let tags: Array<Tag> = await Promise.all(deserialized_tag_rule.tags_ids.map(async (id: number) => {
-                return await getTagById(id.toString());
-            }));
-
             return new TagRule(
                 deserialized_tag_rule.id,
-                tags,
+                await Promise.all(deserialized_tag_rule.tags_ids.map(async (id: number) => {
+                    return await getTagById(id);
+                })),
                 deserialized_tag_rule.matching_pattern,
                 deserialized_tag_rule.is_regex
             );
         }));
-
-
     }
 
     return Promise.resolve(tag_rules);

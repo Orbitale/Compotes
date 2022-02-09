@@ -18,10 +18,15 @@
 
 {:else if field_value === true || field_value === false}
     {#if field_value === true}
-        <span class="badge rounded-pill bg-Success">&check;</span>
+        <span class="badge rounded-pill bg-success">&check;</span>
     {:else}
         <span class="badge rounded-pill bg-danger">&times;</span>
     {/if}
+
+{:else if field_value instanceof Array}
+    {#each field_value as array_value}
+        <span class="badge bg-secondary">{array_value}</span>
+    {/each}
 
 {:else if typeof field_value === 'object'}
     <pre>{JSON.stringify(field_value)}</pre>

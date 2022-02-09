@@ -1,5 +1,6 @@
 use crate::structs::operation_state::OperationState;
-use rusqlite::{named_params, Connection};
+use rusqlite::named_params;
+use rusqlite::Connection;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_rusqlite::from_rows;
@@ -16,6 +17,8 @@ pub(crate) struct Operation {
     pub(crate) state: OperationState,
     pub(crate) ignored_from_charts: bool,
     pub(crate) bank_account_id: u32,
+    #[serde(deserialize_with = "crate::serialization::deserialize_tags_ids::deserialize_tags_ids")]
+    pub(crate) tags_ids: Vec<u32>,
 }
 
 pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
@@ -32,8 +35,14 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
             hash,
             state,
             bank_account_id,
-            ignored_from_charts
+            ignored_from_charts,
+            (
+                SELECT GROUP_CONCAT(tag_id)
+                FROM operation_tag
+                WHERE operation_id = operations.id
+            ) AS tags_ids
         FROM operations
+        where tags_ids is not null
         ORDER BY operation_date DESC
     ",
         )
@@ -45,9 +54,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
 
     loop {
         match rows_iter.next() {
-            None => {
-                break;
-            }
+            None => break,
             Some(result) => {
                 let operation = result.expect("Could not deserialize Operation item");
                 operations.push(operation);

@@ -4,10 +4,10 @@ export default class TagRule
 {
     public id!: number;
     public tags!: Tag[];
-    public matching_pattern!: String;
+    public matching_pattern!: string;
     public is_regex!: boolean;
 
-    constructor(id: number, tags: Tag[], matching_pattern: String, is_regex: boolean) {
+    constructor(id: number, tags: Tag[], matching_pattern: string, is_regex: boolean) {
         this.id = id;
         this.tags = tags;
         this.matching_pattern = matching_pattern;

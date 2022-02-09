@@ -2,9 +2,9 @@
 export default class Tag
 {
     public readonly id!: number;
-    public name!: String;
+    public name!: string;
 
-    constructor(id: number, name: String) {
+    constructor(id: number, name: string) {
         this.id = id;
         this.name = name;
     }
