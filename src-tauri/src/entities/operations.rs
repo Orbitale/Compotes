@@ -128,10 +128,8 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> usize {
         and operations.hash in (
             select t2.hash
             from operations as t2
-            where state != :triage
             group by t2.hash
             having count(t2.hash) > 1
-            and state != :triage
         )
         ",
         )
