@@ -10,7 +10,7 @@ edition = "2018"
 build = "src/build.rs"
 
 [build-dependencies]
-tauri-build = "1.0.0-beta"
+tauri-build = { version = "1.0.0-beta.4" }
 
 [dependencies]
 anyhow = "1.0"
@@ -30,7 +30,7 @@ strum_macros = "0.23"
 
   [dependencies.tauri]
   version = "1.0.0-beta.8"
-  features = ["api-all"]
+  features = [ "api-all" ]
 
 [features]
 default = [ "custom-protocol" ]
