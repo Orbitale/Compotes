@@ -16,7 +16,7 @@ export default class ItemAction {
         let url = this._url;
 
         this.params.params.forEach((field: Field) => {
-            url = url.replace(`:${field.name}`, field.get_from_item(item).toString());
+            url = url.replace(`:${field.name}`, field.displayFromItem(item).toString());
         });
 
         return `#${url}`;

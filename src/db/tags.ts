@@ -25,11 +25,11 @@ export async function getTagById(id: string): Promise<Tag | null>
 
     for (const tag of tags) {
         if (tag.id.toString() === id) {
-            return tag;
+            return Promise.resolve(tag);
         }
     }
 
-    return null;
+    return Promise.resolve(null);
 }
 
 export async function saveTag(tag: Tag): Promise<void>

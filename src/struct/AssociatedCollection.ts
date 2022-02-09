@@ -1,9 +1,13 @@
 import type AssociatedItem from "./AssociatedItem";
+import type Field from "./Field";
 
 class Collection<T> extends Array<T> {
-    constructor(items?: T[]) {
+    private _field: Field;
+
+    constructor(field: Field, items?: T[]) {
         super();
         items && this.addItems(items);
+        this._field = field;
     }
 
     private addItems(items: T[]) {

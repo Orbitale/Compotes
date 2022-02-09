@@ -2,6 +2,7 @@
 import TagRule from '../entities/TagRule';
 import {getTagById} from "./tags";
 import api_call from "../utils/api_call";
+import type Tag from "../entities/Tag";
 
 export default class DeserializedTagRule
 {
@@ -16,23 +17,23 @@ let tag_rules: TagRule[] = [];
 export async function getTagRules(): Promise<Array<TagRule>>
 {
     if (!tag_rules.length) {
-        let res: string = await api_call("get_tag_rules");
+        let res: string = await api_call("tag_rules_get");
         const deserialized_tag_rules: Array<DeserializedTagRule> = JSON.parse(res);
 
-        tag_rules = await deserialized_tag_rules.map((deserialized_tag_rule: DeserializedTagRule) => {
-            let tags = deserialized_tag_rule.tags_ids.map(async (id: number) => {
+        tag_rules = await Promise.all(deserialized_tag_rules.map(async (deserialized_tag_rule: DeserializedTagRule) => {
+            let tags: Array<Tag> = await Promise.all(deserialized_tag_rule.tags_ids.map(async (id: number) => {
                 return await getTagById(id.toString());
-            });
-
+            }));
 
             return new TagRule(
                 deserialized_tag_rule.id,
-                // @ts-ignore (promise vs tag array seems to be inconsistent somehow. TODO: fix it)
                 tags,
                 deserialized_tag_rule.matching_pattern,
                 deserialized_tag_rule.is_regex
             );
-        });
+        }));
+
+
     }
 
     return Promise.resolve(tag_rules);
@@ -53,13 +54,18 @@ export async function getTagRuleById(id: string): Promise<TagRule | null>
     return null;
 }
 
-export async function saveTagRule(tag_rule: TagRule): Promise<void>
+export async function updateTagRule(tag_rule: TagRule): Promise<void>
 {
-    await api_call("save_tag_rule", {tagRule: tag_rule.serialize()});
+    await api_call("tag_rule_update", {tagRule: tag_rule.serialize()});
+}
 
-    const tag_rule_entity = await getTagRuleById(tag_rule.id.toString());
+export async function createTagRule(tag_rule: TagRule): Promise<void>
+{
+    let id = await api_call("tag_rule_create", {tagRule: tag_rule.serialize()});
 
-    if (!tag_rule_entity) throw new Error('Data corruption detected in tag rule.');
+    if (isNaN(+id)) {
+        throw new Error('Internal error: API returned a non-number ID.');
+    }
 
-    tag_rule_entity.mergeWith(tag_rule);
+    tag_rule.mergeWith(tag_rule.cloneWithId(+id));
 }

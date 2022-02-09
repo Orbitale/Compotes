@@ -7,7 +7,7 @@
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
     "validate": "svelte-check",
-    "both": "node dev.js"
+    "both": "node dev.mjs"
   },
   "devDependencies": {
     "@popperjs/core": "^2.11.2",

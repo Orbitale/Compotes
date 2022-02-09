@@ -5,7 +5,7 @@ export default class Field {
     public readonly name: string;
     public readonly text: string;
     public readonly field_html_properties: FieldHtmlProperties;
-    private readonly _associated_field: null|AssociatedField;
+    protected readonly _associated_field: null|AssociatedField;
 
     constructor(
         name: string,
@@ -22,7 +22,7 @@ export default class Field {
         this._associated_field = associated_field;
     }
 
-    public get_from_item(item: object|any): any {
+    public displayFromItem(item: object|any): any {
         let field: Field|AssociatedField;
 
         if (this._associated_field) {
