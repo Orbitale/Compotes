@@ -42,7 +42,6 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
                 WHERE operation_id = operations.id
             ) AS tags_ids
         FROM operations
-        where tags_ids is not null
         ORDER BY operation_date DESC
     ",
         )
@@ -66,14 +65,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
 }
 
 pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>) {
-    let transaction = conn
-        .transaction()
-        .expect("Could not create database transaction.");
-
-    for operation in operations.iter() {
-        let mut stmt = transaction
-            .prepare(
-                "
+    let mut stmt = conn
+        .prepare(
+            "
             INSERT INTO operations
             (
                 operation_date,
@@ -99,10 +93,11 @@ pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>) {
                 :ignored_from_charts
             )
         ",
-            )
-            .expect("Could not create query to insert operation.");
+        )
+        .expect("Could not create query to insert operation.");
 
-        stmt.execute(named_params! {
+    for operation in operations.iter() {
+        let res = stmt.execute(named_params! {
             ":operation_date": &operation.operation_date,
             ":type": &operation.op_type,
             ":type_display": &operation.type_display,
@@ -114,11 +109,9 @@ pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>) {
             ":ignored_from_charts": &operation.ignored_from_charts,
         })
         .expect("Could not insert operation");
-    }
 
-    transaction
-        .commit()
-        .expect("Failed to insert operations. Cancelling action.");
+        dbg!(&operation, &res);
+    }
 }
 
 pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> usize {

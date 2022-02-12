@@ -48,7 +48,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule> {
     tag_rules
 }
 
-pub(crate) fn update(conn: &Connection, tag_rule: TagRule) {
+pub(crate) fn update(conn: &Connection, tag_rule: TagRule)
+{
+    dbg!(&tag_rule);
 
     // Update tag rule
     let mut stmt = conn
@@ -71,7 +73,7 @@ pub(crate) fn update(conn: &Connection, tag_rule: TagRule) {
 
     // Remove previous tags associations
     let mut stmt = conn
-        .prepare("DELETE FROM tag_rule_tag WHERE tag_id = :id")
+        .prepare("DELETE FROM tag_rule_tag WHERE tag_rule_id = :id")
         .expect("Could not create query to delete tag rule associations")
     ;
 

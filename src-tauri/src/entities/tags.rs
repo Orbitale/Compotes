@@ -44,7 +44,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Tag> {
     tags
 }
 
-pub(crate) fn save(conn: &Connection, tag: Tag) {
+pub(crate) fn update(conn: &Connection, tag: Tag) {
     let mut stmt = conn
         .prepare(
             "

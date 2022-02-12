@@ -12,10 +12,10 @@ mod db;
 mod commands {
     pub(crate) mod get_bank_accounts;
     pub(crate) mod get_operations;
-    pub(crate) mod get_tags;
+    pub(crate) mod tags_get;
     pub(crate) mod import_operations;
     pub(crate) mod save_bank_account;
-    pub(crate) mod save_tag;
+    pub(crate) mod tag_update;
     pub(crate) mod tag_rules_get;
     pub(crate) mod tag_rule_create;
     pub(crate) mod tag_rule_update;
@@ -50,9 +50,9 @@ fn main() {
             crate::commands::get_operations::get_operations,
             crate::commands::get_bank_accounts::get_bank_accounts,
             crate::commands::save_bank_account::save_bank_account,
-            crate::commands::get_tags::get_tags,
+            crate::commands::tags_get::tags_get,
             crate::commands::tag_rules_get::tag_rules_get,
-            crate::commands::save_tag::save_tag,
+            crate::commands::tag_update::tag_update,
             crate::commands::tag_rule_create::tag_rule_create,
             crate::commands::tag_rule_update::tag_rule_update,
             crate::commands::import_operations::import_operations,
