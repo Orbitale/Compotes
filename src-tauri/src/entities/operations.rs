@@ -64,6 +64,52 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
     operations
 }
 
+pub(crate) fn find_triage(conn: &Connection) -> Vec<Operation> {
+    let mut stmt = conn
+        .prepare(
+            "
+        SELECT
+            id,
+            operation_date,
+            type as op_type,
+            type_display,
+            details,
+            amount_in_cents,
+            hash,
+            state,
+            bank_account_id,
+            ignored_from_charts,
+            (
+                SELECT GROUP_CONCAT(tag_id)
+                FROM operation_tag
+                WHERE operation_id = operations.id
+            ) AS tags_ids
+        FROM operations
+        WHERE state = :triage
+        ORDER BY operation_date DESC, operation_hash DESC
+    ",
+        )
+        .expect("Could not fetch operations");
+
+    let mut operations: Vec<Operation> = Vec::new();
+
+    let mut rows_iter = from_rows::<Operation>(stmt.query(named_params! {
+        ":triage": OperationState::PendingTriage,
+    }).unwrap());
+
+    loop {
+        match rows_iter.next() {
+            None => break,
+            Some(result) => {
+                let operation = result.expect("Could not deserialize Operation item");
+                operations.push(operation);
+            }
+        }
+    }
+
+    operations
+}
+
 pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>) {
     let mut stmt = conn
         .prepare(

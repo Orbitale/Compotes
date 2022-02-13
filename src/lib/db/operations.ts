@@ -29,29 +29,28 @@ let operations: Operation[] = [];
 export async function getOperations(): Promise<Array<Operation>>
 {
     if (!operations.length) {
-        let res: string = await api_call("get_operations");
+        let res: string = await api_call("operations_get");
 
         if (!res) {
             throw 'No results from the API';
         }
 
-        const deserialized_operations: Array<DeserializedOperation> = JSON.parse(res);
+        operations = await deserializeAndNormalizeDatabaseResult(res);
+    }
 
-        operations = await Promise.all(deserialized_operations.map(async (deserialized_operation: DeserializedOperation) => {
-            return new Operation(
-                deserialized_operation.id,
-                deserialized_operation.operation_date,
-                deserialized_operation.op_type,
-                deserialized_operation.type_display,
-                deserialized_operation.details,
-                deserialized_operation.amount_in_cents,
-                deserialized_operation.state,
-                deserialized_operation.ignored_from_charts,
-                await getBankAccountById(deserialized_operation.bank_account_id.toString()),
-                deserialized_operation.hash,
-                await getTagsByIds(deserialized_operation.tags_ids)
-            );
-        }));
+    return Promise.resolve(operations);
+}
+
+export async function getTriageOperations(): Promise<Array<Operation>>
+{
+    if (!operations.length) {
+        let res: string = await api_call("operations_get_triage");
+
+        if (!res) {
+            throw 'No results from the API';
+        }
+
+        operations = await deserializeAndNormalizeDatabaseResult(res);
     }
 
     return Promise.resolve(operations);
@@ -74,4 +73,24 @@ export async function getOperationById(id: string): Promise<Operation | null>
     }
 
     return null;
+}
+
+async function deserializeAndNormalizeDatabaseResult(res: string): Promise<Array<Operation>> {
+    const deserialized_operations: Array<DeserializedOperation> = JSON.parse(res);
+
+    return await Promise.all(deserialized_operations.map(async (deserialized_operation: DeserializedOperation) => {
+        return new Operation(
+            deserialized_operation.id,
+            deserialized_operation.operation_date,
+            deserialized_operation.op_type,
+            deserialized_operation.type_display,
+            deserialized_operation.details,
+            deserialized_operation.amount_in_cents,
+            deserialized_operation.state,
+            deserialized_operation.ignored_from_charts,
+            await getBankAccountById(deserialized_operation.bank_account_id.toString()),
+            deserialized_operation.hash,
+            await getTagsByIds(deserialized_operation.tags_ids)
+        );
+    }));
 }

@@ -1,14 +1,15 @@
 <script lang="ts">
-
-    import Tag from "$lib/entities/Tag";
     import PaginatedTable from "$lib/components/PaginatedTable/PaginatedTable.svelte";
     import EmptyCollection from "$lib/components/PaginatedTable/EmptyCollection.svelte";
     import Field from "$lib/struct/Field";
     import FieldHtmlProperties from "$lib/struct/FieldHtmlProperties";
     import ItemAction from "$lib/struct/ItemAction";
     import ActionParams from "$lib/struct/ActionParams";
+    import {onMount} from "svelte";
+    import {getTriageOperations} from "$lib/db/operations";
+    import Operation from "$lib/entities/Operation";
 
-    let triaged_operations: Tag[] = [];
+    let triaged_operations: Operation[] = [];
 
     let fields = [
         new Field('id', 'ID'),
@@ -22,6 +23,10 @@
     let actions = [
         new ItemAction('Edit', '/tags/edit/:id', ActionParams.id()),
     ];
+
+    onMount(async () => {
+        triaged_operations = await getTriageOperations();
+    });
 </script>
 
 <h1>Triage</h1>

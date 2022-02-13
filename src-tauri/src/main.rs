@@ -11,7 +11,8 @@ mod db;
 
 mod commands {
     pub(crate) mod get_bank_accounts;
-    pub(crate) mod get_operations;
+    pub(crate) mod operations_get;
+    pub(crate) mod operations_get_triage;
     pub(crate) mod tags_get;
     pub(crate) mod import_operations;
     pub(crate) mod save_bank_account;
@@ -47,7 +48,8 @@ fn main() {
     tauri::Builder::default()
         .manage(Mutex::new(conn))
         .invoke_handler(tauri::generate_handler![
-            crate::commands::get_operations::get_operations,
+            crate::commands::operations_get::operations_get,
+            crate::commands::operations_get_triage::operations_get_triage,
             crate::commands::get_bank_accounts::get_bank_accounts,
             crate::commands::save_bank_account::save_bank_account,
             crate::commands::tags_get::tags_get,
