@@ -3,11 +3,12 @@
     import EmptyCollection from "$lib/components/PaginatedTable/EmptyCollection.svelte";
     import Field from "$lib/struct/Field";
     import FieldHtmlProperties from "$lib/struct/FieldHtmlProperties";
-    import ItemAction from "$lib/struct/ItemAction";
+    import UrlAction from "$lib/struct/UrlAction";
     import ActionParams from "$lib/struct/ActionParams";
     import {onMount} from "svelte";
-    import {getTriageOperations} from "$lib/db/operations";
+    import {getTriageOperations, deleteAction} from "$lib/db/operations";
     import Operation from "$lib/entities/Operation";
+    import CallbackAction from "$lib/struct/CallbackAction";
 
     let triaged_operations: Operation[] = [];
 
@@ -21,7 +22,8 @@
     ];
 
     let actions = [
-        new ItemAction('Edit', '/tags/edit/:id', ActionParams.id()),
+        new UrlAction('Edit', '/operations/edit/triage-:id', ActionParams.id()),
+        new CallbackAction('Delete', deleteAction),
     ];
 
     onMount(async () => {

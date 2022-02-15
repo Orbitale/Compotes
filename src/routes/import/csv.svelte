@@ -8,7 +8,6 @@
     import {onMount} from "svelte";
     import {CsvFieldReference, referenceToEntityProperty} from "$lib/utils/csv";
     import {DateFormat} from "$lib/utils/date";
-    import {clearOperations} from "$lib/db/operations";
 
     let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
@@ -164,8 +163,6 @@
         }
 
         await api_call("import_operations", {operations: finalOperations});
-
-        clearOperations();
 
         success(`Successfully imported ${finalOperations.length} operations!`);
         reset();

@@ -1,24 +1,4 @@
-import type ActionParams from "./ActionParams";
-import type Field from "./Field";
 
-export default class ItemAction {
-    public readonly name: string;
-    private readonly params: ActionParams;
-    private readonly _url: string;
-
-    constructor(name: string, url: string, params: ActionParams) {
-        this.name = name;
-        this.params = params;
-        this._url = url;
-    }
-
-    public url(item: object): string {
-        let url = this._url;
-
-        this.params.params.forEach((field: Field) => {
-            url = url.replace(`:${field.name}`, field.displayFromItem(item).toString());
-        });
-
-        return `${url}`;
-    }
-};
+export default interface ItemAction {
+    get name(): string;
+}

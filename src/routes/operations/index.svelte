@@ -21,7 +21,7 @@
         new Field('details', 'Details'),
         new Field('amount_display', 'Amount', null, new FieldHtmlProperties('operation-amount')),
         new Field('ignored_from_charts', 'Ignored from charts'),
-        new CollectionField('tags', new Field('name')),
+        new CollectionField('tags', 'Tags', new Field('name')),
     ];
 
     onMount(async () => {

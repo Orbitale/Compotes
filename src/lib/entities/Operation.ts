@@ -94,16 +94,14 @@ export default class Operation
     }
 
     public async recomputeHash() {
-        const str =
-            this.op_type+
-            '_'+this.bank_account.slug+
-            '_'+this.type_display+
-            '_'+this.details+
-            '_'+this.operation_date+
-            '_'+this.amount_in_cents
-        ;
-
-        this.hash = await sha512(str);
+        this.hash = await Operation.computeHash(
+            this.op_type,
+            this.bank_account.slug,
+            this.type_display,
+            this.details,
+            this.operation_date,
+            this.amount_in_cents,
+        );
     }
 
     public static async computeHash(
@@ -124,5 +122,21 @@ export default class Operation
         ;
 
         return await sha512(str);
+    }
+
+    public serialize() {
+        return JSON.stringify({
+            id: this.id,
+            operation_date: this.operation_date,
+            op_type: this.op_type,
+            type_display: this.type_display,
+            details: this.details,
+            amount_in_cents: this.amount_in_cents,
+            state: this.state,
+            ignored_from_charts: this.ignored_from_charts,
+            bank_account_id: this.bank_account_id,
+            hash: this.hash,
+            tags_ids: this.tags_ids,
+        }, null, 4);
     }
 }

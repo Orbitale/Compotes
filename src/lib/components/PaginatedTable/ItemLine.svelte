@@ -1,11 +1,11 @@
 <script lang="ts">
     import ItemFieldValue from "./ItemFieldValue.svelte";
     import Field from "$lib/struct/Field.ts";
-    import ItemAction from "$lib/struct/ItemAction.ts";
+    import UrlAction from "$lib/struct/UrlAction.ts";
 
     export let item: object;
     export let fields: Array<Field>;
-    export let actions: ItemAction[] = [];
+    export let actions: UrlAction[] = [];
 </script>
 
 <style lang="scss">

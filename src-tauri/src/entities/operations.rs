@@ -64,6 +64,41 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
     operations
 }
 
+pub(crate) fn get_by_id(conn: &Connection, id: u32) -> Operation {
+    let mut stmt = conn
+        .prepare(
+            "
+        SELECT
+            id,
+            operation_date,
+            type as op_type,
+            type_display,
+            details,
+            amount_in_cents,
+            hash,
+            state,
+            bank_account_id,
+            ignored_from_charts,
+            (
+                SELECT GROUP_CONCAT(tag_id)
+                FROM operation_tag
+                WHERE operation_id = operations.id
+            ) AS tags_ids
+        FROM operations
+        WHERE id = :id
+    ",
+        )
+        .expect("Could not fetch operation");
+
+    let mut rows = stmt.query(named_params!{
+            ":id": &id,
+        }).expect("Could not execute query to fetch an operation by id.");
+
+    let row = rows.next().expect("Could not retrieve query rows.").expect("No operation found with this ID.");
+
+    serde_rusqlite::from_row::<Operation>(row).unwrap()
+}
+
 pub(crate) fn find_triage(conn: &Connection) -> Vec<Operation> {
     let mut stmt = conn
         .prepare(
@@ -86,7 +121,7 @@ pub(crate) fn find_triage(conn: &Connection) -> Vec<Operation> {
             ) AS tags_ids
         FROM operations
         WHERE state = :triage
-        ORDER BY operation_date DESC, operation_hash DESC
+        ORDER BY details DESC
     ",
         )
         .expect("Could not fetch operations");
@@ -192,4 +227,35 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> usize {
         .expect("Could not execute update operations state transaction");
 
     result
+}
+
+pub(crate) fn update_details(conn: &mut Connection, id: String, details: String) {
+    let mut stmt = conn
+        .prepare("
+        update operations
+        set details = :details,
+        state = :ok
+        where id = :id
+        ",
+        )
+        .expect("Could not create query to update operations details.");
+
+    stmt.execute(named_params! {
+        ":id": &id,
+        ":details": &details,
+        ":ok": &OperationState::Ok.to_string(),
+    })
+        .expect("Could not execute update operations details query");
+}
+
+pub(crate) fn delete(conn: &mut Connection, id: String) {
+    let mut stmt = conn
+        .prepare("delete from operations where id = :id")
+        .expect("Could not create query to delete operation.")
+        ;
+
+    stmt.execute(named_params! {
+        ":id": &id,
+    })
+        .expect("Could not execute delete operation");
 }

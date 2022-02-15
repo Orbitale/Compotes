@@ -3,13 +3,13 @@
     import {onMount} from "svelte";
     import Field from "$lib/struct/Field.ts";
     import EmptyCollectionMessageLine from "./EmptyCollectionMessageLine.svelte";
-    import ItemAction from "$lib/struct/ItemAction.ts";
+    import UrlAction from "$lib/struct/UrlAction.ts";
 
     export let items: object[];
     export let fields: Field[];
-    export let actions: ItemAction[] = [];
+    export let actions: UrlAction[] = [];
 
-    let number_per_page = 10;
+    let number_per_page = 20;
     let page = 0;
     let number_of_pages = 1;
     let number_of_items;

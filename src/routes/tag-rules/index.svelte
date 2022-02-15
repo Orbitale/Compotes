@@ -4,7 +4,7 @@
     import PaginatedTable from "$lib/components/PaginatedTable/PaginatedTable.svelte";
     import Field from "$lib/struct/Field.ts";
     import EmptyCollection from "$lib/components/PaginatedTable/EmptyCollection.svelte";
-    import ItemAction from "$lib/struct/ItemAction.ts";
+    import UrlAction from "$lib/struct/UrlAction.ts";
     import ActionParams from "$lib/struct/ActionParams.ts";
     import {onMount} from "svelte";
     import CollectionField from "$lib/struct/CollectionField";
@@ -21,7 +21,7 @@
     ];
 
     let actions = [
-        new ItemAction('Edit', '/tag-rules/edit/:id', ActionParams.id()),
+        new UrlAction('Edit', '/tag-rules/edit/:id', ActionParams.id()),
     ];
 
     onMount(async () => {

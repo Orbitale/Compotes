@@ -6,7 +6,7 @@
     import Field from "$lib/struct/Field.ts";
     import {onMount} from "svelte";
     import EmptyCollection from "$lib/components/PaginatedTable/EmptyCollection.svelte";
-    import ItemAction from "$lib/struct/ItemAction.ts";
+    import UrlAction from "$lib/struct/UrlAction.ts";
     import ActionParams from "$lib/struct/ActionParams.ts";
 
     needsUser();
@@ -19,7 +19,7 @@
     ];
 
     let actions = [
-        new ItemAction('Edit', '/tags/edit/:id', ActionParams.id()),
+        new UrlAction('Edit', '/tags/edit/:id', ActionParams.id()),
     ];
 
     onMount(async () => tags = await getTags())
