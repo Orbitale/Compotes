@@ -42,6 +42,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
                 WHERE operation_id = operations.id
             ) AS tags_ids
         FROM operations
+        WHERE state != :triage
         ORDER BY operation_date DESC
     ",
         )
@@ -49,7 +50,9 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
 
     let mut operations: Vec<Operation> = Vec::new();
 
-    let mut rows_iter = from_rows::<Operation>(stmt.query([]).unwrap());
+    let mut rows_iter = from_rows::<Operation>(stmt.query(named_params!{
+        ":triage": OperationState::PendingTriage.to_string(),
+    }).unwrap());
 
     loop {
         match rows_iter.next() {
@@ -178,7 +181,7 @@ pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>) {
         .expect("Could not create query to insert operation.");
 
     for operation in operations.iter() {
-        let res = stmt.execute(named_params! {
+        stmt.execute(named_params! {
             ":operation_date": &operation.operation_date,
             ":type": &operation.op_type,
             ":type_display": &operation.type_display,
@@ -190,8 +193,6 @@ pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>) {
             ":ignored_from_charts": &operation.ignored_from_charts,
         })
         .expect("Could not insert operation");
-
-        dbg!(&operation, &res);
     }
 }
 

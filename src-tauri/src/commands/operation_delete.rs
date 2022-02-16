@@ -16,5 +16,4 @@ pub(crate) fn operation_delete(
     let mut conn = conn.deref_mut();
 
     operations::delete(&mut conn, id);
-    println!("Todo: update other operations with same hash.");
 }

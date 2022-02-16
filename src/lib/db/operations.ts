@@ -1,12 +1,14 @@
-// @ts-ignore
 import Operation, {OperationState} from '$lib/entities/Operation';
 import api_call from "$lib/utils/api_call";
-import Tag from "$lib/entities/Tag";
-import {getTagById, getTagsByIds} from "./tags";
-import TagRule from "$lib/entities/TagRule";
-import DeserializedTagRule from "./tag_rules";
+import {getTagsByIds} from "./tags";
 import {getBankAccountById} from "./bank_accounts";
-import BankAccount from "$lib/entities/BankAccount";
+import {writable} from "svelte/store";
+
+export const operationsStore = writable([]);
+export const triageStore = writable([]);
+
+let operations: Operation[] = [];
+let triage: Operation[] = [];
 
 export default class DeserializedOperation
 {
@@ -32,7 +34,11 @@ export async function getOperations(): Promise<Array<Operation>>
         throw 'No results from the API';
     }
 
-    return await deserializeAndNormalizeDatabaseResult(res);
+    operations = await deserializeAndNormalizeDatabaseResult(res);
+
+    operationsStore.set(operations);
+
+    return operations;
 }
 
 export async function getTriageOperations(): Promise<Array<Operation>>
@@ -43,7 +49,12 @@ export async function getTriageOperations(): Promise<Array<Operation>>
         throw 'No results from the API';
     }
 
-    return await deserializeAndNormalizeDatabaseResult(res);
+    const operations = await deserializeAndNormalizeDatabaseResult(res);
+
+    triage = operations;
+    triageStore.set(operations);
+
+    return operations;
 }
 
 export async function updateOperationDetails(operation: Operation)
@@ -53,7 +64,15 @@ export async function updateOperationDetails(operation: Operation)
 
 export async function deleteOperation(operation: Operation)
 {
-    await api_call("operation_delete", {id: operation.id.toString()});
+    const id = operation.id.toString(10);
+
+    await api_call("operation_delete", {id: id});
+
+    const newOps = operations.filter((op: Operation) => op.id.toString(10) !== id);
+    operationsStore.set(newOps);
+
+    const newTriage = triage.filter((op: Operation) => op.id.toString(10) !== id);
+    triageStore.set(newTriage);
 }
 
 export async function getOperationById(id: number): Promise<Operation | null>
@@ -67,10 +86,6 @@ export async function getOperationById(id: number): Promise<Operation | null>
     const deserialized_operation: DeserializedOperation = JSON.parse(res);
 
     return normalizeOperationFromDeserialized(deserialized_operation);
-}
-
-export async function deleteAction() {
-    console.info('TODO: DELETE ACTION', {arguments});
 }
 
 async function deserializeAndNormalizeDatabaseResult(res: string): Promise<Array<Operation>> {

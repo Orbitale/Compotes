@@ -1,6 +1,6 @@
 <script lang="ts">
     import {needsUser} from '$lib/auth/current_user.ts';
-    import {getOperations} from "$lib/db/operations.ts";
+    import {getOperations, operationsStore} from "$lib/db/operations.ts";
     import PaginatedTable from "$lib/components/PaginatedTable/PaginatedTable.svelte";
     import Operation from "$lib/entities/Operation.ts";
     import Field from "$lib/struct/Field.ts";
@@ -26,6 +26,10 @@
 
     onMount(async () => {
         operations = await getOperations();
+    });
+
+    operationsStore.subscribe((ops: Operation[]) => {
+        operations = ops;
     });
 </script>
 

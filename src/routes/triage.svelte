@@ -6,9 +6,10 @@
     import UrlAction from "$lib/struct/UrlAction";
     import ActionParams from "$lib/struct/ActionParams";
     import {onMount} from "svelte";
-    import {getTriageOperations, deleteAction} from "$lib/db/operations";
+    import {getTriageOperations, deleteOperation, triageStore} from "$lib/db/operations";
     import Operation from "$lib/entities/Operation";
     import CallbackAction from "$lib/struct/CallbackAction";
+    import {success} from "$lib/utils/message";
 
     let triaged_operations: Operation[] = [];
 
@@ -23,18 +24,31 @@
 
     let actions = [
         new UrlAction('Edit', '/operations/edit/triage-:id', ActionParams.id()),
-        new CallbackAction('Delete', deleteAction),
+        new CallbackAction('Delete', doDeleteOperation),
     ];
 
     onMount(async () => {
-        triaged_operations = await getTriageOperations();
+        await getTriageOperations();
     });
+
+    triageStore.subscribe((ops: Operation[]) => {
+        triaged_operations = ops;
+    });
+
+    async function doDeleteOperation(operation: Operation) {
+        const id = operation.id;
+        if (!(await confirm('Are you sure?'))) {
+            return;
+        }
+        await deleteOperation(operation);
+        success(`Successfully deleted operation with id ${id}!`);
+    }
 </script>
 
 <h1>Triage</h1>
 
 {#if triaged_operations.length}
-    <PaginatedTable items={triaged_operations} fields={fields} actions={actions} />
+    <PaginatedTable bind:items={triaged_operations} fields={fields} actions={actions} />
 {:else}
     <EmptyCollection {fields} />
 {/if}

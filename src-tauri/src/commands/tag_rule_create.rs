@@ -13,7 +13,6 @@ pub(crate) fn tag_rule_create(conn_state: State<'_, Mutex<Connection>>, tag_rule
         .expect("Could not retrieve database connection");
     let conn = conn.deref();
 
-    dbg!(&tag_rule);
     let tag_rule_entity: TagRule = serde_json::from_str(&tag_rule).unwrap();
 
     tag_rules::create(conn, tag_rule_entity)

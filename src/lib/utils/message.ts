@@ -1,26 +1,4 @@
 import Toast, {ToastType} from '$lib/struct/Toast';
-//import api_call from "./api_call";
-
-/*
-let container: HTMLElement;
-
-function getContainerElement(): HTMLElement {
-    if (container) {
-        return container;
-    }
-
-    const element = document.getElementById('notifications-container');
-
-    if (!(element instanceof HTMLElement)) {
-        throw 'Notifications container seems to be absent from the DOM';
-    }
-
-    container = element;
-
-    return container;
-}
-
- */
 
 export function success(content: string): Toast {
     return message(content, ToastType.success);
@@ -39,8 +17,6 @@ export function info(content: string): Toast {
 }
 
 export default function message(content: string, type: ToastType) {
-    //container = getContainerElement();
-
     if (!type) {
         type = ToastType.info;
     }

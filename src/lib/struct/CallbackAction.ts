@@ -10,6 +10,6 @@ export default class CallbackAction extends DefaultAction
     }
 
     public call(item: object): string {
-        return this._callback.call(null, [item]);
+        return this._callback.call(null, item);
     }
 };
