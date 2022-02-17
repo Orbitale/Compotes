@@ -1,13 +1,12 @@
 <script lang="ts">
     import {needsUser} from '$lib/auth/current_user.ts';
     import {getOperations, operationsStore} from "$lib/db/operations.ts";
-    import PaginatedTable from "$lib/components/PaginatedTable/PaginatedTable.svelte";
     import Operation from "$lib/entities/Operation.ts";
     import Field from "$lib/struct/Field.ts";
-    import EmptyCollection from "$lib/components/PaginatedTable/EmptyCollection.svelte";
     import FieldHtmlProperties from "$lib/struct/FieldHtmlProperties.ts";
     import CollectionField from "$lib/struct/CollectionField";
     import {onMount} from "svelte";
+    import AdminTable from "$lib/admin/AdminTable.svelte";
 
     needsUser();
 
@@ -40,8 +39,6 @@
         Lines having a <span class="badge bg-warning">colored background</span> correspond to operations that have no tag associated.
         It is highly recommended to use the <i class="fa fa-plus"></i> icon to add new tags to them.
     </div>
-
-    <PaginatedTable items={operations} fields={fields} />
-{:else}
-    <EmptyCollection {fields} />
 {/if}
+
+<AdminTable items={operations} fields={fields} />

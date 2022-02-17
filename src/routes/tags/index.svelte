@@ -1,13 +1,12 @@
 <script lang="ts">
     import {needsUser} from '$lib/auth/current_user.ts';
     import {getTags} from "$lib/db/tags.ts";
-    import PaginatedTable from "$lib/components/PaginatedTable/PaginatedTable.svelte";
     import Tag from "$lib/entities/Tag.ts";
     import Field from "$lib/struct/Field.ts";
     import {onMount} from "svelte";
-    import EmptyCollection from "$lib/components/PaginatedTable/EmptyCollection.svelte";
     import UrlAction from "$lib/struct/UrlAction.ts";
     import ActionParams from "$lib/struct/ActionParams.ts";
+    import AdminTable from "$lib/admin/AdminTable.svelte";
 
     needsUser();
 
@@ -27,8 +26,4 @@
 
 <h1>Tags</h1>
 
-{#if tags.length}
-    <PaginatedTable items={tags} fields={fields} actions={actions} />
-{:else}
-    <EmptyCollection {fields} />
-{/if}
+<AdminTable items={tags} fields={fields} actions={actions} />

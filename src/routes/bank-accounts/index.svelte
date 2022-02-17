@@ -1,10 +1,9 @@
 <script lang="ts">
     import {needsUser} from '$lib/auth/current_user.ts';
     import {getBankAccounts} from "$lib/db/bank_accounts.ts";
-    import PaginatedTable from "$lib/components/PaginatedTable/PaginatedTable.svelte";
     import {onMount} from "svelte";
-    import EmptyCollection from "$lib/components/PaginatedTable/EmptyCollection.svelte";
     import Field from "$lib/struct/Field.ts";
+    import AdminTable from "$lib/admin/AdminTable.svelte";
 
     needsUser();
 
@@ -31,8 +30,4 @@
 
 <h1>Bank accounts</h1>
 
-{#if bank_accounts.length}
-    <PaginatedTable items={bank_accounts} {fields} />
-{:else}
-    <EmptyCollection {fields} />
-{/if}
+<AdminTable items={bank_accounts} fields={fields} />

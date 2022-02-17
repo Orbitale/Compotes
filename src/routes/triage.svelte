@@ -1,6 +1,5 @@
 <script lang="ts">
-    import PaginatedTable from "$lib/components/PaginatedTable/PaginatedTable.svelte";
-    import EmptyCollection from "$lib/components/PaginatedTable/EmptyCollection.svelte";
+    import AdminTable from "$lib/admin/AdminTable.svelte";
     import Field from "$lib/struct/Field";
     import FieldHtmlProperties from "$lib/struct/FieldHtmlProperties";
     import UrlAction from "$lib/struct/UrlAction";
@@ -47,8 +46,4 @@
 
 <h1>Triage</h1>
 
-{#if triaged_operations.length}
-    <PaginatedTable bind:items={triaged_operations} fields={fields} actions={actions} />
-{:else}
-    <EmptyCollection {fields} />
-{/if}
+<AdminTable items={triaged_operations} fields={fields} actions={actions} />
