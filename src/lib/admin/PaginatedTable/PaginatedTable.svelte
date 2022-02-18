@@ -97,7 +97,7 @@
         No fields were configured. Cannot display table.
     </div>
 {:else}
-    <table class="table table-bordered table-responsive table-striped table-sm">
+    <table class="table table-bordered table-responsive table-hover table-striped table-sm">
         <thead>
             <tr>
                 <td colspan="{fields.length + (actions.length ? 1 : 0)}">

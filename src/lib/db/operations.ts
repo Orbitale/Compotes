@@ -69,9 +69,11 @@ export async function deleteOperation(operation: Operation)
     await api_call("operation_delete", {id: id});
 
     const newOps = operations.filter((op: Operation) => op.id.toString(10) !== id);
+    operations = newOps;
     operationsStore.set(newOps);
 
     const newTriage = triage.filter((op: Operation) => op.id.toString(10) !== id);
+    triage = newTriage;
     triageStore.set(newTriage);
 }
 

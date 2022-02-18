@@ -124,7 +124,7 @@ pub(crate) fn find_triage(conn: &Connection) -> Vec<Operation> {
             ) AS tags_ids
         FROM operations
         WHERE state = :triage
-        ORDER BY details DESC
+        ORDER BY operation_date desc, details DESC, amount_in_cents desc
     ",
         )
         .expect("Could not fetch operations");

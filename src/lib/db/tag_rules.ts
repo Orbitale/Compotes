@@ -41,8 +41,6 @@ export async function getTagRuleById(id: string): Promise<TagRule | null>
         await getTagRules();
     }
 
-    console.info({id, tag_rules});
-
     for (const tag_rule of tag_rules) {
         if (tag_rule.id.toString() === id.toString()) {
             return tag_rule;

@@ -30,7 +30,7 @@
 
     async function doDeleteOperation(operation: Operation) {
         const id = operation.id;
-        if (!(await confirm('Are you sure?'))) {
+        if (!(await confirm(`Deleting operation with ID #${operation.id}.\nAre you sure?`))) {
             return;
         }
         await deleteOperation(operation);

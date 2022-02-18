@@ -41,6 +41,6 @@ export class NormalizedDate extends Date {
     }
 
     public toString() {
-        return this._date.getFullYear() + '-' + this._date.getMonth() + '-' + this._date.getDay();
+        return this._date.toISOString();
     }
 }

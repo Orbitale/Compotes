@@ -80,7 +80,7 @@ export default class Operation
             throw new Error(`Date "${dateString}" does not respect the "${dateFormat}" date format.\nPlease double-check the date format field.`);
         }
 
-        const parsedDate = Date.parse(matches.groups.year + '-' + matches.groups.month + '-' + matches.groups.day);
+        const parsedDate = Date.parse(matches.groups.year + '-' + matches.groups.month + '-' + matches.groups.day + "T00:00:00.000Z");
         if (isNaN(parsedDate)) {
             throw new Error(`Could not parse date "${dateString}".\nIt does not seem to be a valid date.\nPlease check the date format option.`)
         }

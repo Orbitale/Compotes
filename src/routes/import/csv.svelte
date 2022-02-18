@@ -168,9 +168,7 @@
 
         success(`Successfully imported ${finalOperations.length} operations!`);
 
-        let url: URL = $page.url;
-
-        await goto(url.toString());
+        await goto($page.url.toString());
     }
 
     async function denormalizeIntoOperations(previewOperations: Array<Array<any>>) {
