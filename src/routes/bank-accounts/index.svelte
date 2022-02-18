@@ -3,7 +3,7 @@
     import {getBankAccounts} from "$lib/db/bank_accounts.ts";
     import {onMount} from "svelte";
     import Field from "$lib/struct/Field.ts";
-    import AdminTable from "$lib/admin/AdminTable.svelte";
+    import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
 
     needsUser();
 
@@ -30,4 +30,4 @@
 
 <h1>Bank accounts</h1>
 
-<AdminTable items={bank_accounts} fields={fields} />
+<PaginatedTable items={bank_accounts} fields={fields} />

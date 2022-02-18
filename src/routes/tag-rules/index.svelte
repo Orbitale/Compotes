@@ -6,7 +6,7 @@
     import ActionParams from "$lib/struct/ActionParams.ts";
     import {onMount} from "svelte";
     import CollectionField from "$lib/struct/CollectionField";
-    import AdminTable from "$lib/admin/AdminTable.svelte";
+    import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
 
     needsUser();
 
@@ -39,4 +39,4 @@
 
 <h1>Tag rules</h1>
 
-<AdminTable items={tag_rules} fields={fields} actions={actions} />
+<PaginatedTable items={tag_rules} fields={fields} actions={actions} />

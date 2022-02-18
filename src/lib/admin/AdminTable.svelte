@@ -2,15 +2,12 @@
     import Field from "$lib/struct/Field";
     import UrlAction from "$lib/struct/UrlAction";
     import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
-    import EmptyCollection from "$lib/admin/PaginatedTable/EmptyCollection.svelte";
+    import {Writable} from "svelte/types/runtime/store";
 
-    export let items: object[];
+    export let items: object[] = [];
+    export let items_store: Writable<any>;
     export let fields: Field[];
     export let actions: UrlAction[] = [];
 </script>
 
-{#if items.length}
-    <PaginatedTable bind:items={items} fields={fields} actions={actions} />
-{:else}
-    <EmptyCollection {fields} />
-{/if}
+<PaginatedTable items={items} items_store={items_store} fields={fields} actions={actions} />

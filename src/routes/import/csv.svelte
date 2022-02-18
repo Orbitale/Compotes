@@ -8,6 +8,8 @@
     import {onMount} from "svelte";
     import {CsvFieldReference, referenceToEntityProperty} from "$lib/utils/csv";
     import {DateFormat} from "$lib/utils/date";
+    import {goto} from "$app/navigation";
+    import {page} from "$app/stores";
 
     let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
@@ -165,7 +167,10 @@
         await api_call("import_operations", {operations: finalOperations});
 
         success(`Successfully imported ${finalOperations.length} operations!`);
-        reset();
+
+        let url: URL = $page.url;
+
+        await goto(url.toString());
     }
 
     async function denormalizeIntoOperations(previewOperations: Array<Array<any>>) {

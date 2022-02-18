@@ -6,7 +6,7 @@
     import {onMount} from "svelte";
     import UrlAction from "$lib/struct/UrlAction.ts";
     import ActionParams from "$lib/struct/ActionParams.ts";
-    import AdminTable from "$lib/admin/AdminTable.svelte";
+    import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
 
     needsUser();
 
@@ -26,4 +26,4 @@
 
 <h1>Tags</h1>
 
-<AdminTable items={tags} fields={fields} actions={actions} />
+<PaginatedTable items={tags} fields={fields} actions={actions} />

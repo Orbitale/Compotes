@@ -3,18 +3,24 @@ import message from "$lib/utils/message";
 import {ToastType} from "./Toast";
 
 export default class OperationsSynchronizer {
-    private _syncing: boolean = false;
+    private static _syncing: boolean = false;
+    private static _afterSyncCallbacks: Array<Function> = [];
 
-    get syncing() {
-        return this._syncing;
+    static get syncing() {
+        return OperationsSynchronizer._syncing;
     }
 
-    sync() {
-        const _this = this;
-        if (this._syncing) {
+    static addAfterSyncCallback(callback: Function){
+        OperationsSynchronizer._afterSyncCallbacks.push(callback);
+    }
+
+    public static sync() {
+        if (OperationsSynchronizer._syncing) {
             return;
         }
-        this._syncing = true;
+
+        OperationsSynchronizer._syncing = true;
+
         api_call("sync")
             .then(function (result) {
                 const parsedResult = JSON.parse(result);
@@ -29,6 +35,7 @@ export default class OperationsSynchronizer {
                             : "No new duplicate operations.\n")
                     ;
                     message(msg, ToastType.success);
+                    OperationsSynchronizer._afterSyncCallbacks.forEach((callback: Function) => callback());
                 } else {
                     message('An unknown internal issue has occurred.', ToastType.error);
                 }
@@ -37,7 +44,7 @@ export default class OperationsSynchronizer {
                 message(`An error occurred:\n${error.message}`, ToastType.error);
             })
             .finally(function () {
-                _this._syncing = false;
+                OperationsSynchronizer._syncing = false;
             })
         ;
     }

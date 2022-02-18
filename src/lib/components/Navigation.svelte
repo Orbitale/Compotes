@@ -1,13 +1,12 @@
 <script lang="ts">
     import {getUser} from '$lib/auth/current_user.ts';
     import OperationsSynchronizer from "$lib/struct/OperationsSynchronizer";
+    import SpinLoader from "$lib/components/SpinLoader.svelte";
 
     let syncing: boolean;
     let user = getUser();
 
-    const synchronizer = new OperationsSynchronizer();
-
-    $: syncing = synchronizer.syncing;
+    $: syncing = OperationsSynchronizer.syncing;
 </script>
 
 <style lang="scss">
@@ -91,9 +90,9 @@
                     <li class="nav-item"><a class="nav-link" href="/import">
                         Import
                     </a></li>
-                    <li class="nav-item" class:syncing><button class="nav-link" on:click={synchronizer.sync}>
+                    <li class="nav-item" class:syncing><button class="nav-link" on:click={OperationsSynchronizer.sync}>
                         Sync
-                        <img src="/logo.svg" width="15px" height="15px" alt="" class="loader">
+                        <SpinLoader display={syncing} />
                     </button></li>
                 {/if}
             </ul>

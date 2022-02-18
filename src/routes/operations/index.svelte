@@ -6,7 +6,7 @@
     import FieldHtmlProperties from "$lib/struct/FieldHtmlProperties.ts";
     import CollectionField from "$lib/struct/CollectionField";
     import {onMount} from "svelte";
-    import AdminTable from "$lib/admin/AdminTable.svelte";
+    import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
 
     needsUser();
 
@@ -26,10 +26,6 @@
     onMount(async () => {
         operations = await getOperations();
     });
-
-    operationsStore.subscribe((ops: Operation[]) => {
-        operations = ops;
-    });
 </script>
 
 <h1>Operations</h1>
@@ -41,4 +37,4 @@
     </div>
 {/if}
 
-<AdminTable items={operations} fields={fields} />
+<PaginatedTable items_store={operationsStore} fields={fields} />

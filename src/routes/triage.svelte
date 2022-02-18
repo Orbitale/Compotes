@@ -1,5 +1,4 @@
 <script lang="ts">
-    import AdminTable from "$lib/admin/AdminTable.svelte";
     import Field from "$lib/struct/Field";
     import FieldHtmlProperties from "$lib/struct/FieldHtmlProperties";
     import UrlAction from "$lib/struct/UrlAction";
@@ -9,8 +8,7 @@
     import Operation from "$lib/entities/Operation";
     import CallbackAction from "$lib/struct/CallbackAction";
     import {success} from "$lib/utils/message";
-
-    let triaged_operations: Operation[] = [];
+    import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
 
     let fields = [
         new Field('id', 'ID'),
@@ -30,10 +28,6 @@
         await getTriageOperations();
     });
 
-    triageStore.subscribe((ops: Operation[]) => {
-        triaged_operations = ops;
-    });
-
     async function doDeleteOperation(operation: Operation) {
         const id = operation.id;
         if (!(await confirm('Are you sure?'))) {
@@ -46,4 +40,4 @@
 
 <h1>Triage</h1>
 
-<AdminTable items={triaged_operations} fields={fields} actions={actions} />
+<PaginatedTable items_store={triageStore} fields={fields} actions={actions} />
