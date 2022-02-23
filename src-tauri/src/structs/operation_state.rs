@@ -42,3 +42,18 @@ impl ToSql for OperationState {
         rusqlite::Result::Ok(ToSqlOutput::from(self.to_string()))
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::structs::operation_state::OperationState;
+
+    #[test]
+    fn ok_to_string() {
+        assert_eq!(OperationState::Ok.to_string(), "ok".to_string());
+    }
+
+    #[test]
+    fn pending_triage_to_string() {
+        assert_eq!(OperationState::PendingTriage.to_string(), "pending_triage".to_string());
+    }
+}
