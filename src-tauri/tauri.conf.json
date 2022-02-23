@@ -4,7 +4,7 @@
     "version": "0.1.0"
   },
   "build": {
-    "distDir": "../static",
+    "distDir": "../build",
     "devPath": "http://127.0.0.1:3000",
     "beforeDevCommand": "yarn dev",
     "beforeBuildCommand": "yarn build"
