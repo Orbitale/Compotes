@@ -2,6 +2,7 @@
   "name": "@orbitale/compotes-app",
   "version": "1.0.0",
   "private": true,
+  "license": "LGPL-3.0-or-later",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",

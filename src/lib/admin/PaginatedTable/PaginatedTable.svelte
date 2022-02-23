@@ -26,7 +26,9 @@
             items_store.subscribe(store_items => {
                 items = store_items;
                 displayitems();
-                store_executed_at_least_once = true;
+                if (items.length) {
+                    store_executed_at_least_once = true;
+                }
             });
         }
 
