@@ -1,11 +1,8 @@
 <script lang="ts">
-    import {needsUser} from '$lib/auth/current_user.ts';
     import {getBankAccounts} from "$lib/db/bank_accounts.ts";
     import {onMount} from "svelte";
     import Field from "$lib/struct/Field.ts";
     import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
-
-    needsUser();
 
     let bank_accounts = [];
 

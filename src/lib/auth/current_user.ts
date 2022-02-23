@@ -1,17 +1,16 @@
-// @ts-ignore
-import User from "$lib/struct/User.ts";
-import {writable, get} from "svelte/store";
+import User from "$lib/struct/User";
+import {writable} from "svelte/store";
 import {goto} from "$app/navigation";
 
 const userStore = writable(null);
 
-const getUser = (): User | null => {
+const getUser = async (): Promise<User | null> => {
     // TODO: Use this later: get(userStore);
-    return new User("1", "admin", "admin");
+    return Promise.resolve(new User("1", "admin", "admin"));
 };
 
 const needsUser = async (): Promise<void> => {
-    const user = getUser();
+    const user = await getUser();
 
     if (!user || !user.id) {
         await goto('/');

@@ -8,8 +8,6 @@
     import CollectionField from "$lib/struct/CollectionField";
     import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
 
-    needsUser();
-
     let tag_rules = [];
 
     let fields = [

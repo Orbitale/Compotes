@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {needsUser} from '$lib/auth/current_user.ts';
     import {getTags} from "$lib/db/tags.ts";
     import Tag from "$lib/entities/Tag.ts";
     import Field from "$lib/struct/Field.ts";
@@ -7,8 +6,6 @@
     import UrlAction from "$lib/struct/UrlAction.ts";
     import ActionParams from "$lib/struct/ActionParams.ts";
     import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
-
-    needsUser();
 
     let tags: Tag[] = [];
 

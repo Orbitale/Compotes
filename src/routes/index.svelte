@@ -3,18 +3,13 @@
     import Register from "$lib/components/Register.svelte";
 
     import {getUser} from '$lib/auth/current_user.ts';
-    import {goto} from "$app/navigation";
     import {onMount} from "svelte";
     import type User from "$lib/struct/User";
 
     let user: User;
 
     onMount(async () => {
-        user = getUser();
-
-        if (user && user.id) {
-            await goto('/operations');
-        }
+        user = await getUser();
     });
 </script>
 

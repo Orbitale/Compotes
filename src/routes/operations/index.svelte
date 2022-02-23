@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {needsUser} from '$lib/auth/current_user.ts';
     import {getOperations, operationsStore} from "$lib/db/operations.ts";
     import Operation from "$lib/entities/Operation.ts";
     import Field from "$lib/struct/Field.ts";
@@ -7,8 +6,6 @@
     import CollectionField from "$lib/struct/CollectionField";
     import {onMount} from "svelte";
     import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
-
-    needsUser();
 
     let operations: Operation[] = [];
 
