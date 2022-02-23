@@ -1,6 +1,9 @@
 // @ts-ignore
 import BankAccount from '$lib/entities/BankAccount';
 import api_call from "$lib/utils/api_call";
+import {writable} from "svelte/store";
+
+export const bankAccountsStore = writable();
 
 let bank_accounts: BankAccount[] = [];
 
@@ -12,6 +15,7 @@ export async function getBankAccounts(): Promise<Array<BankAccount>>
             // @ts-ignore
             return new BankAccount(data.id, data.name, data.slug, data.currency);
         });
+        bankAccountsStore.set(bank_accounts);
     }
 
     return bank_accounts;
@@ -32,17 +36,13 @@ export async function getBankAccountById(id: string): Promise<BankAccount | null
     return null;
 }
 
-export async function saveBankAccount(bank_account: BankAccount): Promise<void>
+export async function createBankAccount(bank_account: BankAccount): Promise<void>
 {
-    await api_call("save_bank_account", {bankAccount: bank_account.serialize()});
+    const id = await api_call("save_bank_account", {bankAccount: bank_account.serialize()});
 
-    if (bank_account.id) {
-        const bank_account_entity = await getBankAccountById(bank_account.id.toString());
-
-        if (!bank_account_entity) throw new Error('Data corruption detected in bank account.');
-
-        bank_account_entity.mergeWith(bank_account);
-    } else {
-        bank_accounts = []; // Reset to reload again afterwards
+    if (isNaN(+id)) {
+        throw new Error('Internal error: API returned a non-number ID.');
     }
+
+    bank_account.setId(+id);
 }

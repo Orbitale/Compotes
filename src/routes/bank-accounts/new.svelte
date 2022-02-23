@@ -1,6 +1,6 @@
 <script lang="ts">
     import {goto} from '$app/navigation';
-    import {saveBankAccount} from "$lib/db/bank_accounts.ts";
+    import {createBankAccount} from "$lib/db/bank_accounts.ts";
     import type bank_account from "$lib/entities/BankAccount.ts";
     import {error, success} from "$lib/utils/message.ts";
     import BankAccount from "$lib/entities/BankAccount.ts";
@@ -18,7 +18,7 @@
         e.stopImmediatePropagation();
 
         try {
-            await saveBankAccount(bank_account);
+            await createBankAccount(bank_account);
         } catch (e) {
             error(e);
             return;

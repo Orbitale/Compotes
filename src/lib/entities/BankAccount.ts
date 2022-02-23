@@ -1,7 +1,7 @@
 
 export default class BankAccount
 {
-    public readonly id!: number;
+    public id!: number;
     public name!: string;
     public slug!: string;
     public currency!: string;
@@ -22,17 +22,14 @@ export default class BankAccount
         });
     }
 
-    clone(): BankAccount {
-        return new BankAccount(this.id, this.name, this.slug, this.currency);
-    }
-
-    mergeWith(bank_account: BankAccount): void {
-        if (bank_account.id.toString() !== this.id.toString()) {
-            throw new Error('It is not possible to merge two tag rules that do not share the same ID.');
+    public setId(id: number) {
+        if (!id) {
+            throw new Error('Cannot set an empty ID on an object.');
         }
-        this.name = bank_account.name;
-        this.slug = bank_account.slug;
-        this.currency = bank_account.currency;
+        if (this.id > 0) {
+            throw new Error('Cannot set an ID on an object that already has one.');
+        }
+        this.id = id;
     }
 
     static empty() {

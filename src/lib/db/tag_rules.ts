@@ -63,5 +63,5 @@ export async function createTagRule(tag_rule: TagRule): Promise<void>
         throw new Error('Internal error: API returned a non-number ID.');
     }
 
-    tag_rule.mergeWith(tag_rule.cloneWithId(+id));
+    tag_rule.setId(+id);
 }

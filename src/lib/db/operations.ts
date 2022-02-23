@@ -4,8 +4,8 @@ import {getTagsByIds} from "./tags";
 import {getBankAccountById} from "./bank_accounts";
 import {writable} from "svelte/store";
 
-export const operationsStore = writable([]);
-export const triageStore = writable([]);
+export const operationsStore = writable();
+export const triageStore = writable();
 
 let operations: Operation[] = [];
 let triage: Operation[] = [];
@@ -23,7 +23,6 @@ export default class DeserializedOperation
     public readonly ignored_from_charts!: boolean;
     public readonly bank_account_id!: number;
     public readonly tags_ids!: Array<number>;
-
 }
 
 export async function getOperations(): Promise<Array<Operation>>
