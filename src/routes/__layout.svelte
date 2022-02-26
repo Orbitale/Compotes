@@ -9,15 +9,14 @@
      */
     import {onMount} from 'svelte';
     import message from "$lib/utils/message";
-    import {getOperations, getTriageOperations} from "$lib/db/operations";
+    import {refreshAllOperations} from "$lib/db/operations";
 
     onMount(async () => {
         const _unlistenMessage = await listen('message', event => {
             message(event.payload.title, event.payload.type.toLowerCase());
         });
 
-        OperationsSynchronizer.addAfterSyncCallback(async () => await getOperations());
-        OperationsSynchronizer.addAfterSyncCallback(async () => await getTriageOperations());
+        await refreshAllOperations();
     })
 </script>
 

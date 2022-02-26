@@ -5,6 +5,7 @@
     import CollectionField from "$lib/struct/CollectionField";
     import {onMount} from "svelte";
     import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
+    import PageHook from "$lib/struct/PageHook";
 
     let fields = [
         new Field('id', 'ID'),
@@ -18,10 +19,12 @@
     ];
 
     onMount(async () => {
-        await getOperations();
+        await getOperations(1);
     });
+
+    const changePageHook = new PageHook(getOperations);
 </script>
 
 <h1>Operations</h1>
 
-<PaginatedTable items_store={operationsStore} fields={fields} />
+<PaginatedTable items_store={operationsStore} fields={fields} changePageHook={changePageHook} />

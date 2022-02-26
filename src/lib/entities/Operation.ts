@@ -2,13 +2,14 @@ import type BankAccount from "./BankAccount";
 import sha512 from "$lib/utils/sha512";
 import {DateFormat, dateFormatToRegex, NormalizedDate} from "$lib/utils/date";
 import type Tag from "./Tag";
+import type Entity from "$lib/struct/Entity";
 
 export enum OperationState {
     ok = "ok",
     pending_triage = "pending_triage",
 }
 
-export default class Operation
+export default class Operation implements Entity
 {
     public readonly id!: number;
     public readonly operation_date!: string;

@@ -1,6 +1,7 @@
 import type Tag from "./Tag";
+import type Entity from "$lib/struct/Entity";
 
-export default class TagRule
+export default class TagRule implements Entity
 {
     public id!: number;
     public tags!: Tag[];

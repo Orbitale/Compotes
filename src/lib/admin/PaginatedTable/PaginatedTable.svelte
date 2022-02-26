@@ -5,11 +5,13 @@
     import UrlAction from "$lib/struct/UrlAction.ts";
     import type {Writable} from "svelte/store";
     import SpinLoader from "$lib/components/SpinLoader.svelte";
+    import PageHook from "$lib/struct/PageHook";
 
     export let items: object[] = [];
     export let items_store: Writable<any>;
     export let fields: Field[];
     export let actions: UrlAction[] = [];
+    export let changePageHook: PageHook = null;
 
     let number_per_page = 20;
     let page = 1;
@@ -24,11 +26,13 @@
                 throw new Error('Items and item store cannot be defined at the same time, to avoid conflicts when the store updates.');
             }
             items_store.subscribe(store_items => {
+                if (store_items === undefined) {
+                    // Store setup sets value as undefined.
+                    return;
+                }
                 items = store_items;
                 displayitems();
-                if (items.length) {
-                    store_executed_at_least_once = true;
-                }
+                store_executed_at_least_once = true;
             });
         }
 
@@ -66,6 +70,10 @@
         if (number_of_pages < 1) number_of_pages = 1;
 
         displayed_items = items ? items.slice((page - 1) * number_per_page, (page) * number_per_page) : [];
+
+        if (changePageHook) {
+            changePageHook.call(page);
+        }
     }
 </script>
 

@@ -1,5 +1,6 @@
+import type Entity from "$lib/struct/Entity";
 
-export default class Tag
+export default class Tag implements Entity
 {
     public readonly id!: number;
     public name!: string;

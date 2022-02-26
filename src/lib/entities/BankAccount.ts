@@ -1,5 +1,6 @@
+import type Entity from "$lib/struct/Entity";
 
-export default class BankAccount
+export default class BankAccount implements Entity
 {
     public id!: number;
     public name!: string;

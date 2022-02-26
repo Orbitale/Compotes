@@ -21,7 +21,7 @@ pub(crate) struct Operation {
     pub(crate) tags_ids: Vec<u32>,
 }
 
-pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
+pub(crate) fn find_paginate(conn: &Connection, page: u16) -> Vec<Operation> {
     let mut stmt = conn
         .prepare(
             "
@@ -44,14 +44,20 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<Operation> {
         FROM operations
         WHERE state != :triage
         ORDER BY operation_date DESC
+        LIMIT :limit OFFSET :offset
     ",
         )
         .expect("Could not fetch operations");
 
     let mut operations: Vec<Operation> = Vec::new();
 
+    let limit = crate::config::NUMBER_PER_PAGE;
+    let offset = (page - 1) * limit;
+
     let mut rows_iter = from_rows::<Operation>(stmt.query(named_params!{
         ":triage": OperationState::PendingTriage.to_string(),
+        ":limit": limit.to_string(),
+        ":offset": offset.to_string(),
     }).unwrap());
 
     loop {
@@ -102,7 +108,7 @@ pub(crate) fn get_by_id(conn: &Connection, id: u32) -> Operation {
     serde_rusqlite::from_row::<Operation>(row).unwrap()
 }
 
-pub(crate) fn find_triage(conn: &Connection) -> Vec<Operation> {
+pub(crate) fn find_triage(conn: &Connection, page: u16) -> Vec<Operation> {
     let mut stmt = conn
         .prepare(
             "
@@ -125,14 +131,20 @@ pub(crate) fn find_triage(conn: &Connection) -> Vec<Operation> {
         FROM operations
         WHERE state = :triage
         ORDER BY operation_date desc, details DESC, amount_in_cents desc
+        LIMIT :limit OFFSET :offset
     ",
         )
         .expect("Could not fetch operations");
 
     let mut operations: Vec<Operation> = Vec::new();
 
+    let limit = crate::config::NUMBER_PER_PAGE;
+    let offset = (page - 1) * limit;
+
     let mut rows_iter = from_rows::<Operation>(stmt.query(named_params! {
         ":triage": OperationState::PendingTriage,
+        ":limit": limit.to_string(),
+        ":offset": offset.to_string(),
     }).unwrap());
 
     loop {

@@ -25,7 +25,7 @@
     ];
 
     onMount(async () => {
-        await getTriageOperations();
+        await getTriageOperations(1);
     });
 
     async function doDeleteOperation(operation: Operation) {

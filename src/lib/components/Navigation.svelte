@@ -38,11 +38,6 @@
       transform: rotate(360deg);
     }
   }
-    .loader {
-      display: none;
-      animation: rotating 2s linear infinite;
-    }
-
     .syncing.nav-item {
       &, * {
         cursor: not-allowed;
@@ -50,10 +45,6 @@
       .nav-link {
         pointer-events: none;
         color: #ddd;
-
-        .loader {
-          display: inline-block;
-        }
       }
     }
 </style>

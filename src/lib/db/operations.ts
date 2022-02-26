@@ -3,6 +3,7 @@ import api_call from "$lib/utils/api_call";
 import {getTagsByIds} from "./tags";
 import {getBankAccountById} from "./bank_accounts";
 import {writable} from "svelte/store";
+import merge_lists from "$lib/utils/merge_lists";
 
 export const operationsStore = writable();
 export const triageStore = writable();
@@ -25,31 +26,40 @@ export default class DeserializedOperation
     public readonly tags_ids!: Array<number>;
 }
 
-export async function getOperations(): Promise<Array<Operation>>
+export async function getOperations(page: number): Promise<Array<Operation>>
 {
-    let res: string = await api_call("operations_get");
+    if (!page) {
+        page = 1;
+    }
+
+    let res: string = await api_call("operations_get", {page: page});
 
     if (!res) {
         throw 'No results from the API';
     }
 
-    operations = await deserializeAndNormalizeDatabaseResult(res);
+    const new_operations = await deserializeAndNormalizeDatabaseResult(res);
+
+    operations = merge_lists(operations, new_operations);
 
     operationsStore.set(operations);
 
     return operations;
 }
 
-export async function getTriageOperations(): Promise<Array<Operation>>
+export async function getTriageOperations(page: number): Promise<Array<Operation>>
 {
-    let res: string = await api_call("operations_get_triage");
+    let res: string = await api_call("operations_get_triage", {page: page});
 
     if (!res) {
         throw 'No results from the API';
     }
 
-    const operations = await deserializeAndNormalizeDatabaseResult(res);
+    const new_operations = await deserializeAndNormalizeDatabaseResult(res);
 
+    operations = merge_lists(operations, new_operations);
+
+    debugger;
     triage = operations;
     triageStore.set(operations);
 
@@ -87,6 +97,18 @@ export async function getOperationById(id: number): Promise<Operation | null>
     const deserialized_operation: DeserializedOperation = JSON.parse(res);
 
     return normalizeOperationFromDeserialized(deserialized_operation);
+}
+
+export async function refreshAllOperations() {
+    const cb = async (op: Operation) => {
+        const res = await api_call("operations_get_by_id", {id: op.id});
+        const deserialized_operation: DeserializedOperation = JSON.parse(res);
+
+        return await normalizeOperationFromDeserialized(deserialized_operation);
+    };
+
+    operations = await Promise.all(operations.map(cb));
+    triage = await Promise.all(triage.map(cb));
 }
 
 async function deserializeAndNormalizeDatabaseResult(res: string): Promise<Array<Operation>> {
