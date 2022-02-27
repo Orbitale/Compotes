@@ -37,7 +37,7 @@ jobs:
                   cache: yarn
                   cache-dependency-path: |
                       yarn.lock
-                      webdriver/webdriverio/yarn.lock
+                      tests/webdriverio/yarn.lock
 
             - name: 🦀 Install Rust
               uses: actions-rs/toolchain@v1
