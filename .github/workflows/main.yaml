@@ -1,44 +1,70 @@
-name: Test Tauri build
+name: Build Compotes app.
 
 on:
-    # Triggers the workflow on push or pull request events but only for the main branch
     push:
         branches: [ rewrite ]
     pull_request:
         branches: [ rewrite ]
 
-    # Allows you to run this workflow manually from the Actions tab
-    workflow_dispatch:
-
 jobs:
-    test-tauri:
+    build:
         strategy:
             fail-fast: false
             matrix:
-                platform: [macos-latest, ubuntu-latest, windows-latest]
+                os:
+                    - macos-latest
+                    - ubuntu-latest
+                    - windows-latest
 
-        runs-on: ${{ matrix.platform }}
+        runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v2
-            - name: setup node
-              uses: actions/setup-node@v1
+            - { name: "Checkout the code", uses: actions/checkout@v2 }
+
+            - name: Setup Rust cache
+              uses: actions/cache@v2
+              with:
+                  key: ${{ matrix.os }}-${{ hashFiles('src-tauri/Cargo.lock') }}
+                  path: |
+                      ~/.cargo/registry/index
+                      ~/.cargo/registry/cache
+                      ~/.cargo/git
+                      ./src-tauri/target
+
+            - name: 🍃 Install Node.js
+              uses: actions/setup-node@v2
               with:
                   node-version: 16
+                  cache: yarn
+                  cache-dependency-path: |
+                      yarn.lock
+                      webdriver/webdriverio/yarn.lock
 
-            - name: install Rust stable
+            - name: 🦀 Install Rust
               uses: actions-rs/toolchain@v1
-              with:
-                  toolchain: stable
+              with: { toolchain: stable }
 
-            - name: install webkit2gtk (ubuntu only)
-              if: matrix.platform == 'ubuntu-latest'
+            - name: Install webkit2gtk (ubuntu only)
+              if: matrix.os == 'ubuntu-latest'
               run: |
                   sudo apt-get update
-                  sudo apt-get install -y webkit2gtk-4.0
+                  sudo apt-get upgrade -y --no-install-recommends webkit2gtk-4.0
 
-            - name: install app dependencies and build it
-              run: yarn && yarn build
+            - name: Install Node.js dependencies
+              run: yarn install
 
-            - uses: tauri-apps/tauri-action@v0
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Download Rust dependencies
+              run: cargo fetch --manifest-path=src-tauri/Cargo.toml
+
+            - name: Build frontend
+              run: yarn build
+
+            - name: Build application
+              run: yarn tauri build
+
+            - name: Upload release artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                  name: release-${{ matrix.os }}
+                  path: |
+                      src-tauri/target/release/bundle
+                      src-tauri/target/Compotes*
