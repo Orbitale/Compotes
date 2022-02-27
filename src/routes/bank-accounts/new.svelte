@@ -20,7 +20,7 @@
         try {
             await createBankAccount(bank_account);
         } catch (e) {
-            error(e);
+            error(e.message);
             return;
         }
 

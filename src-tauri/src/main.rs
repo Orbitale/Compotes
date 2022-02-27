@@ -10,7 +10,6 @@ mod config;
 mod db;
 
 mod commands {
-    pub(crate) mod get_bank_accounts;
     pub(crate) mod operation_delete;
     pub(crate) mod operation_update_details;
     pub(crate) mod operations_get;
@@ -18,7 +17,8 @@ mod commands {
     pub(crate) mod operations_get_triage;
     pub(crate) mod tags_get;
     pub(crate) mod import_operations;
-    pub(crate) mod save_bank_account;
+    pub(crate) mod bank_account_find_all;
+    pub(crate) mod bank_account_create;
     pub(crate) mod tag_update;
     pub(crate) mod tag_rules_get;
     pub(crate) mod tag_rule_create;
@@ -56,8 +56,8 @@ fn main() {
             crate::commands::operations_get_by_id::operations_get_by_id,
             crate::commands::operations_get::operations_get,
             crate::commands::operations_get_triage::operations_get_triage,
-            crate::commands::get_bank_accounts::get_bank_accounts,
-            crate::commands::save_bank_account::save_bank_account,
+            crate::commands::bank_account_find_all::bank_account_find_all,
+            crate::commands::bank_account_create::bank_account_create,
             crate::commands::tags_get::tags_get,
             crate::commands::tag_rules_get::tag_rules_get,
             crate::commands::tag_update::tag_update,

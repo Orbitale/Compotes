@@ -5,7 +5,7 @@ use std::sync::Mutex;
 use tauri::State;
 
 #[tauri::command]
-pub(crate) fn get_bank_accounts(conn_state: State<'_, Mutex<Connection>>) -> String {
+pub(crate) fn bank_account_find_all(conn_state: State<'_, Mutex<Connection>>) -> String {
     let conn = conn_state
         .inner()
         .lock()

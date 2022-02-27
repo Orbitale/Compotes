@@ -12,7 +12,7 @@ export default class Toast {
     private readonly _toast_type: ToastType;
 
     constructor(content: string, type: ToastType) {
-        this._content = content.replace("\n", "<br>");
+        this._content = (content || '').replace("\n", "<br>");
         this._toast_type = type;
     }
 

@@ -27,7 +27,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount> {
             slug,
             currency
         FROM bank_accounts
-        ORDER BY name ASC
+        ORDER BY id DESC
     ",
         )
         .expect("Could not fetch bank accounts");
@@ -62,7 +62,6 @@ pub(crate) fn get_by_id(conn: &Connection, id: u32) -> BankAccount {
             currency
         FROM bank_accounts
         WHERE id = :id
-        ORDER BY name ASC
     ",
         )
         .expect("Could not fetch bank account");
@@ -76,49 +75,60 @@ pub(crate) fn get_by_id(conn: &Connection, id: u32) -> BankAccount {
     serde_rusqlite::from_row::<BankAccount>(row).unwrap()
 }
 
-pub(crate) fn save(conn: &Connection, bank_account: BankAccount) {
+pub(crate) fn create(conn: &Connection, bank_account: BankAccount) -> i64
+{
     if bank_account.id != 0 {
-        let mut stmt = conn
-            .prepare(
-                "
+        panic!("Cannot create a bank account that already has an ID");
+    }
+
+    let mut stmt = conn
+        .prepare(
+            "
+        INSERT INTO bank_accounts (
+            id,
+            name,
+            slug,
+            currency
+        )
+        VALUES (
+            null,
+            :name,
+            :slug,
+            :currency
+        )
+    ",
+        )
+        .expect("An Error occured when preparing the SQL statement.");
+
+    stmt.execute(named_params! {
+        ":name": &bank_account.name,
+        ":slug": &create_slug(&bank_account.name),
+        ":currency": &bank_account.currency,
+    })
+    .expect("Could not create bank account");
+
+    conn.last_insert_rowid()
+}
+
+pub(crate) fn update(conn: &Connection, bank_account: BankAccount) {
+    if bank_account.id == 0 {
+        panic!("Cannot update a bank account with no ID");
+    }
+
+    let mut stmt = conn
+        .prepare(
+            "
             UPDATE bank_acccounts
             SET name = :name,
             currency = :currency
             WHERE id = :id
         ",
-            )
-            .unwrap();
+        )
+        .unwrap();
 
-        stmt.execute(named_params! {
+    stmt.execute(named_params! {
             ":id": &bank_account.id,
             ":name": &bank_account.name,
         })
         .expect("Could not update tag");
-    } else {
-        let mut stmt = conn
-            .prepare(
-                "
-            INSERT INTO bank_accounts (
-                id,
-                name,
-                slug,
-                currency
-            )
-            VALUES (
-                null,
-                :name,
-                :slug,
-                :currency
-            )
-        ",
-            )
-            .expect("An Error occured when preparing the SQL statement.");
-
-        stmt.execute(named_params! {
-            ":name": &bank_account.name,
-            ":slug": &create_slug(&bank_account.name),
-            ":currency": &bank_account.currency,
-        })
-        .expect("Could not create bank account");
-    }
 }

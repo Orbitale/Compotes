@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {getBankAccounts} from "$lib/db/bank_accounts.ts";
+    import {getBankAccounts, bankAccountsStore} from "$lib/db/bank_accounts.ts";
     import {onMount} from "svelte";
     import Field from "$lib/struct/Field.ts";
     import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
@@ -13,7 +13,7 @@
         new Field('currency', 'Currency'),
     ];
 
-    onMount(async () => bank_accounts = await getBankAccounts());
+    onMount(async () => bank_accounts = await getBankAccounts(1));
 </script>
 
 <style lang="scss">
@@ -27,4 +27,4 @@
 
 <h1>Bank accounts</h1>
 
-<PaginatedTable items={bank_accounts} fields={fields} />
+<PaginatedTable items_store={bankAccountsStore} fields={fields} />

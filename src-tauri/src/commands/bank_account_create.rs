@@ -6,7 +6,8 @@ use std::sync::Mutex;
 use tauri::State;
 
 #[tauri::command]
-pub(crate) fn save_bank_account(conn_state: State<'_, Mutex<Connection>>, bank_account: String) {
+pub(crate) fn bank_account_create(conn_state: State<'_, Mutex<Connection>>, bank_account: String) -> i64
+{
     let conn = conn_state
         .inner()
         .lock()
@@ -14,5 +15,6 @@ pub(crate) fn save_bank_account(conn_state: State<'_, Mutex<Connection>>, bank_a
     let conn = conn.deref();
 
     let bank_account_entity: BankAccount = serde_json::from_str(&bank_account).unwrap();
-    bank_accounts::save(conn, bank_account_entity);
+
+    bank_accounts::create(conn, bank_account_entity)
 }
