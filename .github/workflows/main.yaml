@@ -62,7 +62,6 @@ jobs:
               run: yarn tauri build
 
             - name: Test application
-              continue-on-error: true
               run: |
                   xvfb-run yarn test
 
