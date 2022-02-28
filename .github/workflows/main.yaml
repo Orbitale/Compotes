@@ -47,7 +47,7 @@ jobs:
               if: matrix.os == 'ubuntu-latest'
               run: |
                   sudo apt-get update
-                  sudo apt-get upgrade -y --no-install-recommends webkit2gtk-4.0
+                  sudo apt-get upgrade -y --no-install-recommends -y libgtk-3-dev libgtksourceview-3.0-dev webkit2gtk-4.0 libappindicator3-dev webkit2gtk-driver xvfb
 
             - name: Install Node.js dependencies
               run: yarn install
@@ -62,12 +62,13 @@ jobs:
               run: yarn tauri build
 
             - name: Test application
-              run: yarn test
+              continue-on-error: true
+              run: |
+                  xvfb-run yarn test
 
             - name: Upload release artifacts
               uses: actions/upload-artifact@v2
               with:
                   name: release-${{ matrix.os }}
                   path: |
-                      src-tauri/target/release/bundle
                       src-tauri/target/release/Compotes*
