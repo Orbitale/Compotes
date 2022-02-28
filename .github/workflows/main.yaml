@@ -61,9 +61,15 @@ jobs:
             - name: Build application
               run: yarn tauri build
 
-            - name: Test application
+            - name: Test application (linux)
+              if: matrix.os == 'ubuntu-latest'
               run: |
                   xvfb-run yarn test
+
+            - name: Test application (non-linux)
+              if: matrix.os != 'ubuntu-latest'
+              run: |
+                  yarn test
 
             - name: Upload release artifacts
               uses: actions/upload-artifact@v2
