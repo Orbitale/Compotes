@@ -1,4 +1,4 @@
-const base_url = 'https://tauri.localhost';
+const base_url = process.platform === 'win32' ? 'https://tauri.localhost' : 'tauri://localhost';
 
 export default async function moveTo(page: string) {
     let link = await browser.$(`nav.navbar a[href="${page}"]`);
