@@ -1,4 +1,4 @@
-import moveTo from "../helpers/move_to";
+import moveTo from "../helpers/test_helpers";
 
 describe('Operations page', () => {
     it('can display operations list', async function () {
