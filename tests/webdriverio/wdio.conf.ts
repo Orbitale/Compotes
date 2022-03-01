@@ -19,6 +19,7 @@ exports.config = {
         './specs/**/*.ts'
     ],
     maxInstances: 1,
+    maxInstancesPerCapability: 1,
 
     capabilities: [
         {
@@ -52,14 +53,20 @@ exports.config = {
         ui: 'bdd',
         timeout: 60000
     },
-    beforeSession: function (config, capabilities, specs, cid) {
+    onPrepare: function () {
+        console.info("=======================", {"RUNNING": "BEFORE"}, "=======================");
+        if (tauriDriver) {
+            return;
+        }
         tauriDriver = spawn(
             path.resolve(process.cwd(), '../../bin/tauri-driver'+binSuffix),
             [],
             { stdio: [null, process.stdout, process.stderr] }
         );
     },
-    afterSession: function () {
-        tauriDriver.kill();
+    onComplete​: function () {
+        console.info("=======================", {"RUNNING": "AFTER"}, "=======================");
+        tauriDriver && tauriDriver.kill();
+        tauriDriver = null;
     }
 }

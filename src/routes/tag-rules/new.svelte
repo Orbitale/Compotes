@@ -89,7 +89,7 @@
             <label for="tags[]">Tags</label>
         </div>
         <div class="col-sm-10">
-            <select class="form-select" name="tags[]" multiple size="{tags.length > 0 ? 15 : 3}" bind:value={tag_rule_tags} on:change={onFormChange}>
+            <select class="form-select" id="tags" name="tags[]" multiple size="{tags.length > 0 ? 15 : 3}" bind:value={tag_rule_tags} on:change={onFormChange}>
                 <option value="">- Choose a list of tags -</option>
                 {#each tags as tag}
                     <option value="{tag.id}">{tag.name}</option>
