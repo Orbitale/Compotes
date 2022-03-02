@@ -257,7 +257,7 @@
         return arrData;
     }
 
-    bankAccountsStore.subscribe((storedBankAccounts) => bankAccounts = storedBankAccounts);
+    bankAccountsStore.subscribe((storedBankAccounts) => bankAccounts = storedBankAccounts || []);
 </script>
 
 <div class="row">
