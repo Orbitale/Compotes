@@ -1,8 +1,7 @@
 import Field from "./Field";
 import FieldHtmlProperties from "./FieldHtmlProperties";
 
-export default class AssociatedField extends Field
-{
+export default class AssociatedField extends Field {
     constructor(
         name: string,
         associated_field: Field,

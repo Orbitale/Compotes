@@ -2,7 +2,12 @@
 import TagRule from '$lib/entities/TagRule';
 import {getTagById} from "./tags";
 import api_call from "$lib/utils/api_call";
-import type Tag from "$lib/entities/Tag";
+import {writable} from "svelte/store";
+import type {Writable} from "svelte/types/runtime/store";
+
+export const tagRulesStore: Writable<TagRule[]> = writable();
+
+let tag_rules: TagRule[] = [];
 
 export default class DeserializedTagRule
 {
@@ -11,8 +16,6 @@ export default class DeserializedTagRule
     public readonly matching_pattern!: string;
     public readonly is_regex!: boolean;
 }
-
-let tag_rules: TagRule[] = [];
 
 export async function getTagRules(): Promise<Array<TagRule>>
 {
@@ -30,6 +33,8 @@ export async function getTagRules(): Promise<Array<TagRule>>
                 deserialized_tag_rule.is_regex
             );
         }));
+
+        tagRulesStore.set(tag_rules);
     }
 
     return Promise.resolve(tag_rules);

@@ -1,46 +1,87 @@
 <script lang="ts">
     import ItemLine from "./ItemLine.svelte";
     import {onMount} from "svelte";
-    import Field from "$lib/struct/Field.ts";
-    import UrlAction from "$lib/struct/UrlAction.ts";
     import type {Writable} from "svelte/store";
-    import SpinLoader from "$lib/components/SpinLoader.svelte";
-    import PageHook from "$lib/struct/PageHook";
+    import SpinLoader from "../SpinLoader.svelte";
+    import Field from "../../Field";
+    import PageHooks from "../../PageHooks";
+    import UrlAction from "../../UrlAction";
 
     export let items: object[] = [];
     export let items_store: Writable<any>;
     export let fields: Field[];
     export let actions: UrlAction[] = [];
-    export let changePageHook: PageHook = null;
+    export let pageHooks: PageHooks = null;
 
     let number_per_page = 20;
     let page = 1;
     let number_of_pages = 1;
-    let number_of_items;
     let displayed_items = [];
     let store_executed_at_least_once = false;
 
-    onMount(() => {
-        if (items_store) {
-            if (items.length) {
-                throw new Error('Items and item store cannot be defined at the same time, to avoid conflicts when the store updates.');
-            }
-            items_store.subscribe(store_items => {
-                if (store_items === undefined) {
-                    // Store setup sets value as undefined.
-                    return;
-                }
-                items = store_items;
-                displayitems();
-                store_executed_at_least_once = true;
-            });
-        }
-
+    onMount(async () => {
+        configureStore();
+        await configureNumberOfPages();
         firstPage();
     });
 
+    async function configureNumberOfPages() {
+        if (!pageHooks || !pageHooks.hasCountCallback) {
+            return;
+        }
+        const countCb = pageHooks.getCountCallback();
+        let count: any = 0;
+
+        if (countCb instanceof Promise) {
+            count = await countCb;
+            if (typeof count === 'function') {
+                count = count();
+            }
+        } else if (typeof countCb === 'function') {
+            count = countCb();
+        } else {
+            throw new Error('Count callback has an unexpected type');
+        }
+
+        if (isNaN(parseInt(count, 10))) {
+            throw new Error('Could not determine the number of pages for this view.');
+        }
+
+        number_of_pages = Math.ceil(count / number_per_page);
+        if (number_of_pages === 0) {
+            number_of_pages = 1;
+        }
+    }
+
+    function configureStore() {
+        if (!items_store) {
+            return;
+        }
+        if (items.length) {
+            throw new Error('Items and item store cannot be defined at the same time, to avoid conflicts when the store updates.');
+        }
+        if (!pageHooks) {
+            throw new Error('You must pass a PageHooks to the PaginatedTable component if you provide an item store so that the PageHooks can call the store when necessary (like when fetching the list of items).');
+        }
+        items_store.subscribe(store_items => {
+            if (store_items === undefined) {
+                // Store setup sets value as undefined.
+                return;
+            }
+            items = store_items;
+            store_executed_at_least_once = true;
+            displayitems();
+        });
+    }
+
     function firstPage() {
         page = 1;
+
+        if (pageHooks) {
+            pageHooks.callForItems(page);
+        }
+
+        displayitems();
     }
 
     function nextPage() {
@@ -48,6 +89,12 @@
         if (page > number_of_pages) {
             page = number_of_pages;
         }
+
+        store_executed_at_least_once = false;
+        if (pageHooks) {
+            pageHooks.callForItems(page);
+        }
+
         displayitems();
     }
 
@@ -65,15 +112,13 @@
     }
 
     function displayitems() {
-        number_of_items = items ? items.length : 0;
-        number_of_pages = items ? Math.ceil(number_of_items / number_per_page) : 1;
-        if (number_of_pages < 1) number_of_pages = 1;
+        if (!pageHooks || (pageHooks && !pageHooks.hasCountCallback)) {
+            const number_of_items = items ? items.length : 0;
+            number_of_pages = items ? Math.ceil(number_of_items / number_per_page) : 1;
+            if (number_of_pages < 1) number_of_pages = 1;
+        }
 
         displayed_items = items ? items.slice((page - 1) * number_per_page, (page) * number_per_page) : [];
-
-        if (changePageHook) {
-            changePageHook.call(page);
-        }
     }
 </script>
 
@@ -104,12 +149,12 @@
 
 {#if !fields || !fields.length}
     <div class="alert alert-danger">
-        No fields were configured. Cannot display table.
+        No fields were configured for this view.
     </div>
 {:else}
-    <table class="table table-bordered table-responsive table-hover table-striped table-sm">
+    <table id="paginated-table" class="table table-bordered table-responsive table-hover table-striped table-sm">
         <thead>
-            <tr>
+            <tr id="paginated-table-header">
                 <td colspan="{fields.length + (actions.length ? 1 : 0)}">
                     <button type="button" class="btn btn-outline-primary" disabled="{page === 1}" on:click={previousPage} id="previous-page">&lt;</button>
                     <button type="button" class="btn btn-outline-primary" disabled="{page === number_of_pages}" on:click={nextPage} id="next-page">&gt;</button>
@@ -119,7 +164,7 @@
                 </td>
             </tr>
 
-            <tr>
+            <tr id="paginated-table-header-fields">
                 {#each fields as field}
                     <th>{field.text}</th>
                 {/each}

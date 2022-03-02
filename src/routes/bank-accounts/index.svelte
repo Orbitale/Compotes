@@ -1,8 +1,8 @@
 <script lang="ts">
     import {getBankAccounts, bankAccountsStore} from "$lib/db/bank_accounts.ts";
-    import {onMount} from "svelte";
-    import Field from "$lib/struct/Field.ts";
-    import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
+    import PaginatedTable from "$lib/admin/components/PaginatedTable/PaginatedTable.svelte";
+    import Field from "$lib/admin/Field";
+    import PageHooks from "$lib/admin/PageHooks";
 
     let bank_accounts = [];
 
@@ -13,7 +13,7 @@
         new Field('currency', 'Currency'),
     ];
 
-    onMount(async () => bank_accounts = await getBankAccounts(1));
+    const pageHooks = new PageHooks(getBankAccounts);
 </script>
 
 <style lang="scss">
@@ -27,4 +27,4 @@
 
 <h1>Bank accounts</h1>
 
-<PaginatedTable items_store={bankAccountsStore} fields={fields} />
+<PaginatedTable items_store={bankAccountsStore} fields={fields} pageHooks={pageHooks} />

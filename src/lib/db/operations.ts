@@ -2,11 +2,11 @@ import Operation, {OperationState} from '$lib/entities/Operation';
 import api_call from "$lib/utils/api_call";
 import {getTagsByIds} from "./tags";
 import {getBankAccountById} from "./bank_accounts";
-import {writable} from "svelte/store";
+import {Writable, writable} from "svelte/store";
 import merge_lists from "$lib/utils/merge_lists";
 
-export const operationsStore = writable();
-export const triageStore = writable();
+export const operationsStore: Writable<Operation[]> = writable();
+export const triageStore: Writable<Operation[]> = writable();
 
 let operations: Operation[] = [];
 let triage: Operation[] = [];
@@ -32,7 +32,7 @@ export async function getOperations(page: number): Promise<Array<Operation>>
         page = 1;
     }
 
-    let res: string = await api_call("operations_get", {page: page});
+    const res: string = await api_call("operations_get", {page: page});
 
     if (!res) {
         throw 'No results from the API';
@@ -47,9 +47,16 @@ export async function getOperations(page: number): Promise<Array<Operation>>
     return operations;
 }
 
+export async function getOperationsCount(): Promise<number>
+{
+    const res: string = await api_call("operations_get_count");
+
+    return normalizeCountFromApiResult(res);
+}
+
 export async function getTriageOperations(page: number): Promise<Array<Operation>>
 {
-    let res: string = await api_call("operations_get_triage", {page: page});
+    const res: string = await api_call("operations_get_triage", {page: page});
 
     if (!res) {
         throw 'No results from the API';
@@ -59,11 +66,17 @@ export async function getTriageOperations(page: number): Promise<Array<Operation
 
     operations = merge_lists(operations, new_operations);
 
-    debugger;
     triage = operations;
     triageStore.set(operations);
 
     return operations;
+}
+
+export async function getTriageOperationsCount(): Promise<number>
+{
+    const res: string = await api_call("operations_get_triage_count");
+
+    return normalizeCountFromApiResult(res);
 }
 
 export async function updateOperationDetails(operation: Operation)
@@ -88,7 +101,7 @@ export async function deleteOperation(operation: Operation)
 
 export async function getOperationById(id: number): Promise<Operation | null>
 {
-    let res: string = await api_call("operations_get_by_id", {id: id.toString()});
+    const res: string = await api_call("operations_get_by_id", {id: id.toString()});
 
     if (!res) {
         throw 'No results from the API';
@@ -100,15 +113,15 @@ export async function getOperationById(id: number): Promise<Operation | null>
 }
 
 export async function refreshAllOperations() {
-    const cb = async (op: Operation) => {
+    const normalizeCallback = async (op: Operation) => {
         const res = await api_call("operations_get_by_id", {id: op.id});
         const deserialized_operation: DeserializedOperation = JSON.parse(res);
 
         return await normalizeOperationFromDeserialized(deserialized_operation);
     };
 
-    operations = await Promise.all(operations.map(cb));
-    triage = await Promise.all(triage.map(cb));
+    operations = await Promise.all(operations.map(normalizeCallback));
+    triage = await Promise.all(triage.map(normalizeCallback));
 }
 
 async function deserializeAndNormalizeDatabaseResult(res: string): Promise<Array<Operation>> {
@@ -138,4 +151,18 @@ async function normalizeOperationFromDeserialized(deserialized_operation: Deseri
         deserialized_operation.hash,
         await getTagsByIds(deserialized_operation.tags_ids)
     );
+}
+
+function normalizeCountFromApiResult(res: string): number {
+    if (res === '') {
+        throw 'No results from the API';
+    }
+
+    const count = parseInt(res, 10);
+
+    if (isNaN(count)) {
+        throw 'Invalid results from the API';
+    }
+
+    return count;
 }

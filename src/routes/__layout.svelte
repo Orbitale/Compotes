@@ -1,21 +1,22 @@
 <script lang="ts">
     import Navigation from "$lib/components/Navigation.svelte";
     import {SvelteToast} from "@zerodevx/svelte-toast";
-    import { listen } from '@tauri-apps/api/event';
     import OperationsSynchronizer from "$lib/struct/OperationsSynchronizer";
 
     /**
      * Post-Startup actions
      */
     import {onMount} from 'svelte';
-    import message from "$lib/utils/message";
     import {refreshAllOperations} from "$lib/db/operations";
+    import {updateConfig as updateAdminConfig} from "$lib/admin/src/config";
+
+    updateAdminConfig({
+        spinLoaderSrc: '/logo.svg',
+    });
+
+    OperationsSynchronizer.addAfterSyncCallback(refreshAllOperations);
 
     onMount(async () => {
-        const _unlistenMessage = await listen('message', event => {
-            message(event.payload.title, event.payload.type.toLowerCase());
-        });
-
         await refreshAllOperations();
     })
 </script>

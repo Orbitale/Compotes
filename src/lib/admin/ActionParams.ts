@@ -1,7 +1,6 @@
 import Field from "./Field";
 
-export default class ActionParams
-{
+export default class ActionParams {
     private _params: Array<Field> = [];
 
     get params(): Array<Field> {

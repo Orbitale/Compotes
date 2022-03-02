@@ -1,7 +1,6 @@
-import DefaultAction from "$lib/struct/DefaultAction";
+import DefaultAction from "./DefaultAction";
 
-export default class CallbackAction extends DefaultAction
-{
+export default class CallbackAction extends DefaultAction {
     private readonly _callback: Function;
 
     constructor(name: string, callback: Function) {

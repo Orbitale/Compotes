@@ -3,7 +3,7 @@ use rusqlite::named_params;
 use rusqlite::Connection;
 use serde::Deserialize;
 use serde::Serialize;
-use serde_rusqlite::from_rows;
+use serde_rusqlite::{from_row, from_rows};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) struct Operation {
@@ -71,6 +71,48 @@ pub(crate) fn find_paginate(conn: &Connection, page: u16) -> Vec<Operation> {
     }
 
     operations
+}
+
+pub(crate) fn find_count(conn: &Connection) -> Box<u32> {
+    let mut stmt = conn
+        .prepare(
+            "
+        SELECT
+            count(id) as number_of_items
+        FROM operations
+        WHERE state != :triage
+    ",
+        )
+        .expect("Could not fetch operations");
+
+    let mut result = stmt.query(named_params!{
+        ":triage": OperationState::PendingTriage.to_string(),
+    }).unwrap();
+
+    let first_row = result.next().unwrap().unwrap();
+
+    Box::new(from_row::<u32>(first_row).unwrap())
+}
+
+pub(crate) fn find_count_triage(conn: &Connection) -> Box<u32> {
+    let mut stmt = conn
+        .prepare(
+            "
+        SELECT
+            count(id) as number_of_items
+        FROM operations
+        WHERE state == :triage
+    ",
+        )
+        .expect("Could not fetch operations");
+
+    let mut result = stmt.query(named_params!{
+        ":triage": OperationState::PendingTriage.to_string(),
+    }).unwrap();
+
+    let first_row = result.next().unwrap().unwrap();
+
+    Box::new(from_row::<u32>(first_row).unwrap())
 }
 
 pub(crate) fn get_by_id(conn: &Connection, id: u32) -> Operation {

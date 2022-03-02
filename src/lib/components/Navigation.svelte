@@ -1,7 +1,7 @@
 <script lang="ts">
     import {getUser} from '$lib/auth/current_user.ts';
     import OperationsSynchronizer from "$lib/struct/OperationsSynchronizer";
-    import SpinLoader from "$lib/components/SpinLoader.svelte";
+    import SpinLoader from "$lib/admin/components/SpinLoader.svelte";
 
     let syncing: boolean;
     let user = getUser();

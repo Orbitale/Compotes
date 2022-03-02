@@ -1,7 +1,6 @@
-import type AssociatedItem from "./AssociatedItem";
 import type Field from "./Field";
 
-class Collection<T> extends Array<T> {
+export default class Collection<T> extends Array<T> {
     private _field: Field;
 
     constructor(field: Field, items?: T[]) {
@@ -17,7 +16,4 @@ class Collection<T> extends Array<T> {
         }
         items.forEach(item => this.push(item));
     }
-}
-
-export default class AssociatedCollection<T> extends Collection<AssociatedItem<T>> {
 }

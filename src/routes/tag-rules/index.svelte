@@ -1,12 +1,11 @@
 <script lang="ts">
-    import {needsUser} from '$lib/auth/current_user.ts';
-    import {getTagRules} from "$lib/db/tag_rules.ts";
-    import Field from "$lib/struct/Field.ts";
-    import UrlAction from "$lib/struct/UrlAction.ts";
-    import ActionParams from "$lib/struct/ActionParams.ts";
-    import {onMount} from "svelte";
-    import CollectionField from "$lib/struct/CollectionField";
-    import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
+    import {getTagRules, tagRulesStore} from "$lib/db/tag_rules";
+    import PaginatedTable from "$lib/admin/components/PaginatedTable/PaginatedTable.svelte";
+    import ActionParams from "$lib/admin/ActionParams";
+    import CollectionField from "$lib/admin/CollectionField";
+    import Field from "$lib/admin/Field";
+    import PageHooks from "$lib/admin/PageHooks";
+    import UrlAction from "$lib/admin/UrlAction";
 
     let tag_rules = [];
 
@@ -21,9 +20,7 @@
         new UrlAction('Edit', '/tag-rules/edit/:id', ActionParams.id()),
     ];
 
-    onMount(async () => {
-        tag_rules = await getTagRules();
-    });
+    const pageHooks = new PageHooks(getTagRules);
 </script>
 
 <style lang="scss">
@@ -37,4 +34,4 @@
 
 <h1>Tag rules</h1>
 
-<PaginatedTable items={tag_rules} fields={fields} actions={actions} />
+<PaginatedTable items_store={tagRulesStore} fields={fields} actions={actions} pageHooks={pageHooks} />

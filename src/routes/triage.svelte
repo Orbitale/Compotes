@@ -1,14 +1,15 @@
 <script lang="ts">
-    import Field from "$lib/struct/Field";
-    import FieldHtmlProperties from "$lib/struct/FieldHtmlProperties";
-    import UrlAction from "$lib/struct/UrlAction";
-    import ActionParams from "$lib/struct/ActionParams";
     import {onMount} from "svelte";
-    import {getTriageOperations, deleteOperation, triageStore} from "$lib/db/operations";
+    import {getTriageOperations, deleteOperation, triageStore, getTriageOperationsCount} from "$lib/db/operations";
     import Operation from "$lib/entities/Operation";
-    import CallbackAction from "$lib/struct/CallbackAction";
     import {success} from "$lib/utils/message";
-    import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
+    import PaginatedTable from "$lib/admin/components/PaginatedTable/PaginatedTable.svelte";
+    import ActionParams from "$lib/admin/ActionParams";
+    import CallbackAction from "$lib/admin/CallbackAction";
+    import Field from "$lib/admin/Field";
+    import FieldHtmlProperties from "$lib/admin/FieldHtmlProperties";
+    import PageHooks from "$lib/admin/PageHooks";
+    import UrlAction from "$lib/admin/UrlAction";
 
     let fields = [
         new Field('id', 'ID'),
@@ -24,10 +25,6 @@
         new CallbackAction('Delete', doDeleteOperation),
     ];
 
-    onMount(async () => {
-        await getTriageOperations(1);
-    });
-
     async function doDeleteOperation(operation: Operation) {
         const id = operation.id;
         if (!(await confirm(`Deleting operation with ID #${operation.id}.\nAre you sure?`))) {
@@ -36,8 +33,10 @@
         await deleteOperation(operation);
         success(`Successfully deleted operation with id ${id}!`);
     }
+
+    const pageHooks = new PageHooks(getTriageOperations, getTriageOperationsCount)
 </script>
 
 <h1>Triage</h1>
 
-<PaginatedTable items_store={triageStore} fields={fields} actions={actions} />
+<PaginatedTable items_store={triageStore} fields={fields} actions={actions} pageHooks={pageHooks} />

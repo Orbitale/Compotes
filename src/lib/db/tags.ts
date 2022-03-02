@@ -1,6 +1,9 @@
 // @ts-ignore
 import Tag from '$lib/entities/Tag';
 import api_call from "$lib/utils/api_call";
+import {Writable, writable} from "svelte/store";
+
+export const tagsStore: Writable<Tag[]> = writable();
 
 let tags: Tag[] = [];
 
@@ -12,6 +15,8 @@ export async function getTags(): Promise<Array<Tag>>
             // @ts-ignore
             return new Tag(data.id, data.name);
         });
+
+        tagsStore.set(tags);
     }
 
     return tags;

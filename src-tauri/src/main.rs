@@ -13,6 +13,8 @@ mod commands {
     pub(crate) mod operation_delete;
     pub(crate) mod operation_update_details;
     pub(crate) mod operations_get;
+    pub(crate) mod operations_get_count;
+    pub(crate) mod operations_get_triage_count;
     pub(crate) mod operations_get_by_id;
     pub(crate) mod operations_get_triage;
     pub(crate) mod tags_get;
@@ -55,7 +57,9 @@ fn main() {
             crate::commands::operation_update_details::operation_update_details,
             crate::commands::operations_get_by_id::operations_get_by_id,
             crate::commands::operations_get::operations_get,
+            crate::commands::operations_get_count::operations_get_count,
             crate::commands::operations_get_triage::operations_get_triage,
+            crate::commands::operations_get_triage_count::operations_get_triage_count,
             crate::commands::bank_account_find_all::bank_account_find_all,
             crate::commands::bank_account_create::bank_account_create,
             crate::commands::tags_get::tags_get,

@@ -1,7 +1,6 @@
-import type ItemAction from "$lib/struct/ItemAction";
+import type ItemAction from "./ItemAction";
 
-export default abstract class DefaultAction implements ItemAction
-{
+export default abstract class DefaultAction implements ItemAction {
     protected readonly _name: string;
 
     protected constructor(name: string) {

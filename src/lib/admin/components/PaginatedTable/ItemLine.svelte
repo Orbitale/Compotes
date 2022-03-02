@@ -1,8 +1,8 @@
 <script lang="ts">
     import ItemFieldValue from "./ItemFieldValue.svelte";
-    import Field from "$lib/struct/Field.ts";
-    import UrlAction from "$lib/struct/UrlAction.ts";
-    import CallbackAction from "$lib/struct/CallbackAction.ts";
+    import CallbackAction from "../../CallbackAction";
+    import Field from "../../Field";
+    import UrlAction from "../../UrlAction";
 
     export let item: object;
     export let fields: Array<Field>;
@@ -18,7 +18,7 @@
     }
 </style>
 
-<tr>
+<tr class="paginated-table-item-line">
     {#each fields as field}
         <td
             class={field.field_html_properties.html_class}

@@ -1,8 +1,8 @@
+import DefaultAction from "./DefaultAction";
 import type ActionParams from "./ActionParams";
 import type Field from "./Field";
-import DefaultAction from "$lib/struct/DefaultAction";
 
-export default class UrlAction extends DefaultAction{
+export default class UrlAction extends DefaultAction {
     private readonly params: ActionParams;
     private readonly _url: string;
 

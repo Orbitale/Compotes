@@ -2,10 +2,9 @@
     import {error, success, warning} from "$lib/utils/message";
     import DragDropList from "$lib/components/DragDrop/DragDropList.svelte";
     import api_call from "$lib/utils/api_call.ts";
-    import {getBankAccounts} from '$lib/db/bank_accounts';
+    import {bankAccountsStore} from '$lib/db/bank_accounts';
     import type BankAccount from "$lib/entities/BankAccount";
     import Operation, {OperationState} from "$lib/entities/Operation";
-    import {onMount} from "svelte";
     import {CsvFieldReference, referenceToEntityProperty} from "$lib/utils/csv";
     import {DateFormat} from "$lib/utils/date";
     import {goto} from "$app/navigation";
@@ -258,9 +257,7 @@
         return arrData;
     }
 
-    onMount(async () => {
-        bankAccounts = await getBankAccounts();
-    });
+    bankAccountsStore.subscribe((storedBankAccounts) => bankAccounts = storedBankAccounts);
 </script>
 
 <div class="row">

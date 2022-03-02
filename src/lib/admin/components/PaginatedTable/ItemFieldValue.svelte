@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Field from "$lib/struct/Field.ts";
+    import Field from "../../Field";
 
     export let field: Field;
     export let item: object;
@@ -25,7 +25,7 @@
 
 {:else if field_value instanceof Array}
     {#each field_value as array_value}
-        <span class="badge bg-secondary">{array_value}</span>
+        &nbsp;<span class="badge bg-secondary">{array_value}</span>
     {/each}
 
 {:else if typeof field_value === 'object'}

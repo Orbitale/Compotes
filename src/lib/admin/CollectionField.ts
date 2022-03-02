@@ -1,9 +1,8 @@
+import type AssociatedField from "./AssociatedField";
 import Field from "./Field";
 import FieldHtmlProperties from "./FieldHtmlProperties";
-import type AssociatedField from "./AssociatedField";
 
-export default class CollectionField extends Field
-{
+export default class CollectionField extends Field {
     constructor(
         name: string,
         text: string,
@@ -13,8 +12,8 @@ export default class CollectionField extends Field
         super(name, text, item_field, field_html_properties);
     }
 
-    public displayFromItem(item: object|any): any {
-        let field: Field|AssociatedField;
+    public displayFromItem(item: object | any): any {
+        let field: Field | AssociatedField;
 
         const items = item[this.name];
 

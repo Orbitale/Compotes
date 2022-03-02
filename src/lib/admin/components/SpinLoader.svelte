@@ -1,8 +1,12 @@
 <script lang="ts">
+    import {configStore} from "$lib/admin/src/config";
+
     export let display: boolean = true;
     export let height: number = 0;
     export let width: number = 0;
     export let as_block: boolean = false;
+
+    let src: string = '';
 
     switch (true) {
         case height === 0 && width === 0:
@@ -17,6 +21,8 @@
     }
 
     let display_style = display ? (as_block ? 'block' : 'inline-block') : 'none';
+
+    configStore.subscribe((config) => src = config.spinLoaderSrc);
 </script>
 
 <style lang="scss">
@@ -62,5 +68,5 @@
 </style>
 
 <span style="display: {display_style}">
-    <img src="/logo.svg" width={width} height={height} alt="">
+    <img src="{src}" width={width} height={height} alt="">
 </span>

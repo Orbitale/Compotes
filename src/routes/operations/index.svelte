@@ -1,11 +1,11 @@
 <script lang="ts">
-    import {getOperations, operationsStore} from "$lib/db/operations.ts";
-    import Field from "$lib/struct/Field.ts";
-    import FieldHtmlProperties from "$lib/struct/FieldHtmlProperties.ts";
-    import CollectionField from "$lib/struct/CollectionField";
+    import {getOperations, getOperationsCount, operationsStore} from "$lib/db/operations.ts";
     import {onMount} from "svelte";
-    import PaginatedTable from "$lib/admin/PaginatedTable/PaginatedTable.svelte";
-    import PageHook from "$lib/struct/PageHook";
+    import PaginatedTable from "$lib/admin/components/PaginatedTable/PaginatedTable.svelte";
+    import CollectionField from "$lib/admin/CollectionField";
+    import Field from "$lib/admin/Field";
+    import FieldHtmlProperties from "$lib/admin/FieldHtmlProperties";
+    import PageHooks from "$lib/admin/PageHooks";
 
     let fields = [
         new Field('id', 'ID'),
@@ -18,13 +18,9 @@
         new CollectionField('tags', 'Tags', new Field('name')),
     ];
 
-    onMount(async () => {
-        await getOperations(1);
-    });
-
-    const changePageHook = new PageHook(getOperations);
+    const pageHooks = new PageHooks(getOperations, getOperationsCount);
 </script>
 
 <h1>Operations</h1>
 
-<PaginatedTable items_store={operationsStore} fields={fields} changePageHook={changePageHook} />
+<PaginatedTable items_store={operationsStore} fields={fields} pageHooks={pageHooks} />
