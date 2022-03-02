@@ -54,9 +54,6 @@ jobs:
             - name: Download Rust dependencies
               run: cargo fetch --manifest-path=src-tauri/Cargo.toml
 
-            - name: Build frontend
-              run: yarn build
-
             - name: Build application
               run: yarn tauri build
 
