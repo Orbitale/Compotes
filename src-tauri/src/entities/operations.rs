@@ -172,7 +172,7 @@ pub(crate) fn find_triage(conn: &Connection, page: u16) -> Vec<Operation> {
             ) AS tags_ids
         FROM operations
         WHERE state = :triage
-        ORDER BY operation_date desc, details DESC, amount_in_cents desc
+        ORDER BY operation_date DESC, hash DESC
         LIMIT :limit OFFSET :offset
     ",
         )
@@ -304,13 +304,20 @@ pub(crate) fn update_details(conn: &mut Connection, id: String, details: String)
 }
 
 pub(crate) fn delete(conn: &mut Connection, id: String) {
-    let mut stmt = conn
-        .prepare("delete from operations where id = :id")
-        .expect("Could not create query to delete operation.")
-        ;
+    let id_as_number = id.parse::<u32>().unwrap();
+    let operation = get_by_id(&conn, id_as_number);
+    let hash = operation.hash;
 
-    stmt.execute(named_params! {
-        ":id": &id,
-    })
-        .expect("Could not execute delete operation");
+    conn
+        .prepare("delete from operations where id = :id").expect("Could not create query to delete operation.")
+        .execute(named_params! {":id": &id}).expect("Could not execute delete operation")
+    ;
+
+    conn
+        .prepare("update operations set state = :ok where hash = :hash").expect("Could not create query to delete operation.")
+        .execute(named_params! {
+            ":ok": &OperationState::Ok.to_string(),
+            ":hash": &hash,
+        }).expect("Could not execute delete operation")
+    ;
 }

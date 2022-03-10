@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {goto} from '$app/navigation';
     import {createBankAccount} from "$lib/db/bank_accounts.ts";
     import type bank_account from "$lib/entities/BankAccount.ts";
     import {error, success} from "$lib/utils/message.ts";
@@ -10,6 +9,20 @@
 
     function onNameChange() {
         submit_button_disabled = !bank_account.name;
+    }
+
+    function validateCurrencyCode() {
+        bank_account.currency = bank_account.currency.toUpperCase();
+        if (bank_account.currency) {
+            try {
+                new Intl.NumberFormat(navigator.language, {style:'currency',currency: bank_account.currency}).format(1);
+            } catch (e) {
+                if (e.message.match('Invalid currency code')) {
+                    error(e.message);
+                    bank_account.currency = '';
+                }
+            }
+        }
     }
 
     async function submitForm(e: Event) {
@@ -25,7 +38,7 @@
         }
 
         success('Bank account saved!');
-        await goto('/bank-accounts');
+        location.href = '/bank-accounts';
 
         return false;
     }
@@ -50,7 +63,7 @@
             Currency
         </label>
         <div class="col-sm-10">
-            <input autocomplete="" type="text" id="currency" bind:value={bank_account.currency} on:keyup={onNameChange} class="form-control">
+            <input autocomplete="" type="text" id="currency" bind:value={bank_account.currency} on:keyup={onNameChange} on:change={validateCurrencyCode} class="form-control">
         </div>
     </div>
 

@@ -52,7 +52,7 @@
         }
 
         success('Tag rule saved!');
-        await goto('/tag-rules');
+        location.href = '/tag-rules';
 
         return false;
     }

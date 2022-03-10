@@ -64,12 +64,10 @@ export async function getTriageOperations(page: number): Promise<Array<Operation
 
     const new_operations = await deserializeAndNormalizeDatabaseResult(res);
 
-    operations = merge_lists(operations, new_operations);
+    triage = merge_lists(triage, new_operations);
+    triageStore.set(triage);
 
-    triage = operations;
-    triageStore.set(operations);
-
-    return operations;
+    return triage;
 }
 
 export async function getTriageOperationsCount(): Promise<number>
@@ -87,16 +85,31 @@ export async function updateOperationDetails(operation: Operation)
 export async function deleteOperation(operation: Operation)
 {
     const id = operation.id.toString(10);
+    const hash = operation.hash;
 
     await api_call("operation_delete", {id: id});
 
-    const newOps = operations.filter((op: Operation) => op.id.toString(10) !== id);
-    operations = newOps;
-    operationsStore.set(newOps);
+    const removeByIdFilter = (op: Operation) => op.id.toString(10) !== id;
 
-    const newTriage = triage.filter((op: Operation) => op.id.toString(10) !== id);
+    const setToOkFilter = (op: Operation) => {
+        if (op.hash === hash) op.state = OperationState.ok;
+        return op;
+    };
+
+    const newOps = operations.filter(removeByIdFilter);
+
+    const newTriage = triage.filter(removeByIdFilter).map(setToOkFilter).filter((op: Operation) => {
+        if (op.state === OperationState.ok) {
+            newOps.push(op);
+            return false;
+        }
+        return true;
+    });
+
+    operations = newOps;
     triage = newTriage;
-    triageStore.set(newTriage);
+    operationsStore.set(operations);
+    triageStore.set(triage);
 }
 
 export async function getOperationById(id: number): Promise<Operation | null>

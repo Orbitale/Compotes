@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {onMount} from "svelte";
     import {getTriageOperations, deleteOperation, triageStore, getTriageOperationsCount} from "$lib/db/operations";
     import Operation from "$lib/entities/Operation";
     import {success} from "$lib/utils/message";
@@ -32,6 +31,7 @@
         }
         await deleteOperation(operation);
         success(`Successfully deleted operation with id ${id}!`);
+        location.reload();
     }
 
     const pageHooks = new PageHooks(getTriageOperations, getTriageOperationsCount)

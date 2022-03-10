@@ -176,8 +176,8 @@
 
         <tbody>
             {#if displayed_items.length}
-                {#each displayed_items as item, key (displayed_items[key])}
-                    <ItemLine item={displayed_items[key]} {fields} {actions} />
+                {#each displayed_items as item, key (item.id)}
+                    <ItemLine item={item} {fields} {actions} />
                 {/each}
             {:else if items_store && !store_executed_at_least_once}
                 <tr>

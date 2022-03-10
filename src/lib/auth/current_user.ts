@@ -1,6 +1,5 @@
 import User from "$lib/struct/User";
 import {writable} from "svelte/store";
-import {goto} from "$app/navigation";
 
 const userStore = writable(null);
 
@@ -13,7 +12,7 @@ const needsUser = async (): Promise<void> => {
     const user = await getUser();
 
     if (!user || !user.id) {
-        await goto('/');
+        location.href = "/";
     }
 };
 

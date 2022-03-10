@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {goto} from '$app/navigation';
     import {createTagRule} from "$lib/db/tag_rules.ts";
     import type tag_rule from "$lib/entities/TagRule.ts";
     import TagRule from "$lib/entities/TagRule.ts";
@@ -50,7 +49,7 @@
         }
 
         success('Tag rule saved!');
-        await goto('/tag-rules');
+        location.href = '/tag-rules';
 
         return false;
     }

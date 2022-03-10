@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {goto} from "$app/navigation";
     import {getTagById, updateTag} from "$lib/db/tags.ts";
     import Tag from "$lib/entities/Tag.ts";
     import {onMount} from "svelte";
@@ -37,7 +36,7 @@
 
         success('Tag saved!');
 
-        await goto('/tags');
+        location.href = '/tags';
 
         return false;
     }

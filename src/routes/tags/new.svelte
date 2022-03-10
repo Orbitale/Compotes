@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {goto} from '$app/navigation';
     import {createTag} from "$lib/db/tags.ts";
     import Tag from "$lib/entities/Tag.ts";
     import {error, success} from "$lib/utils/message.ts";
@@ -28,7 +27,7 @@
         }
 
         success('Tag saved!');
-        await goto('/tags');
+        location.href = '/tags';
 
         return false;
     }

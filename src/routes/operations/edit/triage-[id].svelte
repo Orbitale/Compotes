@@ -35,7 +35,7 @@
 
         success('Operation updated!');
 
-        await goto('/triage');
+        location.href = '/triage';
 
         return false;
     }

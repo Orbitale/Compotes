@@ -19,7 +19,7 @@ export default class Operation implements Entity
     public readonly amount_in_cents!: number;
     public readonly amount!: number;
     public hash!: string;
-    public readonly state!: OperationState;
+    public state!: OperationState;
     public readonly ignored_from_charts!: boolean;
     public readonly bank_account_id: number;
     public readonly bank_account: BankAccount;
