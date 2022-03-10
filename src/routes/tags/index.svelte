@@ -21,6 +21,15 @@
     const pageHooks = new PageHooks(getTags);
 </script>
 
+<style lang="scss">
+  #new-button {
+    float: right;
+    margin-top: 8px;
+  }
+</style>
+
+<a href="/tags/new" class="btn btn-primary" id="new-button">New</a>
+
 <h1>Tags</h1>
 
 <PaginatedTable items_store={tagsStore} fields={fields} actions={actions} pageHooks={pageHooks} />

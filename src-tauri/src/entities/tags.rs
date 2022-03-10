@@ -61,3 +61,21 @@ pub(crate) fn update(conn: &Connection, tag: Tag) {
     })
     .expect("Could not update tag");
 }
+
+pub(crate) fn create(conn: &Connection, tag: Tag) -> i64 {
+    let mut stmt = conn
+        .prepare(
+            "
+        INSERT INTO tags (id, name)
+        VALUES (null, :name)
+    ",
+        )
+        .unwrap();
+
+    stmt.execute(named_params! {
+        ":name": &tag.name,
+    })
+    .expect("Could not update tag");
+
+    conn.last_insert_rowid()
+}

@@ -21,6 +21,7 @@ mod commands {
     pub(crate) mod import_operations;
     pub(crate) mod bank_account_find_all;
     pub(crate) mod bank_account_create;
+    pub(crate) mod tag_create;
     pub(crate) mod tag_update;
     pub(crate) mod tag_rules_get;
     pub(crate) mod tag_rule_create;
@@ -64,6 +65,7 @@ fn main() {
             crate::commands::bank_account_create::bank_account_create,
             crate::commands::tags_get::tags_get,
             crate::commands::tag_rules_get::tag_rules_get,
+            crate::commands::tag_create::tag_create,
             crate::commands::tag_update::tag_update,
             crate::commands::tag_rule_create::tag_rule_create,
             crate::commands::tag_rule_update::tag_rule_update,

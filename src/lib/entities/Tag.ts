@@ -2,7 +2,7 @@ import type Entity from "$lib/struct/Entity";
 
 export default class Tag implements Entity
 {
-    public readonly id!: number;
+    public id!: number;
     public name!: string;
 
     constructor(id: number, name: string) {
@@ -12,6 +12,10 @@ export default class Tag implements Entity
 
     static empty(): Tag {
         return new Tag(0, '');
+    }
+
+    setId(id: number): void {
+        this.id = id;
     }
 
     clone(): Tag {

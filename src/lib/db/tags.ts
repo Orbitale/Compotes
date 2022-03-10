@@ -66,3 +66,14 @@ export async function updateTag(tag: Tag): Promise<void>
 
     tag_entity.mergeWith(tag);
 }
+
+export async function createTag(tag: Tag): Promise<void>
+{
+    let id = await api_call("tag_create", {tag: tag.serialize()});
+
+    if (isNaN(+id)) {
+        throw new Error('Internal error: API returned a non-number ID.');
+    }
+
+    tag.setId(+id);
+}
