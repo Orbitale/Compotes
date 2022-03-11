@@ -72,4 +72,4 @@ jobs:
               with:
                   name: release-${{ matrix.os }}
                   path: |
-                      src-tauri/target/release/Compotes*
+                      src-tauri/target/release/compotes*
