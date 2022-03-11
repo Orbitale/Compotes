@@ -2,13 +2,14 @@
     import {error, success, warning} from "$lib/utils/message";
     import DragDropList from "$lib/components/DragDrop/DragDropList.svelte";
     import api_call from "$lib/utils/api_call.ts";
-    import {bankAccountsStore} from '$lib/db/bank_accounts';
+    import {bankAccountsStore, getBankAccounts} from '$lib/db/bank_accounts';
     import type BankAccount from "$lib/entities/BankAccount";
     import Operation, {OperationState} from "$lib/entities/Operation";
     import {CsvFieldReference, referenceToEntityProperty} from "$lib/utils/csv";
     import {DateFormat} from "$lib/utils/date";
     import {goto} from "$app/navigation";
     import {page} from "$app/stores";
+    import {onMount} from "svelte";
 
     let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
@@ -258,25 +259,44 @@
     }
 
     bankAccountsStore.subscribe((storedBankAccounts) => bankAccounts = storedBankAccounts || []);
+
+    onMount(() => {
+        // Force bank accounts to be fetched in memory if not fetched already.
+        getBankAccounts();
+    });
 </script>
 
+<a href="/import" class="btn btn-link">&larr; Back to import</a>
+
+<hr>
+
 <div class="row">
-    <div class="col">
-        {#if finalOperations.length}
-            <button class="btn btn-primary" type="button" on:click={importFile}>Import</button>
-        {/if}
-        {#if !loading && fileContent && fileContent.length}
-            <button class="btn btn-info" type="button" on:click={uploadFile}>Refresh</button>
-            <small class="muted">(Remember to refresh on any change)</small>
-        {/if}
-        {#if loading}
-            Loading...
-        {/if}
-    </div>
     <div class="col">
         <input type="file" id="file_to_import" bind:files on:change={uploadFile} />
     </div>
 </div>
+<br>
+<div class="row">
+    <div class="col-lg-4">
+        <button class="btn btn-outline-info" type="button" on:click={uploadFile} class:disabled={!(!loading && fileContent && fileContent.length)}>
+            🔄 Refresh
+        </button>
+        <br>
+        <small class="muted">(Remember to refresh on any change)</small>
+    </div>
+
+    <div class="col-lg-3">
+        <button class="btn btn-primary" type="button" on:click={importFile} class:disabled={finalOperations.length === 0}>
+            Import
+        </button>
+    </div>
+</div>
+
+{#if loading}
+    <div class="alert alert-info">
+        Loading…
+    </div>
+{/if}
 
 <hr>
 

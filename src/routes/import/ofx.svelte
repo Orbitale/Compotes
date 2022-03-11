@@ -36,22 +36,31 @@
     }
 
     async function importFile() {
+        warning('Not implemented yet.');
         await api_call("import_ofx", {fileContent: filePreview});
     }
 </script>
+
+<p class="alert alert-warning">
+    Not implemented yet.
+</p>
 
 <div>
     <input type="file" id="file_to_import" bind:files />
 </div>
 
 <div>
-    <button class="btn btn-primary" type="button" on:click={uploadFile}>Preview</button>
+    {#if files && files.length > 0}
+        <button class="btn btn-primary" type="button" on:click={uploadFile}>Preview</button>
+    {/if}
     {#if filePreview && filePreview.length}
         <button class="btn btn-primary" type="button" on:click={importFile}>Import</button>
     {/if}
 </div>
 
+{#if filePreview}
 Preview:
 <pre id="preview">
     {filePreview}
 </pre>
+{/if}
