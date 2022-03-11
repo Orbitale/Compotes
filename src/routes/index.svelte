@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Login from "$lib/components/Login.svelte";
-    import Register from "$lib/components/Register.svelte";
+    // import Login from "$lib/components/Login.svelte";
+    // import Register from "$lib/components/Register.svelte";
 
     import {getUser} from '$lib/auth/current_user.ts';
     import {onMount} from "svelte";
@@ -16,6 +16,7 @@
 <div class="container">
     <h1 class="container">Compotes app, new version!</h1>
 
+    <!-- TODO: check if  this is relevant
     {#if user === true}
         Hello {user.username}!
     {:else}
@@ -46,6 +47,7 @@
             </div>
         </div>
     {/if}
+    -->
 </div>
 
 <style lang="scss">
