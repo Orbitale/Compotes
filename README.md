@@ -1,7 +1,13 @@
-Compotes v2
-===========
+🍎 Compotes 🍏
+=============
 
-(it's actually v1 because the PHP-based project is v0.x, but it's v2 anyway because it's cooler).
+A small application to visualise bank operations in graphs and plots.
+
+# 🧮
+
+> This is the second version of the main app that was previously built with PHP and Symfony.
+> 
+> The new app is built in [Rust](https://www.rust-lang.org/) with [Tauri](https://tauri.studio/) for the backend, and uses [Typescript](https://www.typescriptlang.org/) and [Svelte](https://svelte.dev/) for the frontend part. 
 
 ![App screenshot](docs/capture1.png)
 
