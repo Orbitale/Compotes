@@ -12,6 +12,13 @@ pub(crate) struct TagRule {
     pub(crate) is_regex: bool,
 }
 
+#[derive(Deserialize)]
+struct TagRuleToApply {
+    tag_id: u32,
+    matching_pattern: String,
+    is_regex: bool
+}
+
 pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule> {
     let mut stmt = conn
         .prepare(
@@ -101,10 +108,77 @@ pub(crate) fn update(conn: &Connection, tag_rule: TagRule)
     }
 }
 
-pub(crate) fn apply_rules(conn: &Connection) -> usize {
-    println!("TODO: apply tag rules");
+pub(crate) fn apply_rules(conn: &mut Connection) -> (u32, u32) {
+    let mut rules_to_apply: Vec<TagRuleToApply> = Vec::new();
 
-    0
+    {
+        let mut stmt = conn
+            .prepare("
+            SELECT
+               tags.id as tag_id,
+               tag_rules.matching_pattern,
+               tag_rules.is_regex
+            FROM tag_rule_tag
+            INNER JOIN tags ON tag_rule_tag.tag_id = tags.id
+            INNER JOIN tag_rules ON tag_rule_tag.tag_rule_id = tag_rules.id
+        ")
+            .expect("Could not fetch operations");
+
+        let mut rows = serde_rusqlite::from_rows::<TagRuleToApply>(stmt.query([]).unwrap());
+
+        loop {
+            match rows.next() {
+                None => {
+                    break;
+                }
+                Some(result_rule_to_apply) => {
+                    let rule_to_apply = result_rule_to_apply.expect("Could not deserialize TagRule item");
+                    rules_to_apply.push(rule_to_apply);
+                }
+            }
+        }
+    }
+
+    let number_of_rules: u32 = rules_to_apply.len() as u32;
+
+    let mut number_of_affected_operations: u32 = 0;
+
+    for rule in rules_to_apply {
+        let sql = format!("
+        INSERT OR IGNORE INTO operation_tag (operation_id, tag_id)
+        SELECT id as operation_id, :tag_id
+        FROM operations
+        WHERE {}
+        ", if rule.is_regex {
+            "regexp(:pattern, details)"
+        } else {
+            "details LIKE :pattern"
+        }
+        );
+
+        let pattern = if rule.is_regex {
+            rule.matching_pattern
+        } else {
+            format!("%{}%", rule.matching_pattern)
+        };
+
+        // Stmt to exec if operation matches
+        let mut stmt = conn.prepare_cached(&sql)
+            .expect("Could not create query to apply a tag rule.");
+
+        let affected_rows = stmt.execute(named_params! {
+            ":pattern": &pattern,
+            ":tag_id": rule.tag_id,
+        }).expect("Could not execute insert statement for operation tag.") as u32;
+
+        number_of_affected_operations = number_of_affected_operations + affected_rows;
+    }
+
+    let mut transaction = conn.transaction().expect("Could not create transaction to apply tag rules");
+
+    transaction.commit().expect("An error occured when applying tag rules");
+
+    (number_of_rules, number_of_affected_operations)
 }
 
 pub(crate) fn create(conn: &Connection, tag_rule: TagRule) -> usize {

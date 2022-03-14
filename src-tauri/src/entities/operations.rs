@@ -250,7 +250,7 @@ pub(crate) fn insert_all(conn: &mut Connection, operations: Vec<Operation>) {
     }
 }
 
-pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> usize {
+pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> u32 {
     let transaction = conn
         .transaction()
         .expect("Could not create database transaction.");
@@ -281,7 +281,7 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> usize {
         .commit()
         .expect("Could not execute update operations state transaction");
 
-    result
+    result as u32
 }
 
 pub(crate) fn update_details(conn: &mut Connection, id: String, details: String) {
