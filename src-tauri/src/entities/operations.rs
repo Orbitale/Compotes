@@ -54,11 +54,14 @@ pub(crate) fn find_paginate(conn: &Connection, page: u16) -> Vec<Operation> {
     let limit = crate::config::NUMBER_PER_PAGE;
     let offset = (page - 1) * limit;
 
-    let mut rows_iter = from_rows::<Operation>(stmt.query(named_params!{
-        ":triage": OperationState::PendingTriage.to_string(),
-        ":limit": limit.to_string(),
-        ":offset": offset.to_string(),
-    }).unwrap());
+    let mut rows_iter = from_rows::<Operation>(
+        stmt.query(named_params! {
+            ":triage": OperationState::PendingTriage.to_string(),
+            ":limit": limit.to_string(),
+            ":offset": offset.to_string(),
+        })
+        .unwrap(),
+    );
 
     loop {
         match rows_iter.next() {
@@ -85,9 +88,11 @@ pub(crate) fn find_count(conn: &Connection) -> Box<u32> {
         )
         .expect("Could not fetch operations");
 
-    let mut result = stmt.query(named_params!{
-        ":triage": OperationState::PendingTriage.to_string(),
-    }).unwrap();
+    let mut result = stmt
+        .query(named_params! {
+            ":triage": OperationState::PendingTriage.to_string(),
+        })
+        .unwrap();
 
     let first_row = result.next().unwrap().unwrap();
 
@@ -106,9 +111,11 @@ pub(crate) fn find_count_triage(conn: &Connection) -> Box<u32> {
         )
         .expect("Could not fetch operations");
 
-    let mut result = stmt.query(named_params!{
-        ":triage": OperationState::PendingTriage.to_string(),
-    }).unwrap();
+    let mut result = stmt
+        .query(named_params! {
+            ":triage": OperationState::PendingTriage.to_string(),
+        })
+        .unwrap();
 
     let first_row = result.next().unwrap().unwrap();
 
@@ -141,11 +148,16 @@ pub(crate) fn get_by_id(conn: &Connection, id: u32) -> Operation {
         )
         .expect("Could not fetch operation");
 
-    let mut rows = stmt.query(named_params!{
+    let mut rows = stmt
+        .query(named_params! {
             ":id": &id,
-        }).expect("Could not execute query to fetch an operation by id.");
+        })
+        .expect("Could not execute query to fetch an operation by id.");
 
-    let row = rows.next().expect("Could not retrieve query rows.").expect("No operation found with this ID.");
+    let row = rows
+        .next()
+        .expect("Could not retrieve query rows.")
+        .expect("No operation found with this ID.");
 
     serde_rusqlite::from_row::<Operation>(row).unwrap()
 }
@@ -183,11 +195,14 @@ pub(crate) fn find_triage(conn: &Connection, page: u16) -> Vec<Operation> {
     let limit = crate::config::NUMBER_PER_PAGE;
     let offset = (page - 1) * limit;
 
-    let mut rows_iter = from_rows::<Operation>(stmt.query(named_params! {
-        ":triage": OperationState::PendingTriage,
-        ":limit": limit.to_string(),
-        ":offset": offset.to_string(),
-    }).unwrap());
+    let mut rows_iter = from_rows::<Operation>(
+        stmt.query(named_params! {
+            ":triage": OperationState::PendingTriage,
+            ":limit": limit.to_string(),
+            ":offset": offset.to_string(),
+        })
+        .unwrap(),
+    );
 
     loop {
         match rows_iter.next() {
@@ -257,7 +272,8 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> u32 {
 
     let result = {
         let mut stmt = transaction
-        .prepare("
+            .prepare(
+                "
         update operations
         set state = :triage
         where operations.state != :triage
@@ -268,13 +284,13 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> u32 {
             having count(t2.hash) > 1
         )
         ",
-        )
-        .expect("Could not create query to update operations state.");
+            )
+            .expect("Could not create query to update operations state.");
 
         stmt.execute(named_params! {
             ":triage": &OperationState::PendingTriage.to_string(),
         })
-            .expect("Could not execute update operations state query")
+        .expect("Could not execute update operations state query")
     };
 
     transaction
@@ -286,7 +302,8 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> u32 {
 
 pub(crate) fn update_details(conn: &mut Connection, id: String, details: String) {
     let mut stmt = conn
-        .prepare("
+        .prepare(
+            "
         update operations
         set details = :details,
         state = :ok
@@ -300,7 +317,7 @@ pub(crate) fn update_details(conn: &mut Connection, id: String, details: String)
         ":details": &details,
         ":ok": &OperationState::Ok.to_string(),
     })
-        .expect("Could not execute update operations details query");
+    .expect("Could not execute update operations details query");
 }
 
 pub(crate) fn delete(conn: &mut Connection, id: String) {
@@ -308,16 +325,16 @@ pub(crate) fn delete(conn: &mut Connection, id: String) {
     let operation = get_by_id(conn, id_as_number);
     let hash = operation.hash;
 
-    conn
-        .prepare("delete from operations where id = :id").expect("Could not create query to delete operation.")
-        .execute(named_params! {":id": &id}).expect("Could not execute delete operation")
-    ;
+    conn.prepare("delete from operations where id = :id")
+        .expect("Could not create query to delete operation.")
+        .execute(named_params! {":id": &id})
+        .expect("Could not execute delete operation");
 
-    conn
-        .prepare("update operations set state = :ok where hash = :hash").expect("Could not create query to delete operation.")
+    conn.prepare("update operations set state = :ok where hash = :hash")
+        .expect("Could not create query to delete operation.")
         .execute(named_params! {
             ":ok": &OperationState::Ok.to_string(),
             ":hash": &hash,
-        }).expect("Could not execute delete operation")
-    ;
+        })
+        .expect("Could not execute delete operation");
 }

@@ -1,5 +1,3 @@
-use std::fmt::Display;
-use std::fmt::Formatter;
 use rusqlite::types::FromSql;
 use rusqlite::types::FromSqlError;
 use rusqlite::types::FromSqlResult;
@@ -8,6 +6,8 @@ use rusqlite::types::ValueRef;
 use rusqlite::ToSql;
 use serde::Deserialize;
 use serde::Serialize;
+use std::fmt::Display;
+use std::fmt::Formatter;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) enum OperationState {
@@ -19,10 +19,14 @@ pub(crate) enum OperationState {
 
 impl Display for OperationState {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", match self {
-            OperationState::Ok => "ok".to_string(),
-            OperationState::PendingTriage => "pending_triage".to_string(),
-        })
+        write!(
+            f,
+            "{}",
+            match self {
+                OperationState::Ok => "ok".to_string(),
+                OperationState::PendingTriage => "pending_triage".to_string(),
+            }
+        )
     }
 }
 
@@ -56,6 +60,9 @@ mod tests {
 
     #[test]
     fn pending_triage_to_string() {
-        assert_eq!(OperationState::PendingTriage.to_string(), "pending_triage".to_string());
+        assert_eq!(
+            OperationState::PendingTriage.to_string(),
+            "pending_triage".to_string()
+        );
     }
 }

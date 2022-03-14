@@ -10,23 +10,23 @@ mod config;
 mod db;
 
 mod commands {
+    pub(crate) mod bank_account_create;
+    pub(crate) mod bank_account_find_all;
+    pub(crate) mod import_operations;
     pub(crate) mod operation_delete;
     pub(crate) mod operation_update_details;
     pub(crate) mod operations_get;
-    pub(crate) mod operations_get_count;
-    pub(crate) mod operations_get_triage_count;
     pub(crate) mod operations_get_by_id;
+    pub(crate) mod operations_get_count;
     pub(crate) mod operations_get_triage;
-    pub(crate) mod tags_get;
-    pub(crate) mod import_operations;
-    pub(crate) mod bank_account_find_all;
-    pub(crate) mod bank_account_create;
+    pub(crate) mod operations_get_triage_count;
+    pub(crate) mod sync;
     pub(crate) mod tag_create;
-    pub(crate) mod tag_update;
-    pub(crate) mod tag_rules_get;
     pub(crate) mod tag_rule_create;
     pub(crate) mod tag_rule_update;
-    pub(crate) mod sync;
+    pub(crate) mod tag_rules_get;
+    pub(crate) mod tag_update;
+    pub(crate) mod tags_get;
 }
 
 mod entities {

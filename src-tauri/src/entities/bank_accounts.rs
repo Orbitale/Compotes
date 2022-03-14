@@ -50,8 +50,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount> {
     bank_accounts
 }
 
-pub(crate) fn create(conn: &Connection, bank_account: BankAccount) -> i64
-{
+pub(crate) fn create(conn: &Connection, bank_account: BankAccount) -> i64 {
     if bank_account.id != 0 {
         panic!("Cannot create a bank account that already has an ID");
     }

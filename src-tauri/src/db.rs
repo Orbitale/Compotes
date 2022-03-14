@@ -1,23 +1,25 @@
 use crate::config::compotes_dir;
-use rusqlite::Connection;
-use rusqlite::OpenFlags;
+use regex::Regex;
 use rusqlite::functions::Context;
 use rusqlite::functions::FunctionFlags;
+use rusqlite::Connection;
+use rusqlite::OpenFlags;
 use std::path::PathBuf;
-use regex::Regex;
 
 pub(crate) fn get_database_connection() -> Connection {
     let database_path = get_database_path();
     let database_flags = get_database_flags();
 
-    let conn = Connection::open_with_flags(database_path, database_flags).expect("Could not open database.");
+    let conn = Connection::open_with_flags(database_path, database_flags)
+        .expect("Could not open database.");
 
     conn.create_scalar_function(
         "regexp",
         2,
         FunctionFlags::SQLITE_UTF8 | FunctionFlags::SQLITE_DETERMINISTIC,
         regexp_with_auxilliary,
-    ).expect("Could not add regexp function to database");
+    )
+    .expect("Could not add regexp function to database");
 
     conn
 }
@@ -38,7 +40,6 @@ fn get_database_flags() -> OpenFlags {
     db_flags
 }
 
-
 // Code borrowed from rusqlite's unit test suite that implemented regex with auxilliary functions.
 // --------------------------------------
 // This implementation of a regexp scalar function uses SQLite's auxiliary data
@@ -47,10 +48,9 @@ fn get_database_flags() -> OpenFlags {
 fn regexp_with_auxilliary(ctx: &Context<'_>) -> rusqlite::Result<bool> {
     assert_eq!(ctx.len(), 2, "called with unexpected number of arguments");
     type BoxError = Box<dyn std::error::Error + Send + Sync + 'static>;
-    let regexp: std::sync::Arc<Regex> = ctx
-        .get_or_create_aux(0, |vr| -> Result<_, BoxError> {
-            Ok(Regex::new(vr.as_str()?)?)
-        })?;
+    let regexp: std::sync::Arc<Regex> = ctx.get_or_create_aux(0, |vr| -> Result<_, BoxError> {
+        Ok(Regex::new(vr.as_str()?)?)
+    })?;
 
     let is_match = {
         let text = ctx

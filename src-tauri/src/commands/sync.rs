@@ -1,9 +1,9 @@
 use crate::entities::operations;
 use crate::entities::tag_rules;
 use rusqlite::Connection;
+use serde::Serialize;
 use std::ops::DerefMut;
 use std::sync::Mutex;
-use serde::Serialize;
 use tauri::State;
 
 #[derive(Serialize)]
@@ -15,7 +15,11 @@ struct SyncResult {
 
 impl SyncResult {
     pub fn new(rules_applied: u32, affected_operations: u32, duplicates_refreshed: u32) -> Self {
-        SyncResult { rules_applied, affected_operations, duplicates_refreshed }
+        SyncResult {
+            rules_applied,
+            affected_operations,
+            duplicates_refreshed,
+        }
     }
 }
 
@@ -30,5 +34,10 @@ pub(crate) fn sync(conn_state: State<'_, Mutex<Connection>>) -> String {
     let (rules_applied, affected_operations) = tag_rules::apply_rules(conn);
     let duplicates = operations::refresh_statuses_with_hashes(conn);
 
-    serde_json::to_string(&SyncResult::new(rules_applied, affected_operations, duplicates)).unwrap()
+    serde_json::to_string(&SyncResult::new(
+        rules_applied,
+        affected_operations,
+        duplicates,
+    ))
+    .unwrap()
 }

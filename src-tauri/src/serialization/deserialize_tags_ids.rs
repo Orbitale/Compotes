@@ -18,7 +18,8 @@ where
         }
 
         fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
-            where E: serde::de::Error,
+        where
+            E: serde::de::Error,
         {
             let mut ids = Vec::new();
             for id in v.split(',') {
@@ -31,13 +32,15 @@ where
         }
 
         fn visit_none<E>(self) -> Result<Self::Value, E>
-            where E: serde::de::Error
+        where
+            E: serde::de::Error,
         {
             Ok(Vec::new())
         }
 
         fn visit_seq<S>(self, visitor: S) -> Result<Self::Value, S::Error>
-            where S: serde::de::SeqAccess<'de>
+        where
+            S: serde::de::SeqAccess<'de>,
         {
             Deserialize::deserialize(serde::de::value::SeqAccessDeserializer::new(visitor))
         }

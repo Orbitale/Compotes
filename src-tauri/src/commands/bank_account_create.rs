@@ -6,8 +6,10 @@ use std::sync::Mutex;
 use tauri::State;
 
 #[tauri::command]
-pub(crate) fn bank_account_create(conn_state: State<'_, Mutex<Connection>>, bank_account: String) -> i64
-{
+pub(crate) fn bank_account_create(
+    conn_state: State<'_, Mutex<Connection>>,
+    bank_account: String,
+) -> i64 {
     let conn = conn_state
         .inner()
         .lock()

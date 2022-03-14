@@ -6,8 +6,7 @@ use std::sync::Mutex;
 use tauri::State;
 
 #[tauri::command]
-pub(crate) fn tag_create(conn_state: State<'_, Mutex<Connection>>, tag: String) -> i64
-{
+pub(crate) fn tag_create(conn_state: State<'_, Mutex<Connection>>, tag: String) -> i64 {
     let conn = conn_state
         .inner()
         .lock()
