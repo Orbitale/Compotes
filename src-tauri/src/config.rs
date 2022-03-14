@@ -13,5 +13,5 @@ pub(crate) fn compotes_dir() -> PathBuf {
         fs::create_dir_all(&compotes_dir).expect("Could not create Compotes directory.");
     }
 
-    return compotes_dir;
+    compotes_dir
 }

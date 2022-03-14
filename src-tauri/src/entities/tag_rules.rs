@@ -171,12 +171,8 @@ pub(crate) fn apply_rules(conn: &mut Connection) -> (u32, u32) {
             ":tag_id": rule.tag_id,
         }).expect("Could not execute insert statement for operation tag.") as u32;
 
-        number_of_affected_operations = number_of_affected_operations + affected_rows;
+        number_of_affected_operations += affected_rows;
     }
-
-    let mut transaction = conn.transaction().expect("Could not create transaction to apply tag rules");
-
-    transaction.commit().expect("An error occured when applying tag rules");
 
     (number_of_rules, number_of_affected_operations)
 }

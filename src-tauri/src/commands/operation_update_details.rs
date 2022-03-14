@@ -14,8 +14,8 @@ pub(crate) fn operation_update_details(
         .inner()
         .lock()
         .expect("Could not retrieve database connection");
-    let mut conn = conn.deref_mut();
+    let conn = conn.deref_mut();
 
-    operations::update_details(&mut conn, id, details);
+    operations::update_details(conn, id, details);
     println!("Todo: update other operations with same hash.");
 }

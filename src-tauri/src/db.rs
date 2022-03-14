@@ -19,11 +19,11 @@ pub(crate) fn get_database_connection() -> Connection {
         regexp_with_auxilliary,
     ).expect("Could not add regexp function to database");
 
-    return conn;
+    conn
 }
 
 fn get_database_path() -> PathBuf {
-    return compotes_dir().join("compotes.db3");
+    compotes_dir().join("compotes.db3")
 }
 
 fn get_database_flags() -> OpenFlags {
@@ -61,5 +61,5 @@ fn regexp_with_auxilliary(ctx: &Context<'_>) -> rusqlite::Result<bool> {
         regexp.is_match(text)
     };
 
-    return Ok(is_match);
+    Ok(is_match)
 }

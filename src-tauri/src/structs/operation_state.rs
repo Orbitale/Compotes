@@ -1,3 +1,5 @@
+use std::fmt::Display;
+use std::fmt::Formatter;
 use rusqlite::types::FromSql;
 use rusqlite::types::FromSqlError;
 use rusqlite::types::FromSqlResult;
@@ -7,7 +9,7 @@ use rusqlite::ToSql;
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(strum_macros::Display, Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub(crate) enum OperationState {
     #[serde(rename = "ok")]
     Ok,
@@ -15,12 +17,12 @@ pub(crate) enum OperationState {
     PendingTriage,
 }
 
-impl OperationState {
-    pub(crate) fn to_string(&self) -> String {
-        match self {
+impl Display for OperationState {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", match self {
             OperationState::Ok => "ok".to_string(),
             OperationState::PendingTriage => "pending_triage".to_string(),
-        }
+        })
     }
 }
 

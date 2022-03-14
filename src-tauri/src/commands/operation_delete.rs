@@ -13,7 +13,7 @@ pub(crate) fn operation_delete(
         .inner()
         .lock()
         .expect("Could not retrieve database connection");
-    let mut conn = conn.deref_mut();
+    let conn = conn.deref_mut();
 
-    operations::delete(&mut conn, id);
+    operations::delete(conn, id);
 }

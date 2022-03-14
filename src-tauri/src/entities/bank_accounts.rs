@@ -2,6 +2,7 @@ use rusqlite::named_params;
 use rusqlite::Connection;
 use serde::Deserialize;
 use serde::Serialize;
+use slugify::slugify;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) struct BankAccount {
@@ -11,10 +12,8 @@ pub(crate) struct BankAccount {
     pub(crate) currency: String,
 }
 
-pub(crate) fn create_slug(name: &String) -> String {
-    let str = name.clone();
-
-    str
+pub(crate) fn create_slug(name: String) -> String {
+    slugify!(&name)
 }
 
 pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount> {
@@ -51,30 +50,6 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount> {
     bank_accounts
 }
 
-pub(crate) fn get_by_id(conn: &Connection, id: u32) -> BankAccount {
-    let mut stmt = conn
-        .prepare(
-            "
-        SELECT
-            id,
-            name,
-            slug,
-            currency
-        FROM bank_accounts
-        WHERE id = :id
-    ",
-        )
-        .expect("Could not fetch bank account");
-
-    let mut rows = stmt.query(named_params!{
-            ":id": &id,
-        }).expect("Could not execute query to fetch a bank account by id.");
-
-    let row = rows.next().expect("Could not retrieve query rows.").expect("No bank account found with this ID.");
-
-    serde_rusqlite::from_row::<BankAccount>(row).unwrap()
-}
-
 pub(crate) fn create(conn: &Connection, bank_account: BankAccount) -> i64
 {
     if bank_account.id != 0 {
@@ -101,34 +76,11 @@ pub(crate) fn create(conn: &Connection, bank_account: BankAccount) -> i64
         .expect("An Error occured when preparing the SQL statement.");
 
     stmt.execute(named_params! {
-        ":name": &bank_account.name,
-        ":slug": &create_slug(&bank_account.name),
+        ":name": &bank_account.name.clone(),
+        ":slug": &create_slug(bank_account.name.clone()),
         ":currency": &bank_account.currency,
     })
     .expect("Could not create bank account");
 
     conn.last_insert_rowid()
-}
-
-pub(crate) fn update(conn: &Connection, bank_account: BankAccount) {
-    if bank_account.id == 0 {
-        panic!("Cannot update a bank account with no ID");
-    }
-
-    let mut stmt = conn
-        .prepare(
-            "
-            UPDATE bank_acccounts
-            SET name = :name,
-            currency = :currency
-            WHERE id = :id
-        ",
-        )
-        .unwrap();
-
-    stmt.execute(named_params! {
-            ":id": &bank_account.id,
-            ":name": &bank_account.name,
-        })
-        .expect("Could not update tag");
 }

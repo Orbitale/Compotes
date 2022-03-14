@@ -14,7 +14,7 @@ pub(crate) fn import_operations(
         .inner()
         .lock()
         .expect("Could not retrieve database connection");
-    let mut conn = conn.deref_mut();
+    let conn = conn.deref_mut();
 
-    operations::insert_all(&mut conn, operations);
+    operations::insert_all(conn, operations);
 }

@@ -12,6 +12,6 @@ pub(crate) fn bank_account_find_all(conn_state: State<'_, Mutex<Connection>>) ->
         .expect("Could not retrieve database connection");
     let conn = conn.deref();
 
-    serde_json::to_string(&bank_accounts::find_all(&conn))
+    serde_json::to_string(&bank_accounts::find_all(conn))
         .expect("Could not serialize BankAccount properly")
 }

@@ -25,10 +25,10 @@ pub(crate) fn sync(conn_state: State<'_, Mutex<Connection>>) -> String {
         .inner()
         .lock()
         .expect("Could not retrieve database connection");
-    let mut conn = conn.deref_mut();
+    let conn = conn.deref_mut();
 
-    let (rules_applied, affected_operations) = tag_rules::apply_rules(&mut conn);
-    let duplicates = operations::refresh_statuses_with_hashes(&mut conn);
+    let (rules_applied, affected_operations) = tag_rules::apply_rules(conn);
+    let duplicates = operations::refresh_statuses_with_hashes(conn);
 
     serde_json::to_string(&SyncResult::new(rules_applied, affected_operations, duplicates)).unwrap()
 }

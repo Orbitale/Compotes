@@ -21,7 +21,7 @@ where
             where E: serde::de::Error,
         {
             let mut ids = Vec::new();
-            for id in v.split(",") {
+            for id in v.split(',') {
                 let id = id.parse::<u32>().unwrap_or(0);
                 if id != 0 {
                     ids.push(id);

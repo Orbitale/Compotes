@@ -62,7 +62,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_rusqlite",
- "strum_macros 0.24.0",
+ "slugify",
  "tauri",
  "tauri-build",
 ]
@@ -3002,6 +3002,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9def91fd1e018fe007022791f865d0ccc9b3a0d5001e01aabb8b40e46000afb5"
 
 [[package]]
+name = "slugify"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d6b8cf203d2088b831d7558f8e5151bfa420c57a34240b28cee29d0ae5f2ac8b"
+dependencies = [
+ "unidecode",
+]
+
+[[package]]
 name = "smallvec"
 version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3126,19 +3135,6 @@ dependencies = [
  "heck 0.3.3",
  "proc-macro2",
  "quote",
- "syn",
-]
-
-[[package]]
-name = "strum_macros"
-version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6878079b17446e4d3eba6192bb0a2950d5b14f0ed8424b852310e5a94345d0ef"
-dependencies = [
- "heck 0.4.0",
- "proc-macro2",
- "quote",
- "rustversion",
  "syn",
 ]
 
@@ -3654,6 +3650,12 @@ name = "unicode-xid"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
+
+[[package]]
+name = "unidecode"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "402bb19d8e03f1d1a7450e2bd613980869438e0666331be3e073089124aa1adc"
 
 [[package]]
 name = "url"

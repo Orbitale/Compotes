@@ -12,6 +12,6 @@ pub(crate) fn tag_rules_get(conn_state: State<'_, Mutex<Connection>>) -> String 
         .expect("Could not retrieve database connection");
     let conn = conn.deref();
 
-    serde_json::to_string(&tag_rules::find_all(&conn))
+    serde_json::to_string(&tag_rules::find_all(conn))
         .expect("Could not serialize Tag rules properly")
 }

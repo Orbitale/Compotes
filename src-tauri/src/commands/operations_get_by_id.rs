@@ -14,6 +14,6 @@ pub(crate) fn operations_get_by_id(conn_state: State<'_, Mutex<Connection>>, id:
 
     let id_as_u32: u32 = id.parse().unwrap();
 
-    serde_json::to_string(&operations::get_by_id(&conn, id_as_u32))
+    serde_json::to_string(&operations::get_by_id(conn, id_as_u32))
         .expect("Could not serialize Operation properly")
 }

@@ -305,7 +305,7 @@ pub(crate) fn update_details(conn: &mut Connection, id: String, details: String)
 
 pub(crate) fn delete(conn: &mut Connection, id: String) {
     let id_as_number = id.parse::<u32>().unwrap();
-    let operation = get_by_id(&conn, id_as_number);
+    let operation = get_by_id(conn, id_as_number);
     let hash = operation.hash;
 
     conn

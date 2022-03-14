@@ -12,6 +12,6 @@ pub(crate) fn operations_get_triage_count(conn_state: State<'_, Mutex<Connection
         .expect("Could not retrieve database connection");
     let conn = conn.deref();
 
-    serde_json::to_string(&operations::find_count_triage(&conn))
+    serde_json::to_string(&operations::find_count_triage(conn))
         .expect("Could not serialize Operations properly")
 }
