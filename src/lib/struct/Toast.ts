@@ -24,12 +24,20 @@ export default class Toast {
         });
     }
 
-    private theme() {
-        switch (this._toast_type) {
-            case ToastType.info: return {'--toastBackground': '#0dcaf0', '--toastColor': ''};
-            case ToastType.warning: return {'--toastBackground': '#ffc107', '--toastColor': ''};
-            case ToastType.error: return {'--toastBackground': '#dc3545', '--toastColor': ''};
-            case ToastType.success: return {'--toastBackground': '#198754', '--toastColor': ''};
+    private theme(): { [key: string]: string } {
+        const style = Toast.getColors(this._toast_type);
+
+        style['--toastWidth'] = '25rem';
+
+        return style;
+    }
+
+    static getColors(toast_type: ToastType): { [key: string]: string } {
+        switch (toast_type) {
+            case ToastType.info: return {'--toastBackground': '#6ee0f7', '--toastColor': ''};
+            case ToastType.warning: return {'--toastBackground': '#f7d56e', '--toastColor': ''};
+            case ToastType.error: return {'--toastBackground': '#f07582', '--toastColor': ''};
+            case ToastType.success: return {'--toastBackground': '#79ecb5', '--toastColor': ''};
             default: throw 'Invalid toast type.';
         }
     }
