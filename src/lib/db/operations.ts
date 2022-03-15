@@ -127,7 +127,7 @@ export async function getOperationById(id: number): Promise<Operation | null>
 
 export async function refreshAllOperations() {
     const normalizeCallback = async (op: Operation) => {
-        const res = await api_call("operations_get_by_id", {id: op.id});
+        const res = await api_call("operations_get_by_id", {id: op.id.toString(10)});
         const deserialized_operation: DeserializedOperation = JSON.parse(res);
 
         return await normalizeOperationFromDeserialized(deserialized_operation);
