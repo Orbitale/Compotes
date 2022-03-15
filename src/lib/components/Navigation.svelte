@@ -3,8 +3,10 @@
     import OperationsSynchronizer from "$lib/struct/OperationsSynchronizer";
     import SpinLoader from "$lib/admin/components/SpinLoader.svelte";
     import {page} from '$app/stores';
+    import {ToastType} from "$lib/struct/Toast";
+    import message from "$lib/utils/message";
 
-    let syncing: boolean;
+    let syncing: boolean = false;
     let user = getUser();
 
     const links = [
@@ -17,7 +19,13 @@
         {url: '/import', label: 'Import'},
     ];
 
-    $: syncing = OperationsSynchronizer.syncing;
+    async function sync() {
+        syncing = true;
+        const res = await OperationsSynchronizer.sync();
+
+        message(res.val, res.ok ? ToastType.success : ToastType.error);
+        syncing = false;
+    }
 </script>
 
 <style lang="scss">
@@ -84,7 +92,7 @@
                         </li>
                     {/each}
 
-                    <li class="nav-item" class:syncing><button class="nav-link" on:click={OperationsSynchronizer.sync}>
+                    <li class="nav-item" class:syncing><button class="nav-link" on:click={sync}>
                         Sync
                         <SpinLoader display={syncing} />
                     </button></li>
