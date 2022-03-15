@@ -20,6 +20,7 @@ export default class Toast {
         toast.push({
             msg: this._content,
             theme: this.theme(),
+            pausable: true,
         });
     }
 
