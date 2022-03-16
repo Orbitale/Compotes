@@ -15,6 +15,7 @@ mod commands {
     pub(crate) mod import_operations;
     pub(crate) mod operation_delete;
     pub(crate) mod operation_update_details;
+    pub(crate) mod operation_update_tags;
     pub(crate) mod operations_get;
     pub(crate) mod operations_get_by_id;
     pub(crate) mod operations_get_count;
@@ -56,6 +57,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             crate::commands::operation_delete::operation_delete,
             crate::commands::operation_update_details::operation_update_details,
+            crate::commands::operation_update_tags::operation_update_tags,
             crate::commands::operations_get_by_id::operations_get_by_id,
             crate::commands::operations_get::operations_get,
             crate::commands::operations_get_count::operations_get_count,

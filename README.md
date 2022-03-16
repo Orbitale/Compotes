@@ -27,15 +27,18 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
   * ✔️ Bank accounts CRUD
     * ❌ Edit bank account details
   * ✔️ Import operations from CSV file
-  * ❌ Add tags to operations directly from the list
+  * ✔️ Add tags to operations directly from the list
   * ✔️ Sync operations for triage
-  * ❌ Sync operations tags with tag rules
+  * ✔️ Sync operations tags with tag rules
   * ❌ Add the graphs that are at the core of this app 😅
 * Additional features that might be cool:
   * ❌ Allow customizing graphs
   * ❌ Config panel to allow customizing database, export/import whole database
   * ❌ User account system for multi-user usage
   * ❌ Encrypt entire database with a password for safety
+* Some things are quite buggy and the app needs improvements too:
+  * ❌ Check why we have to use `location.reload()` because svelte stores don't update the paginated tables
+  * ❌ Use a `select2` or similar for tags selection
 
 ## Install
 

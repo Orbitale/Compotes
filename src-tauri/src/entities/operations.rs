@@ -320,6 +320,30 @@ pub(crate) fn update_details(conn: &mut Connection, id: String, details: String)
     .expect("Could not execute update operations details query");
 }
 
+pub(crate) fn update_tags(conn: &mut Connection, id: String, tags_ids: Vec<u32>) {
+    let mut stmt = conn
+        .prepare("DELETE FROM operation_tag WHERE operation_id = :id")
+        .expect("Could not create query to update operations details.");
+
+    stmt.execute(named_params! {":id": &id})
+    .expect("Could not execute update operations tags query");
+
+    let mut insert_stmt = conn
+        .prepare("
+                INSERT INTO operation_tag (operation_id, tag_id)
+                VALUES (:operation_id, :tag_id)
+            ")
+        .expect("Could not create query to update operations tags.");
+
+    for tag_id in tags_ids {
+        insert_stmt.execute(named_params! {
+            ":operation_id": &id,
+            ":tag_id": &tag_id,
+        })
+            .expect("Could not execute insert operation-tag line");
+    }
+}
+
 pub(crate) fn delete(conn: &mut Connection, id: String) {
     let id_as_number = id.parse::<u32>().unwrap();
     let operation = get_by_id(conn, id_as_number);

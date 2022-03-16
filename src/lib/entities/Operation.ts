@@ -23,7 +23,7 @@ export default class Operation implements Entity
     public readonly ignored_from_charts!: boolean;
     public readonly bank_account_id: number;
     public readonly bank_account: BankAccount;
-    public readonly tags: Array<Tag>;
+    public tags: Array<Tag>;
     public readonly tags_ids: Array<number>;
 
     constructor(

@@ -4,6 +4,7 @@ import {getTagsByIds} from "./tags";
 import {getBankAccountById} from "./bank_accounts";
 import {Writable, writable} from "svelte/store";
 import merge_lists from "$lib/utils/merge_lists";
+import type Tag from "$lib/entities/Tag";
 
 export const operationsStore: Writable<Operation[]> = writable();
 export const triageStore: Writable<Operation[]> = writable();
@@ -80,6 +81,13 @@ export async function getTriageOperationsCount(): Promise<number>
 export async function updateOperationDetails(operation: Operation)
 {
     await api_call("operation_update_details", {id: operation.id.toString(), details: operation.details});
+    syncOperation(operation);
+}
+
+export async function updateOperationTags(operation: Operation)
+{
+    await api_call("operation_update_tags", {id: operation.id.toString(), tags: operation.tags.map((tag: Tag) => tag.id)});
+    syncOperation(operation);
 }
 
 export async function deleteOperation(operation: Operation)
@@ -123,6 +131,20 @@ export async function getOperationById(id: number): Promise<Operation | null>
     const deserialized_operation: DeserializedOperation = JSON.parse(res);
 
     return normalizeOperationFromDeserialized(deserialized_operation);
+}
+
+export function syncOperation(operation: Operation) {
+    const syncCallback = (op: Operation) => {
+        if (op.id === operation.id) {
+            return operation;
+        }
+        return op;
+    };
+    operations = operations.map(syncCallback);
+    triage = triage.map(syncCallback);
+    operationsStore.set(operations);
+    triageStore.set(triage);
+    // TODO: check why this isn't working to update operations page.
 }
 
 export async function refreshAllOperations() {
