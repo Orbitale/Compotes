@@ -15,34 +15,34 @@ A small application to visualise bank operations in graphs and plots.
 
 Since the entire app is being rewritten, lots of stuff have to be re-implemented.
 
-> The "✔️" mark means the feature is implemented, while the "❌" mark means the feature is waiting for implementation.
+> The "☑️" mark means the feature is implemented, while the "⬜️" mark means the feature is waiting for implementation.
 
 * Core features:
-  * ✔️ Create the Tauri app
-  * ✔️ Create the Svelte frontend with it
-  * ✔️ List operations
-    * ❌ Allow ignoring an operation in graphs calculations
-  * ✔️ Tags CRUD
-  * ✔️ Tag rules CRUD
-  * ✔️ Bank accounts CRUD
-    * ❌ Edit bank account details
-  * ✔️ Import operations from CSV file
-  * ✔️ Add tags to operations directly from the list
-  * ✔️ Sync operations for triage
-  * ✔️ Sync operations tags with tag rules
-  * ❌ Add the graphs that are at the core of this app 😅
+  * ☑️ Create the Tauri app
+  * ☑️ Create the Svelte frontend with it
+  * ☑️ List operations
+    * ⬜️ Allow ignoring an operation in graphs calculations
+  * ☑️ Tags CRUD
+  * ☑️ Tag rules CRUD
+  * ☑️ Bank accounts CRUD
+    * ⬜️ Edit bank account details
+  * ☑️ Import operations from CSV file
+  * ☑️ Add tags to operations directly from the list
+  * ☑️ Sync operations for triage
+  * ☑️ Sync operations tags with tag rules
+  * ⬜️ Add the graphs that are at the core of this app 😅
 * Additional features that might be cool:
-  * ❌ Allow customizing graphs
-  * ❌ Config panel to allow customizing database, export/import whole database
-  * ❌ User account system for multi-user usage
-  * ❌ Encrypt entire database with a password for safety
+  * ⬜️ Allow customizing graphs
+  * ⬜️ Config panel to allow customizing database, export/import whole database
+  * ⬜️ User account system for multi-user usage
+  * ⬜️ Encrypt entire database with a password for safety
 * Some things are quite buggy and the app needs improvements too:
-  * ❌ Check why we have to use `location.reload()` because svelte stores don't update the paginated tables
-  * ❌ Use a `select2` or similar for tags selection
+  * ⬜️ Check why we have to use `location.reload()` because svelte stores don't update the paginated tables
+  * ⬜️ Use a `select2` or similar for tags selection
 
 ## Install
 
-The project is not even in beta for now, but you might find latest nightly builds on the [Actions](https://github.com/Orbitale/Compotes/actions) page, if you check out the latest successful action marked by a "✅" mark (if there is one at least).
+The project is not even in beta for now, but you might find latest nightly builds on the [Actions](https://github.com/Orbitale/Compotes/actions) page, if you check out the latest successful action marked by a "☑️" mark (if there is one at least).
 
 ## Project setup
 
