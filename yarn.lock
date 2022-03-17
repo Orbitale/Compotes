@@ -1344,6 +1344,11 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
+ts-results-es@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/ts-results-es/-/ts-results-es-3.4.0.tgz#b6c7d0c14d731a427bda44c683797e9f07a996d5"
+  integrity sha512-mD6QQg24ihnzxpkR4fuXa+xRP/cTPnRLT6hcI0VfUCMur1joBq7fJnZ3BsgHJ4qswWDS/HdyoS3PS2BnCADy1Q==
+
 ts-results@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/ts-results/-/ts-results-3.3.0.tgz#68623a6c18e65556287222dab76498a28154922f"
