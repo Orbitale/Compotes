@@ -83,3 +83,23 @@ pub(crate) fn create(conn: &Connection, bank_account: BankAccount) -> i64 {
 
     conn.last_insert_rowid()
 }
+
+pub(crate) fn update(conn: &Connection, id: u32, name: String, currency: String) {
+    let mut stmt = conn
+        .prepare("
+            UPDATE bank_accounts
+            SET
+                name = :name,
+                currency = :currency
+            WHERE id = :id
+        ",
+        )
+        .expect("An Error occured when preparing the SQL statement to update a bank account.");
+
+    stmt.execute(named_params! {
+        ":id": &id,
+        ":name": &name,
+        ":currency": &currency,
+    })
+    .expect("Could not update bank account");
+}

@@ -182,7 +182,7 @@ async function normalizeOperationFromDeserialized(deserialized_operation: Deseri
         deserialized_operation.amount_in_cents,
         deserialized_operation.state,
         deserialized_operation.ignored_from_charts,
-        await getBankAccountById(deserialized_operation.bank_account_id.toString()),
+        await getBankAccountById(deserialized_operation.bank_account_id),
         deserialized_operation.hash,
         await getTagsByIds(deserialized_operation.tags_ids)
     );

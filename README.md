@@ -25,7 +25,7 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
   * ☑️ Tags CRUD
   * ☑️ Tag rules CRUD
   * ☑️ Bank accounts CRUD
-    * ⬜️ Edit bank account details
+    * ☑️ Edit bank account details
   * ☑️ Import operations from CSV file
   * ☑️ Add tags to operations directly from the list
   * ☑️ Sync operations for triage

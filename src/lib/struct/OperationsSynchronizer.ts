@@ -1,6 +1,6 @@
 import api_call from "$lib/utils/api_call";
-import type {Result} from "ts-results";
-import {Err, Ok} from "ts-results";
+import type {Result} from "ts-results-es";
+import {Err, Ok} from "ts-results-es";
 
 export default class OperationsSynchronizer {
     private static _afterSyncCallbacks: Array<Function> = [];

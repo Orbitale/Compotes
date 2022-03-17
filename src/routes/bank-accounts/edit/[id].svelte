@@ -1,14 +1,25 @@
 <script lang="ts">
-    import {createBankAccount} from "$lib/db/bank_accounts.ts";
+    import {getBankAccountById, updateBankAccount} from "$lib/db/bank_accounts.ts";
     import type bank_account from "$lib/entities/BankAccount.ts";
     import {error, success} from "$lib/utils/message.ts";
     import BankAccount from "$lib/entities/BankAccount.ts";
+    import {page} from "$app/stores";
+    import {onMount} from "svelte";
+
+    export let id: string = $page.params.id;
 
     let bank_account: BankAccount = BankAccount.empty();
     let submit_button_disabled: boolean = false;
 
+    onMount(async () => {
+        bank_account = await getBankAccountById(parseInt(id, 10));
+        if (!bank_account || !bank_account.id) {
+            throw new Error(`Invalid bank account id ${id}`);
+        }
+    });
+
     function onNameChange() {
-        submit_button_disabled = !bank_account.name;
+        submit_button_disabled = !(bank_account.name && bank_account.currency);
     }
 
     function validateCurrencyCode() {
@@ -31,14 +42,13 @@
         e.stopImmediatePropagation();
 
         try {
-            await createBankAccount(bank_account);
+            await updateBankAccount(bank_account);
         } catch (e) {
             error(e.message || e);
             return;
         }
 
-        success('Bank account saved!');
-        location.href = '/bank-accounts';
+        success('Bank account updated!');
 
         return false;
     }
@@ -47,7 +57,7 @@
 
 <form action="#" on:submit={submitForm} >
 
-    <h2>Create bank account</h2>
+    <h2>Update bank account</h2>
 
     <div class="row">
         <label for="name" class="col-form-label col-sm-2">

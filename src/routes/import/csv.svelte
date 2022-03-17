@@ -96,7 +96,7 @@
         try {
             await denormalizeIntoOperations(previewOperationsFromData);
         } catch (e) {
-            error(e.message);
+            error(e.message || e);
 
             return;
         }

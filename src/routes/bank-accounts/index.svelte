@@ -3,6 +3,8 @@
     import PaginatedTable from "$lib/admin/components/PaginatedTable/PaginatedTable.svelte";
     import Field from "$lib/admin/Field";
     import PageHooks from "$lib/admin/PageHooks";
+    import UrlAction from "$lib/admin/UrlAction";
+    import ActionParams from "$lib/admin/ActionParams";
 
     let bank_accounts = [];
 
@@ -11,6 +13,10 @@
         new Field('name', 'Name'),
         new Field('slug', 'Slug'),
         new Field('currency', 'Currency'),
+    ];
+
+    let actions = [
+        new UrlAction('Edit', '/bank-accounts/edit/:id', ActionParams.id()),
     ];
 
     const pageHooks = new PageHooks(getBankAccounts);
@@ -27,4 +33,4 @@
 
 <h1>Bank accounts</h1>
 
-<PaginatedTable items_store={bankAccountsStore} fields={fields} pageHooks={pageHooks} />
+<PaginatedTable items_store={bankAccountsStore} actions={actions} fields={fields} pageHooks={pageHooks} />

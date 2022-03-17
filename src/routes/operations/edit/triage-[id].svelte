@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {goto} from "$app/navigation";
     import {getOperationById, updateOperationDetails} from "$lib/db/operations.ts";
     import Operation from "$lib/entities/Operation.ts";
     import {onMount} from "svelte";
@@ -29,7 +28,7 @@
         try {
             await updateOperationDetails(operation);
         } catch (e) {
-            error(e);
+            error(e.message || e);
             return;
         }
 
