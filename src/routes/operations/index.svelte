@@ -7,7 +7,7 @@
     } from "$lib/db/operations.ts";
     import PaginatedTable from "$lib/admin/components/PaginatedTable/PaginatedTable.svelte";
     import CollectionField from "$lib/admin/CollectionField";
-    import Field from "$lib/admin/Field";
+    import Field, {Sortable} from "$lib/admin/Field";
     import FieldHtmlProperties from "$lib/admin/FieldHtmlProperties";
     import PageHooks from "$lib/admin/PageHooks";
     import CallbackAction from "$lib/admin/CallbackAction";
@@ -17,6 +17,7 @@
     import {getTags, getTagsByIds} from "$lib/db/tags";
     import Tag from "$lib/entities/Tag";
     import {success} from "$lib/utils/message";
+    import FieldOptions from "$lib/admin/FieldOptions";
 
     let selected_operation: Operation = null;
     let operationId: number = null;
@@ -25,12 +26,12 @@
     let tags_modal: {open: Function, close: Function};
 
     let fields = [
-        new Field('id', 'ID'),
-        new Field('date', 'Date'),
-        new Field('bank_account', 'Bank account', new Field('name')),
+        new Field('id', 'ID', null, Sortable),
+        new Field('date', 'Date', null, Sortable),
+        new Field('bank_account', 'Bank account', FieldOptions.newWithAssociatedField(new Field('name'))),
         new Field('op_type', 'Type'),
-        new Field('details', 'Details'),
-        new Field('amount_display', 'Amount', null, new FieldHtmlProperties('operation-amount')),
+        new Field('details', 'Details', null, Sortable),
+        new Field('amount_display', 'Amount', FieldOptions.newWithHtmlProperties(new FieldHtmlProperties('operation-amount')), Sortable),
         new Field('ignored_from_charts', 'Ignored from charts'),
         new CollectionField('tags', 'Tags', new Field('name')),
     ];

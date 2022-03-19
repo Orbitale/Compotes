@@ -9,14 +9,15 @@
     import FieldHtmlProperties from "$lib/admin/FieldHtmlProperties";
     import PageHooks from "$lib/admin/PageHooks";
     import UrlAction from "$lib/admin/UrlAction";
+    import FieldOptions from "$lib/admin/FieldOptions";
 
     let fields = [
         new Field('id', 'ID'),
         new Field('date', 'Date'),
-        new Field('bank_account', 'Bank account', new Field('name')),
+        new Field('bank_account', 'Bank account', FieldOptions.newWithAssociatedField(new Field('name'))),
         new Field('op_type', 'Type'),
         new Field('details', 'Details'),
-        new Field('amount_display', 'Amount', null, new FieldHtmlProperties('operation-amount')),
+        new Field('amount_display', 'Amount', FieldOptions.newWithHtmlProperties(new FieldHtmlProperties('operation-amount'))),
     ];
 
     let actions = [

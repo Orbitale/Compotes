@@ -1,15 +1,14 @@
 import type AssociatedField from "./AssociatedField";
 import Field from "./Field";
-import FieldHtmlProperties from "./FieldHtmlProperties";
+import FieldOptions from "$lib/admin/FieldOptions";
 
 export default class CollectionField extends Field {
     constructor(
         name: string,
         text: string,
         item_field: Field,
-        field_html_properties: FieldHtmlProperties = FieldHtmlProperties.defaults(),
     ) {
-        super(name, text, item_field, field_html_properties);
+        super(name, text, new FieldOptions(item_field));
     }
 
     public displayFromItem(item: object | any): any {

@@ -6,10 +6,12 @@
     import Field from "../../Field";
     import PageHooks from "../../PageHooks";
     import UrlAction from "../../UrlAction";
+    import IteamHeadCell from "$lib/admin/components/PaginatedTable/IteamHeadCell.svelte";
+    import {info} from "$lib/utils/message";
 
     export let items: object[] = [];
     export let items_store: Writable<any>;
-    export let fields: Field[];
+    export let fields: Array<Field>;
     export let actions: UrlAction[] = [];
     export let pageHooks: PageHooks = null;
 
@@ -24,6 +26,10 @@
         await configureNumberOfPages();
         firstPage();
     });
+
+    function sortField(field: Field) {
+        info(`TODO: sort field ${field.name}`);
+    }
 
     async function configureNumberOfPages() {
         if (!pageHooks || !pageHooks.hasCountCallback) {
@@ -123,28 +129,28 @@
 </script>
 
 <style lang="scss">
-    table {
-        font-size: 0.8em;
-    }
-    .actions-header {
-        text-align: center;
-    }
-    #previous-page, #next-page {
-        font-size: 2.5em;
-        width: 2.5em;
-        height: 2.5em;
-    }
-    #pages-text {
-        text-align: center;
-        line-height: 4em;
-        font-size: 1.5em;
-    }
-    #previous-page { float: left; }
-    #next-page { float: right; }
+  #paginated-table {
+    font-size: 0.8em;
+  }
+  .actions-header {
+    text-align: center;
+  }
+  #previous-page, #next-page {
+    font-size: 2.5em;
+    width: 2.5em;
+    height: 2.5em;
+  }
+  #pages-text {
+    text-align: center;
+    line-height: 4em;
+    font-size: 1.5em;
+  }
+  #previous-page {float: left;}
+  #next-page {float: right;}
 
-    #no_elements {
-      padding: 16px;
-    }
+  #no_elements {
+    padding: 16px;
+  }
 </style>
 
 {#if !fields || !fields.length}
@@ -166,7 +172,7 @@
 
             <tr id="paginated-table-header-fields">
                 {#each fields as field}
-                    <th>{field.text}</th>
+                    <IteamHeadCell {field} sort_callback={sortField}/>
                 {/each}
                 {#if actions.length}
                     <th class="actions-header">Actions</th>
