@@ -21,6 +21,9 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
   * ☑️ Create the Tauri app
   * ☑️ Create the Svelte frontend with it
   * ☑️ List operations
+    * ⬜️ Allow sorting operations by some fields
+    * ⬜️ Allow filtering operations
+    * ⬜️ Allow saving current filter to be reused in graphs
     * ⬜️ Allow ignoring an operation in graphs calculations
   * ☑️ Tags CRUD
   * ☑️ Tag rules CRUD
@@ -31,6 +34,8 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
   * ☑️ Sync operations for triage
   * ☑️ Sync operations tags with tag rules
   * ⬜️ Add the graphs that are at the core of this app 😅
+    * ⬜️ Allow using saved filters for graphs 
+    * ⬜️ Allow creating and saving custom graphs 
 * Additional features that might be cool:
   * ⬜️ Allow customizing graphs
   * ⬜️ Config panel to allow customizing database, export/import whole database
