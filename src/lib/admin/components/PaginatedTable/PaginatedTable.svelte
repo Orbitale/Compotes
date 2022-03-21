@@ -7,8 +7,7 @@
     import PageHooks from "../../PageHooks";
     import UrlAction from "../../UrlAction";
     import IteamHeadCell from "$lib/admin/components/PaginatedTable/IteamHeadCell.svelte";
-    import {info} from "$lib/utils/message";
-    import {getOperations} from "$lib/db/operations";
+    import SortableField from "$lib/admin/SortableField";
 
     export let items: object[] = [];
     export let items_store: Writable<any>;
@@ -23,6 +22,7 @@
     let displayed_items = [];
     let has_items = false;
     let store_executed_at_least_once = false;
+    let current_sort_field: SortableField|null = null;
 
     onMount(async () => {
         configureStore();
@@ -31,6 +31,7 @@
     });
 
     async function sortField(field: Field) {
+        current_sort_field = field.sortable_field;
         if (sort_field_callback) {
             await sort_field_callback(page, field);
         }
@@ -89,7 +90,7 @@
         page = 1;
 
         if (pageHooks) {
-            pageHooks.callForItems(page);
+            pageHooks.callForItems(page, current_sort_field);
         }
 
         displayitems();
@@ -103,7 +104,7 @@
 
         store_executed_at_least_once = false;
         if (pageHooks) {
-            pageHooks.callForItems(page);
+            pageHooks.callForItems(page, current_sort_field);
         }
 
         displayitems();
@@ -128,9 +129,8 @@
             number_of_pages = items ? Math.ceil(number_of_items / number_per_page) : 1;
             if (number_of_pages < 1) number_of_pages = 1;
         }
-        has_items = false;
+
         displayed_items = items ? items.slice((page - 1) * number_per_page, (page) * number_per_page) : [];
-        has_items = true;
     }
 </script>
 
@@ -187,17 +187,13 @@
         </thead>
 
         <tbody>
-            {#if has_items}
-                {#each displayed_items as item, i}
-                    <ItemLine item={item} {fields} {actions} />
-                {/each}
-            {:else if items_store && !store_executed_at_least_once}
+            {#if !store_executed_at_least_once}
                 <tr>
                     <td colspan={fields.length+(actions.length ? 1 : 0)}>
                         <SpinLoader height={50} as_block={true} />
                     </td>
                 </tr>
-            {:else}
+            {:else if displayed_items.length === 0}
                 <tr>
                     <td colspan={fields.length+(actions.length ? 1 : 0)}>
                         <div id="no_elements">
@@ -206,6 +202,9 @@
                     </td>
                 </tr>
             {/if}
+            {#each displayed_items as item, i}
+                <ItemLine item={item} {fields} {actions} />
+            {/each}
         </tbody>
     </table>
 {/if}

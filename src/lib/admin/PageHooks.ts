@@ -1,3 +1,5 @@
+import type SortableField from "$lib/admin/SortableField";
+
 export default class PageHooks {
     private readonly _items_callback: Function;
     private readonly _number_of_pages_callback: Function;
@@ -11,8 +13,8 @@ export default class PageHooks {
         return this._number_of_pages_callback !== null;
     }
 
-    public callForItems(page: number): void {
-        this._items_callback(page);
+    public callForItems(page: number, field: SortableField|null): void {
+        this._items_callback(page, field);
     }
 
     public getCountCallback(): Function {
