@@ -25,7 +25,7 @@ export default class Field {
         this.text = text === '' ? name : text;
         this.field_html_properties = options.field_html_properties;
         this._associated_field = options.associated_field;
-        this.sortable_field = sortable ? new SortableField(name) : null;
+        this.sortable_field = sortable ? new SortableField(name, null, options.sortable_property_name || name) : null;
     }
 
     public displayFromItem(item: object|any): any {

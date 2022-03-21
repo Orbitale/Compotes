@@ -8,17 +8,20 @@
     import UrlAction from "../../UrlAction";
     import IteamHeadCell from "$lib/admin/components/PaginatedTable/IteamHeadCell.svelte";
     import {info} from "$lib/utils/message";
+    import {getOperations} from "$lib/db/operations";
 
     export let items: object[] = [];
     export let items_store: Writable<any>;
     export let fields: Array<Field>;
     export let actions: UrlAction[] = [];
     export let pageHooks: PageHooks = null;
+    export let sort_field_callback: Function = null;
 
     let number_per_page = 20;
     let page = 1;
     let number_of_pages = 1;
     let displayed_items = [];
+    let has_items = false;
     let store_executed_at_least_once = false;
 
     onMount(async () => {
@@ -27,8 +30,10 @@
         firstPage();
     });
 
-    function sortField(field: Field) {
-        info(`TODO: sort field ${field.name}`);
+    async function sortField(field: Field) {
+        if (sort_field_callback) {
+            await sort_field_callback(page, field);
+        }
     }
 
     async function configureNumberOfPages() {
@@ -123,8 +128,9 @@
             number_of_pages = items ? Math.ceil(number_of_items / number_per_page) : 1;
             if (number_of_pages < 1) number_of_pages = 1;
         }
-
+        has_items = false;
         displayed_items = items ? items.slice((page - 1) * number_per_page, (page) * number_per_page) : [];
+        has_items = true;
     }
 </script>
 
@@ -181,8 +187,8 @@
         </thead>
 
         <tbody>
-            {#if displayed_items.length}
-                {#each displayed_items as item, key (item.id)}
+            {#if has_items}
+                {#each displayed_items as item, i}
                     <ItemLine item={item} {fields} {actions} />
                 {/each}
             {:else if items_store && !store_executed_at_least_once}

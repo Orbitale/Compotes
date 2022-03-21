@@ -2,23 +2,15 @@
     import Navigation from "$lib/components/Navigation.svelte";
     import {SvelteToast} from "@zerodevx/svelte-toast";
     import OperationsSynchronizer from "$lib/struct/OperationsSynchronizer";
-
-    /**
-     * Post-Startup actions
-     */
-    import {onMount} from 'svelte';
-    import {refreshAllOperations} from "$lib/db/operations";
     import {updateConfig as updateAdminConfig} from "$lib/admin/src/config";
+    import {getOperations, getTriageOperations} from "$lib/db/operations";
 
     updateAdminConfig({
         spinLoaderSrc: '/logo.svg',
     });
 
-    OperationsSynchronizer.addAfterSyncCallback(refreshAllOperations);
-
-    onMount(async () => {
-        await refreshAllOperations();
-    })
+    OperationsSynchronizer.addAfterSyncCallback(getOperations);
+    OperationsSynchronizer.addAfterSyncCallback(getTriageOperations);
 </script>
 
 <style global lang="scss">

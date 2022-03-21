@@ -27,11 +27,11 @@
 
     let fields = [
         new Field('id', 'ID', null, Sortable),
-        new Field('date', 'Date', null, Sortable),
+        new Field('date', 'Date', FieldOptions.newWithSortName('operation_date'), Sortable),
         new Field('bank_account', 'Bank account', FieldOptions.newWithAssociatedField(new Field('name'))),
         new Field('op_type', 'Type'),
         new Field('details', 'Details', null, Sortable),
-        new Field('amount_display', 'Amount', FieldOptions.newWithHtmlProperties(new FieldHtmlProperties('operation-amount')), Sortable),
+        new Field('amount_display', 'Amount', new FieldOptions(null, new FieldHtmlProperties('operation-amount'), 'amount_in_cents'), Sortable),
         new Field('ignored_from_charts', 'Ignored from charts'),
         new CollectionField('tags', 'Tags', new Field('name')),
     ];
@@ -68,6 +68,10 @@
         location.reload();
     }
 
+    async function sort(page: number, field: Field) {
+        await getOperations(page, field.sortable_field);
+    }
+
     const pageHooks = new PageHooks(getOperations, getOperationsCount);
 </script>
 
@@ -82,4 +86,4 @@
     </select>
 </Modal>
 
-<PaginatedTable items_store={operationsStore} actions={actions} fields={fields} pageHooks={pageHooks} />
+<PaginatedTable items_store={operationsStore} actions={actions} fields={fields} pageHooks={pageHooks} sort_field_callback={sort} />

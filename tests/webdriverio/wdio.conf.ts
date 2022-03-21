@@ -54,7 +54,6 @@ exports.config = {
         timeout: 60000
     },
     onPrepare: function () {
-        console.info("=======================", {"RUNNING": "BEFORE"}, "=======================");
         if (tauriDriver) {
             return;
         }
@@ -65,7 +64,6 @@ exports.config = {
         );
     },
     onComplete​: function () {
-        console.info("=======================", {"RUNNING": "AFTER"}, "=======================");
         tauriDriver && tauriDriver.kill();
         tauriDriver = null;
     }

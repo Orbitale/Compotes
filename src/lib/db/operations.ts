@@ -3,14 +3,12 @@ import api_call from "$lib/utils/api_call";
 import {getTagsByIds} from "./tags";
 import {getBankAccountById} from "./bank_accounts";
 import {Writable, writable} from "svelte/store";
-import merge_lists from "$lib/utils/merge_lists";
 import type Tag from "$lib/entities/Tag";
+import type SortableField from "$lib/admin/SortableField";
+import {OrderBy, orderByToString} from "$lib/admin/OrderBy";
 
 export const operationsStore: Writable<Operation[]> = writable();
 export const triageStore: Writable<Operation[]> = writable();
-
-let operations: Operation[] = [];
-let triage: Operation[] = [];
 
 export default class DeserializedOperation
 {
@@ -27,21 +25,28 @@ export default class DeserializedOperation
     public readonly tags_ids!: Array<number>;
 }
 
-export async function getOperations(page: number): Promise<Array<Operation>>
+export async function getOperations(
+    page: number,
+    sortableField: SortableField|null = null,
+): Promise<Array<Operation>>
 {
     if (!page) {
         page = 1;
     }
 
-    const res: string = await api_call("operations_get", {page: page});
+    const params = {page};
+    if (sortableField) {
+        params['orderField'] = sortableField.property_name;
+        params['orderBy'] = orderByToString(sortableField.order_by || OrderBy.DESC);
+    }
+
+    const res: string = await api_call("operations_get", params);
 
     if (!res) {
         throw 'No results from the API';
     }
 
-    const new_operations = await deserializeAndNormalizeDatabaseResult(res);
-
-    operations = merge_lists(operations, new_operations);
+    const operations = await deserializeAndNormalizeDatabaseResult(res);
 
     operationsStore.set(operations);
 
@@ -63,9 +68,8 @@ export async function getTriageOperations(page: number): Promise<Array<Operation
         throw 'No results from the API';
     }
 
-    const new_operations = await deserializeAndNormalizeDatabaseResult(res);
+    const triage = await deserializeAndNormalizeDatabaseResult(res);
 
-    triage = merge_lists(triage, new_operations);
     triageStore.set(triage);
 
     return triage;
@@ -81,43 +85,18 @@ export async function getTriageOperationsCount(): Promise<number>
 export async function updateOperationDetails(operation: Operation)
 {
     await api_call("operation_update_details", {id: operation.id.toString(), details: operation.details});
-    syncOperation(operation);
 }
 
 export async function updateOperationTags(operation: Operation)
 {
     await api_call("operation_update_tags", {id: operation.id.toString(), tags: operation.tags.map((tag: Tag) => tag.id)});
-    syncOperation(operation);
 }
 
 export async function deleteOperation(operation: Operation)
 {
     const id = operation.id.toString(10);
-    const hash = operation.hash;
 
     await api_call("operation_delete", {id: id});
-
-    const removeByIdFilter = (op: Operation) => op.id.toString(10) !== id;
-
-    const setToOkFilter = (op: Operation) => {
-        if (op.hash === hash) op.state = OperationState.ok;
-        return op;
-    };
-
-    const newOps = operations.filter(removeByIdFilter);
-
-    const newTriage = triage.filter(removeByIdFilter).map(setToOkFilter).filter((op: Operation) => {
-        if (op.state === OperationState.ok) {
-            newOps.push(op);
-            return false;
-        }
-        return true;
-    });
-
-    operations = newOps;
-    triage = newTriage;
-    operationsStore.set(operations);
-    triageStore.set(triage);
 }
 
 export async function getOperationById(id: number): Promise<Operation | null>
@@ -131,32 +110,6 @@ export async function getOperationById(id: number): Promise<Operation | null>
     const deserialized_operation: DeserializedOperation = JSON.parse(res);
 
     return normalizeOperationFromDeserialized(deserialized_operation);
-}
-
-export function syncOperation(operation: Operation) {
-    const syncCallback = (op: Operation) => {
-        if (op.id === operation.id) {
-            return operation;
-        }
-        return op;
-    };
-    operations = operations.map(syncCallback);
-    triage = triage.map(syncCallback);
-    operationsStore.set(operations);
-    triageStore.set(triage);
-    // TODO: check why this isn't working to update operations page.
-}
-
-export async function refreshAllOperations() {
-    const normalizeCallback = async (op: Operation) => {
-        const res = await api_call("operations_get_by_id", {id: op.id.toString(10)});
-        const deserialized_operation: DeserializedOperation = JSON.parse(res);
-
-        return await normalizeOperationFromDeserialized(deserialized_operation);
-    };
-
-    operations = await Promise.all(operations.map(normalizeCallback));
-    triage = await Promise.all(triage.map(normalizeCallback));
 }
 
 async function deserializeAndNormalizeDatabaseResult(res: string): Promise<Array<Operation>> {

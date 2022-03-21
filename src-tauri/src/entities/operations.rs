@@ -3,7 +3,6 @@ use rusqlite::named_params;
 use rusqlite::Connection;
 use serde::Deserialize;
 use serde::Serialize;
-use serde_rusqlite::{from_row, from_rows};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) struct Operation {
@@ -21,10 +20,13 @@ pub(crate) struct Operation {
     pub(crate) tags_ids: Vec<u32>,
 }
 
-pub(crate) fn find_paginate(conn: &Connection, page: u16) -> Vec<Operation> {
-    let mut stmt = conn
-        .prepare(
-            "
+pub(crate) fn find_paginate(
+    conn: &Connection,
+    page: u16,
+    order_field: Option<String>,
+    order_by: Option<String>,
+) -> Vec<Operation> {
+    let sql = "
         SELECT
             id,
             operation_date,
@@ -43,35 +45,35 @@ pub(crate) fn find_paginate(conn: &Connection, page: u16) -> Vec<Operation> {
             ) AS tags_ids
         FROM operations
         WHERE state != :triage
-        ORDER BY operation_date DESC
+        ORDER BY operations.:order_field :order_by
         LIMIT :limit OFFSET :offset
-    ",
-        )
-        .expect("Could not fetch operations");
+    ";
 
-    let mut operations: Vec<Operation> = Vec::new();
-
+    let order_field = if order_field.is_some() { order_field.unwrap() } else { "operation_date".to_string() };
+    let order_by = if order_by.is_some() { order_by.unwrap() } else { "DESC".to_string() };
     let limit = crate::config::NUMBER_PER_PAGE;
     let offset = (page - 1) * limit;
 
-    let mut rows_iter = from_rows::<Operation>(
-        stmt.query(named_params! {
-            ":triage": OperationState::PendingTriage.to_string(),
-            ":limit": limit.to_string(),
-            ":offset": offset.to_string(),
-        })
-        .unwrap(),
-    );
+    let sql = sql.replace(":order_field", &order_field);
+    let sql = sql.replace(":order_by", &order_by);
 
-    loop {
-        match rows_iter.next() {
-            None => break,
-            Some(result) => {
-                let operation = result.expect("Could not deserialize Operation item");
-                operations.push(operation);
-            }
-        }
+    let mut stmt = conn
+        .prepare(&sql)
+        .expect("Could not fetch operations");
+
+    let rows = stmt.query_map(named_params! {
+        ":triage": OperationState::PendingTriage.to_string(),
+        ":limit": limit.to_string(),
+        ":offset": offset.to_string(),
+    }, |row| Ok(serde_rusqlite::from_row::<Operation>(row).expect("Could not deserialize Operation item"))).unwrap();
+
+    let mut operations: Vec<Operation> = Vec::new();
+
+    for operation in rows {
+        operations.push(operation.expect("Could not fetch operation after deserializing it from db"));
     }
+
+    stmt.finalize().unwrap();
 
     operations
 }
@@ -96,7 +98,7 @@ pub(crate) fn find_count(conn: &Connection) -> Box<u32> {
 
     let first_row = result.next().unwrap().unwrap();
 
-    Box::new(from_row::<u32>(first_row).unwrap())
+    Box::new(serde_rusqlite::from_row::<u32>(first_row).unwrap())
 }
 
 pub(crate) fn find_count_triage(conn: &Connection) -> Box<u32> {
@@ -119,7 +121,7 @@ pub(crate) fn find_count_triage(conn: &Connection) -> Box<u32> {
 
     let first_row = result.next().unwrap().unwrap();
 
-    Box::new(from_row::<u32>(first_row).unwrap())
+    Box::new(serde_rusqlite::from_row::<u32>(first_row).unwrap())
 }
 
 pub(crate) fn get_by_id(conn: &Connection, id: u32) -> Operation {
@@ -195,7 +197,7 @@ pub(crate) fn find_triage(conn: &Connection, page: u16) -> Vec<Operation> {
     let limit = crate::config::NUMBER_PER_PAGE;
     let offset = (page - 1) * limit;
 
-    let mut rows_iter = from_rows::<Operation>(
+    let mut rows_iter = serde_rusqlite::from_rows::<Operation>(
         stmt.query(named_params! {
             ":triage": OperationState::PendingTriage,
             ":limit": limit.to_string(),
