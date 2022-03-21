@@ -10,6 +10,10 @@ import {OrderBy, orderByToString} from "$lib/admin/OrderBy";
 export const operationsStore: Writable<Operation[]> = writable();
 export const triageStore: Writable<Operation[]> = writable();
 
+const lastTriageCall = {
+    page: 1,
+};
+
 export default class DeserializedOperation
 {
     public readonly id!: number;
@@ -46,11 +50,11 @@ export async function getOperations(
         throw 'No results from the API';
     }
 
-    const operations = await deserializeAndNormalizeDatabaseResult(res);
+    const new_items = await deserializeAndNormalizeDatabaseResult(res);
 
-    operationsStore.set(operations);
+    operationsStore.set(new_items);
 
-    return operations;
+    return new_items;
 }
 
 export async function getOperationsCount(): Promise<number>
@@ -71,6 +75,8 @@ export async function getTriageOperations(page: number): Promise<Array<Operation
     const triage = await deserializeAndNormalizeDatabaseResult(res);
 
     triageStore.set(triage);
+
+    lastTriageCall.page = page;
 
     return triage;
 }
@@ -97,6 +103,8 @@ export async function deleteOperation(operation: Operation)
     const id = operation.id.toString(10);
 
     await api_call("operation_delete", {id: id});
+
+    await getTriageOperations(lastTriageCall.page);
 }
 
 export async function getOperationById(id: number): Promise<Operation | null>

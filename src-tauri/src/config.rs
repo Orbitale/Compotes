@@ -2,7 +2,7 @@ use std::fs;
 use std::path::PathBuf;
 use tauri::api::path::home_dir;
 
-pub(crate) const NUMBER_PER_PAGE: u16 = 20;
+pub(crate) const NUMBER_PER_PAGE: u16 = 10;
 
 pub(crate) fn compotes_dir() -> PathBuf {
     let compotes_dir = home_dir()

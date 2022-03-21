@@ -15,7 +15,7 @@ export default class Operation implements Entity
     public readonly operation_date!: string;
     public readonly op_type!: string;
     public readonly type_display!: string;
-    public readonly details!: string;
+    public details!: string;
     public readonly amount_in_cents!: number;
     public readonly amount!: number;
     public hash!: string;

@@ -1,6 +1,6 @@
 <script lang="ts">
     import ItemLine from "./ItemLine.svelte";
-    import {onMount} from "svelte";
+    import {onDestroy, onMount} from "svelte";
     import type {Writable} from "svelte/store";
     import SpinLoader from "../SpinLoader.svelte";
     import Field from "../../Field";
@@ -9,25 +9,25 @@
     import IteamHeadCell from "$lib/admin/components/PaginatedTable/IteamHeadCell.svelte";
     import SortableField from "$lib/admin/SortableField";
 
-    export let items: object[] = [];
     export let items_store: Writable<any>;
     export let fields: Array<Field>;
     export let actions: UrlAction[] = [];
-    export let pageHooks: PageHooks = null;
+    export let page_hooks: PageHooks = null;
     export let sort_field_callback: Function = null;
+
+    if(!fields || !fields.length) {
+        throw new Error('No fields were configured for this view.');
+    }
 
     let number_per_page = 20;
     let page = 1;
     let number_of_pages = 1;
-    let displayed_items = [];
-    let has_items = false;
     let store_executed_at_least_once = false;
     let current_sort_field: SortableField|null = null;
 
     onMount(async () => {
-        configureStore();
         await configureNumberOfPages();
-        firstPage();
+        await firstPage();
     });
 
     async function sortField(field: Field) {
@@ -38,10 +38,13 @@
     }
 
     async function configureNumberOfPages() {
-        if (!pageHooks || !pageHooks.hasCountCallback) {
+        if ($items_store === null || $items_store === undefined) {
+            number_of_pages = 1;
             return;
         }
-        const countCb = pageHooks.getCountCallback();
+
+        const countCb = page_hooks.hasCountCallback ? page_hooks.getCountCallback() : ($items_store||[]).length;
+
         let count: any = 0;
 
         if (countCb instanceof Promise) {
@@ -65,72 +68,28 @@
         }
     }
 
-    function configureStore() {
-        if (!items_store) {
-            return;
-        }
-        if (items.length) {
-            throw new Error('Items and item store cannot be defined at the same time, to avoid conflicts when the store updates.');
-        }
-        if (!pageHooks) {
-            throw new Error('You must pass a PageHooks to the PaginatedTable component if you provide an item store so that the PageHooks can call the store when necessary (like when fetching the list of items).');
-        }
-        items_store.subscribe(store_items => {
-            if (store_items === undefined) {
-                // Store setup sets value as undefined.
-                return;
-            }
-            items = store_items;
-            store_executed_at_least_once = true;
-            displayitems();
-        });
-    }
-
-    function firstPage() {
+    async function firstPage() {
         page = 1;
 
-        if (pageHooks) {
-            pageHooks.callForItems(page, current_sort_field);
-        }
-
-        displayitems();
+        await page_hooks.callForItems(page, current_sort_field);
     }
 
-    function nextPage() {
+    async function nextPage() {
         page++;
         if (page > number_of_pages) {
             page = number_of_pages;
         }
 
         store_executed_at_least_once = false;
-        if (pageHooks) {
-            pageHooks.callForItems(page, current_sort_field);
-        }
-
-        displayitems();
+        await page_hooks.callForItems(page, current_sort_field);
     }
 
-    function previousPage() {
+    async function previousPage() {
         page--;
         if (page < 1) {
             page = 1;
         }
-        displayitems();
-    }
-
-    function lastPage() {
-        page = number_of_pages;
-        displayitems();
-    }
-
-    function displayitems() {
-        if (!pageHooks || (pageHooks && !pageHooks.hasCountCallback)) {
-            const number_of_items = items ? items.length : 0;
-            number_of_pages = items ? Math.ceil(number_of_items / number_per_page) : 1;
-            if (number_of_pages < 1) number_of_pages = 1;
-        }
-
-        displayed_items = items ? items.slice((page - 1) * number_per_page, (page) * number_per_page) : [];
+        await page_hooks.callForItems(page, current_sort_field);
     }
 </script>
 
@@ -159,52 +118,48 @@
   }
 </style>
 
-{#if !fields || !fields.length}
-    <div class="alert alert-danger">
-        No fields were configured for this view.
-    </div>
-{:else}
-    <table id="paginated-table" class="table table-bordered table-responsive table-hover table-striped table-sm">
-        <thead>
-            <tr id="paginated-table-header">
-                <td colspan="{fields.length + (actions.length ? 1 : 0)}">
-                    <button type="button" class="btn btn-outline-primary" disabled="{page === 1}" on:click={previousPage} id="previous-page">&lt;</button>
-                    <button type="button" class="btn btn-outline-primary" disabled="{page === number_of_pages}" on:click={nextPage} id="next-page">&gt;</button>
-                    <div id="pages-text">
-                        Page: {page} / {number_of_pages}
-                    </div>
+<table id="paginated-table" class="table table-bordered table-responsive table-hover table-striped table-sm">
+    <thead>
+        <tr id="paginated-table-header">
+            <td colspan="{fields.length + (actions.length ? 1 : 0)}">
+                <button type="button" class="btn btn-outline-primary" disabled="{page === 1}" on:click={previousPage} id="previous-page">&lt;</button>
+                <button type="button" class="btn btn-outline-primary" disabled="{page === number_of_pages}" on:click={nextPage} id="next-page">&gt;</button>
+                <div id="pages-text">
+                    Page: {page} / {number_of_pages}
+                </div>
+            </td>
+        </tr>
+
+        <tr id="paginated-table-header-fields">
+            {#each fields as field}
+                <IteamHeadCell {field} sort_callback={sortField}/>
+            {/each}
+            {#if actions.length}
+                <th class="actions-header">Actions</th>
+            {/if}
+        </tr>
+    </thead>
+
+    <tbody>
+        {#if $items_store === undefined || $items_store === null}
+            <tr>
+                <td colspan={fields.length+(actions.length ? 1 : 0)}>
+                    <SpinLoader height={50} as_block={true} />
                 </td>
             </tr>
-
-            <tr id="paginated-table-header-fields">
-                {#each fields as field}
-                    <IteamHeadCell {field} sort_callback={sortField}/>
-                {/each}
-                {#if actions.length}
-                    <th class="actions-header">Actions</th>
-                {/if}
-            </tr>
-        </thead>
-
-        <tbody>
-            {#if !store_executed_at_least_once}
+        {/if}
+        {#key $items_store}
+            {#each $items_store||[] as item, i}
+                <ItemLine item={item} {fields} {actions} />
+            {:else}
                 <tr>
-                    <td colspan={fields.length+(actions.length ? 1 : 0)}>
-                        <SpinLoader height={50} as_block={true} />
-                    </td>
-                </tr>
-            {:else if displayed_items.length === 0}
-                <tr>
-                    <td colspan={fields.length+(actions.length ? 1 : 0)}>
+                    <td colSpan={fields.length+(actions.length ? 1 : 0)}>
                         <div id="no_elements">
                             No elements found.
                         </div>
                     </td>
                 </tr>
-            {/if}
-            {#each displayed_items as item, i}
-                <ItemLine item={item} {fields} {actions} />
             {/each}
-        </tbody>
-    </table>
-{/if}
+        {/key}
+    </tbody>
+</table>

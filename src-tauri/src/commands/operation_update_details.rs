@@ -16,6 +16,8 @@ pub(crate) fn operation_update_details(
         .expect("Could not retrieve database connection");
     let conn = conn.deref_mut();
 
+    let id = id.parse::<u32>().expect("ID was expected to be a number.");
+
     operations::update_details(conn, id, details);
     println!("Todo: update other operations with same hash.");
 }

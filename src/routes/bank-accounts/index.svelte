@@ -33,4 +33,4 @@
 
 <h1>Bank accounts</h1>
 
-<PaginatedTable items_store={bankAccountsStore} actions={actions} fields={fields} pageHooks={pageHooks} />
+<PaginatedTable items_store={bankAccountsStore} actions={actions} fields={fields} page_hooks={pageHooks} />

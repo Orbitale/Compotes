@@ -34,4 +34,4 @@
 
 <h1>Tag rules</h1>
 
-<PaginatedTable items_store={tagRulesStore} fields={fields} actions={actions} pageHooks={pageHooks} />
+<PaginatedTable items_store={tagRulesStore} fields={fields} actions={actions} page_hooks={pageHooks} />

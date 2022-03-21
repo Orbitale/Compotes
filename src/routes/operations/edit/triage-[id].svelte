@@ -9,7 +9,7 @@
 
     let previous_details: String;
     let operation: Operation|null = null;
-    let submit_button_disabled: boolean = false;
+    let submit_button_disabled: boolean = true;
 
     onMount(async () => {
         const fetched_operation = await getOperationById(parseInt(id, 10));
@@ -17,8 +17,13 @@
             throw `Operation with ID "${id}" does not exist.`;
         }
         operation = fetched_operation;
-        previous_details = operation.details;
+        previous_details = operation.details.trim();
     });
+
+    function onDetailsChange() {
+        operation.details = operation.details.trim();
+        submit_button_disabled = operation.details === previous_details;
+    }
 
     async function submitForm(e: Event) {
         e.preventDefault();
@@ -64,7 +69,7 @@
                 New details
             </label>
             <div class="col-sm-10">
-                <input autocomplete="" type="text" id="details" bind:value={operation.details} class="form-control">
+                <input autocomplete="" type="text" id="details" bind:value={operation.details} class="form-control" on:change={onDetailsChange}>
             </div>
         </div>
 

@@ -86,4 +86,4 @@
     </select>
 </Modal>
 
-<PaginatedTable items_store={operationsStore} actions={actions} fields={fields} pageHooks={pageHooks} sort_field_callback={sort} />
+<PaginatedTable items_store={operationsStore} actions={actions} fields={fields} page_hooks={pageHooks} sort_field_callback={sort} />

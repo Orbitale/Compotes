@@ -1,8 +1,11 @@
 use crate::structs::operation_state::OperationState;
+use crate::entities::bank_accounts;
 use rusqlite::named_params;
 use rusqlite::Connection;
 use serde::Deserialize;
 use serde::Serialize;
+use sha2::Digest;
+use sha2::Sha512;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) struct Operation {
@@ -18,6 +21,19 @@ pub(crate) struct Operation {
     pub(crate) bank_account_id: u32,
     #[serde(deserialize_with = "crate::serialization::deserialize_tags_ids::deserialize_tags_ids")]
     pub(crate) tags_ids: Vec<u32>,
+}
+
+impl Operation {
+    fn compute_hash(self, bank_account_slug: String) -> String {
+        compute_hash(
+            self.op_type,
+            bank_account_slug,
+            self.type_display,
+            self.details,
+            self.operation_date,
+            self.amount_in_cents,
+        )
+    }
 }
 
 pub(crate) fn find_paginate(
@@ -276,14 +292,14 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> u32 {
         let mut stmt = transaction
             .prepare(
                 "
-        update operations
-        set state = :triage
-        where operations.state != :triage
-        and operations.hash in (
-            select t2.hash
-            from operations as t2
-            group by t2.hash
-            having count(t2.hash) > 1
+        UPDATE operations
+        SET state = :triage
+        WHERE operations.state != :triage
+        AND operations.hash IN (
+            SELECT t2.hash
+            FROM operations AS t2
+            GROUP BY t2.hash
+            HAVING count(t2.hash) > 1
         )
         ",
             )
@@ -302,24 +318,31 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> u32 {
     result as u32
 }
 
-pub(crate) fn update_details(conn: &mut Connection, id: String, details: String) {
-    let mut stmt = conn
-        .prepare(
-            "
-        update operations
-        set details = :details,
-        state = :ok
-        where id = :id
-        ",
-        )
-        .expect("Could not create query to update operations details.");
+pub(crate) fn update_details(conn: &mut Connection, id: u32, details: String) {
+    let mut operation = get_by_id(conn, id);
+    let bank_account_slug = bank_accounts::get_slug_by_id(conn, operation.bank_account_id);
+    operation.details = details.clone();
+    let hash = operation.compute_hash(bank_account_slug);
 
-    stmt.execute(named_params! {
-        ":id": &id,
-        ":details": &details,
-        ":ok": &OperationState::Ok.to_string(),
-    })
-    .expect("Could not execute update operations details query");
+    conn
+        .prepare("UPDATE operations SET details = :details, state = :ok, hash = :hash WHERE id = :id")
+        .expect("Could not create query to update operations details.")
+        .execute(named_params! {
+            ":id": &id,
+            ":details": &details,
+            ":ok": &OperationState::Ok.to_string(),
+            ":hash": &hash,
+        })
+        .expect("Could not execute update operations details query")
+    ;
+
+    conn.prepare("UPDATE operations SET state = :ok WHERE hash = :hash")
+        .expect("Could not create query to update operation hash after updating details.")
+        .execute(named_params! {
+            ":ok": &OperationState::Ok.to_string(),
+            ":hash": &hash,
+        })
+        .expect("Could not execute update operation hash after updating details");
 }
 
 pub(crate) fn update_tags(conn: &mut Connection, id: String, tags_ids: Vec<u32>) {
@@ -349,18 +372,42 @@ pub(crate) fn update_tags(conn: &mut Connection, id: String, tags_ids: Vec<u32>)
 pub(crate) fn delete(conn: &mut Connection, id: String) {
     let id_as_number = id.parse::<u32>().unwrap();
     let operation = get_by_id(conn, id_as_number);
-    let hash = operation.hash;
+    let bank_account_slug = bank_accounts::get_slug_by_id(conn, operation.bank_account_id);
+    let hash = operation.compute_hash(bank_account_slug);
 
-    conn.prepare("delete from operations where id = :id")
+    conn.prepare("DELETE FROM operations WHERE id = :id")
         .expect("Could not create query to delete operation.")
         .execute(named_params! {":id": &id})
         .expect("Could not execute delete operation");
 
-    conn.prepare("update operations set state = :ok where hash = :hash")
-        .expect("Could not create query to delete operation.")
+    conn.prepare("UPDATE operations SET state = :ok WHERE hash = :hash")
+        .expect("Could not create query to update operation hash after delete.")
         .execute(named_params! {
             ":ok": &OperationState::Ok.to_string(),
             ":hash": &hash,
         })
-        .expect("Could not execute delete operation");
+        .expect("Could not execute update operation hash after delete");
+}
+
+fn compute_hash(
+    op_type: String,
+    bank_account_slug: String,
+    type_display: String,
+    details: String,
+    operation_date: String,
+    amount_in_cents: i32,
+) -> String {
+    let base_string = format!(
+        "{}_{}_{}_{}_{}_{}",
+        op_type,
+        bank_account_slug,
+        type_display,
+        details,
+        operation_date,
+        amount_in_cents
+    );
+    let mut hasher = Sha512::new();
+    hasher.update(base_string);
+    let result = hasher.finalize();
+    format!("{:x}", result)
 }

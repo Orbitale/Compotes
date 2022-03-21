@@ -2,15 +2,15 @@ import type SortableField from "$lib/admin/SortableField";
 
 export default class PageHooks {
     private readonly _items_callback: Function;
-    private readonly _number_of_pages_callback: Function;
+    private readonly _count_callback: Function;
 
-    constructor(items_callback: Function, number_of_pages_callback: Function = null) {
+    constructor(items_callback: Function, count_callback: Function = null) {
         this._items_callback = items_callback;
-        this._number_of_pages_callback = number_of_pages_callback || null;
+        this._count_callback = count_callback || null;
     }
 
     get hasCountCallback(): boolean {
-        return this._number_of_pages_callback !== null;
+        return this._count_callback !== null;
     }
 
     public callForItems(page: number, field: SortableField|null): void {
@@ -18,6 +18,6 @@ export default class PageHooks {
     }
 
     public getCountCallback(): Function {
-        return this._number_of_pages_callback();
+        return this._count_callback();
     }
 };

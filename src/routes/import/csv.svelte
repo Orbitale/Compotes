@@ -2,16 +2,13 @@
     import {error, success, warning} from "$lib/utils/message";
     import DragDropList from "$lib/components/DragDrop/DragDropList.svelte";
     import api_call from "$lib/utils/api_call.ts";
-    import {bankAccountsStore, getBankAccounts} from '$lib/db/bank_accounts';
+    import {bankAccountsStore as bankAccounts, getBankAccounts} from '$lib/db/bank_accounts';
     import type BankAccount from "$lib/entities/BankAccount";
     import Operation, {OperationState} from "$lib/entities/Operation";
     import {CsvFieldReference, referenceToEntityProperty} from "$lib/utils/csv";
     import {DateFormat} from "$lib/utils/date";
-    import {goto} from "$app/navigation";
-    import {page} from "$app/stores";
-    import {onMount} from "svelte";
+    import {onDestroy, onMount} from "svelte";
 
-    let bankAccounts: Array<BankAccount> = [];
     let file: File = null;
     let fileContent: string = null;
     let files: FileList = null;
@@ -168,7 +165,7 @@
 
         success(`Successfully imported ${finalOperations.length} operations!`);
 
-        await goto($page.url.toString());
+        reset();
     }
 
     async function denormalizeIntoOperations(previewOperations: Array<Array<any>>) {
@@ -257,8 +254,6 @@
 
         return arrData;
     }
-
-    bankAccountsStore.subscribe((storedBankAccounts) => bankAccounts = storedBankAccounts || []);
 
     onMount(() => {
         // Force bank accounts to be fetched in memory if not fetched already.
@@ -371,7 +366,7 @@
         </label>
         <div class="form-widget">
             <select bind:value={bankAccount} id="import_operations_bankAccount" name="import_operations[bankAccount]" class="form-control">
-                {#each bankAccounts as account}
+                {#each $bankAccounts as account}
                     <option value={account}>{account.name}</option>
                 {/each}
             </select>

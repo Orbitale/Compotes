@@ -32,7 +32,6 @@
         }
         await deleteOperation(operation);
         success(`Successfully deleted operation with id ${id}!`);
-        location.reload();
     }
 
     const pageHooks = new PageHooks(getTriageOperations, getTriageOperationsCount)
@@ -40,4 +39,4 @@
 
 <h1>Triage</h1>
 
-<PaginatedTable items_store={triageStore} fields={fields} actions={actions} pageHooks={pageHooks} />
+<PaginatedTable items_store={triageStore} fields={fields} actions={actions} page_hooks={pageHooks} />

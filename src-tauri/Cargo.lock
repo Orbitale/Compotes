@@ -62,6 +62,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_rusqlite",
+ "sha2",
  "slugify",
  "tauri",
  "tauri-build",

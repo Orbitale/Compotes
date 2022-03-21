@@ -32,4 +32,4 @@
 
 <h1>Tags</h1>
 
-<PaginatedTable items_store={tagsStore} fields={fields} actions={actions} pageHooks={pageHooks} />
+<PaginatedTable items_store={tagsStore} fields={fields} actions={actions} page_hooks={pageHooks} />

@@ -1,5 +1,6 @@
 <script lang="ts">
     import {configStore} from "$lib/admin/src/config";
+    import {onDestroy} from "svelte";
 
     export let display: boolean = true;
     export let height: number = 0;
@@ -22,7 +23,11 @@
 
     let display_style = display ? (as_block ? 'block' : 'inline-block') : 'none';
 
-    configStore.subscribe((config) => src = config.spinLoaderSrc);
+    let configStoreUnsubscribe = configStore.subscribe((config) => src = config.spinLoaderSrc);
+
+    onDestroy(() => {
+        configStoreUnsubscribe();
+    });
 </script>
 
 <style lang="scss">

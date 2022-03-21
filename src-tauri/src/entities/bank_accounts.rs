@@ -103,3 +103,19 @@ pub(crate) fn update(conn: &Connection, id: u32, name: String, currency: String)
     })
     .expect("Could not update bank account");
 }
+
+pub(crate) fn get_slug_by_id(conn: &mut Connection, id: u32) -> String {
+    let mut stmt = conn
+        .prepare("SELECT slug FROM bank_accounts WHERE id = :id")
+        .expect("Could not fetch bank accounts");
+
+    let mut result = stmt
+        .query(named_params! {
+            ":id": id,
+        })
+        .unwrap();
+
+    let first_row = result.next().unwrap().unwrap();
+
+    serde_rusqlite::from_row::<String>(first_row).unwrap()
+}
