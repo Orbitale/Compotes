@@ -25,9 +25,15 @@
     let store_executed_at_least_once = false;
     let current_sort_field: SortableField|null = null;
 
+    items_store.subscribe(async (results) => {
+        if (results && results.length) {
+            await configureNumberOfPages();
+        }
+    });
+
     onMount(async () => {
-        await configureNumberOfPages();
         await firstPage();
+        await configureNumberOfPages();
     });
 
     async function sortField(field: Field) {
