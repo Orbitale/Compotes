@@ -59,7 +59,7 @@ If you want to use the in-development project, you can compile it by doing what 
 * [Node.js](https://nodejs.org/en/download/)
 * [Yarn](https://yarnpkg.com/getting-started/install) (preferred by the Tauri team, so expect better compatibility)
 * For Linux users:
-  * Follow [this guide](https://tauri.studio/docs/get-started/setup-linux#1-system-dependencies) to install the **system dependencies** that are mandatory.
+  * Follow [this guide](https://tauri.studio/docs/getting-started/setting-up-linux#1-system-dependencies) to install the **system dependencies** that are mandatory.
 * For Windows users:
   * [Webview2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section)
 * For MacOS users:
