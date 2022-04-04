@@ -1,4 +1,5 @@
 import type SortableField from "$lib/admin/SortableField";
+import type FilterWithValue from "$lib/admin/FilterWithValue";
 
 export default class PageHooks {
     private readonly _items_callback: Function;
@@ -13,8 +14,8 @@ export default class PageHooks {
         return this._count_callback !== null;
     }
 
-    public callForItems(page: number, field: SortableField|null): void {
-        this._items_callback(page, field);
+    public callForItems(page: number, field: SortableField|null, filters: Array<FilterWithValue>|null): void {
+        this._items_callback(page, field, filters);
     }
 
     public getCountCallback(): Function {

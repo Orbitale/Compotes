@@ -1,8 +1,10 @@
 use crate::entities::operations;
+use crate::structs::filter::Filter;
 use rusqlite::Connection;
 use std::ops::Deref;
 use std::sync::Mutex;
 use tauri::State;
+use crate::entities::operations::Operation;
 
 #[tauri::command]
 pub(crate) fn operations_get(
@@ -10,6 +12,7 @@ pub(crate) fn operations_get(
     page: u16,
     order_field: Option<String>,
     order_by: Option<String>,
+    filters: Option<Vec<Filter>>,
 ) -> String {
     let conn = conn_state
         .inner()
@@ -17,6 +20,7 @@ pub(crate) fn operations_get(
         .expect("Could not retrieve database connection");
     let conn = conn.deref();
 
-    serde_json::to_string(&operations::find_paginate(conn, page, order_field, order_by))
-        .expect("Could not serialize Operations properly")
+    let result: Vec<Operation> = operations::find_paginate(conn, page, order_field, order_by, filters).expect("Could not fetch operations");
+
+    serde_json::to_string(&result).expect("Could not serialize operations")
 }

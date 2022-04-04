@@ -43,8 +43,11 @@ mod serialization {
 }
 
 mod structs {
+    pub(crate) mod filter;
+    pub(crate) mod filter_type;
     pub(crate) mod operation_state;
 }
+
 
 fn main() {
     let mut conn = get_database_connection();

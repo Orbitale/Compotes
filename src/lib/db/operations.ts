@@ -6,6 +6,7 @@ import {Writable, writable} from "svelte/store";
 import type Tag from "$lib/entities/Tag";
 import type SortableField from "$lib/admin/SortableField";
 import {OrderBy, orderByToString} from "$lib/admin/OrderBy";
+import type FilterWithValue from "$lib/admin/FilterWithValue";
 
 export const operationsStore: Writable<Operation[]> = writable();
 export const triageStore: Writable<Operation[]> = writable();
@@ -32,6 +33,7 @@ export default class DeserializedOperation
 export async function getOperations(
     page: number,
     sortableField: SortableField|null = null,
+    filters: Array<FilterWithValue>|null = null,
 ): Promise<Array<Operation>>
 {
     if (!page) {
@@ -42,6 +44,10 @@ export async function getOperations(
     if (sortableField) {
         params['orderField'] = sortableField.property_name;
         params['orderBy'] = orderByToString(sortableField.order_by || OrderBy.DESC);
+    }
+
+    if (filters && filters.length) {
+        params['filters'] = filters;
     }
 
     const res: string = await api_call("operations_get", params);

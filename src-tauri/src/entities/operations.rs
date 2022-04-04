@@ -1,6 +1,8 @@
 use crate::structs::operation_state::OperationState;
 use crate::entities::bank_accounts;
-use rusqlite::named_params;
+use crate::structs::filter::Filter;
+use crate::structs::filter_type::FilterType;
+use rusqlite::{named_params, ToSql};
 use rusqlite::Connection;
 use serde::Deserialize;
 use serde::Serialize;
@@ -41,7 +43,13 @@ pub(crate) fn find_paginate(
     page: u16,
     order_field: Option<String>,
     order_by: Option<String>,
-) -> Vec<Operation> {
+    filters: Option<Vec<Filter>>,
+) -> anyhow::Result<Vec<Operation>> {
+    let order_field = if order_field.is_some() { order_field.unwrap() } else { "operation_date".to_string() };
+    let order_by = if order_by.is_some() { order_by.unwrap() } else { "DESC".to_string() };
+    let limit = crate::config::NUMBER_PER_PAGE;
+    let offset = ((page - 1) * limit).to_string();
+
     let sql = "
         SELECT
             id,
@@ -60,38 +68,81 @@ pub(crate) fn find_paginate(
                 WHERE operation_id = operations.id
             ) AS tags_ids
         FROM operations
-        WHERE state != :triage
-        ORDER BY operations.:order_field :order_by
-        LIMIT :limit OFFSET :offset
+        WHERE state != ?
+        {{ filters }}
+        ORDER BY operations.{{ order_field }} {{ order_by }}
+        LIMIT ? OFFSET ?
     ";
 
-    let order_field = if order_field.is_some() { order_field.unwrap() } else { "operation_date".to_string() };
-    let order_by = if order_by.is_some() { order_by.unwrap() } else { "DESC".to_string() };
-    let limit = crate::config::NUMBER_PER_PAGE;
-    let offset = (page - 1) * limit;
+    let filters = filters.unwrap_or_default();
 
-    let sql = sql.replace(":order_field", &order_field);
-    let sql = sql.replace(":order_by", &order_by);
+    let filters_sql = filters
+        .iter()
+        .fold(
+            "".to_string(),
+            |result, filter| {
+                let stmt = filter.to_sql_statement();
+                format!("AND ({} {})", result, &stmt)
+            }
+        )
+    ;
+
+    let mut sql_params: Vec<&dyn ToSql> = Vec::new();
+
+    let ok = OperationState::PendingTriage.to_string();
+    sql_params.push(&ok);
+
+    let sql = sql.replace("{{ order_field }}", &order_field);
+    let sql = sql.replace("{{ order_by }}", &order_by);
+    let sql = sql.replace("{{ filters }}", &filters_sql);
+
+    let mut sql_values: Vec<String> = Vec::new();
+
+    for filter in filters.iter() {
+        let values = filter.value.split_once(",").unwrap_or(("", ""));
+        let value = filter.value.to_string();
+        let value1 = String::from(values.0);
+        let value2 = String::from(values.1);
+
+        match filter.filter_type {
+            FilterType::Text => {
+                sql_values.push(value);
+            },
+            FilterType::Date |
+            FilterType::Number => {
+                if value1.len() > 0 && value2.len() > 0 {
+                    sql_values.push(value1);
+                    sql_values.push(value2);
+                }
+            },
+            _ => ()
+        };
+    }
+
+    for sql_value in sql_values.iter() {
+        sql_params.push(sql_value);
+    }
 
     let mut stmt = conn
-        .prepare(&sql)
-        .expect("Could not fetch operations");
+        .prepare(&sql)?;
 
-    let rows = stmt.query_map(named_params! {
-        ":triage": OperationState::PendingTriage.to_string(),
-        ":limit": limit.to_string(),
-        ":offset": offset.to_string(),
-    }, |row| Ok(serde_rusqlite::from_row::<Operation>(row).expect("Could not deserialize Operation item"))).unwrap();
+    sql_params.push(&limit);
+    sql_params.push(&offset);
+
+    let rows = stmt.query_map(
+        sql_params.as_slice(),
+        |row| Ok(serde_rusqlite::from_row::<Operation>(row).expect("Could not deserialize Operation item"))
+    )?;
 
     let mut operations: Vec<Operation> = Vec::new();
 
     for operation in rows {
-        operations.push(operation.expect("Could not fetch operation after deserializing it from db"));
+        operations.push(operation?);
     }
 
     stmt.finalize().unwrap();
 
-    operations
+    Ok(operations)
 }
 
 pub(crate) fn find_count(conn: &Connection) -> Box<u32> {

@@ -19,7 +19,7 @@
     let currentModal: HTMLElement;
 
     let closeCallback: Function;
-    let bodyOverflow: string = '';
+    let bodyOverflow: string = 'initial';
 
     export let id = '';
 
@@ -51,7 +51,7 @@
             return;
         }
 
-        bodyOverflow = "";
+        bodyOverflow = "initial";
 
         show = false;
 

@@ -1,10 +1,5 @@
 <script lang="ts">
-    import {
-        getOperations,
-        getOperationsCount,
-        operationsStore,
-        updateOperationTags
-    } from "$lib/db/operations.ts";
+    import {getOperations, getOperationsCount, operationsStore, updateOperationTags} from "$lib/db/operations.ts";
     import PaginatedTable from "$lib/admin/components/PaginatedTable/PaginatedTable.svelte";
     import CollectionField from "$lib/admin/CollectionField";
     import Field, {Sortable} from "$lib/admin/Field";
@@ -18,6 +13,9 @@
     import Tag from "$lib/entities/Tag";
     import {success} from "$lib/utils/message";
     import FieldOptions from "$lib/admin/FieldOptions";
+    import ConfigFilter from "$lib/admin/ConfigFilter";
+    import FilterType from "$lib/admin/FilterType";
+    import FilterWithValue from "$lib/admin/FilterWithValue";
 
     let selected_operation: Operation = null;
     let operationId: number = null;
@@ -51,6 +49,10 @@
         }),
     ];
 
+    let filters = [
+        new ConfigFilter('details', 'Details', FilterType.text),
+    ];
+
     onMount(async () => {
         tags = await getTags();
     });
@@ -68,8 +70,8 @@
         location.reload();
     }
 
-    async function sort(page: number, field: Field) {
-        await getOperations(page, field.sortable_field);
+    async function sort(page: number, field: Field, filters: Array<FilterWithValue>) {
+        await getOperations(page, field.sortable_field, filters);
     }
 
     const pageHooks = new PageHooks(getOperations, getOperationsCount);
@@ -86,4 +88,11 @@
     </select>
 </Modal>
 
-<PaginatedTable items_store={operationsStore} actions={actions} fields={fields} page_hooks={pageHooks} sort_field_callback={sort} />
+<PaginatedTable
+    actions={actions}
+    fields={fields}
+    filters={filters}
+    items_store={operationsStore}
+    page_hooks={pageHooks}
+    sort_field_callback={sort}
+/>

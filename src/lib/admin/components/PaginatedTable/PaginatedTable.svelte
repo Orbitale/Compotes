@@ -1,6 +1,6 @@
 <script lang="ts">
     import ItemLine from "./ItemLine.svelte";
-    import {onDestroy, onMount} from "svelte";
+    import {onMount} from "svelte";
     import type {Writable} from "svelte/store";
     import SpinLoader from "../SpinLoader.svelte";
     import Field from "../../Field";
@@ -8,10 +8,14 @@
     import UrlAction from "../../UrlAction";
     import IteamHeadCell from "$lib/admin/components/PaginatedTable/IteamHeadCell.svelte";
     import SortableField from "$lib/admin/SortableField";
+    import ConfigFilter from "$lib/admin/ConfigFilter";
+    import FilterWithValue from "$lib/admin/FilterWithValue";
+    import Filter from "$lib/admin/components/PaginatedTable/Filter.svelte";
 
     export let items_store: Writable<any>;
     export let fields: Array<Field>;
     export let actions: UrlAction[] = [];
+    export let filters: Array<ConfigFilter> = [];
     export let page_hooks: PageHooks = null;
     export let sort_field_callback: Function = null;
 
@@ -24,6 +28,7 @@
     let number_of_pages = 1;
     let store_executed_at_least_once = false;
     let current_sort_field: SortableField|null = null;
+    let filters_with_values: Array<FilterWithValue> = [];
 
     items_store.subscribe(async (results) => {
         if (results && results.length) {
@@ -41,6 +46,18 @@
         if (sort_field_callback) {
             await sort_field_callback(page, field);
         }
+    }
+
+    async function updateFilter(filter: ConfigFilter, value: string) {
+        debugger;
+        if (!value) {
+            // Remove current filter from list
+            filters_with_values = filters_with_values.filter((f: FilterWithValue) => f.name !== filter.name);
+        } else {
+            filters_with_values.push(FilterWithValue.fromFilter(filter, value));
+        }
+
+        await page_hooks.callForItems(page, current_sort_field, filters_with_values);
     }
 
     async function configureNumberOfPages() {
@@ -77,7 +94,7 @@
     async function firstPage() {
         page = 1;
 
-        await page_hooks.callForItems(page, current_sort_field);
+        await page_hooks.callForItems(page, current_sort_field, filters_with_values);
     }
 
     async function nextPage() {
@@ -87,7 +104,7 @@
         }
 
         store_executed_at_least_once = false;
-        await page_hooks.callForItems(page, current_sort_field);
+        await page_hooks.callForItems(page, current_sort_field, filters_with_values);
     }
 
     async function previousPage() {
@@ -95,7 +112,7 @@
         if (page < 1) {
             page = 1;
         }
-        await page_hooks.callForItems(page, current_sort_field);
+        await page_hooks.callForItems(page, current_sort_field, filters_with_values);
     }
 </script>
 
@@ -135,6 +152,23 @@
                 </div>
             </td>
         </tr>
+
+        {#if filters.length}
+            <tr id="paginated-table-filters">
+                <td colspan="{fields.length + (actions.length ? 1 : 0)}">
+                    <button class="btn btn-light" data-bs-toggle="collapse" href="#filters" role="button" aria-expanded="false" aria-controls="filters">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M3.853 54.87C10.47 40.9 24.54 32 40 32H472C487.5 32 501.5 40.9 508.1 54.87C514.8 68.84 512.7 85.37 502.1 97.33L320 320.9V448C320 460.1 313.2 471.2 302.3 476.6C291.5 482 278.5 480.9 268.8 473.6L204.8 425.6C196.7 419.6 192 410.1 192 400V320.9L9.042 97.33C-.745 85.37-2.765 68.84 3.854 54.87L3.853 54.87z"/></svg>
+                        Filters
+                    </button>
+                    <div id="filters" class="collapse">
+                        {#each filters as filter}
+                            <Filter {filter} change_callback={updateFilter} />
+                        {/each}
+                        <button class="btn btn-info">🔍 Filter</button>
+                    </div>
+                </td>
+            </tr>
+        {/if}
 
         <tr id="paginated-table-header-fields">
             {#each fields as field}

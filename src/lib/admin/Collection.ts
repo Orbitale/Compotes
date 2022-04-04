@@ -1,19 +1,10 @@
-import type Field from "./Field";
-
 export default class Collection<T> extends Array<T> {
-    private _field: Field;
-
-    constructor(field: Field, items?: T[]) {
+    constructor(items: T[] = []) {
         super();
-        items && this.addItems(items);
-        this._field = field;
+        this.addItems(items);
     }
 
-    private addItems(items: T[]) {
-        if (!items.length) {
-            console.warn(`Tried to add item to collection, got ${items} instead.`);
-            return;
-        }
+    private addItems(items: T[] = []) {
         items.forEach(item => this.push(item));
     }
 }
