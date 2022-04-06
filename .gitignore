@@ -1,3 +1,5 @@
+static/bootstrap*
+
 .DS_Store
 node_modules
 /build
