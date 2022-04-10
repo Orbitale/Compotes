@@ -51,6 +51,7 @@
 
     let filters = [
         new ConfigFilter('details', 'Details', FilterType.text),
+        new ConfigFilter('operation_date', 'Date', FilterType.date),
     ];
 
     onMount(async () => {

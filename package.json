@@ -16,6 +16,7 @@
     "postinstall": "yarn --cwd tests/webdriverio/"
   },
   "devDependencies": {
+    "@beyonk/svelte-datepicker": "^12.0.0",
     "@popperjs/core": "^2.11.2",
     "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "^1.0.0-next.278",

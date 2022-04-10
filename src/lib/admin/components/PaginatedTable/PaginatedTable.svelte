@@ -49,11 +49,11 @@
     }
 
     async function updateFilter(filter: ConfigFilter, value: string) {
-        debugger;
-        if (!value) {
-            // Remove current filter from list
-            filters_with_values = filters_with_values.filter((f: FilterWithValue) => f.name !== filter.name);
-        } else {
+        // Remove filter
+        filters_with_values = filters_with_values.filter((f: FilterWithValue) => f.name !== filter.name);
+
+        if (value) {
+            // Add filter only if it has a value
             filters_with_values.push(FilterWithValue.fromFilter(filter, value));
         }
 

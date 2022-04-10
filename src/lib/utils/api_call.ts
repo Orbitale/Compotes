@@ -5,6 +5,7 @@ import {invoke} from "@tauri-apps/api/tauri";
  */
 export default function api_call(command: string, params = {}): Promise<string> {
     if (window['__TAURI_INVOKE__']) {
+        console.info('Api call', command, params);
         return invoke(command, params);
     }
 

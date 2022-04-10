@@ -14,8 +14,8 @@ impl Filter {
     pub(crate) fn to_sql_statement(&self) -> String {
         match self.filter_type {
             FilterType::Text => format!("{field} LIKE ?", field=self.name.clone()),
-            FilterType::Date => format!("{field} >= ? && {field} <= ?", field=self.name.clone()),
-            FilterType::Number => format!("{field} >= ? && {field} <= ?", field=self.name.clone()),
+            FilterType::Date => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
+            FilterType::Number => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
             FilterType::Association => "".to_string(), // TODO
         }
     }

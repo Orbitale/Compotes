@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@beyonk/svelte-datepicker@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@beyonk/svelte-datepicker/-/svelte-datepicker-12.0.0.tgz#3a109438f6fcdc72e74e950e13cda01eedd652c0"
+  integrity sha512-fDYbo03N/HlIxzqXMO8Ws1A9aF1ND/eKoKxREpGt5VI6NYXDhKoXAM9CQOiZJNR7UCTwf5q6cVfAxe6V0xeXmA==
+  dependencies:
+    dayjs "^1.10.7"
+    es6-object-assign "^1.1.0"
+    svelte "^3.24.0"
+
 "@eslint/eslintrc@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-1.1.0.tgz#583d12dbec5d4f22f333f9669f7d0b7c7815b4d3"
@@ -404,6 +413,11 @@ cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+dayjs@^1.10.7:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.0.tgz#009bf7ef2e2ea2d5db2e6583d2d39a4b5061e805"
+  integrity sha512-JLC809s6Y948/FuCZPm5IX8rRhQwOiyMb2TfVVQEixG7P8Lm/gt5S7yoQZmC8x1UehI9Pb7sksEt4xx14m+7Ug==
+
 debug@^4.1.1, debug@^4.3.2, debug@^4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
@@ -434,6 +448,11 @@ doctrine@^3.0.0:
   integrity sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==
   dependencies:
     esutils "^2.0.2"
+
+es6-object-assign@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/es6-object-assign/-/es6-object-assign-1.1.0.tgz#c2c3582656247c39ea107cb1e6652b6f9f24523c"
+  integrity sha1-wsNYJlYkfDnqEHyx5mUrb58kUjw=
 
 es6-promise@^3.1.2:
   version "3.3.1"
@@ -1323,6 +1342,11 @@ svelte-preprocess@^4.0.0, svelte-preprocess@^4.10.3:
     magic-string "^0.25.7"
     sorcery "^0.10.0"
     strip-indent "^3.0.0"
+
+svelte@^3.24.0:
+  version "3.46.6"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.46.6.tgz#23046a361ba5f8bafcc9cf9f6fca6d011fb005a7"
+  integrity sha512-o9nNft/OzCz/9kJpmWa1S52GAM+huCjPIsNWydYmgei74ZWlOA9/hN9+Z12INdklghu31seEXZMRHhS1+8DETw==
 
 svelte@^3.46.4:
   version "3.46.4"

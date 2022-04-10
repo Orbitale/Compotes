@@ -23,6 +23,7 @@ const config = {
 		adapter: adapter(),
 
 		vite: {
+			prebundleSvelteLibraries: true,
 			plugins: [
 				copyPlugin({
 					source:  './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
@@ -33,15 +34,11 @@ const config = {
 					target: './static/bootstrap.min.js.map',
 				}),
 			],
+			ssr: {
+				noExternal: [ 'dayjs' ]
+			}
 		}
 	},
-
-	vite: {
-		prebundleSvelteLibraries: true,
-		optimizeDeps: {
-			entries: []
-		},
-	}
 };
 
 export default config;

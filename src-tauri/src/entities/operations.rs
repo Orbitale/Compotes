@@ -2,7 +2,8 @@ use crate::structs::operation_state::OperationState;
 use crate::entities::bank_accounts;
 use crate::structs::filter::Filter;
 use crate::structs::filter_type::FilterType;
-use rusqlite::{named_params, ToSql};
+use rusqlite::named_params;
+use rusqlite::ToSql;
 use rusqlite::Connection;
 use serde::Deserialize;
 use serde::Serialize;
@@ -82,7 +83,7 @@ pub(crate) fn find_paginate(
             "".to_string(),
             |result, filter| {
                 let stmt = filter.to_sql_statement();
-                format!("AND ({} {})", result, &stmt)
+                format!("{} AND ({})", result, &stmt)
             }
         )
     ;
@@ -99,7 +100,7 @@ pub(crate) fn find_paginate(
     let mut sql_values: Vec<String> = Vec::new();
 
     for filter in filters.iter() {
-        let values = filter.value.split_once(",").unwrap_or(("", ""));
+        let values = filter.value.split_once(";").unwrap_or(("", ""));
         let value = filter.value.to_string();
         let value1 = String::from(values.0);
         let value2 = String::from(values.1);
@@ -110,10 +111,8 @@ pub(crate) fn find_paginate(
             },
             FilterType::Date |
             FilterType::Number => {
-                if value1.len() > 0 && value2.len() > 0 {
-                    sql_values.push(value1);
-                    sql_values.push(value2);
-                }
+                sql_values.push(value1);
+                sql_values.push(value2);
             },
             _ => ()
         };
@@ -123,8 +122,7 @@ pub(crate) fn find_paginate(
         sql_params.push(sql_value);
     }
 
-    let mut stmt = conn
-        .prepare(&sql)?;
+    let mut stmt = conn.prepare(&sql)?;
 
     sql_params.push(&limit);
     sql_params.push(&offset);
