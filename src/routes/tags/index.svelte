@@ -20,7 +20,7 @@
 
 <h1>Tags</h1>
 
-<PaginatedTable items_store={tagsStore} {fields} {actions} page_hooks={pageHooks} />
+<PaginatedTable id="tags" items_store={tagsStore} {fields} {actions} page_hooks={pageHooks} />
 
 <style lang="scss">
 	#new-button {

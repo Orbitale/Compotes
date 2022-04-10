@@ -1,3 +1,13 @@
+<script context="module" lang="ts">
+	import PaginatedTable from "$lib/admin/components/PaginatedTable/PaginatedTable.svelte";
+
+	const list = {};
+
+	export function getInstance(id: string = ''): PaginatedTable {
+		return list[id];
+	}
+</script>
+
 <script lang="ts">
 	import ItemLine from './ItemLine.svelte';
 	import { onMount } from 'svelte';
@@ -12,12 +22,20 @@
 	import FilterWithValue from '$lib/admin/FilterWithValue';
 	import Filter from '$lib/admin/components/PaginatedTable/Filter.svelte';
 
+	export let id: string;
 	export let items_store: Writable<any>;
 	export let fields: Array<Field>;
 	export let actions: UrlAction[] = [];
 	export let filters: Array<ConfigFilter> = [];
 	export let page_hooks: PageHooks = null;
 	export let sort_field_callback: Function = null;
+
+	if (!id) {
+		throw new Error('You must specify an ID for your Paginated Table.');
+	}
+
+	list[id] = this;
+	console.info(list);
 
 	if (!fields || !fields.length) {
 		throw new Error('No fields were configured for this view.');
@@ -59,7 +77,17 @@
 			filters_with_values.push(FilterWithValue.fromFilter(filter, value));
 		}
 
+		await callFilters();
+	}
+
+	async function callFilters() {
 		await page_hooks.callForItems(page, current_sort_field, filters_with_values);
+	}
+
+	async function clearFilters() {
+		filters_with_values = [];
+
+		await callFilters();
 	}
 
 	async function configureNumberOfPages() {
@@ -162,7 +190,9 @@
 						{#each filters as filter}
 							<Filter {filter} change_callback={updateFilter} />
 						{/each}
-						<button class="btn btn-info">🔍 Filter</button>
+						<br>
+						<button class="btn btn-info" on:click={callFilters}>🔍 Filter</button>
+						<button class="btn btn-light" on:click={clearFilters}>🗑 Clear filters</button>
 					</div>
 				</td>
 			</tr>

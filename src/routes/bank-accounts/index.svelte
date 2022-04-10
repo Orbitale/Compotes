@@ -24,7 +24,7 @@
 
 <h1>Bank accounts</h1>
 
-<PaginatedTable items_store={bankAccountsStore} {actions} {fields} page_hooks={pageHooks} />
+<PaginatedTable id="bank_accounts" items_store={bankAccountsStore} {actions} {fields} page_hooks={pageHooks} />
 
 <style lang="scss">
 	#new-button {

@@ -25,7 +25,7 @@
 
 <h1>Tag rules</h1>
 
-<PaginatedTable items_store={tagRulesStore} {fields} {actions} page_hooks={pageHooks} />
+<PaginatedTable id="tag_rule" items_store={tagRulesStore} {fields} {actions} page_hooks={pageHooks} />
 
 <style lang="scss">
 	#new-button {

@@ -111,6 +111,7 @@
 </Modal>
 
 <PaginatedTable
+	id="operations"
 	{actions}
 	{fields}
 	{filters}

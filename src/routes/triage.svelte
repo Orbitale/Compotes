@@ -52,4 +52,4 @@
 
 <h1>Triage</h1>
 
-<PaginatedTable items_store={triageStore} {fields} {actions} page_hooks={pageHooks} />
+<PaginatedTable id="triage" items_store={triageStore} {fields} {actions} page_hooks={pageHooks} />
