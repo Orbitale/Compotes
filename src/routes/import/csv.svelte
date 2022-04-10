@@ -366,9 +366,11 @@
         </label>
         <div class="form-widget">
             <select bind:value={bankAccount} id="import_operations_bankAccount" name="import_operations[bankAccount]" class="form-control">
-                {#each $bankAccounts as account}
-                    <option value={account}>{account.name}</option>
-                {/each}
+                {#if $bankAccounts}
+                    {#each $bankAccounts as account}
+                        <option value={account}>{account.name}</option>
+                    {/each}
+                {/if}
             </select>
         </div>
     </div>
