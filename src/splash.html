@@ -20,8 +20,12 @@
 				}
 			}
 			@keyframes fade {
-				from {opacity: 1;}
-				to {opacity: 0;}
+				from {
+					opacity: 1;
+				}
+				to {
+					opacity: 0;
+				}
 			}
 			#splash_screen {
 				transition: opacity 2s ease;
@@ -57,14 +61,13 @@
 		<!--<script defer src='%svelte.assets%/bootstrap.min.js'></script>-->
 	</head>
 	<body>
-
-        <main id="splash_screen">
-            <img id="orbitale_logo" src="%svelte.assets%/logo.png" alt="Orbitale logo">
-        </main>
+		<main id="splash_screen">
+			<img id="orbitale_logo" src="%svelte.assets%/logo.png" alt="Orbitale logo" />
+		</main>
 
 		<main id="app">%svelte.body%</main>
 
-	<!--
+		<!--
 
         // Prevent ctrl+click from opening a new window
         document.addEventListener('click', function(event: MouseEvent) {

@@ -1,20 +1,18 @@
 // @ts-ignore
 import User from '$lib/struct/User';
 
-const users = [
-    new User('fbcd366d-29b9-4e78-a295-82dc3575143e', 'admin', 'admin'),
-];
+const users = [new User('fbcd366d-29b9-4e78-a295-82dc3575143e', 'admin', 'admin')];
 
 export function getUsers() {
-    return users;
+	return users;
 }
 
 export function getUserById(id: string): User | null {
-    for (const user of users) {
-        if (user.id === id) {
-            return user;
-        }
-    }
+	for (const user of users) {
+		if (user.id === id) {
+			return user;
+		}
+	}
 
-    return null;
+	return null;
 }

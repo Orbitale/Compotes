@@ -1,7 +1,7 @@
-import {writable} from "svelte/store";
+import { writable } from 'svelte/store';
 
 const defaultConfig = {
-    spinLoaderSrc: '',
+	spinLoaderSrc: ''
 };
 
 let config = defaultConfig;
@@ -9,6 +9,6 @@ let config = defaultConfig;
 export const configStore = writable(defaultConfig);
 
 export function updateConfig(userConfig) {
-    config = {...config, ...userConfig};
-    configStore.set(config);
+	config = { ...config, ...userConfig };
+	configStore.set(config);
 }

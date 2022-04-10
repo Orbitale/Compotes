@@ -1,11 +1,11 @@
-import type Field from "./Field";
+import type Field from './Field';
 
 export default class AssociatedItem<T> {
-    public readonly item: T;
-    public readonly fields: Field[];
+	public readonly item: T;
+	public readonly fields: Field[];
 
-    constructor(item: T, fields: Field[]) {
-        this.item = item;
-        this.fields = fields;
-    }
+	constructor(item: T, fields: Field[]) {
+		this.item = item;
+		this.fields = fields;
+	}
 }

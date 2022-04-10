@@ -1,3 +1,3 @@
 export default interface ItemAction {
-    get name(): string;
+	get name(): string;
 }
