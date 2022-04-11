@@ -1,5 +1,3 @@
-
-
 <script lang="ts">
 	import ConfigFilter from '$lib/admin/ConfigFilter';
 	import FilterType from '$lib/admin/FilterType';
@@ -8,6 +6,10 @@
 
 	export let filter: ConfigFilter;
 	export let change_callback: Function;
+
+	export function clear() {
+		value1 = value2 = value = '';
+	}
 
 	// Final value to be sent to the callback function.
 	let value: string = '';
@@ -23,17 +25,14 @@
 		}
 	}
 
-	function getDateFromEvent(event: { detail: { date: dayjs } }): string {
-		return dayjs(event.detail.date).format('YYYY-MM-DD');
-	}
-
 	function updateValueFromValues() {
 		if (filter.type === FilterType.date) {
-			value1 = value1 ? value1 : dayjs().substract(50, 'year').format('YYYY-MM-DD');
-			value2 = value2 ? value2 : dayjs().add(1, 'day').format('YYYY-MM-DD');
+			value1 = value1 ? dayjs(value1).format('YYYY-MM-DD') : dayjs().subtract(50, 'year').format('YYYY-MM-DD');
+			value2 = value2 ? dayjs(value2).format('YYYY-MM-DD') : dayjs().add(1, 'day').format('YYYY-MM-DD');
 		}
 
 		value = `${value1};${value2}`;
+		onChange();
 	}
 
 	if (!filter) {
@@ -58,26 +57,18 @@
 			<DatePicker
 				start={dayjs().subtract(50, 'year')}
 				end={dayjs().add(1, 'year')}
-				selected={false}
+				bind:selected={value1}
 				placeholder="After date"
-				format="YYYY/MM/DD"
-				on:date-selected={(e) => {
-					value1 = getDateFromEvent(e);
-					updateValueFromValues();
-				}}
-				on:change={onChange}
+				format="YYYY-MM-DD"
+				on:change={updateValueFromValues}
 			/>
 			<DatePicker
 				start={dayjs().subtract(50, 'year')}
 				end={dayjs().add(1, 'year')}
-				selected={false}
+				bind:selected={value2}
 				placeholder="Before date"
-				format="YYYY/MM/DD"
-				on:date-selected={(e) => {
-					value1 = getDateFromEvent(e);
-					updateValueFromValues();
-				}}
-				on:change={onChange}
+				format="YYYY-MM-DD"
+				on:change={updateValueFromValues}
 			/>
 		{:else}
 			<div class="badge">Unknown input type "{filter.type}"</div>

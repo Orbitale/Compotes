@@ -1,12 +1,3 @@
-<script context="module" lang="ts">
-	import PaginatedTable from "$lib/admin/components/PaginatedTable/PaginatedTable.svelte";
-
-	const list = {};
-
-	export function getInstance(id: string = ''): PaginatedTable {
-		return list[id];
-	}
-</script>
 
 <script lang="ts">
 	import ItemLine from './ItemLine.svelte';
@@ -33,9 +24,6 @@
 	if (!id) {
 		throw new Error('You must specify an ID for your Paginated Table.');
 	}
-
-	list[id] = this;
-	console.info(list);
 
 	if (!fields || !fields.length) {
 		throw new Error('No fields were configured for this view.');
@@ -86,6 +74,14 @@
 
 	async function clearFilters() {
 		filters_with_values = [];
+
+		filters.forEach((filter: ConfigFilter) => {
+			if (filter.instance) {
+				filter.instance.clear();
+			} else {
+				throw new Error(`ConfigFilter with name "${filter.name}" does not have a connected instance`);
+			}
+		});
 
 		await callFilters();
 	}
@@ -160,15 +156,15 @@
 					class="btn btn-outline-primary"
 					disabled={page === 1}
 					on:click={previousPage}
-					id="previous-page">&lt;</button
-				>
+					id="previous-page"
+				>&lt;</button>
 				<button
 					type="button"
 					class="btn btn-outline-primary"
 					disabled={page === number_of_pages}
 					on:click={nextPage}
-					id="next-page">&gt;</button
-				>
+					id="next-page"
+				>&gt;</button>
 				<div id="pages-text">
 					Page: {page} / {number_of_pages}
 				</div>
@@ -179,16 +175,15 @@
 			<tr id="paginated-table-filters">
 				<td colspan={fields.length + (actions.length ? 1 : 0)}>
 					<button class="btn btn-light" data-bs-toggle="collapse" href="#filters">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15"
-							><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path
-								d="M3.853 54.87C10.47 40.9 24.54 32 40 32H472C487.5 32 501.5 40.9 508.1 54.87C514.8 68.84 512.7 85.37 502.1 97.33L320 320.9V448C320 460.1 313.2 471.2 302.3 476.6C291.5 482 278.5 480.9 268.8 473.6L204.8 425.6C196.7 419.6 192 410.1 192 400V320.9L9.042 97.33C-.745 85.37-2.765 68.84 3.854 54.87L3.853 54.87z"
-							/></svg
-						>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15">
+							<!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+							<path d="M3.853 54.87C10.47 40.9 24.54 32 40 32H472C487.5 32 501.5 40.9 508.1 54.87C514.8 68.84 512.7 85.37 502.1 97.33L320 320.9V448C320 460.1 313.2 471.2 302.3 476.6C291.5 482 278.5 480.9 268.8 473.6L204.8 425.6C196.7 419.6 192 410.1 192 400V320.9L9.042 97.33C-.745 85.37-2.765 68.84 3.854 54.87L3.853 54.87z"/>
+						</svg>
 						Filters
 					</button>
 					<div id="filters" class="collapse">
 						{#each filters as filter}
-							<Filter {filter} change_callback={updateFilter} />
+							<Filter {filter} bind:this={filter.instance} change_callback={updateFilter} />
 						{/each}
 						<br>
 						<button class="btn btn-info" on:click={callFilters}>🔍 Filter</button>
