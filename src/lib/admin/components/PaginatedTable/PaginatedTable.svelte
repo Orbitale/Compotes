@@ -29,6 +29,10 @@
 		throw new Error('No fields were configured for this view.');
 	}
 
+	if (!items_store) {
+		throw new Error('You must configure a data store to create a PaginatedTable.');
+	}
+
 	let number_per_page = 20;
 	let page = 1;
 	let number_of_pages = 1;
@@ -69,7 +73,7 @@
 	}
 
 	async function callFilters() {
-		await page_hooks.callForItems(page, current_sort_field, filters_with_values);
+		await fetchItems();
 	}
 
 	async function clearFilters() {
@@ -122,7 +126,7 @@
 	async function firstPage() {
 		page = 1;
 
-		await page_hooks.callForItems(page, current_sort_field, filters_with_values);
+		await fetchItems();
 	}
 
 	async function nextPage() {
@@ -132,7 +136,7 @@
 		}
 
 		store_executed_at_least_once = false;
-		await page_hooks.callForItems(page, current_sort_field, filters_with_values);
+		await fetchItems();
 	}
 
 	async function previousPage() {
@@ -140,7 +144,13 @@
 		if (page < 1) {
 			page = 1;
 		}
-		await page_hooks.callForItems(page, current_sort_field, filters_with_values);
+		await fetchItems();
+	}
+
+	async function fetchItems() {
+		const normalized_filters = filters_with_values.map((f: FilterWithValue) => { return {...f}; });
+
+		await page_hooks.callForItems(page, current_sort_field, normalized_filters);
 	}
 </script>
 

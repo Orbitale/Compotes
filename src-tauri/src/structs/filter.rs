@@ -58,7 +58,11 @@ impl std::convert::TryFrom<DeserializedFilter> for Filter {
             FilterType::Text => {
                 format!("%{}%", value)
             },
-            _ => "".to_string()
+            FilterType::Date
+            | FilterType::Number => {
+                format!("{}", value)
+            },
+            _ => unimplemented!(),
         };
 
         Ok(Filter { name, value, filter_type })
