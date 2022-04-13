@@ -119,8 +119,18 @@
 					/>
 				</div>
 			</div>
+		{:else if filter.type === FilterType.tags}
+			<input
+				id="input_filter_{filter.name}"
+				class="form-control"
+				type="text"
+				on:change={onChange}
+				bind:value
+			/>
 		{:else}
-			<div class="badge">Unknown input type "{filter.type}"</div>
+			<h5>
+				<span class="badge bg-danger">Unknown input type "{filter.type}"</span>
+			</h5>
 		{/if}
 	</div>
 </div>

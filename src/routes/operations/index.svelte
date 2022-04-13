@@ -67,6 +67,7 @@
 		new ConfigFilter('details', 'Details', FilterType.text),
 		new ConfigFilter('operation_date', 'Date', FilterType.date),
 		new ConfigFilter('amount_in_cents', 'Amount', FilterType.number),
+		new ConfigFilter('tags', 'Tags', FilterType.tags),
 	];
 
 	onMount(async () => {
@@ -83,7 +84,7 @@
 		if (tags_modal) {
 			tags_modal.close();
 		}
-		location.reload();
+		pageHooks.refresh();
 	}
 
 	async function sort(page: number, field: Field, filters: Array<FilterWithValue>) {

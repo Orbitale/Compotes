@@ -2,7 +2,7 @@ enum FilterType {
 	text = 'text',
 	date = 'date',
 	number = 'number',
-	association = 'association'
+	tags = 'tags'
 }
 
 export default FilterType;

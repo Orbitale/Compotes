@@ -16,8 +16,8 @@ pub enum FilterType {
     Date,
     #[serde(rename = "number")]
     Number,
-    #[serde(rename = "association")]
-    Association,
+    #[serde(rename = "tags")]
+    Tags,
 }
 
 impl Display for FilterType {
@@ -29,7 +29,7 @@ impl Display for FilterType {
                 FilterType::Text => "text".to_string(),
                 FilterType::Date => "date".to_string(),
                 FilterType::Number => "number".to_string(),
-                FilterType::Association => "association".to_string(),
+                FilterType::Tags => "tags".to_string(),
             }
         )
     }
@@ -44,7 +44,7 @@ impl FromSql for FilterType {
             "text" => FromSqlResult::Ok(FilterType::Text),
             "date" => FromSqlResult::Ok(FilterType::Date),
             "number" => FromSqlResult::Ok(FilterType::Number),
-            "association" => FromSqlResult::Ok(FilterType::Association),
+            "tags" => FromSqlResult::Ok(FilterType::Tags),
             _ => FromSqlResult::Err(FromSqlError::InvalidType),
         }
     }
