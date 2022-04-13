@@ -25,10 +25,38 @@
 		}
 	}
 
+	function parseFilterValueNumber(string: null|string): string {
+		if (string === null || (string.trim && string.trim() === '')) {
+			return '';
+		}
+
+		let parsed = parseInt(string, 10);
+		if (isNaN(parsed)) {
+			return '';
+		}
+
+		if (parsed > 9223372036854775) {
+			parsed = 9223372036854775;
+		}
+		if (parsed < -9223372036854775) {
+			parsed = -9223372036854775;
+		}
+
+		return parsed.toString(10);
+	}
+
 	function updateValueFromValues() {
 		if (filter.type === FilterType.date) {
 			value1 = value1 ? dayjs(value1).format('YYYY-MM-DD') : dayjs().subtract(50, 'year').format('YYYY-MM-DD');
 			value2 = value2 ? dayjs(value2).format('YYYY-MM-DD') : dayjs().add(1, 'day').format('YYYY-MM-DD');
+		} else if (filter.type === FilterType.number) {
+			value1 = parseFilterValueNumber(value1);
+			value2 = parseFilterValueNumber(value2);
+			if (value2 !== '' && parseInt(value1) > parseInt(value2)) {
+				value1 = value2;
+			}
+		} else {
+			console.error('Unsupported filter type', filter);
 		}
 
 		value = `${value1};${value2}`;
@@ -70,6 +98,27 @@
 				format="YYYY-MM-DD"
 				on:change={updateValueFromValues}
 			/>
+		{:else if filter.type === FilterType.number}
+			<div class="row">
+				<div class="col-sm-6">
+					Minimum:
+					<input
+						class="form-control"
+						type="number"
+						on:change={updateValueFromValues}
+						bind:value={value1}
+					/>
+				</div>
+				<div class="col-sm-6">
+					Maximum:
+					<input
+						class="form-control"
+						type="number"
+						on:change={updateValueFromValues}
+						bind:value={value2}
+					/>
+				</div>
+			</div>
 		{:else}
 			<div class="badge">Unknown input type "{filter.type}"</div>
 		{/if}

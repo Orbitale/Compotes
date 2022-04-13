@@ -100,19 +100,29 @@ pub(crate) fn find_paginate(
     let mut sql_values: Vec<String> = Vec::new();
 
     for filter in filters.iter() {
-        let values = filter.value.split_once(";").unwrap_or(("", ""));
-        let value = filter.value.to_string();
-        let value1 = String::from(values.0);
-        let value2 = String::from(values.1);
-
         match filter.filter_type {
             FilterType::Text => {
+                let value = filter.value.to_string();
                 sql_values.push(value);
             },
-            FilterType::Date |
             FilterType::Number => {
-                sql_values.push(value1);
-                sql_values.push(value2);
+                let min = i64::MIN.to_string();
+                let max = i64::MAX.to_string();
+                let values = filter.value.split_once(";").unwrap_or((&min, &max));
+                dbg!("============");
+                dbg!(&values);
+                let value1 = if values.0 == "".to_string() { i64::MIN } else { 100 * values.0.parse::<i64>()? };
+                dbg!(&value1);
+                let value2 = if values.1 == "".to_string() { i64::MAX } else { 100 * values.1.parse::<i64>()? };
+                dbg!(&value2);
+                sql_values.push(value1.to_string());
+                sql_values.push(value2.to_string());
+            },
+            FilterType::Date => {
+                let values = filter.value.split_once(";").unwrap_or(("", ""));
+
+                sql_values.push(values.0.to_string());
+                sql_values.push(values.1.to_string());
             },
             _ => ()
         };
@@ -121,6 +131,8 @@ pub(crate) fn find_paginate(
     for sql_value in sql_values.iter() {
         sql_params.push(sql_value);
     }
+
+    dbg!(&sql_values);
 
     let mut stmt = conn.prepare(&sql)?;
 
