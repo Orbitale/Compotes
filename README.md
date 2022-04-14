@@ -21,8 +21,8 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
   * ☑️ Create the Tauri app
   * ☑️ Create the Svelte frontend with it
   * ☑️ List operations
-    * ⬜️ Allow sorting operations by some fields
-    * ⬜️ Allow filtering operations
+    * ☑️ Allow sorting operations by some fields
+    * ☑️ Allow filtering operations
     * ⬜️ Allow saving current filter to be reused in graphs
     * ⬜️ Allow ignoring an operation in graphs calculations
   * ☑️ Tags CRUD
@@ -40,9 +40,9 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
   * ⬜️ Allow customizing graphs
   * ⬜️ Config panel to allow customizing database, export/import whole database
   * ⬜️ User account system for multi-user usage
-  * ⬜️ Encrypt entire database with a password for safety
+  * ⬜️ Encrypt entire database with a password/passphrase for safety
 * Some things are quite buggy and the app needs improvements too:
-  * ⬜️ Check why we have to use `location.reload()` because svelte stores don't update the paginated tables
+  * ☑️ Check why we have to use `location.reload()` because svelte stores don't update the paginated tables
   * ⬜️ Use a `select2` or similar for tags selection
 
 ## Install
