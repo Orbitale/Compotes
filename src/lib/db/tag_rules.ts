@@ -2,8 +2,7 @@
 import TagRule from '$lib/entities/TagRule';
 import { getTagById } from './tags';
 import api_call from '$lib/utils/api_call';
-import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/types/runtime/store';
+import { Writable, writable } from 'svelte/store';
 
 export const tagRulesStore: Writable<TagRule[]> = writable();
 

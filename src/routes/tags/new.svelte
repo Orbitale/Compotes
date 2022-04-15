@@ -69,10 +69,3 @@
 		</div>
 	</div>
 </form>
-
-<style lang="scss">
-	.form-check {
-		margin-top: 1em;
-		margin-bottom: 1em;
-	}
-</style>
