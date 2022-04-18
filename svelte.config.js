@@ -3,7 +3,7 @@ import preprocess from 'svelte-preprocess';
 import path from 'path';
 import fs from 'fs';
 
-const copyPlugin = function (options) {
+const copyFile = function (options) {
 	return function () {
 		const targetDir = path.dirname(options.target);
 		if (!fs.existsSync(targetDir)){
@@ -29,13 +29,17 @@ const config = {
 		vite: {
 			prebundleSvelteLibraries: true,
 			plugins: [
-				copyPlugin({
+				copyFile({
 					source:  './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
 					target: './static/bootstrap.min.js',
 				}),
-				copyPlugin({
+				copyFile({
 					source:  './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map',
 					target: './static/bootstrap.min.js.map',
+				}),
+				copyFile({
+					source:  './src/lib/utils/date-utils.ts',
+					target: './node_modules/@beyonk/svelte-datepicker/src/components/lib/date-utils.js',
 				}),
 			],
 			ssr: {

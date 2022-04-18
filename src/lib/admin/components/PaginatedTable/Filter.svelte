@@ -2,7 +2,7 @@
 	import ConfigFilter from '$lib/admin/ConfigFilter';
 	import FilterType from '$lib/admin/FilterType';
 	import DatePicker from '@beyonk/svelte-datepicker/src/components/DatePicker.svelte';
-	import { dayjs } from '@beyonk/svelte-datepicker/src/components/lib/date-utils';
+	import { dayjs } from '$lib/utils/date-utils';
 
 	export let filter: ConfigFilter;
 	export let change_callback: Function;
