@@ -34,6 +34,6 @@ export default class PageHooks {
 	}
 
 	public getCountCallback(): Function {
-		return this._count_callback();
+		return this._count_callback;
 	}
 }

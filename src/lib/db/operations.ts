@@ -62,8 +62,8 @@ export async function getOperations(
 	return new_items;
 }
 
-export async function getOperationsCount(): Promise<number> {
-	const res: string = await api_call('operations_get_count');
+export async function getOperationsCount(filters: Array<FilterWithValue> | null): Promise<number> {
+	const res: string = await api_call('operations_get_count', {filters});
 
 	return normalizeCountFromApiResult(res);
 }

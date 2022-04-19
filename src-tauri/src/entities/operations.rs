@@ -69,7 +69,7 @@ pub(crate) fn find_paginate(
                 WHERE operation_id = operations.id
             ) AS tags_ids
         FROM operations
-        WHERE state != ?
+        WHERE state = ?
         {{ filters }}
         ORDER BY operations.{{ order_field }} {{ order_by }}
         LIMIT ? OFFSET ?
@@ -90,7 +90,7 @@ pub(crate) fn find_paginate(
 
     let mut sql_params: Vec<&dyn ToSql> = Vec::new();
 
-    let ok = OperationState::PendingTriage.to_string();
+    let ok = OperationState::Ok.to_string();
     sql_params.push(&ok);
 
     let sql = sql.replace("{{ order_field }}", &order_field);
@@ -155,27 +155,83 @@ pub(crate) fn find_paginate(
     Ok(operations)
 }
 
-pub(crate) fn find_count(conn: &Connection) -> Box<u32> {
-    let mut stmt = conn
-        .prepare(
-            "
-        SELECT
-            count(id) as number_of_items
+pub(crate) fn find_count(
+    conn: &Connection,
+    filters: Option<Vec<Filter>>,
+) -> anyhow::Result<Box<u32>> {
+    let sql = "
+        SELECT count(id) as number_of_items
         FROM operations
-        WHERE state != :triage
-    ",
+        WHERE state = ?
+        {{ filters }}
+    ";
+
+    let filters = filters.unwrap_or_default();
+
+    let filters_sql = filters
+        .iter()
+        .fold(
+            "".to_string(),
+            |result, filter| {
+                let stmt = filter.to_sql_statement();
+                format!("{} AND ({})", result, &stmt)
+            }
         )
-        .expect("Could not fetch operations");
+    ;
+
+    let mut sql_params: Vec<&dyn ToSql> = Vec::new();
+
+    let ok = OperationState::Ok.to_string();
+    sql_params.push(&ok);
+
+    let sql = sql.replace("{{ filters }}", &filters_sql);
+
+    let mut sql_values: Vec<String> = Vec::new();
+
+    for filter in filters.iter() {
+        match filter.filter_type {
+            FilterType::Text => {
+                let value = filter.value.to_string();
+                sql_values.push(value);
+            },
+            FilterType::Tags => {
+                let value = filter.value.to_string();
+                sql_values.push(value);
+            },
+            FilterType::Number => {
+                let min = i64::MIN.to_string();
+                let max = i64::MAX.to_string();
+
+                let values = filter.value.split_once(";").unwrap_or((&min, &max));
+
+                let value1 = if values.0 == "".to_string() { i64::MIN } else { 100 * values.0.parse::<i64>()? };
+                let value2 = if values.1 == "".to_string() { i64::MAX } else { 100 * values.1.parse::<i64>()? };
+
+                sql_values.push(value1.to_string());
+                sql_values.push(value2.to_string());
+            },
+            FilterType::Date => {
+                let values = filter.value.split_once(";").unwrap_or(("", ""));
+
+                sql_values.push(values.0.to_string());
+                sql_values.push(values.1.to_string());
+            },
+        };
+    }
+
+    for sql_value in sql_values.iter() {
+        sql_params.push(sql_value);
+    }
+
+    let mut stmt = conn.prepare(&sql)?;
 
     let mut result = stmt
-        .query(named_params! {
-            ":triage": OperationState::PendingTriage.to_string(),
-        })
+        .query(sql_params.as_slice())
         .unwrap();
 
     let first_row = result.next().unwrap().unwrap();
 
-    Box::new(serde_rusqlite::from_row::<u32>(first_row).unwrap())
+    Ok(Box::new(serde_rusqlite::from_row::<u32>(first_row).unwrap()))
 }
 
 pub(crate) fn find_count_triage(conn: &Connection) -> Box<u32> {

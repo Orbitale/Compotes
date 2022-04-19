@@ -74,6 +74,7 @@
 
 	async function callFilters() {
 		await fetchItems();
+		await configureNumberOfPages();
 	}
 
 	async function clearFilters() {
@@ -91,10 +92,13 @@
 	}
 
 	async function configureNumberOfPages() {
+		debugger;
 		if ($items_store === null || $items_store === undefined) {
 			number_of_pages = 1;
 			return;
 		}
+
+		const normalized_filters = filters_with_values.map((f: FilterWithValue) => { return {...f}; });
 
 		const countCb = page_hooks.hasCountCallback
 			? page_hooks.getCountCallback()
@@ -103,12 +107,12 @@
 		let count: any = 0;
 
 		if (countCb instanceof Promise) {
-			count = await countCb;
+			count = await countCb(normalized_filters);
 			if (typeof count === 'function') {
-				count = count();
+				count = count(normalized_filters);
 			}
 		} else if (typeof countCb === 'function') {
-			count = countCb();
+			count = await countCb(normalized_filters);
 		} else {
 			throw new Error('Count callback has an unexpected type');
 		}
