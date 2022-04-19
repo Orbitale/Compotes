@@ -1,14 +1,18 @@
 <script lang="ts">
 	import ConfigFilter from '$lib/admin/ConfigFilter';
 	import FilterType from '$lib/admin/FilterType';
-	import DatePicker from '@beyonk/svelte-datepicker/src/components/DatePicker.svelte';
-	import { dayjs } from '$lib/utils/date-utils';
+	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
+	import enGB from 'date-fns/locale/en-GB';
+	import { DateTime } from 'luxon';
 
 	export let filter: ConfigFilter;
 	export let change_callback: Function;
 
+	let locale = localeFromDateFnsLocale(enGB);
+
 	export function clear() {
-		value1 = value2 = value = '';
+		value = '';
+		value1 = value2 = null;
 	}
 
 	// Final value to be sent to the callback function.
@@ -16,8 +20,8 @@
 
 	// For two-value filters, like range or date.
 	// They will be concatenated as "value1;value2" in the final value.
-	let value1: string = '';
-	let value2: string = '';
+	let value1: any = null;
+	let value2: any = null;
 
 	function onChange() {
 		if (change_callback) {
@@ -35,6 +39,7 @@
 			return '';
 		}
 
+		// Only between min and max int.
 		if (parsed > 9223372036854775) {
 			parsed = 9223372036854775;
 		}
@@ -45,21 +50,28 @@
 		return parsed.toString(10);
 	}
 
+	function getStringFromDate(date: Date): string {
+		return DateTime.fromISO(date.toISOString()).toFormat('yyyy-MM-dd');
+	}
+
 	function updateValueFromValues() {
 		if (filter.type === FilterType.date) {
-			value1 = value1 ? dayjs(value1).format('YYYY-MM-DD') : dayjs().subtract(50, 'year').format('YYYY-MM-DD');
-			value2 = value2 ? dayjs(value2).format('YYYY-MM-DD') : dayjs().add(1, 'day').format('YYYY-MM-DD');
+			value1 = value1 ? value1 : new Date(0);
+			value2 = value2 ? value2 : new Date();
+			value = getStringFromDate(value1)+";"+getStringFromDate(value2);
 		} else if (filter.type === FilterType.number) {
 			value1 = parseFilterValueNumber(value1);
 			value2 = parseFilterValueNumber(value2);
+
 			if (value2 !== '' && parseInt(value1) > parseInt(value2)) {
 				value1 = value2;
 			}
+
+			value = `${value1};${value2}`;
 		} else {
 			console.error('Unsupported filter type', filter);
 		}
 
-		value = `${value1};${value2}`;
 		onChange();
 	}
 
@@ -68,8 +80,8 @@
 	}
 </script>
 
-<div class="row">
-	<label for="input_filter_{filter.name}" class=" col-form-label col-sm-2">
+<div class="filter-row row">
+	<label for="input_filter_{filter.name}" class="col-sm-2 col-form-label">
 		{filter.title || filter.name}
 	</label>
 	<div class="col-sm-10">
@@ -78,42 +90,51 @@
 				id="input_filter_{filter.name}"
 				class="form-control"
 				type="text"
+				placeholder="{filter.title || filter.name}"
 				on:change={onChange}
 				bind:value
 			/>
 		{:else if filter.type === FilterType.date}
-			<DatePicker
-				start={dayjs().subtract(50, 'year')}
-				end={dayjs().add(1, 'year')}
-				bind:selected={value1}
-				placeholder="After date"
-				format="YYYY-MM-DD"
-				on:change={updateValueFromValues}
-			/>
-			<DatePicker
-				start={dayjs().subtract(50, 'year')}
-				end={dayjs().add(1, 'year')}
-				bind:selected={value2}
-				placeholder="Before date"
-				format="YYYY-MM-DD"
-				on:change={updateValueFromValues}
-			/>
+			<div class="row">
+				<div class="col-sm-6">
+					<DateInput
+						min={new Date(new Date().getFullYear() - 50, 0, 1)}
+						bind:value={value1}
+						{locale}
+						closeOnSelection={true}
+						placeholder="After {filter.title || filter.name}"
+						format="yyyy-MM-dd"
+						on:select={updateValueFromValues}
+					/>
+				</div>
+				<div class="col-sm-6">
+					<DateInput
+						min={new Date(new Date().getFullYear() - 50, 0, 1)}
+						bind:value={value2}
+						{locale}
+						closeOnSelection={true}
+						placeholder="Before {filter.title || filter.name}"
+						format="yyyy-MM-dd"
+						on:select={updateValueFromValues}
+					/>
+				</div>
+			</div>
 		{:else if filter.type === FilterType.number}
 			<div class="row">
 				<div class="col-sm-6">
-					Minimum:
 					<input
 						class="form-control"
 						type="number"
+						placeholder="Minimum {filter.title || filter.name}"
 						on:change={updateValueFromValues}
 						bind:value={value1}
 					/>
 				</div>
 				<div class="col-sm-6">
-					Maximum:
 					<input
 						class="form-control"
 						type="number"
+						placeholder="Maximum {filter.title || filter.name}"
 						on:change={updateValueFromValues}
 						bind:value={value2}
 					/>
@@ -124,6 +145,7 @@
 				id="input_filter_{filter.name}"
 				class="form-control"
 				type="text"
+				placeholder="{filter.title || filter.name}"
 				on:change={onChange}
 				bind:value
 			/>
@@ -134,3 +156,16 @@
 		{/if}
 	</div>
 </div>
+
+<style lang="scss" global>
+	@import "bootstrap/scss/bootstrap-utilities";
+	@import "bootstrap/scss/forms/form-control";
+	.date-time-field {
+		input {
+			@extend .form-control;
+		}
+	}
+	.filter-row {
+		margin-bottom: 1rem;
+	}
+</style>

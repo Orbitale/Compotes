@@ -1,7 +1,8 @@
 // @ts-ignore
 import BankAccount from '$lib/entities/BankAccount';
 import api_call from '$lib/utils/api_call';
-import { Writable, writable } from 'svelte/store';
+import { writable } from 'svelte/store';
+import type { Writable } from 'svelte/store';
 
 export const bankAccountsStore: Writable<BankAccount[]> = writable();
 

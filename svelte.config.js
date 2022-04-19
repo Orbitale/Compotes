@@ -37,10 +37,6 @@ const config = {
 					source:  './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map',
 					target: './static/bootstrap.min.js.map',
 				}),
-				copyFile({
-					source:  './src/lib/utils/date-utils.ts',
-					target: './node_modules/@beyonk/svelte-datepicker/src/components/lib/date-utils.js',
-				}),
 			],
 			ssr: {
 				noExternal: [ 'dayjs' ]

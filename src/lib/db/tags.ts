@@ -1,7 +1,8 @@
 // @ts-ignore
 import Tag from '$lib/entities/Tag';
 import api_call from '$lib/utils/api_call';
-import { Writable, writable } from 'svelte/store';
+import { writable } from 'svelte/store';
+import type { Writable } from 'svelte/store';
 
 export const tagsStore: Writable<Tag[]> = writable();
 
