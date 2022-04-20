@@ -13,7 +13,9 @@
 	OperationsSynchronizer.addAfterSyncCallback(getTriageOperations);
 </script>
 
-<SvelteToast />
+<div id="toast_container">
+	<SvelteToast />
+</div>
 
 <Navigation />
 
@@ -23,4 +25,10 @@
 
 <style global lang="scss">
 	@import '../style/_app.scss';
+	#toast_container {
+		--toastContainerTop: auto;
+		--toastContainerRight: 1rem;
+		--toastContainerBottom: 0.5rem;
+		--toastContainerLeft: auto;
+	}
 </style>
