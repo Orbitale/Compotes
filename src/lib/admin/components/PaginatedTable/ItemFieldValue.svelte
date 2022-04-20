@@ -21,7 +21,7 @@
 	{/if}
 {:else if field_value instanceof Array}
 	{#each field_value as array_value}
-		&nbsp;<span class="badge bg-secondary">{array_value}</span>
+		<span class="badge bg-secondary">{array_value}</span>
 	{/each}
 {:else if typeof field_value === 'object'}
 	<pre>{JSON.stringify(field_value)}</pre>
