@@ -6,6 +6,8 @@ CREATE TABLE `bank_accounts` (
     UNIQUE (`slug`)
 );
 
+INSERT INTO `bank_accounts` VALUES (1, 'Default', 'default', 'EUR');
+
 CREATE TABLE `operation_tag` (
     `operation_id` integer NOT NULL,
     `tag_id`       integer NOT NULL,
