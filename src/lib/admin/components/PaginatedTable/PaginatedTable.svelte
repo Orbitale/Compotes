@@ -1,8 +1,8 @@
 
 <script lang="ts">
 	import ItemLine from './ItemLine.svelte';
-	import { onMount } from 'svelte';
-	import type { Readable } from 'svelte/store';
+	import {onMount} from 'svelte';
+	import type {Readable} from 'svelte/store';
 	import SpinLoader from '../SpinLoader.svelte';
 	import Field from '../../Field';
 	import PageHooks from '../../PageHooks';
@@ -12,6 +12,8 @@
 	import ConfigFilter from '$lib/admin/ConfigFilter';
 	import FilterWithValue from '$lib/admin/FilterWithValue';
 	import Filter from '$lib/admin/components/PaginatedTable/Filter.svelte';
+	import SavedFilter from "../../SavedFilter.ts";
+	import {saveFilter} from "../../src/filters.ts";
 
 	export let id: string;
 	export let items_store: Readable<any>;
@@ -94,29 +96,7 @@
 			return;
 		}
 
-		const new_filter = {
-			name: current_filter_name,
-			serialized_filter: JSON.stringify(filters_with_values),
-		};
-
-		let stored_filters = localStorage.getItem('compotes_filters');
-		if (!stored_filters) {
-			stored_filters = '[]';
-		}
-		let deserialized_filters = JSON.parse(stored_filters);
-		if (!Array.isArray(deserialized_filters)) {
-			console.error('Stored filters are not stored as an array. Resetting them.');
-			deserialized_filters = [];
-		}
-		let existing_filter_index = deserialized_filters.findIndex((filter: Filter) => {
-			return filter.name === new_filter.name;
-		});
-		if (existing_filter_index >= 0) {
-			deserialized_filters[existing_filter_index] = new_filter;
-		} else {
-			deserialized_filters.push(new_filter);
-		}
-		localStorage.setItem('compotes_filters', JSON.stringify(deserialized_filters));
+		await saveFilter(new SavedFilter(current_filter_name, filters_with_values));
 	}
 
 	async function clearFilters() {
