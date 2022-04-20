@@ -23,7 +23,7 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
   * ☑️ List operations
     * ☑️ Allow sorting operations by some fields
     * ☑️ Allow filtering operations
-    * ⬜️ Allow saving current filter to be reused in graphs
+    * ☑️ Allow saving current filter to be reused in graphs
     * ⬜️ Allow ignoring an operation in graphs calculations
   * ☑️ Tags CRUD
   * ☑️ Tag rules CRUD
@@ -41,6 +41,7 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
   * ⬜️ Config panel to allow customizing database, export/import whole database
   * ⬜️ User account system for multi-user usage
   * ⬜️ Encrypt entire database with a password/passphrase for safety
+  * ⬜️ Store filters to the database instead of `localStorage`
 * Some things are quite buggy and the app needs improvements too:
   * ☑️ Check why we have to use `location.reload()` because svelte stores don't update the paginated tables
   * ⬜️ Use a `select2` or similar for tags selection

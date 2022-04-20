@@ -2,7 +2,7 @@
 <script lang="ts">
 	import ItemLine from './ItemLine.svelte';
 	import { onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import type { Readable } from 'svelte/store';
 	import SpinLoader from '../SpinLoader.svelte';
 	import Field from '../../Field';
 	import PageHooks from '../../PageHooks';
@@ -14,7 +14,7 @@
 	import Filter from '$lib/admin/components/PaginatedTable/Filter.svelte';
 
 	export let id: string;
-	export let items_store: Writable<any>;
+	export let items_store: Readable<any>;
 	export let fields: Array<Field>;
 	export let actions: UrlAction[] = [];
 	export let filters: Array<ConfigFilter> = [];
@@ -39,6 +39,9 @@
 	let store_executed_at_least_once = false;
 	let current_sort_field: SortableField | null = null;
 	let filters_with_values: Array<FilterWithValue> = [];
+	let disable_save_filters: boolean = true;
+	let current_filter_name: string = '';
+	let is_filter_name_invalid: boolean = false;
 
 	items_store.subscribe(async (results) => {
 		if (results && results.length) {
@@ -73,11 +76,52 @@
 	}
 
 	async function callFilters() {
+		disable_save_filters = filters_with_values.length === 0;
+
 		await fetchItems();
 		await configureNumberOfPages();
 	}
 
+	async function saveFilters() {
+		if (!current_filter_name) {
+			is_filter_name_invalid = true;
+			return;
+		}
+		is_filter_name_invalid = false;
+
+		if (filters_with_values.length === 0) {
+			console.error('Called "Save filters" with no filters set.');
+			return;
+		}
+
+		const new_filter = {
+			name: current_filter_name,
+			serialized_filter: JSON.stringify(filters_with_values),
+		};
+
+		let stored_filters = localStorage.getItem('compotes_filters');
+		if (!stored_filters) {
+			stored_filters = '[]';
+		}
+		let deserialized_filters = JSON.parse(stored_filters);
+		if (!Array.isArray(deserialized_filters)) {
+			console.error('Stored filters are not stored as an array. Resetting them.');
+			deserialized_filters = [];
+		}
+		let existing_filter_index = deserialized_filters.findIndex((filter: Filter) => {
+			return filter.name === new_filter.name;
+		});
+		if (existing_filter_index >= 0) {
+			deserialized_filters[existing_filter_index] = new_filter;
+		} else {
+			deserialized_filters.push(new_filter);
+		}
+		localStorage.setItem('compotes_filters', JSON.stringify(deserialized_filters));
+	}
+
 	async function clearFilters() {
+		is_filter_name_invalid = false;
+		current_filter_name = '';
 		filters_with_values = [];
 
 		filters.forEach((filter: ConfigFilter) => {
@@ -92,7 +136,6 @@
 	}
 
 	async function configureNumberOfPages() {
-		debugger;
 		if ($items_store === null || $items_store === undefined) {
 			number_of_pages = 1;
 			return;
@@ -200,8 +243,12 @@
 							<Filter {filter} bind:this={filter.instance} change_callback={updateFilter} />
 						{/each}
 						<br>
-						<button class="btn btn-info" on:click={callFilters}>🔍 Filter</button>
-						<button class="btn btn-light" on:click={clearFilters}>🗑 Clear filters</button>
+						<div class="d-flex" id="filters_actions_container">
+							<button class="btn btn-outline-info" on:click={callFilters}>🔍 Filter</button>
+							<button class="btn btn-outline-dark" on:click={clearFilters}>🗑 Clear filters</button>
+							<button class="btn btn-outline-secondary ms-auto" on:click={saveFilters} disabled={disable_save_filters}>💾 Save filters</button>
+							<input class="form-control" type="text" id="filter_name" placeholder="Filter name" class:is-invalid={is_filter_name_invalid} bind:value={current_filter_name}>
+						</div>
 					</div>
 				</td>
 			</tr>
@@ -270,5 +317,13 @@
 
 	#filters {
 		padding: 5px 15px;
+	}
+
+	#filter_name {
+		width: 150px;
+	}
+
+	#filters_actions_container button {
+		margin-right: 5px;
 	}
 </style>
