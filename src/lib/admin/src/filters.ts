@@ -1,4 +1,18 @@
-import type SavedFilter from "../SavedFilter.ts";
+import SavedFilter from "../SavedFilter.ts";
+
+export function getByName(name: string): SavedFilter {
+    const filters = getSavedFilters();
+
+    const filtered_by_name = filters.filter((filter: SavedFilter) => filter.name === name);
+
+    if (!filtered_by_name.length) {
+        throw new Error(`Filter with name "${name}" was not found.`);
+    } else if (filtered_by_name.length > 1) {
+        throw new Error(`Found multiple filters with name "${name}"`);
+    }
+
+    return filtered_by_name[0];
+}
 
 export function getSavedFilters(): Array<SavedFilter> {
     let stored_filters = localStorage.getItem('compotes_filters');
@@ -14,7 +28,9 @@ export function getSavedFilters(): Array<SavedFilter> {
         deserialized_filters = [];
     }
 
-    return deserialized_filters;
+    return deserialized_filters.map((f: SavedFilter) => {
+        return SavedFilter.fromSerialized(f.name, f.filters);
+    });
 }
 
 export function saveFilter(new_filter: SavedFilter) {

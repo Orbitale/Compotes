@@ -15,4 +15,14 @@ export default class FilterWithValue {
 	public static fromFilter(filter: ConfigFilter, value: string): FilterWithValue {
 		return new FilterWithValue(filter.name, filter.type, value);
 	}
+
+	public static fromSerialized(filter: object): FilterWithValue {
+		if (!filter.name || !filter.type || !filter.value) {
+			console.error('Serialized filter is incomplete', filter);
+
+			throw new Error('Serialized filter is incomplete');
+		}
+
+		return new FilterWithValue(filter.name, filter.type, filter.value);
+	}
 }

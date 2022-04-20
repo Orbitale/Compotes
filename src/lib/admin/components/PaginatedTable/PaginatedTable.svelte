@@ -13,7 +13,7 @@
 	import FilterWithValue from '$lib/admin/FilterWithValue';
 	import Filter from '$lib/admin/components/PaginatedTable/Filter.svelte';
 	import SavedFilter from "../../SavedFilter.ts";
-	import {saveFilter} from "../../src/filters.ts";
+	import {getByName, getSavedFilters, saveFilter} from "../../src/filters.ts";
 
 	export let id: string;
 	export let items_store: Readable<any>;
@@ -40,6 +40,7 @@
 	let number_of_pages = 1;
 	let store_executed_at_least_once = false;
 	let current_sort_field: SortableField | null = null;
+	let saved_filters: Array<SavedFilter> = [];
 	let filters_with_values: Array<FilterWithValue> = [];
 	let disable_save_filters: boolean = true;
 	let current_filter_name: string = '';
@@ -54,6 +55,7 @@
 	onMount(async () => {
 		await firstPage();
 		await configureNumberOfPages();
+		saved_filters = getSavedFilters();
 	});
 
 	async function sortField(field: Field) {
@@ -61,6 +63,16 @@
 		if (sort_field_callback) {
 			await sort_field_callback(page, field);
 		}
+	}
+
+	function selectFilter(event) {
+		const name = event.target.value;
+
+		const filter = getByName(name);
+
+		current_filter_name = filter.name;
+		filters_with_values = filter.deserialized_filters;
+		// TODO : update <Filter> contents
 	}
 
 	async function updateFilter(filter: ConfigFilter, value: string) {
@@ -105,8 +117,8 @@
 		filters_with_values = [];
 
 		filters.forEach((filter: ConfigFilter) => {
-			if (filter.instance) {
-				filter.instance.clear();
+			if (filter.element) {
+				filter.element.clear();
 			} else {
 				throw new Error(`ConfigFilter with name "${filter.name}" does not have a connected instance`);
 			}
@@ -130,6 +142,7 @@
 		let count: any = 0;
 
 		if (countCb instanceof Promise) {
+			debugger;
 			count = await countCb(normalized_filters);
 			if (typeof count === 'function') {
 				count = count(normalized_filters);
@@ -211,13 +224,21 @@
 		{#if filters.length}
 			<tr id="paginated-table-filters">
 				<td colspan={fields.length + (actions.length ? 1 : 0)}>
-					<button class="btn btn-light" data-bs-toggle="collapse" href="#filters">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15">
-							<!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-							<path d="M3.853 54.87C10.47 40.9 24.54 32 40 32H472C487.5 32 501.5 40.9 508.1 54.87C514.8 68.84 512.7 85.37 502.1 97.33L320 320.9V448C320 460.1 313.2 471.2 302.3 476.6C291.5 482 278.5 480.9 268.8 473.6L204.8 425.6C196.7 419.6 192 410.1 192 400V320.9L9.042 97.33C-.745 85.37-2.765 68.84 3.854 54.87L3.853 54.87z"/>
-						</svg>
-						Filters
-					</button>
+					<div class="d-flex">
+						<button class="btn btn-light" data-bs-toggle="collapse" href="#filters">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15">
+								<!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+								<path d="M3.853 54.87C10.47 40.9 24.54 32 40 32H472C487.5 32 501.5 40.9 508.1 54.87C514.8 68.84 512.7 85.37 502.1 97.33L320 320.9V448C320 460.1 313.2 471.2 302.3 476.6C291.5 482 278.5 480.9 268.8 473.6L204.8 425.6C196.7 419.6 192 410.1 192 400V320.9L9.042 97.33C-.745 85.37-2.765 68.84 3.854 54.87L3.853 54.87z"/>
+							</svg>
+							Filters
+						</button>
+						<select name="filters_select" id="filters_select" class="form-control ms-auto" on:change={selectFilter}>
+							<option value="">- Select a filter -</option>
+							{#each saved_filters as filter}
+								<option value={filter.name}>{filter.name}</option>
+							{/each}
+						</select>
+					</div>
 					<div id="filters" class="collapse">
 						{#each filters as filter}
 							<Filter {filter} bind:this={filter.instance} change_callback={updateFilter} />
@@ -297,6 +318,10 @@
 
 	#filters {
 		padding: 5px 15px;
+	}
+
+	#filters_select {
+		width: 200px;
 	}
 
 	#filter_name {
