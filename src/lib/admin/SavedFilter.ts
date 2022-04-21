@@ -1,4 +1,4 @@
-import FilterWithValue from "./FilterWithValue.ts";
+import FilterWithValue from './FilterWithValue';
 
 export default class SavedFilter {
     public readonly name: string;

@@ -1,7 +1,7 @@
 import type AssociatedField from './AssociatedField';
 import type FieldHtmlProperties from './FieldHtmlProperties';
-import FieldOptions from '$lib/admin/FieldOptions';
-import SortableField from '$lib/admin/SortableField';
+import FieldOptions from './FieldOptions';
+import SortableField from './SortableField';
 
 export const Sortable = true;
 

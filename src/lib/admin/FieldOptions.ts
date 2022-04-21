@@ -1,5 +1,5 @@
-import type AssociatedField from '$lib/admin/AssociatedField';
-import FieldHtmlProperties from '$lib/admin/FieldHtmlProperties';
+import type AssociatedField from './AssociatedField';
+import FieldHtmlProperties from './FieldHtmlProperties';
 
 export default class FieldOptions {
 	public readonly associated_field: null | AssociatedField;

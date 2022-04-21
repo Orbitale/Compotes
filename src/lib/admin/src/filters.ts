@@ -1,4 +1,4 @@
-import SavedFilter from "../SavedFilter.ts";
+import SavedFilter from '../SavedFilter';
 
 export function getByName(name: string): SavedFilter {
     const filters = getSavedFilters();

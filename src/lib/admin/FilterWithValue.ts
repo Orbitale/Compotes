@@ -1,5 +1,5 @@
-import type ConfigFilter from '$lib/admin/ConfigFilter';
-import type FilterType from '$lib/admin/FilterType';
+import type ConfigFilter from './ConfigFilter';
+import type FilterType from './FilterType';
 
 export default class FilterWithValue {
 	public readonly name: string;

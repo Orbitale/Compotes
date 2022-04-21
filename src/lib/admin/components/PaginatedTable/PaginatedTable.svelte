@@ -1,19 +1,21 @@
 
 <script lang="ts">
+	import Filter from './Filter.svelte';
 	import ItemLine from './ItemLine.svelte';
+	import ItemHeadCell from './ItemHeadCell.svelte';
+	import SpinLoader from '../SpinLoader.svelte';
+
 	import {onMount} from 'svelte';
 	import type {Readable} from 'svelte/store';
-	import SpinLoader from '../SpinLoader.svelte';
+	import {getByName, getSavedFilters, saveFilter} from '../../src/filters';
+
 	import Field from '../../Field';
 	import PageHooks from '../../PageHooks';
 	import UrlAction from '../../UrlAction';
-	import IteamHeadCell from '$lib/admin/components/PaginatedTable/IteamHeadCell.svelte';
-	import SortableField from '$lib/admin/SortableField';
-	import ConfigFilter from '$lib/admin/ConfigFilter';
-	import FilterWithValue from '$lib/admin/FilterWithValue';
-	import Filter from '$lib/admin/components/PaginatedTable/Filter.svelte';
-	import SavedFilter from "../../SavedFilter.ts";
-	import {getByName, getSavedFilters, saveFilter} from "../../src/filters.ts";
+	import SortableField from '../../SortableField';
+	import ConfigFilter from '../../ConfigFilter';
+	import FilterWithValue from '../../FilterWithValue';
+	import SavedFilter from '../../SavedFilter';
 
 	export let id: string;
 	export let items_store: Readable<any>;
@@ -65,14 +67,27 @@
 		}
 	}
 
-	function selectFilter(event) {
+	async function selectFilter(event) {
 		const name = event.target.value;
 
 		const filter = getByName(name);
 
 		current_filter_name = filter.name;
 		filters_with_values = filter.deserialized_filters;
-		// TODO : update <Filter> contents
+
+		filters.forEach((config_filter: ConfigFilter) => {
+			if (!config_filter.element) {
+				throw new Error('Cannot update filter value if elemente is not set.');
+			}
+
+			let value_index = filters_with_values.findIndex((fv: FilterWithValue) => fv.name === config_filter.name);
+
+			const value = value_index < 0 ? null : filters_with_values[value_index];
+
+			config_filter.element.setValue(value);
+		});
+
+		await callFilters();
 	}
 
 	async function updateFilter(filter: ConfigFilter, value: string) {
@@ -91,6 +106,12 @@
 
 	async function callFilters() {
 		disable_save_filters = filters_with_values.length === 0;
+
+		filters.forEach((config_filter: ConfigFilter) => {
+			let value_index = filters_with_values.findIndex((fv: FilterWithValue) => fv.name === config_filter.name);
+
+			config_filter.value = value_index < 0 ? null : filters_with_values[value_index];
+		});
 
 		await fetchItems();
 		await configureNumberOfPages();
@@ -241,7 +262,7 @@
 					</div>
 					<div id="filters" class="collapse">
 						{#each filters as filter}
-							<Filter {filter} bind:this={filter.instance} change_callback={updateFilter} />
+							<Filter {filter} bind:this={filter.element} change_callback={updateFilter} />
 						{/each}
 						<br>
 						<div class="d-flex" id="filters_actions_container">
@@ -257,7 +278,7 @@
 
 		<tr id="paginated-table-header-fields">
 			{#each fields as field}
-				<IteamHeadCell {field} sort_callback={sortField} />
+				<ItemHeadCell {field} sort_callback={sortField} />
 			{/each}
 			{#if actions.length}
 				<th class="actions-header">Actions</th>

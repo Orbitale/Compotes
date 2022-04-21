@@ -1,9 +1,10 @@
 <script lang="ts">
-	import ConfigFilter from '$lib/admin/ConfigFilter';
-	import FilterType from '$lib/admin/FilterType';
-	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
+	import {DateInput, localeFromDateFnsLocale} from 'date-picker-svelte';
 	import enGB from 'date-fns/locale/en-GB';
-	import { DateTime } from 'luxon';
+	import {DateTime} from 'luxon';
+	import ConfigFilter from '../../ConfigFilter';
+	import FilterType from '../../FilterType';
+	import FilterWithValue from '../../FilterWithValue';
 
 	export let filter: ConfigFilter;
 	export let change_callback: Function;
@@ -13,6 +14,42 @@
 	export function clear() {
 		value = '';
 		value1 = value2 = null;
+	}
+
+	export function setValue(filter_with_value: FilterWithValue|null) {
+		if (!filter_with_value) {
+			clear();
+
+			return;
+		}
+
+		if (filter_with_value.name !== filter.name) {
+			throw new Error('Invalid filter to set values.');
+		}
+
+		if (filter.type === FilterType.text) {
+			value = filter_with_value.value;
+		} else if (filter.type === FilterType.tags) {
+			value = filter_with_value.value;
+		} else if (filter.type === FilterType.date) {
+			const split = filter_with_value.value.split(';');
+
+			value = filter_with_value.value;
+			value1 = new Date(split[0]);
+			value2 = new Date(split[1]);
+		} else if (filter.type === FilterType.number) {
+			const split = filter_with_value.value.split(';');
+			value = filter_with_value.value;
+
+			value1 = parseFilterValueNumber(split[0]);
+			value2 = parseFilterValueNumber(split[1]);
+
+			if (value2 !== '' && parseInt(value1) > parseInt(value2)) {
+				value1 = value2;
+			}
+		} else {
+			console.error('Unsupported filter type', filter);
+		}
 	}
 
 	// Final value to be sent to the callback function.

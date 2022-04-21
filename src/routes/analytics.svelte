@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {getSavedFilters} from "../lib/admin/src/filters.ts";
+    import {getSavedFilters} from "$lib/admin/src/filters.ts";
     import {onMount} from "svelte";
-    import SavedFilter from "../lib/admin/SavedFilter.ts";
+    import SavedFilter from "$lib/admin/SavedFilter.ts";
 
     let filters: Array<SavedFilter> = [];
 

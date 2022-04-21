@@ -1,6 +1,6 @@
 import type AssociatedField from './AssociatedField';
 import Field from './Field';
-import FieldOptions from '$lib/admin/FieldOptions';
+import FieldOptions from './FieldOptions';
 
 export default class CollectionField extends Field {
 	constructor(name: string, text: string, item_field: Field) {

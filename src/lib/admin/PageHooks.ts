@@ -1,5 +1,5 @@
-import type SortableField from '$lib/admin/SortableField';
-import type FilterWithValue from '$lib/admin/FilterWithValue';
+import type SortableField from './SortableField';
+import type FilterWithValue from './FilterWithValue';
 
 export default class PageHooks {
 	private readonly _items_callback: Function;
