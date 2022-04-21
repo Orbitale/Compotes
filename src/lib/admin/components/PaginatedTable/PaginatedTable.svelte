@@ -47,6 +47,8 @@
 	let disable_save_filters: boolean = true;
 	let current_filter_name: string = '';
 	let is_filter_name_invalid: boolean = false;
+	let selected_filter: any = '';
+	let filters_visible: boolean = false;
 
 	items_store.subscribe(async (results) => {
 		if (results && results.length) {
@@ -56,8 +58,7 @@
 
 	onMount(async () => {
 		await firstPage();
-		await configureNumberOfPages();
-		saved_filters = getSavedFilters();
+		saved_filters = getSavedFilters(id);
 	});
 
 	async function sortField(field: Field) {
@@ -70,7 +71,13 @@
 	async function selectFilter(event) {
 		const name = event.target.value;
 
-		const filter = getByName(name);
+		console.info({selected_filter});
+		if (!name) {
+			await clearFilters();
+			return;
+		}
+
+		const filter = getByName(id, name);
 
 		current_filter_name = filter.name;
 		filters_with_values = filter.deserialized_filters;
@@ -114,7 +121,6 @@
 		});
 
 		await fetchItems();
-		await configureNumberOfPages();
 	}
 
 	async function saveFilters() {
@@ -129,12 +135,13 @@
 			return;
 		}
 
-		await saveFilter(new SavedFilter(current_filter_name, filters_with_values));
+		await saveFilter(id, new SavedFilter(current_filter_name, filters_with_values));
 	}
 
 	async function clearFilters() {
 		is_filter_name_invalid = false;
 		current_filter_name = '';
+		selected_filter = '';
 		filters_with_values = [];
 
 		filters.forEach((filter: ConfigFilter) => {
@@ -162,16 +169,10 @@
 
 		let count: any = 0;
 
-		if (countCb instanceof Promise) {
-			debugger;
-			count = await countCb(normalized_filters);
-			if (typeof count === 'function') {
-				count = count(normalized_filters);
-			}
-		} else if (typeof countCb === 'function') {
+		if (typeof countCb === 'function') {
 			count = await countCb(normalized_filters);
 		} else {
-			throw new Error('Count callback has an unexpected type');
+			throw new Error(`Count callback has an unexpected type "${typeof countCb}".`);
 		}
 
 		if (isNaN(parseInt(count, 10))) {
@@ -213,6 +214,10 @@
 
 		await page_hooks.callForItems(page, current_sort_field, normalized_filters);
 	}
+
+	function toggleFiltersDisplay() {
+		filters_visible = !filters_visible;
+	}
 </script>
 
 <table
@@ -246,14 +251,22 @@
 			<tr id="paginated-table-filters">
 				<td colspan={fields.length + (actions.length ? 1 : 0)}>
 					<div class="d-flex">
-						<button class="btn btn-light" data-bs-toggle="collapse" href="#filters">
+						<button
+							class="btn mr5"
+							class:btn-primary={filters_visible === true}
+							class:btn-outline-primary={filters_visible === false}
+							data-bs-toggle="collapse"
+							href="#filters"
+							on:click={toggleFiltersDisplay}
+						>
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15">
 								<!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
 								<path d="M3.853 54.87C10.47 40.9 24.54 32 40 32H472C487.5 32 501.5 40.9 508.1 54.87C514.8 68.84 512.7 85.37 502.1 97.33L320 320.9V448C320 460.1 313.2 471.2 302.3 476.6C291.5 482 278.5 480.9 268.8 473.6L204.8 425.6C196.7 419.6 192 410.1 192 400V320.9L9.042 97.33C-.745 85.37-2.765 68.84 3.854 54.87L3.853 54.87z"/>
 							</svg>
-							Filters
+							{filters_visible ? 'Hide' : 'Show'} filters
 						</button>
-						<select name="filters_select" id="filters_select" class="form-control ms-auto" on:change={selectFilter}>
+						<button class="btn btn-outline-dark" on:click={clearFilters}>🗑 Clear filters</button>
+						<select name="filters_select" id="filters_select" class="form-control ms-auto" bind:value={selected_filter} on:change={selectFilter}>
 							<option value="">- Select a filter -</option>
 							{#each saved_filters as filter}
 								<option value={filter.name}>{filter.name}</option>
@@ -266,8 +279,6 @@
 						{/each}
 						<br>
 						<div class="d-flex" id="filters_actions_container">
-							<button class="btn btn-outline-info" on:click={callFilters}>🔍 Filter</button>
-							<button class="btn btn-outline-dark" on:click={clearFilters}>🗑 Clear filters</button>
 							<button class="btn btn-outline-secondary ms-auto" on:click={saveFilters} disabled={disable_save_filters}>💾 Save filters</button>
 							<input class="form-control" type="text" id="filter_name" placeholder="Filter name" class:is-invalid={is_filter_name_invalid} bind:value={current_filter_name}>
 						</div>
@@ -347,6 +358,10 @@
 
 	#filter_name {
 		width: 150px;
+	}
+
+	.mr5 {
+		margin-right: 5px;
 	}
 
 	#filters_actions_container button {
