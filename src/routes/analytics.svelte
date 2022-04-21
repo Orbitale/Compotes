@@ -6,7 +6,7 @@
     let filters: Array<SavedFilter> = [];
 
     onMount(() => {
-        filters = getSavedFilters();
+        filters = getSavedFilters('operations');
     });
 </script>
 

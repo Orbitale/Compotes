@@ -1,16 +1,7 @@
 <script lang="ts">
 	import Navigation from '$lib/components/Navigation.svelte';
-	import { SvelteToast } from '@zerodevx/svelte-toast';
-	import OperationsSynchronizer from '$lib/struct/OperationsSynchronizer';
-	import { updateConfig as updateAdminConfig } from '$lib/admin/src/config';
-	import { getOperations, getTriageOperations } from '$lib/db/operations';
-
-	updateAdminConfig({
-		spinLoaderSrc: '/logo.svg'
-	});
-
-	OperationsSynchronizer.addAfterSyncCallback(getOperations);
-	OperationsSynchronizer.addAfterSyncCallback(getTriageOperations);
+	import {SvelteToast} from '@zerodevx/svelte-toast';
+	import './configure_app.ts';
 </script>
 
 <div id="toast_container">

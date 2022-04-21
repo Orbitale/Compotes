@@ -1,34 +1,5 @@
 import SavedFilter from '../SavedFilter';
-import FilterWithValue from '../FilterWithValue';
-import FilterType from '../FilterType.ts';
-import {DateTime} from 'luxon';
-
-const DATE_FORMAT = 'yyyy-MM-dd';
-
-const now = DateTime.now();
-const first_day_of_this_year = now.set({months: 1, days: 1});
-const last_day_of_this_year = now.set({months: 12, days: 31});
-const first_day_of_last_year = first_day_of_this_year.minus({years: 1});
-const last_day_of_last_year = last_day_of_this_year.minus({years: 1});
-
-let builtin_filters = {
-    operations: [
-        new SavedFilter('<This year>', [
-            new FilterWithValue(
-                'operation_date',
-                FilterType.date,
-                first_day_of_this_year.toFormat(DATE_FORMAT)+';'+last_day_of_this_year.toFormat(DATE_FORMAT)
-            ),
-        ]),
-        new SavedFilter('<Last year>', [
-            new FilterWithValue(
-                'operation_date',
-                FilterType.date,
-                first_day_of_last_year.toFormat(DATE_FORMAT)+';'+last_day_of_last_year.toFormat(DATE_FORMAT)
-            ),
-        ]),
-    ],
-};
+import {getConfig} from './config';
 
 export function getByName(save_key: string, name: string): SavedFilter {
     const filters = getSavedFilters(save_key);
@@ -58,7 +29,7 @@ export function getSavedFilters(save_key: string, with_builtin: boolean = true):
         deserialized_filters = [];
     }
 
-    const builtin = with_builtin ? (builtin_filters[save_key] || []) : [];
+    const builtin = with_builtin ? (getConfig().builtinFilters[save_key] || []) : [];
 
     return [
         ...builtin,
