@@ -171,6 +171,8 @@
 
 		if (typeof countCb === 'function') {
 			count = await countCb(normalized_filters);
+		} else if (typeof countCb === 'number') {
+			count = countCb;
 		} else {
 			throw new Error(`Count callback has an unexpected type "${typeof countCb}".`);
 		}
