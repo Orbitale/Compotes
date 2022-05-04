@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {DateInput, localeFromDateFnsLocale} from 'date-picker-svelte';
-	import enGB from 'date-fns/locale/en-GB';
+	import enGB from 'date-fns/locale/en-GB/index.js';
 	import {DateTime} from 'luxon';
 	import ConfigFilter from '../../ConfigFilter';
 	import FilterType from '../../FilterType';
