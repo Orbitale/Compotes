@@ -4,15 +4,15 @@
     "version": "0.1.0"
   },
   "build": {
-    "distDir": "../build",
+    "distDir": "./target/frontend-build",
     "devPath": "http://127.0.0.1:3000",
     "beforeDevCommand": "",
-    "beforeBuildCommand": "yarn build"
+    "beforeBuildCommand": ""
   },
   "tauri": {
     "bundle": {
       "active": true,
-      "targets": [],
+      "targets": ["msi", "deb"],
       "identifier": "com.tauri.dev",
       "icon": [
         "icons/32x32.png",

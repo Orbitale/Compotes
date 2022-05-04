@@ -54,8 +54,16 @@ jobs:
             - name: Download Rust dependencies
               run: cargo fetch --manifest-path=src-tauri/Cargo.toml
 
-            - name: Build application
-              run: yarn tauri build
+            - name: Build frontend
+              run: yarn build
+
+            - name: Build application (non-windows)
+              if: matrix.os != 'windows-latest'
+              run: bin/tauri build
+
+            - name: Build application (windows)
+              if: matrix.os == 'windows-latest'
+              run: bin/tauri.exe build
 
             - name: Test application (linux)
               if: matrix.os == 'ubuntu-latest'

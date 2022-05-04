@@ -20,7 +20,10 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({
+			pages: "src-tauri/target/frontend-build",
+			assets: "src-tauri/target/frontend-build",
+		}),
 
 		prerender: {
 			default: true,
