@@ -10,7 +10,7 @@ edition = "2018"
 build = "src/build.rs"
 
 [build-dependencies]
-tauri-build = { version = "1.0.0-rc.7", features = [] }
+tauri-build = { version = "1.0.0-rc.8", features = [] }
 
 [dependencies]
 anyhow = "1.0"
@@ -26,7 +26,7 @@ rusqlite = { version = "0.26", features = [ "bundled", "functions", "serde_json"
 slugify = "0.1"
 
   [dependencies.tauri]
-  version = "1.0.0-rc.8"
+  version = "1.0.0-rc.9"
   features = ["api-all"]
 
 [features]
