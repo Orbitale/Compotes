@@ -26,7 +26,7 @@ rusqlite = { version = "0.26", features = [ "bundled", "functions", "serde_json"
 slugify = "0.1"
 
   [dependencies.tauri]
-  version = "1.0.0-rc.9"
+  version = "1.0.0-rc.10"
   features = ["api-all"]
 
 [features]
