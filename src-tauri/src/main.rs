@@ -18,6 +18,7 @@ mod commands {
     pub(crate) mod operation_update_details;
     pub(crate) mod operation_update_tags;
     pub(crate) mod operations_get;
+    pub(crate) mod operations_get_analytics;
     pub(crate) mod operations_get_by_id;
     pub(crate) mod operations_get_count;
     pub(crate) mod operations_get_triage;
@@ -64,6 +65,7 @@ fn main() {
             crate::commands::operation_update_tags::operation_update_tags,
             crate::commands::operations_get_by_id::operations_get_by_id,
             crate::commands::operations_get::operations_get,
+            crate::commands::operations_get_analytics::operations_get_analytics,
             crate::commands::operations_get_count::operations_get_count,
             crate::commands::operations_get_triage::operations_get_triage,
             crate::commands::operations_get_triage_count::operations_get_triage_count,

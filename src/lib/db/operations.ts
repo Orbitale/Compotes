@@ -8,6 +8,7 @@ import type Tag from '$lib/entities/Tag';
 import type SortableField from '$lib/admin/SortableField';
 import { OrderBy, orderByToString } from '$lib/admin/OrderBy';
 import type FilterWithValue from '$lib/admin/FilterWithValue';
+import SavedFilter from '$lib/admin/SavedFilter';
 
 export const operationsStore: Writable<Operation[]> = writable();
 export const triageStore: Writable<Operation[]> = writable();
@@ -58,6 +59,23 @@ export async function getOperations(
 	const new_items = await deserializeAndNormalizeDatabaseResult(res);
 
 	operationsStore.set(new_items);
+
+	return new_items;
+}
+
+export async function getOperationsForAnalytics(saved_filter: SavedFilter): Promise<Array<Operation>> {
+	// TODO
+	const params = {
+		filters: saved_filter.deserialized_filters,
+	};
+
+	const res: string = await api_call('operations_get_analytics', params);
+
+	if (!res) {
+		throw 'No results from the API';
+	}
+
+	const new_items = await deserializeAndNormalizeDatabaseResult(res);
 
 	return new_items;
 }
