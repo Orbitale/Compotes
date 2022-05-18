@@ -19,9 +19,9 @@
   "devDependencies": {
     "@popperjs/core": "^2.11.5",
     "@sveltejs/adapter-static": "1.0.0-next.31",
-    "@sveltejs/kit": "^1.0.0-next.334",
+    "@sveltejs/kit": "^1.0.0-next.335",
     "@tauri-apps/api": "^1.0.0-rc.5",
-    "@tauri-apps/cli": "^1.0.0-rc.10",
+    "@tauri-apps/cli": "^1.0.0-rc.11",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "@zerodevx/svelte-toast": "^0.7.1",
