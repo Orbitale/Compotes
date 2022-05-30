@@ -4,10 +4,26 @@
     import SavedFilter from "$lib/admin/SavedFilter.ts";
     import Operation from "../lib/entities/Operation.ts";
     import {getOperationsForAnalytics} from "../lib/db/operations.ts";
+    import Line from "svelte-chartjs/src/Line.svelte"
 
     let filters: Array<SavedFilter> = [];
     let selected_filter: SavedFilter|null = null;
     let operations: Array<Operation> = [];
+
+    const chart_data = {
+        labels: ['label 1', 'label 2', 'label 3', '', ''],
+        datasets: [
+            {
+                label: "Operations",
+                data: [1, 2, 3, 2, 1],
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                borderWidth: 1
+            }
+        ]
+    };
+
+    const chart_options = {};
 
     onMount(() => {
         filters = getSavedFilters('operations');
@@ -40,3 +56,5 @@
 {#if selected_filter}
     <h3>Selected: {selected_filter.name}</h3>
 {/if}
+
+<Line data={chart_data} options={chart_options} />

@@ -31,6 +31,9 @@ const config = {
 
 		vite: {
 			prebundleSvelteLibraries: true,
+			optimizeDeps: {
+				include: ['@carbon/charts'],
+			},
 			plugins: [
 				copyFile({
 					source:  './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
@@ -42,7 +45,10 @@ const config = {
 				}),
 			],
 			ssr: {
-				noExternal: [ 'dayjs' ]
+				noExternal: [
+					'dayjs',
+					'@carbon/charts',
+				],
 			}
 		}
 	},
