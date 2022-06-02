@@ -1,11 +1,11 @@
 <script lang="ts">
-	import message from '$lib/utils/message.ts';
+	import {warning} from '$lib/utils/message.ts';
 
 	function onFormSubmit(e: Event) {
 		e.stopPropagation();
 		e.preventDefault();
 
-		message('Feature not implemented yet 😉');
+		warning('Feature not implemented yet 😉');
 
 		return false;
 	}
