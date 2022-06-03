@@ -1,6 +1,6 @@
 import type BankAccount from './BankAccount';
 import sha512 from '$lib/utils/sha512';
-import { DateFormat, dateFormatToRegex, NormalizedDate } from '$lib/utils/date';
+import {DateFormat, dateFormatToRegex, DateTime, NormalizedDate} from '$lib/utils/date';
 import type Tag from './Tag';
 import type Entity from '$lib/struct/Entity';
 
@@ -58,6 +58,10 @@ export default class Operation implements Entity {
 		let date = new Date(this.operation_date.toString());
 
 		return date.toLocaleDateString();
+	}
+
+	get dateObject(): DateTime {
+		return DateTime.fromISO(this.operation_date);
 	}
 
 	get amount_display() {

@@ -1,3 +1,9 @@
+import {DateTime} from 'luxon';
+
+export {
+	DateTime,
+};
+
 export enum DateFormat {
 	YMD_SLASH = 'Y/M/D',
 	YDM_SLASH = 'Y/D/M',

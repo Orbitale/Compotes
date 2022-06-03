@@ -2,13 +2,20 @@
     import {getSavedFilters} from "$lib/admin/src/filters.ts";
     import {onMount} from "svelte";
     import SavedFilter from "$lib/admin/SavedFilter.ts";
-    import Operation from "../lib/entities/Operation.ts";
-    import {getOperationsForAnalytics} from "../lib/db/operations.ts";
+    import Operation from "$lib/entities/Operation.ts";
+    import {getOperationsForAnalytics} from "$lib/db/operations.ts";
     import Line from "svelte-chartjs/src/Line.svelte"
+    import YearlyTotals from "$lib/graphs/YearlyTotals.ts";
+    import type Graph from "$lib/graphs/Graph.ts";
+
+    const graph_types = [
+        YearlyTotals,
+    ];
 
     let filters: Array<SavedFilter> = [];
     let selected_filter: SavedFilter|null = null;
     let operations: Array<Operation> = [];
+    let current_graph_type: Graph = null;
 
     let chart_component = false;
     let chart_data = {};
@@ -16,6 +23,7 @@
 
     onMount(() => {
         filters = getSavedFilters('operations');
+        filters.unshift(new SavedFilter('<All operations>', []));
     });
 
     async function changeFilter() {
@@ -26,25 +34,22 @@
 
         operations = await getOperationsForAnalytics(selected_filter);
 
-        let series = [];
+        showGraph();
+    }
 
-        for (const operation of operations) {
-            // todo: add data to series
+    function changeGraph() {
+        showGraph();
+    }
+
+    function showGraph() {
+        if (current_graph_type && current_graph_type.name) {
+            const graph: Graph = new current_graph_type(operations);
+            const data = graph.getData();
+            const normalized = JSON.parse(JSON.stringify(data));
+
+            chart_component = Line;
+            chart_data = normalized;
         }
-
-        chart_component = Line;
-        chart_data = {
-            labels: ['label 1', 'label 2', 'label 3', 'lab 4', 'lab 5'],
-            datasets: [
-                {
-                    label: "Operations",
-                    data: [1, 2, 3, 2, 1],
-                    backgroundColor: "rgba(255, 99, 132, 0.2)",
-                    borderColor: "rgba(255, 99, 132, 1)",
-                    borderWidth: 1
-                }
-            ]
-        };
     }
 </script>
 
@@ -62,6 +67,22 @@
             {#each filters as filter}
                 <option value={filter}>
                     {filter.name}
+                </option>
+            {/each}
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <label for="available_graph_types" class="col-form-label col-sm-2">
+        Available graph types:
+    </label>
+    <div class="col-sm-10">
+        <select id="available_graph_types" class="form-control" bind:value={current_graph_type} on:change={changeGraph}>
+            <option value={null} selected={selected_filter === null}>- Choose a filter -</option>
+            {#each graph_types as graph_type}
+                <option value={graph_type}>
+                    {graph_type.name}
                 </option>
             {/each}
         </select>
