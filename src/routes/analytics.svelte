@@ -6,10 +6,12 @@
     import {getOperationsForAnalytics} from "$lib/db/operations.ts";
     import Line from "svelte-chartjs/src/Line.svelte"
     import YearlyTotals from "$lib/graphs/YearlyTotals.ts";
+    import MonthlyTotals from "$lib/graphs/MonthlyTotals.ts";
     import type Graph from "$lib/graphs/Graph.ts";
 
     const graph_types = [
         YearlyTotals,
+        MonthlyTotals,
     ];
 
     let filters: Array<SavedFilter> = [];
