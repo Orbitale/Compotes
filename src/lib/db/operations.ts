@@ -1,12 +1,12 @@
-import Operation, { OperationState } from '$lib/entities/Operation';
+import Operation, {OperationState} from '$lib/entities/Operation';
 import api_call from '$lib/utils/api_call';
-import { getTagsByIds } from './tags';
-import { getBankAccountById } from './bank_accounts';
-import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/store';
+import {getTagsByIds} from './tags';
+import {getBankAccountById} from './bank_accounts';
+import type {Writable} from 'svelte/store';
+import {writable} from 'svelte/store';
 import type Tag from '$lib/entities/Tag';
 import type SortableField from '$lib/admin/SortableField';
-import { OrderBy, orderByToString } from '$lib/admin/OrderBy';
+import {OrderBy, orderByToString} from '$lib/admin/OrderBy';
 import type FilterWithValue from '$lib/admin/FilterWithValue';
 import SavedFilter from '$lib/admin/SavedFilter';
 
@@ -32,15 +32,12 @@ export default class DeserializedOperation {
 }
 
 export async function getOperations(
-	page: number,
+	page: number = 1,
 	sortableField: SortableField | null = null,
 	filters: Array<FilterWithValue> | null = null
 ): Promise<Array<Operation>> {
-	if (!page) {
-		page = 1;
-	}
-
 	const params = { page };
+
 	if (sortableField) {
 		params['orderField'] = sortableField.property_name;
 		params['orderBy'] = orderByToString(sortableField.order_by || OrderBy.DESC);
@@ -64,7 +61,6 @@ export async function getOperations(
 }
 
 export async function getOperationsForAnalytics(saved_filter: SavedFilter): Promise<Array<Operation>> {
-	// TODO
 	const params = {
 		filters: saved_filter.deserialized_filters,
 	};
@@ -75,9 +71,7 @@ export async function getOperationsForAnalytics(saved_filter: SavedFilter): Prom
 		throw 'No results from the API';
 	}
 
-	const new_items = await deserializeAndNormalizeDatabaseResult(res);
-
-	return new_items;
+	return await deserializeAndNormalizeDatabaseResult(res);
 }
 
 export async function getOperationsCount(filters: Array<FilterWithValue> | null): Promise<number> {
@@ -86,7 +80,7 @@ export async function getOperationsCount(filters: Array<FilterWithValue> | null)
 	return normalizeCountFromApiResult(res);
 }
 
-export async function getTriageOperations(page: number): Promise<Array<Operation>> {
+export async function getTriageOperations(page: number = 1): Promise<Array<Operation>> {
 	const res: string = await api_call('operations_get_triage', { page: page });
 
 	if (!res) {

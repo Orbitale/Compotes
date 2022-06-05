@@ -2,12 +2,11 @@
 	import { error, success, warning } from '$lib/utils/message';
 	import DragDropList from '$lib/components/DragDrop/DragDropList.svelte';
 	import api_call from '$lib/utils/api_call.ts';
-	import { bankAccountsStore as bankAccounts, getBankAccounts } from '$lib/db/bank_accounts';
+	import { bankAccountsStore as bankAccounts } from '$lib/db/bank_accounts';
 	import type BankAccount from '$lib/entities/BankAccount';
 	import Operation, { OperationState } from '$lib/entities/Operation';
 	import { CsvFieldReference, referenceToEntityProperty } from '$lib/utils/csv';
 	import { DateFormat } from '$lib/utils/date';
-	import { onDestroy, onMount } from 'svelte';
 
 	let file: File = null;
 	let fileContent: string = null;
@@ -276,11 +275,6 @@
 
 		return arrData;
 	}
-
-	onMount(() => {
-		// Force bank accounts to be fetched in memory if not fetched already.
-		getBankAccounts();
-	});
 </script>
 
 <a href="/import" class="btn btn-link">&larr; Back to import</a>

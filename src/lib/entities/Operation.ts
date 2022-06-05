@@ -3,11 +3,20 @@ import sha512 from '$lib/utils/sha512';
 import {DateFormat, dateFormatToRegex, DateTime, NormalizedDate} from '$lib/utils/date';
 import type Tag from './Tag';
 import type Entity from '$lib/struct/Entity';
+import ConfigFilter from "../admin/ConfigFilter.ts";
+import FilterType from "../admin/FilterType.ts";
 
 export enum OperationState {
 	ok = 'ok',
 	pending_triage = 'pending_triage'
 }
+
+export var operations_filters = [
+	new ConfigFilter('details', 'Details', FilterType.text),
+	new ConfigFilter('operation_date', 'Date', FilterType.date),
+	new ConfigFilter('amount_in_cents', 'Amount', FilterType.number),
+	new ConfigFilter('tags', 'Tags', FilterType.tags),
+];
 
 export default class Operation implements Entity {
 	public readonly id!: number;

@@ -34,9 +34,6 @@ export default class MonthlyTotals extends AbstractGraph {
                     serie.months[i] = null;
                 }
             }
-            for (const month in serie.months) {
-                console.log(serie.name, month);
-            }
         }
 
         let datasets = [];

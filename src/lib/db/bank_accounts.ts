@@ -10,20 +10,18 @@ let bank_accounts: BankAccount[] = [];
 
 export async function getBankAccounts(): Promise<Array<BankAccount>> {
 	let res: string = await api_call('bank_account_find_all');
+
 	bank_accounts = JSON.parse(res).map((data: object) => {
 		// @ts-ignore
 		return new BankAccount(data.id, data.name, data.slug, data.currency);
 	});
+
 	bankAccountsStore.set(bank_accounts);
 
 	return bank_accounts;
 }
 
 export async function getBankAccountById(id: number): Promise<BankAccount | null> {
-	if (!bank_accounts.length) {
-		await getBankAccounts();
-	}
-
 	for (const bank_account of bank_accounts) {
 		if (bank_account.id === id) {
 			return bank_account;

@@ -1,8 +1,9 @@
 <script lang="ts">
+    import FiltersSelector from "$lib/admin/components/PaginatedTable/FiltersSelector.svelte";
     import {getSavedFilters} from "$lib/admin/src/filters.ts";
     import {onMount} from "svelte";
     import SavedFilter from "$lib/admin/SavedFilter.ts";
-    import Operation from "$lib/entities/Operation.ts";
+    import Operation, {operations_filters} from '$lib/entities/Operation';
     import {getOperationsForAnalytics} from "$lib/db/operations.ts";
     import Line from "svelte-chartjs/src/Line.svelte"
     import YearlyTotals from "$lib/graphs/YearlyTotals.ts";
@@ -15,7 +16,7 @@
     ];
 
     let filters: Array<SavedFilter> = [];
-    let selected_filter: SavedFilter|null = null;
+    let current_filter: SavedFilter|null = null;
     let operations: Array<Operation> = [];
     let current_graph_type: Graph = null;
 
@@ -25,14 +26,20 @@
 
     onMount(() => {
         filters = getSavedFilters('operations');
-        filters.unshift(new SavedFilter('<All operations>', []));
     });
 
-    async function changeFilter() {
+    async function changeFilter(event: CustomEvent) {
+        debugger;
+        const selected_filter: SavedFilter|null = event.detail;
+
+        console.info('changed filter', selected_filter);
+
         if (!selected_filter) {
             operations = [];
             return;
         }
+
+        current_filter = selected_filter;
 
         operations = await getOperationsForAnalytics(selected_filter);
 
@@ -59,21 +66,9 @@
 
 <hr>
 
-<div class="row">
-    <label for="available_filters" class="col-form-label col-sm-2">
-        Available filters:
-    </label>
-    <div class="col-sm-10">
-        <select id="available_filters" class="form-control" bind:value={selected_filter} on:change={changeFilter}>
-            <option value={null} selected={selected_filter === null}>- Choose a filter -</option>
-            {#each filters as filter}
-                <option value={filter}>
-                    {filter.name}
-                </option>
-            {/each}
-        </select>
-    </div>
-</div>
+<FiltersSelector config_filters={operations_filters} id="operations" on:filter-select={changeFilter} />
+
+<hr>
 
 <div class="row">
     <label for="available_graph_types" class="col-form-label col-sm-2">
@@ -81,7 +76,7 @@
     </label>
     <div class="col-sm-10">
         <select id="available_graph_types" class="form-control" bind:value={current_graph_type} on:change={changeGraph}>
-            <option value={null} selected={selected_filter === null}>- Choose a filter -</option>
+            <option value={null} selected={current_filter === null}>- Choose a filter -</option>
             {#each graph_types as graph_type}
                 <option value={graph_type}>
                     {graph_type.name}
@@ -91,8 +86,8 @@
     </div>
 </div>
 
-{#if selected_filter}
-    <h3>Selected: {selected_filter.name}</h3>
+{#if current_filter}
+    <h3>Selected: {current_filter.name}</h3>
 {/if}
 
 <svelte:component this={chart_component} data={chart_data} options={chart_options} />

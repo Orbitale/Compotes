@@ -11,16 +11,16 @@
 	import FieldHtmlProperties from '$lib/admin/FieldHtmlProperties';
 	import PageHooks from '$lib/admin/PageHooks';
 	import CallbackAction from '$lib/admin/CallbackAction';
-	import Operation from '$lib/entities/Operation';
+	import Operation, {operations_filters} from '$lib/entities/Operation';
 	import Modal, { getModal } from '$lib/modal/Modal.svelte';
 	import { onMount } from 'svelte';
 	import { getTags, getTagsByIds } from '$lib/db/tags';
 	import Tag from '$lib/entities/Tag';
 	import { success } from '$lib/utils/message';
 	import FieldOptions from '$lib/admin/FieldOptions';
-	import ConfigFilter from '$lib/admin/ConfigFilter';
-	import FilterType from '$lib/admin/FilterType';
 	import FilterWithValue from '$lib/admin/FilterWithValue';
+
+	const filters = operations_filters;
 
 	let selected_operation: Operation = null;
 	let operationId: number = null;
@@ -61,13 +61,6 @@
 			}
 			tags_modal.open();
 		})
-	];
-
-	let filters = [
-		new ConfigFilter('details', 'Details', FilterType.text),
-		new ConfigFilter('operation_date', 'Date', FilterType.date),
-		new ConfigFilter('amount_in_cents', 'Amount', FilterType.number),
-		new ConfigFilter('tags', 'Tags', FilterType.tags),
 	];
 
 	onMount(async () => {
