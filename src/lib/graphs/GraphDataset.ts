@@ -1,6 +1,8 @@
 export class GraphDataset {
+    // Plot name
     public readonly label: string;
     public readonly data: Array<string | Number>;
+
     public readonly backgroundColor: string;
     public readonly borderColor: string;
     public readonly borderWidth: number;

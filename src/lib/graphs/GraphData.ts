@@ -1,7 +1,9 @@
 import {GraphDataset} from "./GraphDataset.ts";
 
 export class GraphData {
+    // X-axis labels
     public readonly labels: Array<string>;
+
     public readonly datasets: Array<GraphDataset>;
 
     constructor(labels: Array<string>, datasets: Array<GraphDataset>) {
