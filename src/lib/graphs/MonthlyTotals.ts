@@ -29,9 +29,9 @@ export default class MonthlyTotals extends AbstractGraph {
         for (const year in series) {
             const serie = series[year];
             for (let i = 1; i <= 12; i++) {
-                i = i.toString();
-                if (!serie.months[i]) {
-                    serie.months[i] = null;
+                let index = i.toString();
+                if (!serie.months[index]) {
+                    serie.months[index] = null;
                 }
             }
         }
