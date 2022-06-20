@@ -4,10 +4,19 @@ import { getTagById } from './tags';
 import api_call from '$lib/utils/api_call';
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
+import type Tag from "$lib/entities/Tag";
 
 export const tagRulesStore: Writable<TagRule[]> = writable();
 
-let tag_rules: TagRule[] = [];
+let tag_rules_promise: Promise<TagRule[]>|null = null;
+
+async function getTagRulesPromise(): Promise<TagRule[]> {
+	if (!tag_rules_promise) {
+		tag_rules_promise = getTagRules();
+	}
+
+	return tag_rules_promise;
+}
 
 export default class DeserializedTagRule {
 	public readonly id!: number;
@@ -17,35 +26,44 @@ export default class DeserializedTagRule {
 }
 
 export async function getTagRules(): Promise<Array<TagRule>> {
-	if (!tag_rules.length) {
-		let res: string = await api_call('tag_rules_get');
-		const deserialized_tag_rules: Array<DeserializedTagRule> = JSON.parse(res);
-
-		tag_rules = await Promise.all(
-			deserialized_tag_rules.map(async (deserialized_tag_rule: DeserializedTagRule) => {
-				return new TagRule(
-					deserialized_tag_rule.id,
-					await Promise.all(
-						deserialized_tag_rule.tags_ids.map(async (id: number) => {
-							return await getTagById(id);
-						})
-					),
-					deserialized_tag_rule.matching_pattern,
-					deserialized_tag_rule.is_regex
-				);
-			})
-		);
-
-		tagRulesStore.set(tag_rules);
+	if (tag_rules_promise) {
+		return await tag_rules_promise;
 	}
 
-	return Promise.resolve(tag_rules);
+	let res: string = await api_call('tag_rules_get');
+	const deserialized_tag_rules: Array<DeserializedTagRule> = JSON.parse(res);
+
+	const tag_rules: Array<TagRule> = [];
+
+	for (const deserialized_tag_rule of deserialized_tag_rules) {
+		let tags_ids: Array<Tag> = [];
+
+		for (const tag_id in deserialized_tag_rule.tags_ids) {
+			if (isNaN(+tag_id)) {
+				throw new Error(`Invalid tag ID ${tag_id} in tag rule ${deserialized_tag_rule.id}`);
+			}
+			const tag = await getTagById(+tag_id);
+
+			tags_ids.push(tag);
+		}
+
+		tag_rules.push(
+			new TagRule(
+				deserialized_tag_rule.id,
+				tags_ids,
+				deserialized_tag_rule.matching_pattern,
+				deserialized_tag_rule.is_regex
+			)
+		)
+	}
+
+	tagRulesStore.set(tag_rules);
+
+	return tag_rules;
 }
 
 export async function getTagRuleById(id: string): Promise<TagRule | null> {
-	if (!tag_rules.length) {
-		await getTagRules();
-	}
+	const tag_rules = await getTagRulesPromise();
 
 	for (const tag_rule of tag_rules) {
 		if (tag_rule.id.toString() === id.toString()) {
@@ -58,6 +76,8 @@ export async function getTagRuleById(id: string): Promise<TagRule | null> {
 
 export async function updateTagRule(tag_rule: TagRule): Promise<void> {
 	await api_call('tag_rule_update', { tagRule: tag_rule.serialize() });
+
+	tag_rules_promise = null;
 }
 
 export async function createTagRule(tag_rule: TagRule): Promise<void> {
@@ -68,4 +88,6 @@ export async function createTagRule(tag_rule: TagRule): Promise<void> {
 	}
 
 	tag_rule.setId(+id);
+
+	tag_rules_promise = null;
 }

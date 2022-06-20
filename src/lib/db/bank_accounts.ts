@@ -6,12 +6,24 @@ import type { Writable } from 'svelte/store';
 
 export const bankAccountsStore: Writable<BankAccount[]> = writable();
 
-let bank_accounts: BankAccount[] = [];
+let bank_accounts_promise: Promise<BankAccount[]>|null = null;
+
+async function getBankAccountPromise(): Promise<Array<BankAccount>> {
+	if (!bank_accounts_promise) {
+		bank_accounts_promise = getBankAccounts();
+	}
+
+	return bank_accounts_promise;
+}
 
 export async function getBankAccounts(): Promise<Array<BankAccount>> {
+	if (bank_accounts_promise) {
+		return await bank_accounts_promise;
+	}
+
 	let res: string = await api_call('bank_account_find_all');
 
-	bank_accounts = JSON.parse(res).map((data: object) => {
+	const bank_accounts = JSON.parse(res).map((data: object) => {
 		// @ts-ignore
 		return new BankAccount(data.id, data.name, data.slug, data.currency);
 	});
@@ -22,6 +34,8 @@ export async function getBankAccounts(): Promise<Array<BankAccount>> {
 }
 
 export async function getBankAccountById(id: number): Promise<BankAccount | null> {
+	const bank_accounts = await getBankAccountPromise();
+
 	for (const bank_account of bank_accounts) {
 		if (bank_account.id === id) {
 			return bank_account;
@@ -38,7 +52,7 @@ export async function createBankAccount(bank_account: BankAccount): Promise<void
 		throw new Error('Internal error: API returned a non-number ID.');
 	}
 
-	await getBankAccounts();
+	bank_accounts_promise = null;
 }
 
 export async function updateBankAccount(bank_account: BankAccount) {
@@ -52,5 +66,5 @@ export async function updateBankAccount(bank_account: BankAccount) {
 		currency: bank_account.currency
 	});
 
-	await getBankAccounts();
+	bank_accounts_promise = null;
 }

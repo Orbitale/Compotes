@@ -6,52 +6,66 @@ import type { Writable } from 'svelte/store';
 
 export const tagsStore: Writable<Tag[]> = writable();
 
-let tags: Tag[] = [];
+let tags_promise: Promise<Tag[]>|null = null;
+
+async function getTagsPromise(): Promise<Array<Tag>> {
+	if (!tags_promise) {
+		tags_promise = getTags();
+	}
+
+	return tags_promise;
+}
 
 export async function getTags(): Promise<Array<Tag>> {
-	if (!tags.length) {
-		let res: string = await api_call('tags_get');
-		tags = JSON.parse(res).map((data: object) => {
-			// @ts-ignore
-			return new Tag(data.id, data.name);
-		});
-
-		tagsStore.set(tags);
+	if (tags_promise) {
+		return await tags_promise;
 	}
+
+	let res: string = await api_call('tags_get');
+
+	const tags = JSON.parse(res).map((data: object) => {
+		// @ts-ignore
+		return new Tag(data.id, data.name);
+	});
+
+	tagsStore.set(tags);
 
 	return tags;
 }
 
 export async function getTagById(id: number): Promise<Tag | null> {
-	if (!tags.length) {
-		await getTags();
-	}
+	const tags = await getTagsPromise();
 
 	for (const tag of tags) {
 		if (tag.id === id) {
-			return Promise.resolve(tag);
+			return tag;
 		}
 	}
 
-	return Promise.resolve(null);
+	return null;
 }
 
 export async function getTagsByIds(ids: Array<number>): Promise<Array<Tag>> {
-	if (!tags.length) {
-		await getTags();
-	}
+	const tags = await getTagsPromise();
 
 	let tags_found: Array<Tag> = [];
 
 	for (const id of ids) {
-		const tag = await getTagById(id);
-		if (!tag) {
+		let found = false;
+		for (const tag of tags) {
+			if (tag.id === id) {
+				tags_found.push(tag);
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) {
 			throw new Error(`Could not find tag with id ${id}`);
 		}
-		tags_found.push(tag);
 	}
 
-	return Promise.resolve(tags_found);
+	return tags_found;
 }
 
 export async function updateTag(tag: Tag): Promise<void> {
@@ -62,6 +76,8 @@ export async function updateTag(tag: Tag): Promise<void> {
 	if (!tag_entity) throw new Error('Data corruption detected in tags.');
 
 	tag_entity.mergeWith(tag);
+
+	tags_promise = null;
 }
 
 export async function createTag(tag: Tag): Promise<void> {
@@ -72,4 +88,6 @@ export async function createTag(tag: Tag): Promise<void> {
 	}
 
 	tag.setId(+id);
+
+	tags_promise = null;
 }

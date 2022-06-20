@@ -8,7 +8,7 @@ import type Tag from '$lib/entities/Tag';
 import type SortableField from '$lib/admin/SortableField';
 import {OrderBy, orderByToString} from '$lib/admin/OrderBy';
 import type FilterWithValue from '$lib/admin/FilterWithValue';
-import SavedFilter from '$lib/admin/SavedFilter';
+import type SavedFilter from '$lib/admin/SavedFilter';
 
 export const operationsStore: Writable<Operation[]> = writable();
 export const triageStore: Writable<Operation[]> = writable();
@@ -150,6 +150,9 @@ async function deserializeAndNormalizeDatabaseResult(res: string): Promise<Array
 async function normalizeOperationFromDeserialized(
 	deserialized_operation: DeserializedOperation
 ): Promise<Operation> {
+	const bank_account = await getBankAccountById(deserialized_operation.bank_account_id);
+	const tags = await getTagsByIds(deserialized_operation.tags_ids);
+
 	return new Operation(
 		deserialized_operation.id,
 		deserialized_operation.operation_date,
@@ -159,9 +162,9 @@ async function normalizeOperationFromDeserialized(
 		deserialized_operation.amount_in_cents,
 		deserialized_operation.state,
 		deserialized_operation.ignored_from_charts,
-		await getBankAccountById(deserialized_operation.bank_account_id),
+		bank_account,
 		deserialized_operation.hash,
-		await getTagsByIds(deserialized_operation.tags_ids)
+		tags,
 	);
 }
 

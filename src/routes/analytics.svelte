@@ -29,7 +29,6 @@
     });
 
     async function changeFilter(event: CustomEvent) {
-        debugger;
         const selected_filter: SavedFilter|null = event.detail;
 
         console.info('changed filter', selected_filter);
