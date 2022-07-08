@@ -50,7 +50,9 @@ updateAdminConfig({
 });
 
 export async function onLoad() {
+    /*
     const res: Result<string, string> = await OperationsSynchronizer.sync();
 
     message(res.val, res.ok ? ToastType.success : ToastType.error);
+    */
 }
