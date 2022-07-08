@@ -538,10 +538,12 @@ pub(crate) fn refresh_statuses_with_hashes(conn: &mut Connection) -> u32 {
 
 pub(crate) fn update_details(conn: &mut Connection, id: u32, details: String) {
     let mut operation = get_by_id(conn, id);
+    let previous_hash = operation.hash.clone();
     let bank_account_slug = bank_accounts::get_slug_by_id(conn, operation.bank_account_id);
     operation.details = details.clone();
-    let hash = operation.compute_hash(bank_account_slug);
+    let new_hash = operation.compute_hash(bank_account_slug);
 
+    // Update current operation with new details & hash, set it to "ok" state
     conn
         .prepare("UPDATE operations SET details = :details, state = :ok, hash = :hash WHERE id = :id")
         .expect("Could not create query to update operations details.")
@@ -549,16 +551,18 @@ pub(crate) fn update_details(conn: &mut Connection, id: u32, details: String) {
             ":id": &id,
             ":details": &details,
             ":ok": &OperationState::Ok.to_string(),
-            ":hash": &hash,
+            ":hash": &new_hash,
         })
         .expect("Could not execute update operations details query")
     ;
 
+    // Update existing hash to make it "ok" too
+    // FIXME: this will corrupt data if there are more than two items with same hash.
     conn.prepare("UPDATE operations SET state = :ok WHERE hash = :hash")
         .expect("Could not create query to update operation hash after updating details.")
         .execute(named_params! {
             ":ok": &OperationState::Ok.to_string(),
-            ":hash": &hash,
+            ":hash": &previous_hash,
         })
         .expect("Could not execute update operation hash after updating details");
 }
