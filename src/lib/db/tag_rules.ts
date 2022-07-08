@@ -38,11 +38,16 @@ export async function getTagRules(): Promise<Array<TagRule>> {
 	for (const deserialized_tag_rule of deserialized_tag_rules) {
 		let tags_ids: Array<Tag> = [];
 
-		for (const tag_id in deserialized_tag_rule.tags_ids) {
+		for (const tag_id of deserialized_tag_rule.tags_ids) {
 			if (isNaN(+tag_id)) {
 				throw new Error(`Invalid tag ID ${tag_id} in tag rule ${deserialized_tag_rule.id}`);
 			}
 			const tag = await getTagById(+tag_id);
+
+			if (null === tag) {
+				console.error(`No tag for id ${tag_id} in tag rule ${deserialized_tag_rule.id}`);
+				continue;
+			}
 
 			tags_ids.push(tag);
 		}
@@ -56,6 +61,8 @@ export async function getTagRules(): Promise<Array<TagRule>> {
 			)
 		)
 	}
+
+	console.info(tag_rules);
 
 	tagRulesStore.set(tag_rules);
 
