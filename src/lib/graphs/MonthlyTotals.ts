@@ -1,7 +1,7 @@
 import {AbstractGraph} from './Graph';
-import {GraphData} from "./GraphData.ts";
-import {GraphDataset} from "./GraphDataset.ts";
-import {DateTime} from "../utils/date.ts";
+import {GraphData} from "./GraphData";
+import {GraphDataset} from "./GraphDataset";
+import {DateTime} from "../utils/date";
 
 export default class MonthlyTotals extends AbstractGraph {
     name(): string {

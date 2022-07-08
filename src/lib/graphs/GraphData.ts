@@ -1,4 +1,4 @@
-import {GraphDataset} from "./GraphDataset.ts";
+import type {GraphDataset} from "./GraphDataset";
 
 export class GraphData {
     // X-axis labels

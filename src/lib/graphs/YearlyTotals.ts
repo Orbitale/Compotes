@@ -1,6 +1,6 @@
 import {AbstractGraph} from './Graph';
-import {GraphData} from "./GraphData.ts";
-import {GraphDataset} from "./GraphDataset.ts";
+import {GraphData} from "./GraphData";
+import {GraphDataset} from "./GraphDataset";
 
 export default class YearlyTotals extends AbstractGraph {
     name(): string {

@@ -1,14 +1,14 @@
 <script lang="ts">
     import FiltersSelector from "$lib/admin/components/PaginatedTable/FiltersSelector.svelte";
-    import {getSavedFilters} from "$lib/admin/src/filters.ts";
+    import {getSavedFilters} from "$lib/admin/src/filters";
     import {onMount} from "svelte";
-    import SavedFilter from "$lib/admin/SavedFilter.ts";
+    import SavedFilter from "$lib/admin/SavedFilter";
     import Operation, {operations_filters} from '$lib/entities/Operation';
-    import {getOperationsForAnalytics} from "$lib/db/operations.ts";
+    import {getOperationsForAnalytics} from "$lib/db/operations";
     import Line from "svelte-chartjs/src/Line.svelte"
-    import YearlyTotals from "$lib/graphs/YearlyTotals.ts";
-    import MonthlyTotals from "$lib/graphs/MonthlyTotals.ts";
-    import type Graph from "$lib/graphs/Graph.ts";
+    import YearlyTotals from "$lib/graphs/YearlyTotals";
+    import MonthlyTotals from "$lib/graphs/MonthlyTotals";
+    import type Graph from "$lib/graphs/Graph";
 
     const graph_types = [
         YearlyTotals,

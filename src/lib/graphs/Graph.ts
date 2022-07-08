@@ -1,5 +1,5 @@
-import {GraphData} from "./GraphData.ts";
-import Operation from "../entities/Operation.ts";
+import type {GraphData} from "./GraphData";
+import type Operation from "../entities/Operation";
 
 export default interface Graph {
     name(): string;

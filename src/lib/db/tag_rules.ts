@@ -62,8 +62,6 @@ export async function getTagRules(): Promise<Array<TagRule>> {
 		)
 	}
 
-	console.info(tag_rules);
-
 	tagRulesStore.set(tag_rules);
 
 	return tag_rules;

@@ -3,8 +3,8 @@ import sha512 from '$lib/utils/sha512';
 import {DateFormat, dateFormatToRegex, DateTime, NormalizedDate} from '$lib/utils/date';
 import type Tag from './Tag';
 import type Entity from '$lib/struct/Entity';
-import ConfigFilter from "../admin/ConfigFilter.ts";
-import FilterType from "../admin/FilterType.ts";
+import ConfigFilter from "../admin/ConfigFilter";
+import FilterType from "../admin/FilterType";
 
 export enum OperationState {
 	ok = 'ok',
