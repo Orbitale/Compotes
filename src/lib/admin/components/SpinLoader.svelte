@@ -1,6 +1,6 @@
 <script lang="ts">
-	import {onDestroy} from 'svelte';
-	import {configStore} from '../src/config';
+	import { onDestroy } from 'svelte';
+	import { configStore } from '../src/config';
 
 	export let display: boolean = true;
 	export let height: number = 0;

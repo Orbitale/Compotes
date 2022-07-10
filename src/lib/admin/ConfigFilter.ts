@@ -6,8 +6,8 @@ export default class ConfigFilter {
 	public readonly name: string;
 	public readonly title: string;
 	public readonly type: FilterType;
-	public element: Filter|null;
-	public value: FilterWithValue|null;
+	public element: Filter | null;
+	public value: FilterWithValue | null;
 
 	constructor(name: string, title: string, type: FilterType) {
 		this.name = name;

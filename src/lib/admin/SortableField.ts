@@ -1,4 +1,4 @@
-import {OrderBy} from './OrderBy';
+import { OrderBy } from './OrderBy';
 
 export default class SortableField {
 	public readonly name: string;

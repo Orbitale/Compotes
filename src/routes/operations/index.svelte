@@ -11,7 +11,7 @@
 	import FieldHtmlProperties from '$lib/admin/FieldHtmlProperties';
 	import PageHooks from '$lib/admin/PageHooks';
 	import CallbackAction from '$lib/admin/CallbackAction';
-	import Operation, {operations_filters} from '$lib/entities/Operation';
+	import Operation, { operations_filters } from '$lib/entities/Operation';
 	import Modal, { getModal } from '$lib/modal/Modal.svelte';
 	import { onMount } from 'svelte';
 	import { getTags, getTagsByIds } from '$lib/db/tags';

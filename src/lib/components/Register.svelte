@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {warning} from '$lib/utils/message.ts';
+	import { warning } from '$lib/utils/message.ts';
 
 	function onFormSubmit(e: Event) {
 		e.stopPropagation();

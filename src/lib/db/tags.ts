@@ -6,7 +6,7 @@ import type { Writable } from 'svelte/store';
 
 export const tagsStore: Writable<Tag[]> = writable();
 
-let tags_promise: Promise<Tag[]>|null = null;
+let tags_promise: Promise<Tag[]> | null = null;
 
 async function getTagsPromise(): Promise<Array<Tag>> {
 	if (!tags_promise) {

@@ -6,7 +6,7 @@ export default class PageHooks {
 	private readonly _count_callback: Function;
 
 	private lastPage: number = 1;
-	private lastField: SortableField|null;
+	private lastField: SortableField | null;
 	private lastFilters: Array<FilterWithValue> | null;
 
 	constructor(items_callback: Function, count_callback: Function = null) {

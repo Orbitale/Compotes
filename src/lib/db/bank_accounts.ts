@@ -6,7 +6,7 @@ import type { Writable } from 'svelte/store';
 
 export const bankAccountsStore: Writable<BankAccount[]> = writable();
 
-let bank_accounts_promise: Promise<BankAccount[]>|null = null;
+let bank_accounts_promise: Promise<BankAccount[]> | null = null;
 
 async function getBankAccountPromise(): Promise<Array<BankAccount>> {
 	if (!bank_accounts_promise) {

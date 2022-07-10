@@ -4,8 +4,8 @@
 	import ItemHeadCell from './ItemHeadCell.svelte';
 	import SpinLoader from '../SpinLoader.svelte';
 
-	import {onMount} from 'svelte';
-	import type {Readable} from 'svelte/store';
+	import { onMount } from 'svelte';
+	import type { Readable } from 'svelte/store';
 
 	import Field from '../../Field';
 	import PageHooks from '../../PageHooks';
@@ -90,7 +90,9 @@
 
 	async function callFilters(event: CustomEvent) {
 		const filters_with_values: Array<FilterWithValue> = event.detail || [];
-		normalized_filters = filters_with_values.map((f: FilterWithValue) => { return {...f}; });
+		normalized_filters = filters_with_values.map((f: FilterWithValue) => {
+			return { ...f };
+		});
 
 		await fetchItems();
 	}
@@ -136,15 +138,15 @@
 					class="btn btn-outline-primary"
 					disabled={page === 1}
 					on:click={previousPage}
-					id="previous-page"
-				>&lt;</button>
+					id="previous-page">&lt;</button
+				>
 				<button
 					type="button"
 					class="btn btn-outline-primary"
 					disabled={page === number_of_pages}
 					on:click={nextPage}
-					id="next-page"
-				>&gt;</button>
+					id="next-page">&gt;</button
+				>
 				<div id="pages-text">
 					Page: {page} / {number_of_pages}
 				</div>
@@ -154,7 +156,7 @@
 		{#if filters.length}
 			<tr>
 				<td colspan={fields.length + (actions.length ? 1 : 0)}>
-					<FiltersSelector id={id} config_filters={filters} on:filters-call={callFilters} />
+					<FiltersSelector {id} config_filters={filters} on:filters-call={callFilters} />
 				</td>
 			</tr>
 		{/if}

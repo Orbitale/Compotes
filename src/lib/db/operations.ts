@@ -1,12 +1,12 @@
-import Operation, {OperationState} from '$lib/entities/Operation';
+import Operation, { OperationState } from '$lib/entities/Operation';
 import api_call from '$lib/utils/api_call';
-import {getTagsByIds} from './tags';
-import {getBankAccountById} from './bank_accounts';
-import type {Writable} from 'svelte/store';
-import {writable} from 'svelte/store';
+import { getTagsByIds } from './tags';
+import { getBankAccountById } from './bank_accounts';
+import type { Writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 import type Tag from '$lib/entities/Tag';
 import type SortableField from '$lib/admin/SortableField';
-import {OrderBy, orderByToString} from '$lib/admin/OrderBy';
+import { OrderBy, orderByToString } from '$lib/admin/OrderBy';
 import type FilterWithValue from '$lib/admin/FilterWithValue';
 import type SavedFilter from '$lib/admin/SavedFilter';
 
@@ -60,9 +60,11 @@ export async function getOperations(
 	return new_items;
 }
 
-export async function getOperationsForAnalytics(saved_filter: SavedFilter): Promise<Array<Operation>> {
+export async function getOperationsForAnalytics(
+	saved_filter: SavedFilter
+): Promise<Array<Operation>> {
 	const params = {
-		filters: saved_filter.deserialized_filters,
+		filters: saved_filter.deserialized_filters
 	};
 
 	const res: string = await api_call('operations_get_analytics', params);
@@ -75,7 +77,7 @@ export async function getOperationsForAnalytics(saved_filter: SavedFilter): Prom
 }
 
 export async function getOperationsCount(filters: Array<FilterWithValue> | null): Promise<number> {
-	const res: string = await api_call('operations_get_count', {filters});
+	const res: string = await api_call('operations_get_count', { filters });
 
 	return normalizeCountFromApiResult(res);
 }
@@ -164,7 +166,7 @@ async function normalizeOperationFromDeserialized(
 		deserialized_operation.ignored_from_charts,
 		bank_account,
 		deserialized_operation.hash,
-		tags,
+		tags
 	);
 }
 

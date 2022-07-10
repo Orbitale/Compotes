@@ -4,11 +4,11 @@ import { getTagById } from './tags';
 import api_call from '$lib/utils/api_call';
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
-import type Tag from "$lib/entities/Tag";
+import type Tag from '$lib/entities/Tag';
 
 export const tagRulesStore: Writable<TagRule[]> = writable();
 
-let tag_rules_promise: Promise<TagRule[]>|null = null;
+let tag_rules_promise: Promise<TagRule[]> | null = null;
 
 async function getTagRulesPromise(): Promise<TagRule[]> {
 	if (!tag_rules_promise) {
@@ -59,7 +59,7 @@ export async function getTagRules(): Promise<Array<TagRule>> {
 				deserialized_tag_rule.matching_pattern,
 				deserialized_tag_rule.is_regex
 			)
-		)
+		);
 	}
 
 	tagRulesStore.set(tag_rules);

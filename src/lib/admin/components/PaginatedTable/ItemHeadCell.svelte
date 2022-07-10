@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Field from '../../Field';
-    import {OrderBy} from '../../OrderBy';
-    import {writable} from 'svelte/store';
+	import Field from '../../Field';
+	import { OrderBy } from '../../OrderBy';
+	import { writable } from 'svelte/store';
 
-    export let field: Field;
+	export let field: Field;
 	export let sort_callback: Function;
 
 	let order_state = writable<OrderBy>(OrderBy.ASC);

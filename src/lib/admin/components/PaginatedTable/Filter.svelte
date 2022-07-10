@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {DateInput, localeFromDateFnsLocale} from 'date-picker-svelte';
+	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import enGB from 'date-fns/locale/en-GB/index.js';
-	import {DateTime} from 'luxon';
+	import { DateTime } from 'luxon';
 	import ConfigFilter from '../../ConfigFilter';
 	import FilterType from '../../FilterType';
 	import FilterWithValue from '../../FilterWithValue';
@@ -16,7 +16,7 @@
 		value1 = value2 = null;
 	}
 
-	export function setValue(filter_with_value: FilterWithValue|null) {
+	export function setValue(filter_with_value: FilterWithValue | null) {
 		if (!filter_with_value) {
 			clear();
 
@@ -66,7 +66,7 @@
 		}
 	}
 
-	function parseFilterValueNumber(string: null|string): string {
+	function parseFilterValueNumber(string: null | string): string {
 		if (string === null || (string.trim && string.trim() === '')) {
 			return '';
 		}
@@ -95,7 +95,7 @@
 		if (filter.type === FilterType.date) {
 			value1 = value1 ? value1 : new Date(0);
 			value2 = value2 ? value2 : new Date();
-			value = getStringFromDate(value1)+";"+getStringFromDate(value2);
+			value = getStringFromDate(value1) + ';' + getStringFromDate(value2);
 		} else if (filter.type === FilterType.number) {
 			value1 = parseFilterValueNumber(value1);
 			value2 = parseFilterValueNumber(value2);
@@ -127,7 +127,7 @@
 				id="input_filter_{filter.name}"
 				class="form-control"
 				type="text"
-				placeholder="{filter.title || filter.name}"
+				placeholder={filter.title || filter.name}
 				on:change={onChange}
 				bind:value
 			/>
@@ -182,7 +182,7 @@
 				id="input_filter_{filter.name}"
 				class="form-control"
 				type="text"
-				placeholder="{filter.title || filter.name}"
+				placeholder={filter.title || filter.name}
 				on:change={onChange}
 				bind:value
 			/>
@@ -195,8 +195,8 @@
 </div>
 
 <style lang="scss" global>
-	@import "bootstrap/scss/bootstrap-utilities";
-	@import "bootstrap/scss/forms/form-control";
+	@import 'bootstrap/scss/bootstrap-utilities';
+	@import 'bootstrap/scss/forms/form-control';
 	.date-time-field {
 		input {
 			@extend .form-control;

@@ -1,18 +1,18 @@
-import type {GraphData} from "./GraphData";
-import type Operation from "../entities/Operation";
+import type { GraphData } from './GraphData';
+import type Operation from '../entities/Operation';
 
 export default interface Graph {
-    name(): string;
+	name(): string;
 
-    getData(): Array<GraphData>;
+	getData(): Array<GraphData>;
 }
 
 export abstract class AbstractGraph {
-    protected readonly operations: Array<Operation>;
+	protected readonly operations: Array<Operation>;
 
-    static name(): string;
+	static name(): string;
 
-    public constructor(operations: Array<Operation>) {
-        this.operations = operations;
-    }
+	public constructor(operations: Array<Operation>) {
+		this.operations = operations;
+	}
 }

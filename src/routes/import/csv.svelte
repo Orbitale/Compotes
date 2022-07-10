@@ -1,17 +1,17 @@
 <script lang="ts">
-	import {error, success, warning} from '$lib/utils/message';
+	import { error, success, warning } from '$lib/utils/message';
 	import DragDropList from '$lib/components/DragDrop/DragDropList.svelte';
 	import api_call from '$lib/utils/api_call.ts';
-	import {bankAccountsStore as bankAccounts} from '$lib/db/bank_accounts';
+	import { bankAccountsStore as bankAccounts } from '$lib/db/bank_accounts';
 	import type BankAccount from '$lib/entities/BankAccount';
-	import Operation, {OperationState} from '$lib/entities/Operation';
-	import {CsvFieldReference, referenceToEntityProperty} from '$lib/utils/csv';
-	import {DateFormat} from '$lib/utils/date';
+	import Operation, { OperationState } from '$lib/entities/Operation';
+	import { CsvFieldReference, referenceToEntityProperty } from '$lib/utils/csv';
+	import { DateFormat } from '$lib/utils/date';
 
-	let file: File|null = null;
-	let fileContent: string|null = null;
-	let files: FileList|null = null;
-	let preview: string|null = null;
+	let file: File | null = null;
+	let fileContent: string | null = null;
+	let files: FileList | null = null;
+	let preview: string | null = null;
 	let previewOperations: Array<Array<String>> = [];
 	let finalOperations: Array<Operation> = [];
 
