@@ -1,9 +1,9 @@
-import { AbstractGraph } from './Graph';
-import { GraphData } from './GraphData';
-import { GraphDataset } from './GraphDataset';
+import {AbstractOperationGraph} from "./AbstractOperationGraph";
+import GraphData from "../graphs/GraphData";
+import GraphDataset from "../graphs/GraphDataset";
 
-export default class YearlyTotals extends AbstractGraph {
-	name(): string {
+export default class YearlyTotals extends AbstractOperationGraph {
+	public static getName(): string {
 		return 'Yearly totals';
 	}
 
@@ -24,6 +24,7 @@ export default class YearlyTotals extends AbstractGraph {
 		}
 
 		return new GraphData(
+			YearlyTotals.getName(),
 			series_years.filter((i) => !!i).map((i) => i.toString()),
 			[
 				new GraphDataset(

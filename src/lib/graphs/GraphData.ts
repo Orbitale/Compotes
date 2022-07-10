@@ -1,13 +1,18 @@
-import type { GraphDataset } from './GraphDataset';
+import type GraphDataset from './GraphDataset';
 
-export class GraphData {
+class GraphData {
 	// X-axis labels
+	public readonly name: string;
+
 	public readonly labels: Array<string>;
 
 	public readonly datasets: Array<GraphDataset>;
 
-	constructor(labels: Array<string>, datasets: Array<GraphDataset>) {
+	constructor(name: string, labels: Array<string>, datasets: Array<GraphDataset>) {
+		this.name = name;
 		this.labels = labels;
 		this.datasets = datasets;
 	}
 }
+
+export default GraphData;

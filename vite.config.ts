@@ -1,3 +1,4 @@
+// @ts-ignore
 import { sveltekit } from '@sveltejs/kit/vite';
 import path from 'path';
 import fs from 'fs';
@@ -19,7 +20,6 @@ const config = {
         include: [],
     },
     plugins: [
-        sveltekit(),
         copyFile({
             source:  './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
             target: './static/bootstrap.min.js',
@@ -28,6 +28,7 @@ const config = {
             source:  './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map',
             target: './static/bootstrap.min.js.map',
         }),
+        sveltekit(),
     ],
 };
 

@@ -1,4 +1,4 @@
-export class GraphDataset {
+export default class GraphDataset {
 	// Plot name
 	public readonly label: string;
 	public readonly data: Array<string | Number>;
