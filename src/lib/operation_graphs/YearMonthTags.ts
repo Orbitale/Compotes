@@ -51,19 +51,19 @@ export default class YearMonthTags extends AbstractOperationGraph {
 			}
 		}
 
-		console.info({full_series});
-
 		const graphs: Array<GraphData> = [];
 
 		for (const year in full_series) {
 			const datasets = [];
 			let i = 0;
 			let number_of_series = Object.keys(full_series[year].tags).length;
-			for (const tag in full_series.tags) {
+			full_series[year].tags = sortByKeys(full_series[year].tags);
+
+			for (const tag in full_series[year].tags) {
 				const hue = (i++ / number_of_series) * 255;
 				const dataset = new GraphDataset(
-					`Month ${tag}`,
-					Object.values(full_series.tags[tag].months),
+					tag,
+					Object.values(full_series[year].tags[tag].months),
 					`hsl(${hue}, 80%, 50%)`,
 					`hsl(${hue}, 60%, 50%)`,
 					1
@@ -80,6 +80,18 @@ export default class YearMonthTags extends AbstractOperationGraph {
 
 		return new MultipleGraphData('year', graphs);
 	}
+}
+
+function sortByKeys(object: {[key: string]: any}): {[key: string]: any} {
+	const unsortedObjArr = [...Object.entries(object)];
+
+	const sortedObjArr = unsortedObjArr.sort(([key1, value1], [key2, value2]) => key1.localeCompare(key2));
+
+	const sortedObject = {};
+
+	sortedObjArr.forEach(([key, value]) => (sortedObject[key] = value));
+
+	return sortedObject;
 }
 
 function getMonthsAsLabels(): Array<string> {

@@ -6,12 +6,12 @@
 	import Operation, {operations_filters} from '$lib/entities/Operation';
 	import {getOperationsForAnalytics} from '$lib/db/operations';
 	import Line from 'svelte-chartjs/src/Line.svelte';
-	import type Graph from '$lib/graphs/Graph';
 	import YearlyTotals from "../lib/operation_graphs/YearlyTotals";
 	import YearMonthTags from "../lib/operation_graphs/YearMonthTags";
 	import MonthlyTotals from "../lib/operation_graphs/MonthlyTotals";
 	import GraphData from "$lib/graphs/GraphData";
 	import MultipleGraphData from "$lib/graphs/MultipleGraphData";
+	import AbstractGraph from "$lib/graphs/AbstractGraph";
 
 	const graph_types = [
 		YearlyTotals,
@@ -22,7 +22,7 @@
 	let filters: Array<SavedFilter> = [];
 	let current_filter: SavedFilter | null = null;
 	let operations: Array<Operation> = [];
-	let current_graph_type: Graph = null;
+	let current_graph_type: AbstractGraph = null;
 
 	let charts: Array<GraphData> = []
 	let chart_component = false;
@@ -65,7 +65,7 @@
 
 	function showGraph() {
 		if (current_graph_type && current_graph_type.getName()) {
-			const graph: Graph = new current_graph_type(operations);
+			const graph: AbstractGraph = new current_graph_type(operations);
 			const data = graph.getData();
 			chart_component = Line;
 			charts = [];
