@@ -54,7 +54,7 @@
 	async function sortField(field: Field) {
 		current_sort_field = field.sortable_field;
 		if (sort_field_callback) {
-			await sort_field_callback(page, field);
+			await sort_field_callback(page, field, normalized_filters);
 		}
 	}
 
