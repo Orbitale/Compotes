@@ -8,6 +8,7 @@ use std::sync::Mutex;
 
 mod config;
 mod db;
+mod migrations;
 
 mod commands {
     pub(crate) mod bank_account_create;
@@ -49,13 +50,11 @@ mod structs {
     pub(crate) mod operation_state;
 }
 
-
 fn main() {
     let mut conn = get_database_connection();
 
-    embedded::migrations::runner()
-        .run(&mut conn)
-        .expect("Could not execute database migrations.");
+    let migrations = rusqlite_migration::Migrations::new(migrations::migrations());
+    migrations.to_latest(&mut conn).unwrap();
 
     tauri::Builder::default()
         .manage(Mutex::new(conn))
@@ -83,8 +82,4 @@ fn main() {
         ])
         .run(tauri::generate_context!())
         .expect("Error while running tauri application");
-}
-
-mod embedded {
-    refinery::embed_migrations!("src/migrations/");
 }

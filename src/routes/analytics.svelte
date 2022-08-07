@@ -5,7 +5,7 @@
 	import SavedFilter from '$lib/admin/SavedFilter';
 	import Operation, {operations_filters} from '$lib/entities/Operation';
 	import {getOperationsForAnalytics} from '$lib/db/operations';
-	import Line from 'svelte-chartjs/src/Line.svelte';
+	import {Line} from 'svelte-chartjs';
 	import YearlyTotals from "../lib/operation_graphs/YearlyTotals";
 	import YearMonthTags from "../lib/operation_graphs/YearMonthTags";
 	import MonthlyTotals from "../lib/operation_graphs/MonthlyTotals";
