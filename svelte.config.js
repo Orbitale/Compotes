@@ -12,10 +12,6 @@ const config = {
 			pages: "src-tauri/target/frontend-build",
 			assets: "src-tauri/target/frontend-build",
 		}),
-
-		prerender: {
-			default: true,
-		},
 	},
 };
 
