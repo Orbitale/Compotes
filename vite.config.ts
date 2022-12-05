@@ -15,18 +15,15 @@ const copyFile = function (options) {
 
 /** @type {import('vite').UserConfig} */
 const config = {
-    prebundleSvelteLibraries: true,
-    optimizeDeps: {
-        include: [],
-    },
+    hmr: false,
     plugins: [
         copyFile({
             source:  './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
-            target: './static/bootstrap.min.js',
+            target: './static/bootstrap.bundle.min.js',
         }),
         copyFile({
             source:  './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map',
-            target: './static/bootstrap.min.js.map',
+            target: './static/bootstrap.bundle.min.js.map',
         }),
         sveltekit(),
     ],

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Navigation from '$lib/components/Navigation.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
-	import { onLoad } from './configure_app.ts';
-	import { onMount } from 'svelte';
+	import {onMount} from "svelte";
+	import configure from "$lib/utils/configure_app";
 
-	onMount(async () => {
-		await onLoad();
+	onMount(() => {
+		configure();
 	});
 </script>
 

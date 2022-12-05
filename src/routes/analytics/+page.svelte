@@ -6,9 +6,9 @@
 	import Operation, {operations_filters} from '$lib/entities/Operation';
 	import {getOperationsForAnalytics} from '$lib/db/operations';
 	import {Line} from 'svelte-chartjs';
-	import YearlyTotals from "../lib/operation_graphs/YearlyTotals";
-	import YearMonthTags from "../lib/operation_graphs/YearMonthTags";
-	import MonthlyTotals from "../lib/operation_graphs/MonthlyTotals";
+	import YearlyTotals from "../../lib/operation_graphs/YearlyTotals";
+	import YearMonthTags from "../../lib/operation_graphs/YearMonthTags";
+	import MonthlyTotals from "../../lib/operation_graphs/MonthlyTotals";
 	import GraphData from "$lib/graphs/GraphData";
 	import MultipleGraphData from "$lib/graphs/MultipleGraphData";
 	import AbstractGraph from "$lib/graphs/AbstractGraph";

@@ -16,3 +16,10 @@ button.nav-link {
 .operation-amount {
 	text-align: right;
 }
+
+#toast_container {
+	--toastContainerTop: auto;
+	--toastContainerRight: 1rem;
+	--toastContainerBottom: 0.5rem;
+	--toastContainerLeft: auto;
+}

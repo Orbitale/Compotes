@@ -5,7 +5,7 @@
 	import { error, success } from '$lib/utils/message.ts';
 	import { page } from '$app/stores';
 
-	export let id: string = $page.params.id;
+	let id: string = $page.params.id;
 
 	let tag: Tag = Tag.empty();
 	let submit_button_disabled: boolean = false;

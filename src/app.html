@@ -5,11 +5,19 @@
 		<meta name="description" content="" />
 		<link rel="icon" href="%sveltekit.assets%/logo.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="stylesheet" id="splash_screen_style" href="splash.css" />
+
 		%sveltekit.head%
 
-		<script defer src="%sveltekit.assets%/bootstrap.min.js"></script>
+		<script defer src="%sveltekit.assets%/bootstrap.bundle.min.js"></script>
 	</head>
 	<body>
-		<main id="app">%sveltekit.body%</main>
+		<main id="splash_screen">
+			<img id="orbitale_logo" class="animate-rotation" src="%sveltekit.assets%/logo.png" alt="Orbitale logo" />
+			<div id="splash_messages"></div>
+		</main>
+
+		<main id="app" style="display: none">%sveltekit.body%</main>
 	</body>
 </html>

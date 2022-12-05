@@ -1,8 +1,9 @@
 import { writable } from 'svelte/store';
+import type SavedFilter from "$lib/admin/SavedFilter";
 
 class Config {
 	public spinLoaderSrc: string = '';
-	public builtinFilters: string = {};
+	public builtinFilters: { [key: string]: Array<SavedFilter> } = {};
 }
 
 let config = new Config();

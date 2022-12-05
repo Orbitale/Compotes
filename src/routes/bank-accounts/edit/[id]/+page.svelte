@@ -6,7 +6,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
-	export let id: string = $page.params.id;
+	let id: string = $page.params.id;
 
 	let bank_account: BankAccount = BankAccount.empty();
 	let submit_button_disabled: boolean = false;

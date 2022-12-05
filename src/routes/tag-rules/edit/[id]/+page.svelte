@@ -6,9 +6,8 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { getTags } from '$lib/db/tags';
-	import { goto } from '$app/navigation';
 
-	export let id: string = $page.params.id;
+	let id: string = $page.params.id;
 
 	let tags: Tag[] = [];
 	let tag_rule_tags: number[] = [];

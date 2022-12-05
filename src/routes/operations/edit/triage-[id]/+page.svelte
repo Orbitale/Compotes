@@ -5,7 +5,9 @@
 	import { error, success } from '$lib/utils/message.ts';
 	import { page } from '$app/stores';
 
-	export let id: string = $page.params.id;
+	let id: string;
+
+	$: id = $page.params.id;
 
 	let previous_details: String;
 	let operation: Operation | null = null;

@@ -11,6 +11,11 @@ const config = {
 		adapter: adapter({
 			pages: "src-tauri/target/frontend-build",
 			assets: "src-tauri/target/frontend-build",
+			precompress: true,
+			fallback: 'index.html',
+			prerender: {
+				crawl: true,
+			},
 		}),
 	},
 };
