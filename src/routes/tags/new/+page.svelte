@@ -4,6 +4,7 @@
 	import { error, success } from '$lib/utils/message.ts';
 	import { onMount } from 'svelte';
 	import { getTags } from '$lib/db/tags';
+	import { goto } from "$app/navigation";
 
 	let tags: Tag[] = [];
 	let tag: Tag = Tag.empty();
@@ -27,7 +28,8 @@
 		}
 
 		success('Tag saved!');
-		location.href = '/tags';
+
+		await goto('/tags');
 
 		return false;
 	}

@@ -93,6 +93,10 @@ pub(crate) fn find_analytics(
                 let value = filter.value.to_string();
                 sql_values.push(value);
             },
+            FilterType::Boolean => {
+                let value = filter.value.to_string();
+                sql_values.push(value);
+            },
             FilterType::Tags => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
@@ -168,7 +172,14 @@ pub(crate) fn find_paginate(
                 SELECT GROUP_CONCAT(tag_id)
                 FROM operation_tag
                 WHERE operation_id = operations.id
-            ) AS tags_ids
+            ) AS tags_ids,
+            (
+                SELECT CASE WHEN (
+                    SELECT trim(GROUP_CONCAT(tag_id))
+                    FROM operation_tag
+                    WHERE operation_id = operations.id
+                ) IS NULL THEN '1' ELSE '0' END
+            ) AS without_tags
         FROM operations
         WHERE state = ?
         {{ filters }}
@@ -203,6 +214,10 @@ pub(crate) fn find_paginate(
     for filter in filters.iter() {
         match filter.filter_type {
             FilterType::Text => {
+                let value = filter.value.to_string();
+                sql_values.push(value);
+            },
+            FilterType::Boolean => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
             },
@@ -261,7 +276,15 @@ pub(crate) fn find_count(
     filters: Option<Vec<Filter>>,
 ) -> anyhow::Result<Box<u32>> {
     let sql = "
-        SELECT count(id) as number_of_items
+        SELECT
+            count(id) as number_of_items,
+            (
+                SELECT CASE WHEN (
+                    SELECT trim(GROUP_CONCAT(tag_id))
+                    FROM operation_tag
+                    WHERE operation_id = operations.id
+                ) IS NULL THEN '1' ELSE '0' END
+            ) AS without_tags
         FROM operations
         WHERE state = ?
         {{ filters }}
@@ -292,6 +315,10 @@ pub(crate) fn find_count(
     for filter in filters.iter() {
         match filter.filter_type {
             FilterType::Text => {
+                let value = filter.value.to_string();
+                sql_values.push(value);
+            },
+            FilterType::Boolean => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
             },

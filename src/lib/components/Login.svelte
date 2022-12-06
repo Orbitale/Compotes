@@ -2,6 +2,7 @@
 	import { getUsers, getUserById } from '$lib/db/users.ts';
 	import { error, success } from '$lib/utils/message.ts';
 	import { setUser } from '$lib/auth/current_user.ts';
+	import { goto } from "$app/navigation";
 
 	let login_id = '';
 	let login_password = '';
@@ -34,7 +35,7 @@
 
 		success('Successfully logged in!');
 
-		location.href = '/operations';
+		await goto('/operations');
 
 		return false;
 	}

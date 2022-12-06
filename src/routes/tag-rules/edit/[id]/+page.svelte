@@ -6,6 +6,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { getTags } from '$lib/db/tags';
+	import { goto } from "$app/navigation";
 
 	let id: string = $page.params.id;
 
@@ -51,6 +52,8 @@
 		}
 
 		success('Tag rule saved!');
+
+		await goto('/tag-rules');
 
 		return false;
 	}

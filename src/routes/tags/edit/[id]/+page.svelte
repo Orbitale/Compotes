@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { error, success } from '$lib/utils/message.ts';
 	import { page } from '$app/stores';
+	import {goto} from "$app/navigation";
 
 	let id: string = $page.params.id;
 
@@ -36,7 +37,7 @@
 
 		success('Tag saved!');
 
-		location.href = '/tags';
+		await goto('/tags');
 
 		return false;
 	}

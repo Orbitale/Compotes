@@ -18,6 +18,8 @@ pub enum FilterType {
     Number,
     #[serde(rename = "tags")]
     Tags,
+    #[serde(rename = "boolean")]
+    Boolean,
 }
 
 impl Display for FilterType {
@@ -30,6 +32,7 @@ impl Display for FilterType {
                 FilterType::Date => "date".to_string(),
                 FilterType::Number => "number".to_string(),
                 FilterType::Tags => "tags".to_string(),
+                FilterType::Boolean => "boolean".to_string(),
             }
         )
     }
@@ -45,6 +48,7 @@ impl FromSql for FilterType {
             "date" => FromSqlResult::Ok(FilterType::Date),
             "number" => FromSqlResult::Ok(FilterType::Number),
             "tags" => FromSqlResult::Ok(FilterType::Tags),
+            "boolean" => FromSqlResult::Ok(FilterType::Boolean),
             _ => FromSqlResult::Err(FromSqlError::InvalidType),
         }
     }

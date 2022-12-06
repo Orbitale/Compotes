@@ -16,6 +16,7 @@ impl Filter {
             FilterType::Text => format!("{field} LIKE ?", field=self.name.clone()),
             FilterType::Date => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
             FilterType::Number => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
+            FilterType::Boolean => format!("{field} = ?", field=self.name.clone()),
             FilterType::Tags => String::from("
                 (
                     SELECT GROUP_CONCAT(tags.name, \",\")
@@ -69,6 +70,9 @@ impl std::convert::TryFrom<DeserializedFilter> for Filter {
             FilterType::Date
             | FilterType::Number => {
                 format!("{}", value)
+            },
+            FilterType::Boolean => {
+                if value == "1" { "1" } else { "0" }.to_string()
             },
         };
 

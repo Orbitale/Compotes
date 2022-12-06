@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { error, success } from '$lib/utils/message.ts';
 	import { page } from '$app/stores';
+	import { goto } from "$app/navigation";
 
 	let id: string;
 
@@ -41,7 +42,7 @@
 
 		success('Operation updated!');
 
-		location.href = '/triage';
+		await goto('/triage');
 
 		return false;
 	}

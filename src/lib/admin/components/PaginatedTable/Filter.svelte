@@ -31,6 +31,8 @@
 			value = filter_with_value.value;
 		} else if (filter.type === FilterType.tags) {
 			value = filter_with_value.value;
+		} else if (filter.type === FilterType.boolean) {
+			value = !!filter_with_value.value;
 		} else if (filter.type === FilterType.date) {
 			const split = filter_with_value.value.split(';');
 
@@ -53,7 +55,7 @@
 	}
 
 	// Final value to be sent to the callback function.
-	let value: string = '';
+	let value: string|boolean = '';
 
 	// For two-value filters, like range or date.
 	// They will be concatenated as "value1;value2" in the final value.
@@ -64,6 +66,11 @@
 		if (change_callback) {
 			change_callback(filter, value);
 		}
+	}
+
+	function onChangeBoolean() {
+		value = this.checked ? '1' : null;
+		onChange();
 	}
 
 	function parseFilterValueNumber(string: null | string): string {
@@ -186,6 +193,16 @@
 				on:change={onChange}
 				bind:value
 			/>
+		{:else if filter.type === FilterType.boolean}
+			<div class="form-check">
+				<input
+					id="input_filter_{filter.name}"
+					class="form-check-input"
+					type="checkbox"
+					placeholder={filter.title || filter.name}
+					on:change={onChangeBoolean}
+				/>
+			</div>
 		{:else}
 			<h5>
 				<span class="badge bg-danger">Unknown input type "{filter.type}"</span>
