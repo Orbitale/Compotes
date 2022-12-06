@@ -19,7 +19,12 @@ const last_day_of_last_year = last_day_of_this_year.minus({ years: 1 });
 let configured = false;
 
 function splash_message(message): HTMLElement {
+	console.info(`Configuration log: "${message}".`);
 	let container = document.getElementById('splash_messages');
+	if (!container) {
+		console.warn('Cannot add splash message when container is not present in the DOM.');
+		return;
+	}
 	let textElement = document.createElement('div');
 	textElement.style.opacity = '1';
 	textElement.style.transition = 'opacity 2s linear 1s';
@@ -44,27 +49,17 @@ function splash_message(message): HTMLElement {
 }
 
 function disable_message(element: HTMLElement) {
+	if (!element) {
+		console.warn('Cannot disable message for inexistent element.');
+		return;
+	}
 	element.dispatchEvent(new Event('message_end'));
 }
 
 export default async function configure() {
-	if (configured) {
-		console.warn('An attempt to reconfigure the app occurred.');
-		return;
-	}
-
-	configured = true;
-
 	let e;
 
-	// Preload everything
-	e = splash_message('Configuring synchronization');
-	OperationsSynchronizer.addAfterSyncCallback(getOperations);
-	OperationsSynchronizer.addAfterSyncCallback(getTriageOperations);
-	OperationsSynchronizer.addAfterSyncCallback(getBankAccounts);
-	OperationsSynchronizer.addAfterSyncCallback(getTags);
-	OperationsSynchronizer.addAfterSyncCallback(getTagRules);
-	disable_message(e);
+	console.info('Configuring...');
 
 	e = splash_message('Configuring administration panel');
 	updateAdminConfig({
@@ -95,6 +90,22 @@ export default async function configure() {
 	});
 	disable_message(e);
 
+	if (configured) {
+		console.warn('An attempt to reconfigure the app occurred.');
+		return;
+	}
+
+	configured = true;
+
+	// Preload everything
+	e = splash_message('Configuring synchronization');
+	OperationsSynchronizer.addAfterSyncCallback(getOperations);
+	OperationsSynchronizer.addAfterSyncCallback(getTriageOperations);
+	OperationsSynchronizer.addAfterSyncCallback(getBankAccounts);
+	OperationsSynchronizer.addAfterSyncCallback(getTags);
+	OperationsSynchronizer.addAfterSyncCallback(getTagRules);
+	disable_message(e);
+
 	e = splash_message('Pre-fetching data');
 	Promise
 		.allSettled([
@@ -119,4 +130,6 @@ export default async function configure() {
 			}, 2000);
 		})
 	;
+
+	console.info('Finished configuring ✔');
 }
