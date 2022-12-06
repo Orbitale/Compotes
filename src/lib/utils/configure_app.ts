@@ -125,6 +125,7 @@ export default async function configure() {
 			let el = document.getElementById('splash_screen');
 			el.style.opacity = '0';
 			document.getElementById('app').style.display = '';
+			document.getElementById('splash_enabled').classList.remove('splash_enabled');
 			setTimeout(function() {
 				document.body.removeChild(el);
 			}, 2000);
