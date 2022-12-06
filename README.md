@@ -10,44 +10,13 @@ A small application to visualise bank operations in graphs and plots.
 
 ![App screenshot](docs/capture1.png)
 
-### Roadmap
-
-Since the entire app is being rewritten, lots of stuff have to be re-implemented.
-
-> The "☑️" mark means the feature is implemented, while the "⬜️" mark means the feature is waiting for implementation.
-
-- Core features:
-  - ☑️ Create the Tauri app
-  - ☑️ Create the Svelte frontend with it
-  - ☑️ List operations
-    - ☑️ Allow sorting operations by some fields
-    - ☑️ Allow filtering operations
-    - ☑️ Allow saving current filter to be reused in graphs
-    - ⬜️ Allow ignoring an operation in graphs calculations
-  - ☑️ Tags CRUD
-  - ☑️ Tag rules CRUD
-  - ☑️ Bank accounts CRUD
-    - ☑️ Edit bank account details
-  - ☑️ Import operations from CSV file
-  - ☑️ Add tags to operations directly from the list
-  - ☑️ Sync operations for triage
-  - ☑️ Sync operations tags with tag rules
-  - ⬜️ Add the graphs that are at the core of this app 😅
-    - ⬜️ Allow using saved filters for graphs
-    - ⬜️ Allow creating and saving custom graphs
-- Additional features that might be cool:
-  - ⬜️ Allow customizing graphs
-  - ⬜️ Config panel to allow customizing database, export/import whole database
-  - ⬜️ User account system for multi-user usage
-  - ⬜️ Encrypt entire database with a password/passphrase for safety
-  - ⬜️ Store filters to the database instead of `localStorage`
-- Some things are quite buggy and the app needs improvements too:
-  - ☑️ Check why we have to use `location.reload()` because svelte stores don't update the paginated tables
-  - ⬜️ Use a `select2` or similar for tags selection
-
 ## Install
 
-The project is not even in beta for now, but you might find latest nightly builds on the [Actions](https://github.com/Orbitale/Compotes/actions) page, if you check out the latest successful action marked by a "☑️" mark (if there is one at least).
+The project is not even in beta for now.
+
+You can still find latest nightly builds on the [Actions](https://github.com/Orbitale/Compotes/actions) page, if you check out the latest successful action marked by a "☑️" mark (if there is one at least).
+
+The latest builds can also be found on [nightly.link](https://nightly.link/Orbitale/Compotes/workflows/main.yaml/rewrite)
 
 ## Project setup
 
@@ -101,3 +70,40 @@ yarn tauri build
   ./mysql2sqlite dump_***.sql | sqlite3 data.db3
   ```
 - Pray it works 🙏
+
+### Roadmap
+
+Since the entire app is being rewritten, lots of stuff have to be re-implemented.
+
+> The "☑️" mark means the feature is implemented, while the "⬜️" mark means the feature is waiting for implementation.
+
+- Core features:
+  - ☑️ Create the Tauri app
+  - ☑️ Create the Svelte frontend with it
+  - ☑️ List operations
+    - ☑️ Allow sorting operations by some fields
+    - ☑️ Allow filtering operations
+    - ☑️ Allow saving current filter to be reused in graphs
+    - ☑️ Allow filtering operations that have no tags
+    - ⬜️ Allow ignoring an operation in graphs calculations
+  - ☑️ Tags CRUD
+  - ☑️ Tag rules CRUD
+  - ☑️ Bank accounts CRUD
+    - ☑️ Edit bank account details
+  - ☑️ Import operations from CSV file
+  - ☑️ Add tags to operations directly from the list
+  - ☑️ Sync operations for triage
+  - ☑️ Sync operations tags with tag rules
+  - ⬜️ Add the graphs that are at the core of this app 😅
+    - ☑️ Allow using saved filters for graphs
+    - ⬜️ Allow creating and saving custom graphs
+- Additional features that might be cool:
+  - ⬜️ Allow customizing graphs
+  - ⬜️ Config panel to allow customizing database, export/import whole database
+  - ⬜️ User account system for multi-user usage
+  - ⬜️ Encrypt entire database with a password/passphrase for safety
+  - ⬜️ Store filters to the database instead of `localStorage`
+- Some things are quite buggy and the app needs improvements too:
+  - ☑️ Check why we have to use `location.reload()` because svelte stores don't update the paginated tables => I actually used SvelteKit's `goto()` from `$app/navigation` and it works great 👌
+  - ⬜️ Use a `select2` or similar for tags selection
+  - ⬜️ Add the ability to create a Tag Rule based on an Operation in the operations list

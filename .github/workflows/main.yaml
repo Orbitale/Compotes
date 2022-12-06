@@ -67,11 +67,13 @@ jobs:
 
             - name: 🧪 Test application (linux)
               if: matrix.os == 'ubuntu-latest'
+              continue-on-error: true
               run: |
                   xvfb-run yarn test
 
             - name: 🧪 Test application (non-linux)
               if: matrix.os != 'ubuntu-latest'
+              continue-on-error: true
               run: |
                   yarn test
 
