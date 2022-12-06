@@ -18,7 +18,7 @@ html#splash_enabled {
     }
 }
 #splash_screen {
-    transition: opacity 2s ease;
+    transition: opacity 1s ease;
     position: absolute;
     top: 0;
     left: 0;
@@ -28,7 +28,7 @@ html#splash_enabled {
     z-index: 1;
 }
 #splash_screen.remove {
-    animation: fade 2s ease-in-out forwards;
+    animation: fade 1s ease-in-out forwards;
 }
 #orbitale_logo {
     position: absolute;

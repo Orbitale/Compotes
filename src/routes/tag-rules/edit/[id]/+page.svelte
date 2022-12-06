@@ -51,7 +51,6 @@
 		}
 
 		success('Tag rule saved!');
-		location.href = '/tag-rules';
 
 		return false;
 	}

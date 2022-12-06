@@ -16,8 +16,6 @@ const last_day_of_this_year = now.set({ months: 12, days: 31 });
 const first_day_of_last_year = first_day_of_this_year.minus({ years: 1 });
 const last_day_of_last_year = last_day_of_this_year.minus({ years: 1 });
 
-let configured = false;
-
 function splash_message(message): HTMLElement {
 	console.info(`Configuration log: "${message}".`);
 	let container = document.getElementById('splash_messages');
@@ -90,15 +88,9 @@ export default async function configure() {
 	});
 	disable_message(e);
 
-	if (configured) {
-		console.warn('An attempt to reconfigure the app occurred.');
-		return;
-	}
-
-	configured = true;
-
 	// Preload everything
 	e = splash_message('Configuring synchronization');
+	OperationsSynchronizer.clearSyncCallbacks();
 	OperationsSynchronizer.addAfterSyncCallback(getOperations);
 	OperationsSynchronizer.addAfterSyncCallback(getTriageOperations);
 	OperationsSynchronizer.addAfterSyncCallback(getBankAccounts);
@@ -122,13 +114,17 @@ export default async function configure() {
 		])
 		.then(function() { disable_message(e) })
 		.then(function () {
-			let el = document.getElementById('splash_screen');
-			el.style.opacity = '0';
+			let splash_enabled = document.getElementById('splash_enabled');
+			if (splash_enabled) splash_enabled.classList.remove('splash_enabled');
+
 			document.getElementById('app').style.display = '';
-			document.getElementById('splash_enabled').classList.remove('splash_enabled');
+
+			let splash_screen = document.getElementById('splash_screen');
+			if (splash_screen) splash_screen.style.opacity = '0';
+
 			setTimeout(function() {
-				document.body.removeChild(el);
-			}, 2000);
+				splash_screen.parentElement.removeChild(splash_screen);
+			}, 1000);
 		})
 	;
 

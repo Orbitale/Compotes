@@ -37,7 +37,7 @@
 			FieldOptions.newWithAssociatedField(new Field('name'))
 		),
 		new Field('op_type', 'Type'),
-		new Field('details', 'Details', null, Sortable),
+		new Field('details', 'Details', FieldOptions.newWithHtmlProperties({html_class: 'pre'}), Sortable),
 		new Field(
 			'amount_display',
 			'Amount',

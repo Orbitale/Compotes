@@ -7,6 +7,10 @@ let syncing: boolean = false;
 export default class OperationsSynchronizer {
 	private static _afterSyncCallbacks: Array<Function> = [];
 
+	public static clearSyncCallbacks() {
+		OperationsSynchronizer._afterSyncCallbacks = [];
+	}
+
 	public static addAfterSyncCallback(callback: Function) {
 		OperationsSynchronizer._afterSyncCallbacks.push(callback);
 	}

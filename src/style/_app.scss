@@ -23,3 +23,13 @@ button.nav-link {
 	--toastContainerBottom: 0.5rem;
 	--toastContainerLeft: auto;
 }
+
+.pre {
+	word-break: break-all;
+	white-space: pre-wrap;
+	font-family: monospace;
+	margin-top: 0;
+	margin-bottom: 1rem;
+	overflow: auto;
+	font-size: 0.875em;
+}
