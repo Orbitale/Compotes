@@ -99,8 +99,10 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
     - ⬜️ Allow creating and saving custom graphs
 - Additional features that might be cool:
   - ⬜️ Allow customizing graphs
-  - ⬜️ Config panel to allow customizing database, export/import whole database
-  - ⬜️ User account system for multi-user usage
+  - ⬜️ Config panel
+    - ⬜️ Allow customizing database, for multiple database usage
+    - ⬜️ Allow exporting/importing whole database
+    - ⬜️ User account system for multi-user usage
   - ⬜️ Encrypt entire database with a password/passphrase for safety
   - ⬜️ Store filters to the database instead of `localStorage`
 - Some things are quite buggy and the app needs improvements too:
