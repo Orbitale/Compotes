@@ -19,6 +19,8 @@
 	import { success } from '$lib/utils/message';
 	import FieldOptions from '$lib/admin/FieldOptions';
 	import FilterWithValue from '$lib/admin/FilterWithValue';
+	import UrlAction from "$lib/admin/UrlAction";
+	import ActionParams from "$lib/admin/ActionParams";
 
 	const filters = operations_filters;
 
@@ -60,7 +62,8 @@
 				return;
 			}
 			tags_modal.open();
-		})
+		}),
+		new UrlAction('Edit', '/operations/edit/:id', ActionParams.id()),
 	];
 
 	onMount(async () => {

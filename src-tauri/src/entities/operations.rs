@@ -601,6 +601,18 @@ pub(crate) fn update_details(conn: &mut Connection, id: u32, details: String) {
         .expect("Could not execute update operation hash after updating details");
 }
 
+pub(crate) fn update_ignore_from_analytics(conn: &mut Connection, id: u32, ignored_from_charts: bool) {
+    conn
+        .prepare("UPDATE operations SET ignored_from_charts = :ignored_from_charts WHERE id = :id")
+        .expect("Could not create query to change ignore operations state.")
+        .execute(named_params! {
+            ":id": &id,
+            ":ignored_from_charts": &ignored_from_charts,
+        })
+        .expect("Could not execute \"update operations ignored from charts\" query")
+    ;
+}
+
 pub(crate) fn update_tags(conn: &mut Connection, id: String, tags_ids: Vec<u32>) {
     let mut stmt = conn
         .prepare("DELETE FROM operation_tag WHERE operation_id = :id")

@@ -118,6 +118,13 @@ export async function updateOperationTags(operation: Operation) {
 	});
 }
 
+export async function ignoreOperationFromAnalytics(operation: Operation) {
+	await api_call('operation_update_ignore_from_analytics', {
+		id: operation.id.toString(),
+		ignoredFromCharts: operation.ignored_from_charts,
+	});
+}
+
 export async function deleteOperation(operation: Operation) {
 	const id = operation.id.toString(10);
 

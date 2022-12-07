@@ -18,6 +18,7 @@ mod commands {
     pub(crate) mod operation_delete;
     pub(crate) mod operation_update_details;
     pub(crate) mod operation_update_tags;
+    pub(crate) mod operation_update_ignore_from_analytics;
     pub(crate) mod operations_get;
     pub(crate) mod operations_get_analytics;
     pub(crate) mod operations_get_by_id;
@@ -62,6 +63,7 @@ fn main() {
             crate::commands::operation_delete::operation_delete,
             crate::commands::operation_update_details::operation_update_details,
             crate::commands::operation_update_tags::operation_update_tags,
+            crate::commands::operation_update_ignore_from_analytics::operation_update_ignore_from_analytics,
             crate::commands::operations_get_by_id::operations_get_by_id,
             crate::commands::operations_get::operations_get,
             crate::commands::operations_get_analytics::operations_get_analytics,
