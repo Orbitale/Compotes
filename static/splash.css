@@ -26,6 +26,7 @@ html#splash_enabled {
     height: 100%;
     background: #adbfd2;
     z-index: 1;
+    overflow: hidden;
 }
 #splash_screen.remove {
     animation: fade 1s ease-in-out forwards;
@@ -34,10 +35,10 @@ html#splash_enabled {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 600px;
-    height: 600px;
-    margin-top: -300px;
-    margin-left: -300px;
+    width: 500px;
+    height: 500px;
+    margin-top: -250px;
+    margin-left: -250px;
 }
 .animate-rotation {
     animation-delay: 0s;
@@ -50,6 +51,6 @@ html#splash_enabled {
     text-align: right;
     font-size: 0.8em;
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 5px;
+    bottom: 5px;
 }
