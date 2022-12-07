@@ -29,8 +29,6 @@
 
 		if (filter.type === FilterType.text) {
 			value = filter_with_value.value;
-		} else if (filter.type === FilterType.tags) {
-			value = filter_with_value.value;
 		} else if (filter.type === FilterType.boolean) {
 			value = !!filter_with_value.value;
 		} else if (filter.type === FilterType.date) {
@@ -184,15 +182,6 @@
 					/>
 				</div>
 			</div>
-		{:else if filter.type === FilterType.tags}
-			<input
-				id="input_filter_{filter.name}"
-				class="form-control"
-				type="text"
-				placeholder={filter.title || filter.name}
-				on:change={onChange}
-				bind:value
-			/>
 		{:else if filter.type === FilterType.boolean}
 			<div class="form-check">
 				<input

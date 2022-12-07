@@ -16,8 +16,6 @@ pub enum FilterType {
     Date,
     #[serde(rename = "number")]
     Number,
-    #[serde(rename = "tags")]
-    Tags,
     #[serde(rename = "boolean")]
     Boolean,
 }
@@ -31,7 +29,6 @@ impl Display for FilterType {
                 FilterType::Text => "text".to_string(),
                 FilterType::Date => "date".to_string(),
                 FilterType::Number => "number".to_string(),
-                FilterType::Tags => "tags".to_string(),
                 FilterType::Boolean => "boolean".to_string(),
             }
         )
@@ -44,18 +41,17 @@ impl FromSql for FilterType {
             .as_str()
             .expect("Invalid Non-string value for FilterType fetched from database");
         match value_as_str {
-            "text" => FromSqlResult::Ok(FilterType::Text),
-            "date" => FromSqlResult::Ok(FilterType::Date),
-            "number" => FromSqlResult::Ok(FilterType::Number),
-            "tags" => FromSqlResult::Ok(FilterType::Tags),
-            "boolean" => FromSqlResult::Ok(FilterType::Boolean),
-            _ => FromSqlResult::Err(FromSqlError::InvalidType),
+            "text" => Ok(FilterType::Text),
+            "date" => Ok(FilterType::Date),
+            "number" => Ok(FilterType::Number),
+            "boolean" => Ok(FilterType::Boolean),
+            _ => Err(FromSqlError::InvalidType),
         }
     }
 }
 
 impl ToSql for FilterType {
     fn to_sql(&self) -> rusqlite::Result<ToSqlOutput<'_>> {
-        rusqlite::Result::Ok(ToSqlOutput::from(self.to_string()))
+        Ok(ToSqlOutput::from(self.to_string()))
     }
 }

@@ -97,10 +97,6 @@ pub(crate) fn find_analytics(
                 let value = filter.value.to_string();
                 sql_values.push(value);
             },
-            FilterType::Tags => {
-                let value = filter.value.to_string();
-                sql_values.push(value);
-            },
             FilterType::Number => {
                 let min = i64::MIN.to_string();
                 let max = i64::MAX.to_string();
@@ -174,6 +170,12 @@ pub(crate) fn find_paginate(
                 WHERE operation_id = operations.id
             ) AS tags_ids,
             (
+                SELECT GROUP_CONCAT(tags.name)
+                FROM operation_tag
+                LEFT JOIN tags ON operation_tag.tag_id = tags.id
+                WHERE operation_id = operations.id
+            ) AS tags_names,
+            (
                 SELECT CASE WHEN (
                     SELECT trim(GROUP_CONCAT(tag_id))
                     FROM operation_tag
@@ -218,10 +220,6 @@ pub(crate) fn find_paginate(
                 sql_values.push(value);
             },
             FilterType::Boolean => {
-                let value = filter.value.to_string();
-                sql_values.push(value);
-            },
-            FilterType::Tags => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
             },
@@ -279,6 +277,12 @@ pub(crate) fn find_count(
         SELECT
             count(id) as number_of_items,
             (
+                SELECT GROUP_CONCAT(tags.name)
+                FROM operation_tag
+                LEFT JOIN tags ON operation_tag.tag_id = tags.id
+                WHERE operation_id = operations.id
+            ) AS tags_names,
+            (
                 SELECT CASE WHEN (
                     SELECT trim(GROUP_CONCAT(tag_id))
                     FROM operation_tag
@@ -319,10 +323,6 @@ pub(crate) fn find_count(
                 sql_values.push(value);
             },
             FilterType::Boolean => {
-                let value = filter.value.to_string();
-                sql_values.push(value);
-            },
-            FilterType::Tags => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
             },

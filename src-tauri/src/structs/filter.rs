@@ -17,14 +17,6 @@ impl Filter {
             FilterType::Date => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
             FilterType::Number => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
             FilterType::Boolean => format!("{field} = ?", field=self.name.clone()),
-            FilterType::Tags => String::from("
-                (
-                    SELECT GROUP_CONCAT(tags.name, \",\")
-                    FROM operation_tag
-                    LEFT JOIN tags ON tags.id = operation_tag.tag_id
-                    WHERE operation_tag.operation_id = operations.id
-                ) LIKE ?
-            "),
         }
     }
 }
@@ -63,8 +55,7 @@ impl std::convert::TryFrom<DeserializedFilter> for Filter {
         let DeserializedFilter { name, value, filter_type } = shadow;
 
         let value = match filter_type {
-            FilterType::Text |
-            FilterType::Tags => {
+            FilterType::Text => {
                 format!("%{}%", value)
             },
             FilterType::Date

@@ -15,7 +15,7 @@ export var operations_filters = [
 	new ConfigFilter('details', 'Details', FilterType.text),
 	new ConfigFilter('operation_date', 'Date', FilterType.date),
 	new ConfigFilter('amount_in_cents', 'Amount', FilterType.number),
-	new ConfigFilter('tags', 'Tags', FilterType.tags),
+	new ConfigFilter('tags_names', 'Tags', FilterType.text),
 	new ConfigFilter('without_tags', 'Without tags', FilterType.boolean),
 ];
 
