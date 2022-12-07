@@ -83,3 +83,4 @@ jobs:
                   name: release-${{ matrix.os }}
                   path: |
                       src-tauri/target/release/compotes*
+                      src-tauri/target/release/bundle/*
