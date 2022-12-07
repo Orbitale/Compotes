@@ -59,9 +59,16 @@ pub(crate) fn find_analytics(
                 SELECT GROUP_CONCAT(tag_id)
                 FROM operation_tag
                 WHERE operation_id = operations.id
-            ) AS tags_ids
+            ) AS tags_ids,
+            (
+                SELECT GROUP_CONCAT(tags.name)
+                FROM operation_tag
+                LEFT JOIN tags ON operation_tag.tag_id = tags.id
+                WHERE operation_id = operations.id
+            ) AS tags_names
         FROM operations
         WHERE state = ?
+        AND ignored_from_charts = 0
         {{ filters }}
     ";
 

@@ -85,7 +85,7 @@ Since the entire app is being rewritten, lots of stuff have to be re-implemented
     - ☑️ Allow filtering operations
     - ☑️ Allow saving current filter to be reused in graphs
     - ☑️ Allow filtering operations that have no tags
-    - ⬜️ Allow ignoring an operation in graphs calculations
+    - ☑️ Allow ignoring an operation in graphs calculations
   - ☑️ Tags CRUD
   - ☑️ Tag rules CRUD
   - ☑️ Bank accounts CRUD
