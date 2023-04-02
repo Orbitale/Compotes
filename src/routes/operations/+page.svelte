@@ -6,21 +6,21 @@
 		updateOperationTags
 	} from '$lib/db/operations.ts';
 	import PaginatedTable from '$lib/admin/components/PaginatedTable/PaginatedTable.svelte';
-	import CollectionField from '$lib/admin/CollectionField';
-	import Field, { Sortable } from '$lib/admin/Field';
-	import FieldHtmlProperties from '$lib/admin/FieldHtmlProperties';
-	import PageHooks from '$lib/admin/PageHooks';
-	import CallbackAction from '$lib/admin/CallbackAction';
+	import CollectionField from '$lib/admin/src/CollectionField';
+	import Field, { Sortable } from '$lib/admin/src/Field';
+	import FieldHtmlProperties from '$lib/admin/src/FieldHtmlProperties';
+	import PageHooks from '$lib/admin/src/PageHooks';
+	import CallbackAction from '$lib/admin/src/CallbackAction';
 	import Operation, { operations_filters } from '$lib/entities/Operation';
 	import Modal, { getModal } from '$lib/modal/Modal.svelte';
 	import { onMount } from 'svelte';
 	import { getTags, getTagsByIds } from '$lib/db/tags';
 	import Tag from '$lib/entities/Tag';
 	import { success } from '$lib/utils/message';
-	import FieldOptions from '$lib/admin/FieldOptions';
-	import FilterWithValue from '$lib/admin/FilterWithValue';
-	import UrlAction from "$lib/admin/UrlAction";
-	import ActionParams from "$lib/admin/ActionParams";
+	import FieldOptions from '$lib/admin/src/FieldOptions';
+	import FilterWithValue from '$lib/admin/src/FilterWithValue';
+	import UrlAction from "$lib/admin/src/UrlAction";
+	import ActionParams from "$lib/admin/src/ActionParams";
 
 	const filters = operations_filters;
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Field from '../../Field';
+	import Field from '../../src/Field';
 
 	export let field: Field;
 	export let item: object;

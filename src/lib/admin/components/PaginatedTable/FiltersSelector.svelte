@@ -1,8 +1,8 @@
 <script lang="ts">
-	import ConfigFilter from '../../ConfigFilter';
-	import FilterWithValue from '../../FilterWithValue';
+	import ConfigFilter from '../../src/ConfigFilter';
+	import FilterWithValue from '../../src/FilterWithValue';
 	import Filter from './Filter.svelte';
-	import SavedFilter from '../../SavedFilter';
+	import SavedFilter from '../../src/SavedFilter';
 	import { getByName, getSavedFilters, saveFilter } from '../../src/filters';
 	import { createEventDispatcher, onMount } from 'svelte';
 
@@ -81,13 +81,16 @@
 		await callFilters();
 	}
 
-	async function updateFilter(filter: ConfigFilter, value: string) {
+	async function updateFilter(event: CustomEvent) {
+		const detail: {filter: ConfigFilter, value: string} = event.detail;
+		const {filter, value} = detail;
+
 		// Remove filter
 		filters_with_values = filters_with_values.filter(
 			(f: FilterWithValue) => f.name !== filter.name
 		);
 
-		if (value) {
+		if (filter && value !== null || typeof value === 'undefined') {
 			// Add filter only if it has a value
 			filters_with_values.push(FilterWithValue.fromFilter(filter, value));
 		}
@@ -158,7 +161,7 @@
 </div>
 <div id="filters" class="collapse">
 	{#each config_filters as filter}
-		<Filter {filter} bind:this={filter.element} change_callback={updateFilter} />
+		<Filter {filter} bind:this={filter.element} on:change-filter-value={updateFilter} />
 	{/each}
 	<br />
 	<div class="d-flex" id="filters_actions_container">

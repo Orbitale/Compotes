@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type SavedFilter from "$lib/admin/SavedFilter";
+import type SavedFilter from "$lib/admin/src/SavedFilter";
 
 class Config {
 	public spinLoaderSrc: string = '';

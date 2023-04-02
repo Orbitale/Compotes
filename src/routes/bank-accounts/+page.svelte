@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { getBankAccounts, bankAccountsStore } from '$lib/db/bank_accounts.ts';
 	import PaginatedTable from '$lib/admin/components/PaginatedTable/PaginatedTable.svelte';
-	import Field from '$lib/admin/Field';
-	import PageHooks from '$lib/admin/PageHooks';
-	import UrlAction from '$lib/admin/UrlAction';
-	import ActionParams from '$lib/admin/ActionParams';
+	import Field from '$lib/admin/src/Field';
+	import PageHooks from '$lib/admin/src/PageHooks';
+	import UrlAction from '$lib/admin/src/UrlAction';
+	import ActionParams from '$lib/admin/src/ActionParams';
 
 	let bank_accounts = [];
 

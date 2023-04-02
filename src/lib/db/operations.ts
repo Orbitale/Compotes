@@ -5,10 +5,10 @@ import { getBankAccountById } from './bank_accounts';
 import type { Writable } from 'svelte/store';
 import { writable } from 'svelte/store';
 import type Tag from '$lib/entities/Tag';
-import type SortableField from '$lib/admin/SortableField';
-import { OrderBy, orderByToString } from '$lib/admin/OrderBy';
-import type FilterWithValue from '$lib/admin/FilterWithValue';
-import type SavedFilter from '$lib/admin/SavedFilter';
+import type SortableField from '$lib/admin/src/SortableField';
+import { OrderBy, orderByToString } from '$lib/admin/src/OrderBy';
+import type FilterWithValue from '$lib/admin/src/FilterWithValue';
+import type SavedFilter from '$lib/admin/src/SavedFilter';
 
 export const operationsStore: Writable<Operation[]> = writable();
 export const triageStore: Writable<Operation[]> = writable();

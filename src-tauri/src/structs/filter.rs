@@ -17,6 +17,7 @@ impl Filter {
             FilterType::Date => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
             FilterType::Number => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
             FilterType::Boolean => format!("{field} = ?", field=self.name.clone()),
+            FilterType::Entity => format!("{field} = ?", field=self.name.clone()),
         }
     }
 }
@@ -59,7 +60,8 @@ impl std::convert::TryFrom<DeserializedFilter> for Filter {
                 format!("%{}%", value)
             },
             FilterType::Date
-            | FilterType::Number => {
+            | FilterType::Number
+            | FilterType::Entity => {
                 format!("{}", value)
             },
             FilterType::Boolean => {

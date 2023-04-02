@@ -1,4 +1,4 @@
-import SavedFilter from '../SavedFilter';
+import SavedFilter from './SavedFilter';
 import { getConfig } from './config';
 
 export function getByName(save_key: string, name: string): SavedFilter {

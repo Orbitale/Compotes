@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Field from '../../Field';
-	import { OrderBy } from '../../OrderBy';
+	import Field from '../../src/Field';
+	import { OrderBy } from '../../src/OrderBy';
 	import { writable } from 'svelte/store';
 
 	export let field: Field;

@@ -3,8 +3,9 @@ import sha512 from '$lib/utils/sha512';
 import { DateFormat, dateFormatToRegex, DateTime, NormalizedDate } from '$lib/utils/date';
 import type Tag from './Tag';
 import type Entity from '$lib/struct/Entity';
-import ConfigFilter from '../admin/ConfigFilter';
-import FilterType from '../admin/FilterType';
+import ConfigFilter from '../admin/src/ConfigFilter';
+import FilterType from '../admin/src/FilterType';
+import {getBankAccountsAsChoices} from "../db/bank_accounts";
 
 export enum OperationState {
 	ok = 'ok',
@@ -15,6 +16,7 @@ export var operations_filters = [
 	new ConfigFilter('details', 'Details', FilterType.text),
 	new ConfigFilter('operation_date', 'Date', FilterType.date),
 	new ConfigFilter('amount_in_cents', 'Amount', FilterType.number),
+	new ConfigFilter('bank_account_id', 'Bank account', FilterType.entity, {entities: getBankAccountsAsChoices}),
 	new ConfigFilter('tags_names', 'Tags', FilterType.text),
 	new ConfigFilter('without_tags', 'Without tags', FilterType.boolean),
 ];

@@ -1,15 +1,45 @@
 <script lang="ts">
-	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
+	import {DateInput, localeFromDateFnsLocale} from 'date-picker-svelte';
 	import enGB from 'date-fns/locale/en-GB/index.js';
-	import { DateTime } from 'luxon';
-	import ConfigFilter from '../../ConfigFilter';
-	import FilterType from '../../FilterType';
-	import FilterWithValue from '../../FilterWithValue';
+	import {DateTime} from 'luxon';
+	import ConfigFilter from '../../src/ConfigFilter';
+	import FilterType from '../../src/FilterType';
+	import FilterWithValue from '../../src/FilterWithValue';
+	import {createEventDispatcher, onMount} from "svelte";
+
+	const dispatch = createEventDispatcher();
 
 	export let filter: ConfigFilter;
-	export let change_callback: Function;
+
+	type SelectOption = {name: string, value: string};
+
+	let options: Array<SelectOption> = [];
 
 	let locale = localeFromDateFnsLocale(enGB);
+
+	onMount(async () => {
+		if (filter.type === FilterType.entity) {
+			const entities: Array<SelectOption>|(() => Array<SelectOption>|Promise<Array<SelectOption>>) = filter.options.entities;
+
+			if (typeof entities === 'function') {
+				const functionResult = entities.constructor.name === 'AsyncFunction'
+					? await entities()
+					: entities();
+
+				options = functionResult;
+			} else if (Array.isArray(entities)) {
+				options = entities;
+			} else {
+				throw new Error('Could not find type of "filter.options.entities". Must be either an array or a function.');
+			}
+
+			options.map((i: any) => {
+				if (typeof i.name === undefined || typeof i.value === undefined) {
+					throw new Error('Configured filter option "entities" contains or returned a value that does not match the expected type.\nValues must correspond to the type { name: string , value: string }');
+				}
+			});
+		}
+	});
 
 	export function clear() {
 		value = '';
@@ -28,6 +58,8 @@
 		}
 
 		if (filter.type === FilterType.text) {
+			value = filter_with_value.value;
+		} else if (filter.type === FilterType.entity) {
 			value = filter_with_value.value;
 		} else if (filter.type === FilterType.boolean) {
 			value = !!filter_with_value.value;
@@ -61,13 +93,23 @@
 	let value2: any = null;
 
 	function onChange() {
-		if (change_callback) {
-			change_callback(filter, value);
-		}
+		dispatch('change-filter-value', {filter, value});
 	}
 
 	function onChangeBoolean() {
 		value = this.checked ? '1' : null;
+		onChange();
+	}
+
+	function onChangeEntity() {
+		let filtered = options.filter((i) => i.value === value1);
+		if (filtered.length > 1) {
+			throw new Error('More than one element was found in options value.');
+		}
+		if (filtered.length === 0) {
+			throw new Error('No element was found in options value.');
+		}
+		value = String(value1);
 		onChange();
 	}
 
@@ -192,6 +234,18 @@
 					on:change={onChangeBoolean}
 				/>
 			</div>
+		{:else if filter.type === FilterType.entity}
+			<select class="form-select"
+				id="input_filter_{filter.name}"
+				aria-label="Floating label select example"
+				bind:value={value1}
+				on:change={onChangeEntity}
+			>
+				<option selected>-</option>
+				{#each options as option}
+					<option value="{option.value}">{option.name}</option>
+				{/each}
+			</select>
 		{:else}
 			<h5>
 				<span class="badge bg-danger">Unknown input type "{filter.type}"</span>

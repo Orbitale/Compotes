@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { getTagRules, tagRulesStore } from '$lib/db/tag_rules';
 	import PaginatedTable from '$lib/admin/components/PaginatedTable/PaginatedTable.svelte';
-	import ActionParams from '$lib/admin/ActionParams';
-	import CollectionField from '$lib/admin/CollectionField';
-	import Field from '$lib/admin/Field';
-	import PageHooks from '$lib/admin/PageHooks';
-	import UrlAction from '$lib/admin/UrlAction';
+	import ActionParams from '$lib/admin/src/ActionParams';
+	import CollectionField from '$lib/admin/src/CollectionField';
+	import Field from '$lib/admin/src/Field';
+	import PageHooks from '$lib/admin/src/PageHooks';
+	import UrlAction from '$lib/admin/src/UrlAction';
 
 	let tag_rules = [];
 

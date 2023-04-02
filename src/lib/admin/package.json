@@ -1,0 +1,12 @@
+{
+  "name": "@orbitale/svelte-admin",
+  "version": "0.1.0",
+  "description": "(prototype) Crud base for Svelte projects",
+  "main": "index.js",
+  "repository": "https://github.com/Orbitale/SvelteAdmin",
+  "author": "Alex \"Pierstoval\" Rock <alex@orbitale.io>",
+  "license": "LGPL-3.0-or-later",
+  "dependencies": {
+    "svelte": "^3.58.0"
+  }
+}

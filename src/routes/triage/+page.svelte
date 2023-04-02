@@ -8,13 +8,13 @@
 	import Operation from '$lib/entities/Operation';
 	import { success } from '$lib/utils/message';
 	import PaginatedTable from '$lib/admin/components/PaginatedTable/PaginatedTable.svelte';
-	import ActionParams from '$lib/admin/ActionParams';
-	import CallbackAction from '$lib/admin/CallbackAction';
-	import Field from '$lib/admin/Field';
-	import FieldHtmlProperties from '$lib/admin/FieldHtmlProperties';
-	import PageHooks from '$lib/admin/PageHooks';
-	import UrlAction from '$lib/admin/UrlAction';
-	import FieldOptions from '$lib/admin/FieldOptions';
+	import ActionParams from '$lib/admin/src/ActionParams';
+	import CallbackAction from '$lib/admin/src/CallbackAction';
+	import Field from '$lib/admin/src/Field';
+	import FieldHtmlProperties from '$lib/admin/src/FieldHtmlProperties';
+	import PageHooks from '$lib/admin/src/PageHooks';
+	import UrlAction from '$lib/admin/src/UrlAction';
+	import FieldOptions from '$lib/admin/src/FieldOptions';
 
 	let fields = [
 		new Field('id', 'ID'),

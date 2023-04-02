@@ -2,10 +2,10 @@
 	import { getTags, tagsStore } from '$lib/db/tags.ts';
 	import Tag from '$lib/entities/Tag.ts';
 	import PaginatedTable from '$lib/admin/components/PaginatedTable/PaginatedTable.svelte';
-	import ActionParams from '$lib/admin/ActionParams';
-	import Field from '$lib/admin/Field';
-	import UrlAction from '$lib/admin/UrlAction';
-	import PageHooks from '$lib/admin/PageHooks';
+	import ActionParams from '$lib/admin/src/ActionParams';
+	import Field from '$lib/admin/src/Field';
+	import UrlAction from '$lib/admin/src/UrlAction';
+	import PageHooks from '$lib/admin/src/PageHooks';
 
 	let tags: Tag[] = [];
 

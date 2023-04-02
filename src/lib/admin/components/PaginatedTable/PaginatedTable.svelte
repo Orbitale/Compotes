@@ -7,12 +7,12 @@
 	import { onMount } from 'svelte';
 	import type { Readable } from 'svelte/store';
 
-	import Field from '../../Field';
-	import PageHooks from '../../PageHooks';
-	import UrlAction from '../../UrlAction';
-	import SortableField from '../../SortableField';
-	import ConfigFilter from '../../ConfigFilter';
-	import FilterWithValue from '../../FilterWithValue';
+	import Field from '../../src/Field';
+	import PageHooks from '../../src/PageHooks';
+	import UrlAction from '../../src/UrlAction';
+	import SortableField from '../../src/SortableField';
+	import ConfigFilter from '../../src/ConfigFilter';
+	import FilterWithValue from '../../src/FilterWithValue';
 
 	export let id: string;
 	export let items_store: Readable<any>;

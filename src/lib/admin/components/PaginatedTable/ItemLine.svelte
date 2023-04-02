@@ -1,9 +1,9 @@
 <script lang="ts">
 	import ItemFieldValue from './ItemFieldValue.svelte';
 
-	import CallbackAction from '../../CallbackAction';
-	import Field from '../../Field';
-	import UrlAction from '../../UrlAction';
+	import CallbackAction from '../../src/CallbackAction';
+	import Field from '../../src/Field';
+	import UrlAction from '../../src/UrlAction';
 
 	export let item: object;
 	export let fields: Array<Field>;

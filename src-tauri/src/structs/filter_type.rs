@@ -18,6 +18,8 @@ pub enum FilterType {
     Number,
     #[serde(rename = "boolean")]
     Boolean,
+    #[serde(rename = "entity")]
+    Entity,
 }
 
 impl Display for FilterType {
@@ -30,6 +32,7 @@ impl Display for FilterType {
                 FilterType::Date => "date".to_string(),
                 FilterType::Number => "number".to_string(),
                 FilterType::Boolean => "boolean".to_string(),
+                FilterType::Entity => "entity".to_string(),
             }
         )
     }
@@ -38,13 +41,14 @@ impl Display for FilterType {
 impl FromSql for FilterType {
     fn column_result(value: ValueRef<'_>) -> FromSqlResult<Self> {
         let value_as_str = value
-            .as_str()
-            .expect("Invalid Non-string value for FilterType fetched from database");
+            .as_str()?;
+
         match value_as_str {
             "text" => Ok(FilterType::Text),
             "date" => Ok(FilterType::Date),
             "number" => Ok(FilterType::Number),
             "boolean" => Ok(FilterType::Boolean),
+            "entity" => Ok(FilterType::Entity),
             _ => Err(FromSqlError::InvalidType),
         }
     }

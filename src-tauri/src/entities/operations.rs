@@ -104,6 +104,10 @@ pub(crate) fn find_analytics(
                 let value = filter.value.to_string();
                 sql_values.push(value);
             },
+            FilterType::Entity => {
+                let value = filter.value.to_string();
+                sql_values.push(value);
+            },
             FilterType::Number => {
                 let min = i64::MIN.to_string();
                 let max = i64::MAX.to_string();
@@ -230,6 +234,10 @@ pub(crate) fn find_paginate(
                 let value = filter.value.to_string();
                 sql_values.push(value);
             },
+            FilterType::Entity => {
+                let value = filter.value.to_string();
+                sql_values.push(value);
+            },
             FilterType::Number => {
                 let min = i64::MIN.to_string();
                 let max = i64::MAX.to_string();
@@ -330,6 +338,10 @@ pub(crate) fn find_count(
                 sql_values.push(value);
             },
             FilterType::Boolean => {
+                let value = filter.value.to_string();
+                sql_values.push(value);
+            },
+            FilterType::Entity => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
             },

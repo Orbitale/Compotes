@@ -2,7 +2,7 @@
 	import FiltersSelector from '$lib/admin/components/PaginatedTable/FiltersSelector.svelte';
 	import {getSavedFilters} from '$lib/admin/src/filters';
 	import {onMount} from 'svelte';
-	import SavedFilter from '$lib/admin/SavedFilter';
+	import SavedFilter from '$lib/admin/src/SavedFilter';
 	import Operation, {operations_filters} from '$lib/entities/Operation';
 	import {getOperationsForAnalytics} from '$lib/db/operations';
 	import {Line} from 'svelte-chartjs';
@@ -53,7 +53,16 @@
 
 		operations = await getOperationsForAnalytics(selected_filter);
 
+		if (!operations.length) {
+			return;
+		}
+
 		showGraph();
+	}
+
+	async function callFilters(event: CustomEvent) {
+		console.info('Called filters', event);
+		console.info('event.detail', event.detail);
 	}
 
 	function changeMultipleGraphDisplay() {
@@ -102,6 +111,7 @@
 	config_filters={operations_filters}
 	id="operations"
 	on:filter-select={changeFilter}
+	on:filters-call={callFilters}
 />
 
 <hr />

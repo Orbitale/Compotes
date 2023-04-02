@@ -2,9 +2,9 @@ import OperationsSynchronizer from '$lib/struct/OperationsSynchronizer';
 import { getOperations, getTriageOperations } from '$lib/db/operations';
 import { updateConfig as updateAdminConfig } from '$lib/admin/src/config';
 import { getBankAccounts } from '$lib/db/bank_accounts';
-import SavedFilter from '$lib/admin/SavedFilter';
-import FilterWithValue from '$lib/admin/FilterWithValue';
-import FilterType from '$lib/admin/FilterType';
+import SavedFilter from '$lib/admin/src/SavedFilter';
+import FilterWithValue from '$lib/admin/src/FilterWithValue';
+import FilterType from '$lib/admin/src/FilterType';
 import { DateTime } from 'luxon';
 import { getTags } from '$lib/db/tags';
 import { getTagRules } from '$lib/db/tag_rules';
@@ -98,35 +98,17 @@ export default async function configure() {
 	OperationsSynchronizer.addAfterSyncCallback(getTagRules);
 	disable_message(e);
 
-	e = splash_message('Pre-fetching data');
-	Promise
-		.allSettled([
-			fetch('/analytics'),
-			fetch('/bank-accounts'),
-			fetch('/operations'),
-			fetch('/tag-rules'),
-			fetch('/tags'),
-			fetch('/triage'),
-			getOperations(),
-			getTags(),
-			getTagRules(),
-			getTriageOperations(),
-		])
-		.then(function() { disable_message(e) })
-		.then(function () {
-			let splash_enabled = document.getElementById('splash_enabled');
-			if (splash_enabled) splash_enabled.classList.remove('splash_enabled');
+	let splash_enabled = document.getElementById('splash_enabled');
+	if (splash_enabled) splash_enabled.classList.remove('splash_enabled');
 
-			document.getElementById('app').style.display = '';
+	document.getElementById('app').style.display = '';
 
-			let splash_screen = document.getElementById('splash_screen');
-			if (splash_screen) splash_screen.style.opacity = '0';
+	let splash_screen = document.getElementById('splash_screen');
+	if (splash_screen) splash_screen.style.opacity = '0';
 
-			setTimeout(function() {
-				splash_screen.parentElement.removeChild(splash_screen);
-			}, 1000);
-		})
-	;
+	setTimeout(function() {
+		splash_screen.parentElement.removeChild(splash_screen);
+	}, 500);
 
 	console.info('Finished configuring ✔');
 }
