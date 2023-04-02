@@ -18,17 +18,20 @@ In a Svelte route file or component, use the `PaginatedTable` component to initi
 
 ```sveltehtml
 <script lang="ts">
+    import 'bootstrap/scss/bootstrap.scss';
 	import PaginatedTable from '@orbitale/svelte-admin/components/PaginatedTable/PaginatedTable.svelte';
 	import ActionParams from '@orbitale/svelte-admin/src/ActionParams';
 	import Field from '@orbitale/svelte-admin/src/Field';
 	import UrlAction from '@orbitale/svelte-admin/src/UrlAction';
-    
+    import PageHooks from '@orbitale/svelte-admin/src/PageHooks';
+    import {type Writable, writable} from "svelte/store";
+
     type Page = {
         id: number,
         title: string,
         content: string,
     };
-    
+
     function getPages(): Page[] {
         return [
             {id: 1, title: 'First page', content: 'Lorem ipsum'},
@@ -41,7 +44,7 @@ In a Svelte route file or component, use the `PaginatedTable` component to initi
     let pages: Page[] = [];
 
 	let fields = [
-        new Field('id', 'ID'), 
+        new Field('id', 'ID'),
         new Field('title', 'Title'),
         new Field('content', 'Content'),
     ];
@@ -49,9 +52,11 @@ In a Svelte route file or component, use the `PaginatedTable` component to initi
 	let actions = [
         new UrlAction('Edit', '/pages/edit/:id', ActionParams.id()),
     ];
+
+    const pageHooks = new PageHooks(getPages);
 </script>
 
 <h1>Pages</h1>
 
-<PaginatedTable id="pages" items_store={pagesStore} {fields} {actions} />
+<PaginatedTable id="pages" items_store={pagesStore} {fields} {actions} page_hooks={pageHooks} />
 ```

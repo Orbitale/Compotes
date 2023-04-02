@@ -7,6 +7,11 @@
   "author": "Alex \"Pierstoval\" Rock <alex@orbitale.io>",
   "license": "LGPL-3.0-or-later",
   "dependencies": {
+    "bootstrap": "^5.2.3",
+    "date-fns": "^2.29.3",
+    "date-picker-svelte": "^2.3.0",
+    "luxon": "^3.3.0",
+    "sass": "^1.60.0",
     "svelte": "^3.58.0"
   }
 }
