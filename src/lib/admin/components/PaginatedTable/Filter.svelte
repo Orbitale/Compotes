@@ -17,27 +17,29 @@
 
 	let locale = localeFromDateFnsLocale(enGB);
 
+	async function resolveAsyncValue(value: any) {
+		if (value instanceof Promise) {
+			return await resolveAsyncValue(await value);
+		} else if (typeof value === 'function' && value.constructor.name === 'AsyncFunction') {
+			console.info('Is async function');
+			return await resolveAsyncValue(await value());
+		} else if (typeof value === 'function') {
+			return await resolveAsyncValue(value());
+		} else if (Array.isArray(value)) {
+			return value;
+		}
+
+		throw new Error('Could not find type of "filter.options.entities". Must be either an array or a function.');
+	}
+
 	onMount(async () => {
 		if (filter.type === FilterType.entity) {
 			const entities: Array<SelectOption>|(() => Array<SelectOption>|Promise<Array<SelectOption>>) = filter.options.entities;
 
-			if (typeof entities === 'function') {
-				const functionResult = entities.constructor.name === 'AsyncFunction' || entities instanceof Promise
-					? await entities()
-					: entities();
+			options = await resolveAsyncValue(entities);
 
-				options = functionResult;
-			} else if (entities instanceof Promise) {
-				options = await entities;
-			} else if (Array.isArray(entities)) {
-				options = entities;
-			} else {
-				throw new Error('Could not find type of "filter.options.entities". Must be either an array or a function.');
-			}
-
-			console.info('filter options', options);
 			options.map((i: any) => {
-				if (typeof i.name === undefined || typeof i.value === undefined) {
+				if (typeof i.name === 'undefined' || typeof i.value === 'undefined') {
 					throw new Error('Configured filter option "entities" contains or returned a value that does not match the expected type.\nValues must correspond to the type { name: string , value: string }');
 				}
 			});

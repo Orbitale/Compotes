@@ -104,11 +104,13 @@ export default async function configure() {
 	document.getElementById('app').style.display = '';
 
 	let splash_screen = document.getElementById('splash_screen');
-	if (splash_screen) splash_screen.style.opacity = '0';
+	if (splash_screen) {
+		splash_screen.style.opacity = '0';
 
-	setTimeout(function() {
-		splash_screen.parentElement.removeChild(splash_screen);
-	}, 500);
-
+		setTimeout(function () {
+			splash_screen.style.display = 'none';
+			splash_screen.style.visibility = 'hidden';
+		}, 500);
+	}
 	console.info('Finished configuring ✔');
 }

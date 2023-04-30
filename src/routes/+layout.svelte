@@ -53,6 +53,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
+		-webkit-backdrop-filter: blur(5px);
 		backdrop-filter: blur(5px);
 		z-index: 10;
 		text-align: center;

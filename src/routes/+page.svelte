@@ -4,7 +4,7 @@
 
 <style lang="scss">
 	h1 {
-		text-align: center;
+		text-align: center !important;
 		padding: 1em;
 		margin: 0 auto;
 	}
