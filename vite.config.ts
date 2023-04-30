@@ -1,5 +1,6 @@
 // @ts-ignore
 import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
 import path from 'path';
 import fs from 'fs';
 
@@ -14,7 +15,7 @@ const copyFile = function (options) {
 }
 
 /** @type {import('vite').UserConfig} */
-const config = {
+export default defineConfig({
     hmr: false,
     plugins: [
         copyFile({
@@ -27,6 +28,4 @@ const config = {
         }),
         sveltekit(),
     ],
-};
-
-export default config;
+});

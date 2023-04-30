@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getUser } from '$lib/auth/current_user.ts';
 	import OperationsSynchronizer from '$lib/struct/OperationsSynchronizer';
 	import SpinLoader from '$lib/admin/components/SpinLoader.svelte';
 	import { page } from '$app/stores';
@@ -7,7 +6,6 @@
 	import message from '$lib/utils/message';
 
 	let syncing: boolean = false;
-	let user = getUser();
 
 	const links = [
 		{ url: '/analytics', label: 'Analytics' },
@@ -46,22 +44,20 @@
 
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav nav-fill">
-				{#if user}
-					{#each links as link}
-						<li class="nav-item">
-							<a href={link.url} class="nav-link" class:current={$page.url.pathname === link.url}>
-								{link.label}
-							</a>
-						</li>
-					{/each}
-
-					<li class="nav-item" class:syncing>
-						<button class="nav-link" on:click={sync}>
-							Sync
-							<SpinLoader display={syncing} />
-						</button>
+				{#each links as link}
+					<li class="nav-item">
+						<a href={link.url} class="nav-link" class:current={$page.url.pathname === link.url}>
+							{link.label}
+						</a>
 					</li>
-				{/if}
+				{/each}
+
+				<li class="nav-item" class:syncing>
+					<button class="nav-link" on:click={sync}>
+						Sync
+						<SpinLoader display={syncing} />
+					</button>
+				</li>
 			</ul>
 		</div>
 	</div>
