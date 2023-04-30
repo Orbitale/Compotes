@@ -11,6 +11,7 @@ const copyFile = function (options) {
             fs.mkdirSync(targetDir);
         }
         fs.writeFileSync(options.target, fs.readFileSync(options.source));
+        console.info(` > Copied ${options.source} to ${options.target}.`);
     };
 }
 

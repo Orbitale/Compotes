@@ -38,3 +38,9 @@ button.nav-link {
 	overflow: auto;
 	font-size: 0.875em;
 }
+
+.date-time-field {
+	input {
+		@extend .form-control;
+	}
+}
