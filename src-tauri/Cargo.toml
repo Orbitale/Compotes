@@ -7,15 +7,14 @@ license = ""
 repository = ""
 default-run = "app"
 edition = "2018"
-build = "src/build.rs"
 
 [build-dependencies]
 tauri-build = { version = "1.2", features = [] }
 
 [dependencies]
 anyhow = "1.0"
-dirs = "4.0"
-regex = "1.7"
+dirs = "5.0"
+regex = "1.8"
 serde_json = "1.0"
 serde_rusqlite = { version = "0.31", features = [ ] }
 serde = { version = "1.0", features = [ "derive" ] }
@@ -24,12 +23,8 @@ chrono = { version = "0.4", features = [ "serde" ] }
 rusqlite_migration = { version = "1.0", features = [ ] }
 rusqlite = { version = "0.28", features = [ "bundled-full", "functions", "serde_json" ] }
 slugify = "0.1"
+tauri = { version = "1.2", features = ["shell-open", "api-all"] }
 tauri-codegen = "1.2"
 
-  [dependencies.tauri]
-  version = "1.2"
-  features = ["api-all"]
-
 [features]
-default = [ "custom-protocol" ]
 custom-protocol = [ "tauri/custom-protocol" ]
