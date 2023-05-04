@@ -21,7 +21,6 @@
 		if (value instanceof Promise) {
 			return await resolveAsyncValue(await value);
 		} else if (typeof value === 'function' && value.constructor.name === 'AsyncFunction') {
-			console.info('Is async function');
 			return await resolveAsyncValue(await value());
 		} else if (typeof value === 'function') {
 			return await resolveAsyncValue(value());
