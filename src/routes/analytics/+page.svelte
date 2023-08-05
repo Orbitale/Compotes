@@ -1,39 +1,35 @@
 <script lang="ts">
 	import FiltersSelector from '$lib/admin/components/PaginatedTable/FiltersSelector.svelte';
-	import {getSavedFilters} from '$lib/admin/src/filters';
-	import {onMount} from 'svelte';
+	import { getSavedFilters } from '$lib/admin/src/filters';
+	import { onMount } from 'svelte';
 	import SavedFilter from '$lib/admin/src/SavedFilter';
-	import Operation, {operations_filters} from '$lib/entities/Operation';
-	import {getOperationsForAnalytics} from '$lib/db/operations';
-	import {Line} from 'svelte-chartjs';
+	import Operation, { operations_filters } from '$lib/entities/Operation';
+	import { getOperationsForAnalytics } from '$lib/db/operations';
+	import { Line } from 'svelte-chartjs';
 	import 'chart.js/auto';
-	import YearlyTotals from "../../lib/operation_graphs/YearlyTotals";
-	import YearMonthTags from "../../lib/operation_graphs/YearMonthTags";
-	import MonthlyTotals from "../../lib/operation_graphs/MonthlyTotals";
-	import GraphData from "$lib/graphs/GraphData";
-	import MultipleGraphData from "$lib/graphs/MultipleGraphData";
-	import AbstractGraph from "$lib/graphs/AbstractGraph";
+	import YearlyTotals from '../../lib/operation_graphs/YearlyTotals';
+	import YearMonthTags from '../../lib/operation_graphs/YearMonthTags';
+	import MonthlyTotals from '../../lib/operation_graphs/MonthlyTotals';
+	import GraphData from '$lib/graphs/GraphData';
+	import MultipleGraphData from '$lib/graphs/MultipleGraphData';
+	import AbstractGraph from '$lib/graphs/AbstractGraph';
 
-	const graph_types = [
-		YearlyTotals,
-		MonthlyTotals,
-		YearMonthTags,
-	];
+	const graph_types = [YearlyTotals, MonthlyTotals, YearMonthTags];
 
 	let filters: Array<SavedFilter> = [];
 	let current_filter: SavedFilter | null = null;
 	let operations: Array<Operation> = [];
 	let current_graph_type: AbstractGraph = null;
 
-	let charts: Array<GraphData> = []
+	let charts: Array<GraphData> = [];
 	let chart_component = false;
 	let chart_data = {};
 	let chart_options = {};
 
 	// Handling of MultipleGraphData instances
 	let multiple_charts = false;
-	let chart_to_diplay_index: number|null = null;
-	let discriminant_name_to_display: String|null = null;
+	let chart_to_diplay_index: number | null = null;
+	let discriminant_name_to_display: String | null = null;
 
 	onMount(() => {
 		filters = getSavedFilters('operations');
@@ -76,15 +72,16 @@
 	function showGraph() {
 		if (current_graph_type && current_graph_type.getName()) {
 			const graph: AbstractGraph = new current_graph_type(operations);
-			const data = graph.getData();
+			const data: MultipleGraphData | GraphData = graph.getData();
 			chart_component = Line;
 			charts = [];
-			if (data instanceof GraphData) {
+			const type = data.type;
+			if (type === GraphData.type) {
 				multiple_charts = false;
 				chart_to_diplay_index = null;
 				discriminant_name_to_display = null;
 				chart_data = JSON.parse(JSON.stringify(data));
-			} else if (data instanceof MultipleGraphData) {
+			} else if (type === MultipleGraphData.type) {
 				multiple_charts = true;
 				for (const graph of data.graphs) {
 					charts.push(graph);
@@ -95,9 +92,16 @@
 				if (discriminant_name_to_display === null) {
 					discriminant_name_to_display = data.discriminant_display_name;
 				}
-				chart_data = JSON.parse(JSON.stringify(data.graphs[chart_to_diplay_index]));
+				const final_data = data.graphs[chart_to_diplay_index];
+				if (!final_data) {
+					console.warn('No data to generate a graph');
+					chart_data = [];
+				}
+				chart_data = JSON.parse(JSON.stringify(final_data));
 			} else {
-				throw new Error(`Invalid graph type "${current_graph_type}".`);
+				throw new Error(
+					`Invalid graph type "${current_graph_type}" (value type found: "${type}").`
+				);
 			}
 		}
 	}
@@ -148,11 +152,11 @@
 		</label>
 		<div class="col-sm-4">
 			<select
-					name="charts_selector"
-					id="charts_selector"
-					class="form-control"
-					bind:value={chart_to_diplay_index}
-					on:change={changeMultipleGraphDisplay}
+				name="charts_selector"
+				id="charts_selector"
+				class="form-control"
+				bind:value={chart_to_diplay_index}
+				on:change={changeMultipleGraphDisplay}
 			>
 				<option value="">- Select a chart to display -</option>
 				{#each charts as chart, key (key)}

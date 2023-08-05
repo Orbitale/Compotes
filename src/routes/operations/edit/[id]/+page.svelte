@@ -8,9 +8,9 @@
 	import { onMount } from 'svelte';
 	import { error, success } from '$lib/utils/message.ts';
 	import { page } from '$app/stores';
-	import { goto } from "$app/navigation";
-	import Tag from "$lib/entities/Tag";
-	import {getTags} from "$lib/db/tags";
+	import { goto } from '$app/navigation';
+	import Tag from '$lib/entities/Tag';
+	import { getTags } from '$lib/db/tags';
 
 	let id: string;
 
@@ -128,7 +128,9 @@
 						bind:checked={operation.ignored_from_charts}
 						on:change={onFormChange}
 					/>
-					<label class="form-check-label" for="ignored_from_charts"> Ignore this operation in analytics </label>
+					<label class="form-check-label" for="ignored_from_charts">
+						Ignore this operation in analytics
+					</label>
 				</div>
 			</div>
 		</div>

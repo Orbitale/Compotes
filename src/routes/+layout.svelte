@@ -2,12 +2,9 @@
 	import '../style/_app.scss';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
-	import {onMount} from "svelte";
-	import {
-		afterNavigate,
-		beforeNavigate,
-	} from '$app/navigation';
-	import configure from "$lib/utils/configure_app";
+	import { onMount } from 'svelte';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import configure from '$lib/utils/configure_app';
 
 	let loadingOverlay: HTMLElement;
 	let loadingTimeout: number = 0;
@@ -22,14 +19,14 @@
 			loadingTimeout = 0;
 		}
 		loadingTimeout = setTimeout(() => {
-			loadingOverlay.style.display = "block";
+			loadingOverlay.style.display = 'block';
 		}, 100);
 	});
 
 	afterNavigate(() => {
 		clearTimeout(loadingTimeout);
 		loadingTimeout = 0;
-		loadingOverlay.style.display = "none";
+		loadingOverlay.style.display = 'none';
 	});
 </script>
 

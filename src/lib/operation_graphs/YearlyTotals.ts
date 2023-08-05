@@ -1,6 +1,6 @@
-import {AbstractOperationGraph} from "./AbstractOperationGraph";
-import GraphData from "../graphs/GraphData";
-import GraphDataset from "../graphs/GraphDataset";
+import { AbstractOperationGraph } from './AbstractOperationGraph';
+import GraphData from '../graphs/GraphData';
+import GraphDataset from '../graphs/GraphDataset';
 
 export default class YearlyTotals extends AbstractOperationGraph {
 	public static getName(): string {

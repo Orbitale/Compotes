@@ -5,7 +5,7 @@ import type Tag from './Tag';
 import type Entity from '$lib/struct/Entity';
 import ConfigFilter from '../admin/src/ConfigFilter';
 import FilterType from '../admin/src/FilterType';
-import {getBankAccountsAsChoices} from "../db/bank_accounts";
+import { getBankAccountsAsChoices } from '../db/bank_accounts';
 
 export enum OperationState {
 	ok = 'ok',
@@ -16,9 +16,11 @@ export var operations_filters = [
 	new ConfigFilter('details', 'Details', FilterType.text),
 	new ConfigFilter('operation_date', 'Date', FilterType.date),
 	new ConfigFilter('amount_in_cents', 'Amount', FilterType.number),
-	new ConfigFilter('bank_account_id', 'Bank account', FilterType.entity, {entities: getBankAccountsAsChoices}),
+	new ConfigFilter('bank_account_id', 'Bank account', FilterType.entity, {
+		entities: getBankAccountsAsChoices
+	}),
 	new ConfigFilter('tags_names', 'Tags', FilterType.text),
-	new ConfigFilter('without_tags', 'Without tags', FilterType.boolean),
+	new ConfigFilter('without_tags', 'Without tags', FilterType.boolean)
 ];
 
 export default class Operation implements Entity {

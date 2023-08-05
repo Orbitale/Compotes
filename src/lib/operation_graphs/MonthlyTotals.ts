@@ -1,7 +1,7 @@
-import {AbstractOperationGraph} from "./AbstractOperationGraph";
-import GraphData from "../graphs/GraphData";
-import GraphDataset from "../graphs/GraphDataset";
-import {DateTime} from "../utils/date";
+import { AbstractOperationGraph } from './AbstractOperationGraph';
+import GraphData from '../graphs/GraphData';
+import GraphDataset from '../graphs/GraphDataset';
+import { DateTime } from '../utils/date';
 
 export default class MonthlyTotals extends AbstractOperationGraph {
 	public static getName(): string {
@@ -58,7 +58,7 @@ export default class MonthlyTotals extends AbstractOperationGraph {
 			MonthlyTotals.getName(),
 			Array.from(Array(12).keys()).map((i) => {
 				const month_number = (i + 1).toString();
-				return DateTime.now().set({month: month_number}).toFormat('MMMM');
+				return DateTime.now().set({ month: month_number }).toFormat('MMMM');
 			}),
 			datasets
 		);

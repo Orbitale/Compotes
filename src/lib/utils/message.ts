@@ -1,4 +1,4 @@
-import Toast, { ToastType } from '$lib/struct/Toast';
+import Toast, { ToastType } from '../struct/Toast';
 
 export function success(content: string): Toast {
 	return message(content, ToastType.success);

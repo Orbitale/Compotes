@@ -1,5 +1,4 @@
-Svelte admin, prototype
-=======================
+# Svelte admin, prototype
 
 ⚠ This package is totally a **prototype**. It's used in one single personal project and not meant for production (yet)!
 

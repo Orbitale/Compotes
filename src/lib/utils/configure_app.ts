@@ -70,8 +70,8 @@ export default async function configure() {
 						'operation_date',
 						FilterType.date,
 						first_day_of_this_year.toFormat(DATE_FORMAT) +
-						';' +
-						last_day_of_this_year.toFormat(DATE_FORMAT)
+							';' +
+							last_day_of_this_year.toFormat(DATE_FORMAT)
 					)
 				]),
 				new SavedFilter('<Last year>', [
@@ -79,8 +79,8 @@ export default async function configure() {
 						'operation_date',
 						FilterType.date,
 						first_day_of_last_year.toFormat(DATE_FORMAT) +
-						';' +
-						last_day_of_last_year.toFormat(DATE_FORMAT)
+							';' +
+							last_day_of_last_year.toFormat(DATE_FORMAT)
 					)
 				])
 			]

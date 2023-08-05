@@ -1,17 +1,17 @@
 <script lang="ts">
-	import {DateInput, localeFromDateFnsLocale} from 'date-picker-svelte';
+	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import enGB from 'date-fns/locale/en-GB/index.js';
-	import {DateTime} from 'luxon';
+	import { DateTime } from 'luxon';
 	import ConfigFilter from '../../src/ConfigFilter';
 	import FilterType from '../../src/FilterType';
 	import FilterWithValue from '../../src/FilterWithValue';
-	import {createEventDispatcher, onMount} from "svelte";
+	import { createEventDispatcher, onMount } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 
 	export let filter: ConfigFilter;
 
-	type SelectOption = {name: string, value: string};
+	type SelectOption = { name: string; value: string };
 
 	let options: Array<SelectOption> = [];
 
@@ -28,18 +28,24 @@
 			return value;
 		}
 
-		throw new Error('Could not find type of "filter.options.entities". Must be either an array or a function.');
+		throw new Error(
+			'Could not find type of "filter.options.entities". Must be either an array or a function.'
+		);
 	}
 
 	onMount(async () => {
 		if (filter.type === FilterType.entity) {
-			const entities: Array<SelectOption>|(() => Array<SelectOption>|Promise<Array<SelectOption>>) = filter.options.entities;
+			const entities:
+				| Array<SelectOption>
+				| (() => Array<SelectOption> | Promise<Array<SelectOption>>) = filter.options.entities;
 
 			options = await resolveAsyncValue(entities);
 
 			options.map((i: any) => {
 				if (typeof i.name === 'undefined' || typeof i.value === 'undefined') {
-					throw new Error('Configured filter option "entities" contains or returned a value that does not match the expected type.\nValues must correspond to the type { name: string , value: string }');
+					throw new Error(
+						'Configured filter option "entities" contains or returned a value that does not match the expected type.\nValues must correspond to the type { name: string , value: string }'
+					);
 				}
 			});
 		}
@@ -89,7 +95,7 @@
 	}
 
 	// Final value to be sent to the callback function.
-	let value: string|boolean = '';
+	let value: string | boolean = '';
 
 	// For two-value filters, like range or date.
 	// They will be concatenated as "value1;value2" in the final value.
@@ -97,7 +103,7 @@
 	let value2: any = null;
 
 	function onChange() {
-		dispatch('change-filter-value', {filter, value});
+		dispatch('change-filter-value', { filter, value });
 	}
 
 	function onChangeBoolean() {
@@ -239,7 +245,8 @@
 				/>
 			</div>
 		{:else if filter.type === FilterType.entity}
-			<select class="form-select"
+			<select
+				class="form-select"
 				id="input_filter_{filter.name}"
 				aria-label="Floating label select example"
 				bind:value={value1}
@@ -247,7 +254,7 @@
 			>
 				<option selected>-</option>
 				{#each options as option}
-					<option value="{option.value}">{option.name}</option>
+					<option value={option.value}>{option.name}</option>
 				{/each}
 			</select>
 		{:else}

@@ -3,7 +3,7 @@ enum FilterType {
 	date = 'date',
 	number = 'number',
 	entity = 'entity',
-	boolean = 'boolean',
+	boolean = 'boolean'
 }
 
 export default FilterType;

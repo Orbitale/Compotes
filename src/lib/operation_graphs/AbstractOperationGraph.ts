@@ -1,5 +1,5 @@
-import type Operation from "../entities/Operation";
-import AbstractGraph from "../graphs/AbstractGraph";
+import type Operation from '../entities/Operation';
+import AbstractGraph from '../graphs/AbstractGraph';
 
 export abstract class AbstractOperationGraph extends AbstractGraph {
 	protected readonly operations: Array<Operation>;

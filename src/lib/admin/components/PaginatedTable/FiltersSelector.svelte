@@ -82,15 +82,15 @@
 	}
 
 	async function updateFilter(event: CustomEvent) {
-		const detail: {filter: ConfigFilter, value: string} = event.detail;
-		const {filter, value} = detail;
+		const detail: { filter: ConfigFilter; value: string } = event.detail;
+		const { filter, value } = detail;
 
 		// Remove filter
 		filters_with_values = filters_with_values.filter(
 			(f: FilterWithValue) => f.name !== filter.name
 		);
 
-		if (filter && value !== null || typeof value === 'undefined') {
+		if ((filter && value !== null) || typeof value === 'undefined') {
 			// Add filter only if it has a value
 			filters_with_values.push(FilterWithValue.fromFilter(filter, value));
 		}

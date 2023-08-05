@@ -3,7 +3,7 @@
 	import type bank_account from '$lib/entities/BankAccount.ts';
 	import { error, success } from '$lib/utils/message.ts';
 	import BankAccount from '$lib/entities/BankAccount.ts';
-	import { goto } from "$app/navigation";
+	import { goto } from '$app/navigation';
 
 	let bank_account: BankAccount = BankAccount.empty();
 	let submit_button_disabled: boolean = false;

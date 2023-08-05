@@ -33,14 +33,14 @@ export async function getBankAccounts(): Promise<Array<BankAccount>> {
 	return bank_accounts;
 }
 
-export async function getBankAccountsAsChoices(): Promise<Array<{name: string, value: string}>> {
+export async function getBankAccountsAsChoices(): Promise<Array<{ name: string; value: string }>> {
 	const accounts = await getBankAccounts();
 
 	return accounts.map((bankAccount: BankAccount) => {
 		return {
 			name: bankAccount.name,
-			value: bankAccount.id,
-		}
+			value: bankAccount.id
+		};
 	});
 }
 

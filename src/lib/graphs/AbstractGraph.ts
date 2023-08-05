@@ -1,5 +1,5 @@
-import type GraphData from "./GraphData";
-import type MultipleGraphData from "./MultipleGraphData";
+import type GraphData from './GraphData';
+import type MultipleGraphData from './MultipleGraphData';
 
 export default abstract class AbstractGraph {
 	public static getName(): string {

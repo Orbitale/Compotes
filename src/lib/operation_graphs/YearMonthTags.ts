@@ -1,19 +1,19 @@
-import {AbstractOperationGraph} from "./AbstractOperationGraph";
-import GraphData from "../graphs/GraphData";
-import MultipleGraphData from "../graphs/MultipleGraphData";
-import {DateTime} from "$lib/utils/date";
-import GraphDataset from "$lib/graphs/GraphDataset";
+import { AbstractOperationGraph } from './AbstractOperationGraph';
+import GraphData from '../graphs/GraphData';
+import MultipleGraphData from '../graphs/MultipleGraphData';
+import { DateTime } from '$lib/utils/date';
+import GraphDataset from '$lib/graphs/GraphDataset';
 
 type SeriesType = {
 	[key: string]: {
-		name: string,
+		name: string;
 		tags: {
 			[key: string]: {
-				name: string,
-				months: {[key: string]: number}
-			}
-		},
-	}
+				name: string;
+				months: { [key: string]: number };
+			};
+		};
+	};
 };
 
 export default class YearMonthTags extends AbstractOperationGraph {
@@ -38,7 +38,7 @@ export default class YearMonthTags extends AbstractOperationGraph {
 				if (!full_series[year].tags[tag_name]) {
 					full_series[year].tags[tag_name] = {
 						name: tag_name,
-						months: getEmptyMonthlyData(),
+						months: getEmptyMonthlyData()
 					};
 				}
 
@@ -71,21 +71,19 @@ export default class YearMonthTags extends AbstractOperationGraph {
 				datasets.push(dataset);
 			}
 
-			graphs.push(new GraphData(
-				year,
-				getMonthsAsLabels(),
-				datasets
-			));
+			graphs.push(new GraphData(year, getMonthsAsLabels(), datasets));
 		}
 
 		return new MultipleGraphData('year', graphs);
 	}
 }
 
-function sortByKeys(object: {[key: string]: any}): {[key: string]: any} {
+function sortByKeys(object: { [key: string]: any }): { [key: string]: any } {
 	const unsortedObjArr = [...Object.entries(object)];
 
-	const sortedObjArr = unsortedObjArr.sort(([key1, value1], [key2, value2]) => key1.localeCompare(key2));
+	const sortedObjArr = unsortedObjArr.sort(([key1, value1], [key2, value2]) =>
+		key1.localeCompare(key2)
+	);
 
 	const sortedObject = {};
 
@@ -97,11 +95,11 @@ function sortByKeys(object: {[key: string]: any}): {[key: string]: any} {
 function getMonthsAsLabels(): Array<string> {
 	return Array.from(Array(12).keys()).map((i) => {
 		const month_number = (i + 1).toString();
-		return DateTime.now().set({month: month_number}).toFormat('MMMM');
+		return DateTime.now().set({ month: month_number }).toFormat('MMMM');
 	});
 }
 
-function getEmptyMonthlyData(): {[key: string]: number} {
+function getEmptyMonthlyData(): { [key: string]: number } {
 	const data = {};
 
 	for (let i = 1; i <= 12; i++) {

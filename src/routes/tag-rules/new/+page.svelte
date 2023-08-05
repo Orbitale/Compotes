@@ -6,7 +6,7 @@
 	import Tag from '$lib/entities/Tag';
 	import { onMount } from 'svelte';
 	import { getTags } from '$lib/db/tags';
-	import { goto } from "$app/navigation";
+	import { goto } from '$app/navigation';
 
 	let tags: Tag[] = [];
 	let tag_rule_tags: number[] = [];

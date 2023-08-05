@@ -19,8 +19,8 @@
 	import { success } from '$lib/utils/message';
 	import FieldOptions from '$lib/admin/src/FieldOptions';
 	import FilterWithValue from '$lib/admin/src/FilterWithValue';
-	import UrlAction from "$lib/admin/src/UrlAction";
-	import ActionParams from "$lib/admin/src/ActionParams";
+	import UrlAction from '$lib/admin/src/UrlAction';
+	import ActionParams from '$lib/admin/src/ActionParams';
 
 	const filters = operations_filters;
 
@@ -39,7 +39,12 @@
 			FieldOptions.newWithAssociatedField(new Field('name'))
 		),
 		new Field('op_type', 'Type'),
-		new Field('details', 'Details', FieldOptions.newWithHtmlProperties({html_class: 'pre'}), Sortable),
+		new Field(
+			'details',
+			'Details',
+			FieldOptions.newWithHtmlProperties({ html_class: 'pre' }),
+			Sortable
+		),
 		new Field(
 			'amount_display',
 			'Amount',
@@ -63,7 +68,7 @@
 			}
 			tags_modal.open();
 		}),
-		new UrlAction('Edit', '/operations/edit/:id', ActionParams.id()),
+		new UrlAction('Edit', '/operations/edit/:id', ActionParams.id())
 	];
 
 	onMount(async () => {
