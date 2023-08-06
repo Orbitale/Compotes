@@ -1,10 +1,10 @@
-use crate::structs::operation_state::OperationState;
 use crate::entities::bank_accounts;
 use crate::structs::filter::Filter;
 use crate::structs::filter_type::FilterType;
+use crate::structs::operation_state::OperationState;
 use rusqlite::named_params;
-use rusqlite::ToSql;
 use rusqlite::Connection;
+use rusqlite::ToSql;
 use serde::Deserialize;
 use serde::Serialize;
 use sha2::Digest;
@@ -74,16 +74,10 @@ pub(crate) fn find_analytics(
 
     let filters = filters.unwrap_or_default();
 
-    let filters_sql = filters
-        .iter()
-        .fold(
-            "".to_string(),
-            |result, filter| {
-                let stmt = filter.to_sql_statement();
-                format!("{} AND ({})", result, &stmt)
-            }
-        )
-        ;
+    let filters_sql = filters.iter().fold("".to_string(), |result, filter| {
+        let stmt = filter.to_sql_statement();
+        format!("{} AND ({})", result, &stmt)
+    });
 
     let mut sql_params: Vec<&dyn ToSql> = Vec::new();
 
@@ -99,33 +93,41 @@ pub(crate) fn find_analytics(
             FilterType::Text => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
-            },
+            }
             FilterType::Boolean => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
-            },
+            }
             FilterType::Entity => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
-            },
+            }
             FilterType::Number => {
                 let min = i64::MIN.to_string();
                 let max = i64::MAX.to_string();
 
                 let values = filter.value.split_once(";").unwrap_or((&min, &max));
 
-                let value1 = if values.0 == "".to_string() { i64::MIN } else { 100 * values.0.parse::<i64>()? };
-                let value2 = if values.1 == "".to_string() { i64::MAX } else { 100 * values.1.parse::<i64>()? };
+                let value1 = if values.0 == "".to_string() {
+                    i64::MIN
+                } else {
+                    100 * values.0.parse::<i64>()?
+                };
+                let value2 = if values.1 == "".to_string() {
+                    i64::MAX
+                } else {
+                    100 * values.1.parse::<i64>()?
+                };
 
                 sql_values.push(value1.to_string());
                 sql_values.push(value2.to_string());
-            },
+            }
             FilterType::Date => {
                 let values = filter.value.split_once(";").unwrap_or(("", ""));
 
                 sql_values.push(values.0.to_string());
                 sql_values.push(values.1.to_string());
-            },
+            }
         };
     }
 
@@ -135,10 +137,10 @@ pub(crate) fn find_analytics(
 
     let mut stmt = conn.prepare(&sql)?;
 
-    let rows = stmt.query_map(
-        sql_params.as_slice(),
-        |row| Ok(serde_rusqlite::from_row::<Operation>(row).expect("Could not deserialize Operation item"))
-    )?;
+    let rows = stmt.query_map(sql_params.as_slice(), |row| {
+        Ok(serde_rusqlite::from_row::<Operation>(row)
+            .expect("Could not deserialize Operation item"))
+    })?;
 
     let mut operations: Vec<Operation> = Vec::new();
 
@@ -158,8 +160,16 @@ pub(crate) fn find_paginate(
     order_by: Option<String>,
     filters: Option<Vec<Filter>>,
 ) -> anyhow::Result<Vec<Operation>> {
-    let order_field = if order_field.is_some() { order_field.unwrap() } else { "operation_date".to_string() };
-    let order_by = if order_by.is_some() { order_by.unwrap() } else { "DESC".to_string() };
+    let order_field = if order_field.is_some() {
+        order_field.unwrap()
+    } else {
+        "operation_date".to_string()
+    };
+    let order_by = if order_by.is_some() {
+        order_by.unwrap()
+    } else {
+        "DESC".to_string()
+    };
     let limit = crate::config::NUMBER_PER_PAGE;
     let offset = ((page - 1) * limit).to_string();
 
@@ -202,16 +212,10 @@ pub(crate) fn find_paginate(
 
     let filters = filters.unwrap_or_default();
 
-    let filters_sql = filters
-        .iter()
-        .fold(
-            "".to_string(),
-            |result, filter| {
-                let stmt = filter.to_sql_statement();
-                format!("{} AND ({})", result, &stmt)
-            }
-        )
-    ;
+    let filters_sql = filters.iter().fold("".to_string(), |result, filter| {
+        let stmt = filter.to_sql_statement();
+        format!("{} AND ({})", result, &stmt)
+    });
 
     let mut sql_params: Vec<&dyn ToSql> = Vec::new();
 
@@ -229,33 +233,41 @@ pub(crate) fn find_paginate(
             FilterType::Text => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
-            },
+            }
             FilterType::Boolean => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
-            },
+            }
             FilterType::Entity => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
-            },
+            }
             FilterType::Number => {
                 let min = i64::MIN.to_string();
                 let max = i64::MAX.to_string();
 
                 let values = filter.value.split_once(";").unwrap_or((&min, &max));
 
-                let value1 = if values.0 == "".to_string() { i64::MIN } else { 100 * values.0.parse::<i64>()? };
-                let value2 = if values.1 == "".to_string() { i64::MAX } else { 100 * values.1.parse::<i64>()? };
+                let value1 = if values.0 == "".to_string() {
+                    i64::MIN
+                } else {
+                    100 * values.0.parse::<i64>()?
+                };
+                let value2 = if values.1 == "".to_string() {
+                    i64::MAX
+                } else {
+                    100 * values.1.parse::<i64>()?
+                };
 
                 sql_values.push(value1.to_string());
                 sql_values.push(value2.to_string());
-            },
+            }
             FilterType::Date => {
                 let values = filter.value.split_once(";").unwrap_or(("", ""));
 
                 sql_values.push(values.0.to_string());
                 sql_values.push(values.1.to_string());
-            },
+            }
         };
     }
 
@@ -268,10 +280,10 @@ pub(crate) fn find_paginate(
     sql_params.push(&limit);
     sql_params.push(&offset);
 
-    let rows = stmt.query_map(
-        sql_params.as_slice(),
-        |row| Ok(serde_rusqlite::from_row::<Operation>(row).expect("Could not deserialize Operation item"))
-    )?;
+    let rows = stmt.query_map(sql_params.as_slice(), |row| {
+        Ok(serde_rusqlite::from_row::<Operation>(row)
+            .expect("Could not deserialize Operation item"))
+    })?;
 
     let mut operations: Vec<Operation> = Vec::new();
 
@@ -311,16 +323,10 @@ pub(crate) fn find_count(
 
     let filters = filters.unwrap_or_default();
 
-    let filters_sql = filters
-        .iter()
-        .fold(
-            "".to_string(),
-            |result, filter| {
-                let stmt = filter.to_sql_statement();
-                format!("{} AND ({})", result, &stmt)
-            }
-        )
-    ;
+    let filters_sql = filters.iter().fold("".to_string(), |result, filter| {
+        let stmt = filter.to_sql_statement();
+        format!("{} AND ({})", result, &stmt)
+    });
 
     let mut sql_params: Vec<&dyn ToSql> = Vec::new();
 
@@ -336,33 +342,41 @@ pub(crate) fn find_count(
             FilterType::Text => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
-            },
+            }
             FilterType::Boolean => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
-            },
+            }
             FilterType::Entity => {
                 let value = filter.value.to_string();
                 sql_values.push(value);
-            },
+            }
             FilterType::Number => {
                 let min = i64::MIN.to_string();
                 let max = i64::MAX.to_string();
 
                 let values = filter.value.split_once(";").unwrap_or((&min, &max));
 
-                let value1 = if values.0 == "".to_string() { i64::MIN } else { 100 * values.0.parse::<i64>()? };
-                let value2 = if values.1 == "".to_string() { i64::MAX } else { 100 * values.1.parse::<i64>()? };
+                let value1 = if values.0 == "".to_string() {
+                    i64::MIN
+                } else {
+                    100 * values.0.parse::<i64>()?
+                };
+                let value2 = if values.1 == "".to_string() {
+                    i64::MAX
+                } else {
+                    100 * values.1.parse::<i64>()?
+                };
 
                 sql_values.push(value1.to_string());
                 sql_values.push(value2.to_string());
-            },
+            }
             FilterType::Date => {
                 let values = filter.value.split_once(";").unwrap_or(("", ""));
 
                 sql_values.push(values.0.to_string());
                 sql_values.push(values.1.to_string());
-            },
+            }
         };
     }
 
@@ -372,13 +386,13 @@ pub(crate) fn find_count(
 
     let mut stmt = conn.prepare(&sql)?;
 
-    let mut result = stmt
-        .query(sql_params.as_slice())
-        .unwrap();
+    let mut result = stmt.query(sql_params.as_slice()).unwrap();
 
     let first_row = result.next().unwrap().unwrap();
 
-    Ok(Box::new(serde_rusqlite::from_row::<u32>(first_row).unwrap()))
+    Ok(Box::new(
+        serde_rusqlite::from_row::<u32>(first_row).unwrap(),
+    ))
 }
 
 pub(crate) fn find_count_triage(conn: &Connection) -> Box<u32> {
@@ -590,17 +604,17 @@ pub(crate) fn update_details(conn: &mut Connection, id: u32, details: String) {
     let new_hash = operation.compute_hash(bank_account_slug);
 
     // Update current operation with new details & hash, set it to "ok" state
-    conn
-        .prepare("UPDATE operations SET details = :details, state = :ok, hash = :hash WHERE id = :id")
-        .expect("Could not create query to update operations details.")
-        .execute(named_params! {
-            ":id": &id,
-            ":details": &details,
-            ":ok": &OperationState::Ok.to_string(),
-            ":hash": &new_hash,
-        })
-        .expect("Could not execute update operations details query")
-    ;
+    conn.prepare(
+        "UPDATE operations SET details = :details, state = :ok, hash = :hash WHERE id = :id",
+    )
+    .expect("Could not create query to update operations details.")
+    .execute(named_params! {
+        ":id": &id,
+        ":details": &details,
+        ":ok": &OperationState::Ok.to_string(),
+        ":hash": &new_hash,
+    })
+    .expect("Could not execute update operations details query");
 
     // Update existing hash to make it "ok" too
     // FIXME: this will corrupt data if there are more than two items with same hash.
@@ -613,16 +627,18 @@ pub(crate) fn update_details(conn: &mut Connection, id: u32, details: String) {
         .expect("Could not execute update operation hash after updating details");
 }
 
-pub(crate) fn update_ignore_from_analytics(conn: &mut Connection, id: u32, ignored_from_charts: bool) {
-    conn
-        .prepare("UPDATE operations SET ignored_from_charts = :ignored_from_charts WHERE id = :id")
+pub(crate) fn update_ignore_from_analytics(
+    conn: &mut Connection,
+    id: u32,
+    ignored_from_charts: bool,
+) {
+    conn.prepare("UPDATE operations SET ignored_from_charts = :ignored_from_charts WHERE id = :id")
         .expect("Could not create query to change ignore operations state.")
         .execute(named_params! {
             ":id": &id,
             ":ignored_from_charts": &ignored_from_charts,
         })
-        .expect("Could not execute \"update operations ignored from charts\" query")
-    ;
+        .expect("Could not execute \"update operations ignored from charts\" query");
 }
 
 pub(crate) fn update_tags(conn: &mut Connection, id: String, tags_ids: Vec<u32>) {
@@ -631,20 +647,23 @@ pub(crate) fn update_tags(conn: &mut Connection, id: String, tags_ids: Vec<u32>)
         .expect("Could not create query to update operations details.");
 
     stmt.execute(named_params! {":id": &id})
-    .expect("Could not execute update operations tags query");
+        .expect("Could not execute update operations tags query");
 
     let mut insert_stmt = conn
-        .prepare("
+        .prepare(
+            "
                 INSERT INTO operation_tag (operation_id, tag_id)
                 VALUES (:operation_id, :tag_id)
-            ")
+            ",
+        )
         .expect("Could not create query to update operations tags.");
 
     for tag_id in tags_ids {
-        insert_stmt.execute(named_params! {
-            ":operation_id": &id,
-            ":tag_id": &tag_id,
-        })
+        insert_stmt
+            .execute(named_params! {
+                ":operation_id": &id,
+                ":tag_id": &tag_id,
+            })
             .expect("Could not execute insert operation-tag line");
     }
 }
@@ -679,12 +698,7 @@ fn compute_hash(
 ) -> String {
     let base_string = format!(
         "{}_{}_{}_{}_{}_{}",
-        op_type,
-        bank_account_slug,
-        type_display,
-        details,
-        operation_date,
-        amount_in_cents
+        op_type, bank_account_slug, type_display, details, operation_date, amount_in_cents
     );
     let mut hasher = Sha512::new();
     hasher.update(base_string);

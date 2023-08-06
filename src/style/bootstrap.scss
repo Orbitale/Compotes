@@ -1,19 +1,28 @@
-// Imported for native bootstrap file.
-// Check the 'node_modules/bootstrap/scss/bootstrap.scss' file for original resource.
 
-//@import 'bootstrap/scss/mixins/banner';
-//@include bsBanner('');
+//
+// Start bootstrap
+//
+
+@import 'bootstrap/scss/mixins/banner';
+@include bsBanner("");
 
 // scss-docs-start import-stack
 // Configuration
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
 @import 'bootstrap/scss/maps';
 @import 'bootstrap/scss/mixins';
 @import 'bootstrap/scss/utilities';
 
+//
+// start customization
+
 $navbar-light-color: rgba($black, 0.3);
 $navbar-light-active-color: rgba($black, 1);
+
+// end customization
+//
 
 // Layout & components
 @import 'bootstrap/scss/root';
@@ -54,3 +63,7 @@ $navbar-light-active-color: rgba($black, 1);
 // Utilities
 @import 'bootstrap/scss/utilities/api';
 // scss-docs-end import-stack
+
+//
+// End bootstrap
+//

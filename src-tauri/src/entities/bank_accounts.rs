@@ -86,7 +86,8 @@ pub(crate) fn create(conn: &Connection, bank_account: BankAccount) -> i64 {
 
 pub(crate) fn update(conn: &Connection, id: u32, name: String, currency: String) {
     let mut stmt = conn
-        .prepare("
+        .prepare(
+            "
             UPDATE bank_accounts
             SET
                 name = :name,

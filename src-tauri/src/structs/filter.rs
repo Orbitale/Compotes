@@ -1,5 +1,5 @@
-use serde::Deserialize;
 use crate::structs::filter_type::FilterType;
+use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 #[serde(try_from = "DeserializedFilter")]
@@ -13,11 +13,13 @@ pub(crate) struct Filter {
 impl Filter {
     pub(crate) fn to_sql_statement(&self) -> String {
         match self.filter_type {
-            FilterType::Text => format!("{field} LIKE ?", field=self.name.clone()),
-            FilterType::Date => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
-            FilterType::Number => format!("{field} >= ? AND {field} <= ?", field=self.name.clone()),
-            FilterType::Boolean => format!("{field} = ?", field=self.name.clone()),
-            FilterType::Entity => format!("{field} = ?", field=self.name.clone()),
+            FilterType::Text => format!("{field} LIKE ?", field = self.name.clone()),
+            FilterType::Date => format!("{field} >= ? AND {field} <= ?", field = self.name.clone()),
+            FilterType::Number => {
+                format!("{field} >= ? AND {field} <= ?", field = self.name.clone())
+            }
+            FilterType::Boolean => format!("{field} = ?", field = self.name.clone()),
+            FilterType::Entity => format!("{field} = ?", field = self.name.clone()),
         }
     }
 }
@@ -27,7 +29,7 @@ impl Clone for Filter {
         Filter {
             name: self.name.clone(),
             value: self.value.clone(),
-            filter_type: self.filter_type.clone()
+            filter_type: self.filter_type.clone(),
         }
     }
 }
@@ -39,7 +41,6 @@ struct DeserializedFilter {
     #[serde(rename = "type")]
     pub(crate) filter_type: FilterType,
 }
-
 
 pub struct FilterValidationError;
 
@@ -53,22 +54,26 @@ impl std::fmt::Display for FilterValidationError {
 impl std::convert::TryFrom<DeserializedFilter> for Filter {
     type Error = FilterValidationError;
     fn try_from(shadow: DeserializedFilter) -> Result<Self, Self::Error> {
-        let DeserializedFilter { name, value, filter_type } = shadow;
+        let DeserializedFilter {
+            name,
+            value,
+            filter_type,
+        } = shadow;
 
         let value = match filter_type {
             FilterType::Text => {
                 format!("%{}%", value)
-            },
-            FilterType::Date
-            | FilterType::Number
-            | FilterType::Entity => {
+            }
+            FilterType::Date | FilterType::Number | FilterType::Entity => {
                 format!("{}", value)
-            },
-            FilterType::Boolean => {
-                if value == "1" { "1" } else { "0" }.to_string()
-            },
+            }
+            FilterType::Boolean => if value == "1" { "1" } else { "0" }.to_string(),
         };
 
-        Ok(Filter { name, value, filter_type })
+        Ok(Filter {
+            name,
+            value,
+            filter_type,
+        })
     }
 }

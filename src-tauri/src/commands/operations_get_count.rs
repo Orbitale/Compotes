@@ -16,6 +16,8 @@ pub(crate) fn operations_get_count(
         .expect("Could not retrieve database connection");
     let conn = conn.deref();
 
-    serde_json::to_string(&operations::find_count(conn, filters).expect("Could not fetch operations count"))
-        .expect("Could not serialize Operations properly")
+    serde_json::to_string(
+        &operations::find_count(conn, filters).expect("Could not fetch operations count"),
+    )
+    .expect("Could not serialize Operations properly")
 }

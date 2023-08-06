@@ -10,13 +10,13 @@ mod migrations;
 
 mod commands {
     pub(crate) mod bank_account_create;
-    pub(crate) mod bank_account_update;
     pub(crate) mod bank_account_find_all;
+    pub(crate) mod bank_account_update;
     pub(crate) mod import_operations;
     pub(crate) mod operation_delete;
     pub(crate) mod operation_update_details;
-    pub(crate) mod operation_update_tags;
     pub(crate) mod operation_update_ignore_from_analytics;
+    pub(crate) mod operation_update_tags;
     pub(crate) mod operations_get;
     pub(crate) mod operations_get_analytics;
     pub(crate) mod operations_get_by_id;
