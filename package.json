@@ -23,8 +23,8 @@
 		"@sveltejs/kit": "^1.15.9",
 		"@tauri-apps/api": "^1.2.0",
 		"@tauri-apps/cli": "^1.2.3",
-		"@typescript-eslint/eslint-plugin": "^6.2.1",
-		"@typescript-eslint/parser": "^6.2.1",
+		"@typescript-eslint/eslint-plugin": "^6.3.0",
+		"@typescript-eslint/parser": "^6.3.0",
 		"@zerodevx/svelte-toast": "^0.9.3",
 		"bootstrap": "^5.2.3",
 		"chart.js": "^4.3.0",
@@ -43,10 +43,10 @@
 		"svelte-check": "^3.2.0",
 		"svelte-dragdroplist": "^1.1.1",
 		"svelte-preprocess": "^5.0.3",
-		"ts-results-es": "^3.6.0",
+		"ts-results-es": "^4.0.0",
 		"tslib": "^2.5.0",
 		"typescript": "^5.0.4",
-		"vite": "^4.3.3"
+		"vite": "^4.4.9"
 	},
 	"flat": true,
 	"type": "module",
@@ -71,7 +71,9 @@
 		"lru-cache": "10.0.0"
 	},
 	"dependencies": {
+		"emoji-regex": "^8.0.0",
 		"rimraf": "^3.0.2",
+		"string-width": "^5.1.2",
 		"supports-color": "^8.1.1"
 	}
 }
