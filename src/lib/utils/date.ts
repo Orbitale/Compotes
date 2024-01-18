@@ -3,9 +3,9 @@ import { DateTime } from 'luxon';
 export { DateTime };
 
 export enum DateFormat {
+	DMY_SLASH = 'D/M/Y',
 	YMD_SLASH = 'Y/M/D',
 	YDM_SLASH = 'Y/D/M',
-	DMY_SLASH = 'D/M/Y',
 	MDY_SLASH = 'M/D/Y',
 	YMD_DASH = 'Y-M-D',
 	YDM_DASH = 'Y-D-M',

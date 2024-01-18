@@ -21,10 +21,9 @@ export async function getBankAccounts(): Promise<Array<BankAccount>> {
 		return await bank_accounts_promise;
 	}
 
-	let res: string = await api_call('bank_account_find_all');
+	const res: string = await api_call('bank_account_find_all');
 
-	const bank_accounts = JSON.parse(res).map((data: object) => {
-		// @ts-ignore
+	const bank_accounts = JSON.parse(res).map((data: BankAccount) => {
 		return new BankAccount(data.id, data.name, data.slug, data.currency);
 	});
 
@@ -39,7 +38,7 @@ export async function getBankAccountsAsChoices(): Promise<Array<{ name: string; 
 	return accounts.map((bankAccount: BankAccount) => {
 		return {
 			name: bankAccount.name,
-			value: bankAccount.id
+			value: bankAccount.id.toString()
 		};
 	});
 }

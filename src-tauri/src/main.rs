@@ -81,5 +81,5 @@ fn main() {
             crate::commands::sync::sync,
         ])
         .run(tauri::generate_context!())
-        .expect("Error while running tauri application");
+        .expect("Error while running Tauri application");
 }

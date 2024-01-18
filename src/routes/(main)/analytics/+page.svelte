@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import FiltersSelector from '$lib/admin/components/PaginatedTable/FiltersSelector.svelte';
 	import { getSavedFilters } from '$lib/admin/src/filters';
-	import { onMount } from 'svelte';
 	import SavedFilter from '$lib/admin/src/SavedFilter';
 	import Operation, { operations_filters } from '$lib/entities/Operation';
 	import { getOperationsForAnalytics } from '$lib/db/operations';

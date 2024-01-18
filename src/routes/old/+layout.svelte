@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../style/_app.scss';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import { onMount } from 'svelte';
