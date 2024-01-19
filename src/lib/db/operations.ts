@@ -36,7 +36,7 @@ export async function getOperations(
 	sortableField: SortableField | null = null,
 	filters: Array<FilterWithValue> | null = null
 ): Promise<Array<Operation>> {
-	const params = { page };
+	const params: {[key: string]: number|string|Array<FilterWithValue>} = { page };
 
 	if (sortableField) {
 		params['orderField'] = sortableField.property_name;
@@ -160,6 +160,11 @@ async function normalizeOperationFromDeserialized(
 	deserialized_operation: DeserializedOperation
 ): Promise<Operation> {
 	const bank_account = await getBankAccountById(deserialized_operation.bank_account_id);
+
+	if (!bank_account) {
+		throw new Error(`Backend could not find bank account with id "${deserialized_operation.bank_account_id}".`);
+	}
+
 	const tags = await getTagsByIds(deserialized_operation.tags_ids);
 
 	return new Operation(

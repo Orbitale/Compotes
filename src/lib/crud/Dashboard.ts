@@ -1,11 +1,12 @@
+import { DashboardDefinition, UrlAction } from '@orbitale/svelte-admin';
 import Home from 'carbon-icons-svelte/lib/Home.svelte';
 
-import { DashboardDefinition, UrlAction } from '@orbitale/svelte-admin';
+import OperationCrud from '$lib/crud/cruds/OperationCrud';
 
 export const dashboard = new DashboardDefinition({
     adminConfig: {
         defaultLocale: 'en',
-        rootUrl: '/',
+        rootUrl: '/crud/',
         head: {
             brandName: 'Compotes',
             appName: ''
@@ -15,13 +16,15 @@ export const dashboard = new DashboardDefinition({
     sideMenu: [
         new UrlAction('Homepage', '/', Home),
         new UrlAction('Analytics', '/analytics'),
-        new UrlAction('Operations', '/operations'),
-        new UrlAction('Tag rules', '/tag-rules'),
-        new UrlAction('Tags', '/tags'),
-        new UrlAction('Triage', '/triage'),
-        new UrlAction('Bank accounts', '/bank-accounts'),
+        new UrlAction('Operations', '/crud/operations/list'),
+        new UrlAction('Tag rules', '/crud/tag-rules/list'),
+        new UrlAction('Tags', '/crud/tags/list'),
+        new UrlAction('Triage', '/crud/triage/list'),
+        new UrlAction('Bank accounts', '/crud/bank-accounts/list'),
         new UrlAction('Import', '/import'),
     ],
 
-    cruds: []
+    cruds: [
+        OperationCrud,
+    ]
 });

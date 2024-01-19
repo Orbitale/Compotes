@@ -8,7 +8,7 @@
 	<ul>
 		{#each dashboard.cruds as crud}
 			<li>
-				<a href="/{crud.name}/{crud.options.defaultOperationName}">
+				<a href="/crud/{crud.name}/{crud.options.defaultOperationName}">
 					{crud.options.label.plural}
 				</a>
 			</li>

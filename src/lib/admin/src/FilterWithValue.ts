@@ -16,7 +16,7 @@ export default class FilterWithValue {
 		return new FilterWithValue(filter.name, filter.type, value);
 	}
 
-	public static fromSerialized(filter: object): FilterWithValue {
+	public static fromSerialized(filter: Partial<FilterWithValue>): FilterWithValue {
 		if (!filter.name || !filter.type || !filter.value) {
 			console.error('Serialized filter is incomplete', filter);
 

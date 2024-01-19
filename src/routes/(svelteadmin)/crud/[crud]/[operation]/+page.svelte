@@ -10,6 +10,8 @@
 	$: requestParameters = getRequestParams($page, browser);
 </script>
 
+<pre style="position: fixed;bottom: 1rem; right: 1rem;z-index: 999">URL: {$page.url}</pre>
+
 {#key $page}
 <svelte:component
 	this="{dashboard.adminConfig.theme.dashboard}"
