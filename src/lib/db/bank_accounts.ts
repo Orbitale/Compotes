@@ -1,26 +1,13 @@
-// @ts-ignore
 import BankAccount from '$lib/entities/BankAccount';
 import api_call from '$lib/utils/api_call';
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
+import DeserializedOperation from "$lib/db/operations";
+import BankAccountsCrud from "$lib/crud/cruds/BankAccountsCrud";
 
 export const bankAccountsStore: Writable<BankAccount[]> = writable();
 
-let bank_accounts_promise: Promise<BankAccount[]> | null = null;
-
-async function getBankAccountPromise(): Promise<Array<BankAccount>> {
-	if (!bank_accounts_promise) {
-		bank_accounts_promise = getBankAccounts();
-	}
-
-	return bank_accounts_promise;
-}
-
 export async function getBankAccounts(): Promise<Array<BankAccount>> {
-	if (bank_accounts_promise) {
-		return await bank_accounts_promise;
-	}
-
 	const res: string = await api_call('bank_account_find_all');
 
 	const bank_accounts = JSON.parse(res).map((data: BankAccount) => {
@@ -44,15 +31,19 @@ export async function getBankAccountsAsChoices(): Promise<Array<{ name: string; 
 }
 
 export async function getBankAccountById(id: number): Promise<BankAccount | null> {
-	const bank_accounts = await getBankAccountPromise();
+	const res: string = await api_call('bank_account_get_by_id', { id: id.toString() });
 
-	for (const bank_account of bank_accounts) {
-		if (bank_account.id === id) {
-			return bank_account;
-		}
+	if (!res) {
+		throw 'No results from the API';
 	}
 
-	return null;
+	const bank_account: BankAccount = JSON.parse(res);
+
+	if (!bank_account) {
+		throw new Error('Could not deserialize bank account.');
+	}
+
+	return bank_account;
 }
 
 export async function createBankAccount(bank_account: BankAccount): Promise<void> {
@@ -61,8 +52,6 @@ export async function createBankAccount(bank_account: BankAccount): Promise<void
 	if (isNaN(+id)) {
 		throw new Error('Internal error: API returned a non-number ID.');
 	}
-
-	bank_accounts_promise = null;
 }
 
 export async function updateBankAccount(bank_account: BankAccount) {
@@ -75,6 +64,4 @@ export async function updateBankAccount(bank_account: BankAccount) {
 		name: bank_account.name,
 		currency: bank_account.currency
 	});
-
-	bank_accounts_promise = null;
 }

@@ -11,6 +11,7 @@ mod migrations;
 mod commands {
     pub(crate) mod bank_account_create;
     pub(crate) mod bank_account_find_all;
+    pub(crate) mod bank_account_get_by_id;
     pub(crate) mod bank_account_update;
     pub(crate) mod import_operations;
     pub(crate) mod operation_delete;
@@ -69,6 +70,7 @@ fn main() {
             crate::commands::operations_get_triage::operations_get_triage,
             crate::commands::operations_get_triage_count::operations_get_triage_count,
             crate::commands::bank_account_find_all::bank_account_find_all,
+            crate::commands::bank_account_get_by_id::bank_account_get_by_id,
             crate::commands::bank_account_create::bank_account_create,
             crate::commands::bank_account_update::bank_account_update,
             crate::commands::tags_get::tags_get,

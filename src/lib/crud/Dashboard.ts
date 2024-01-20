@@ -2,6 +2,7 @@ import { DashboardDefinition, UrlAction } from '@orbitale/svelte-admin';
 import Home from 'carbon-icons-svelte/lib/Home.svelte';
 
 import OperationCrud from '$lib/crud/cruds/OperationCrud';
+import BankAccountsCrud from "$lib/crud/cruds/BankAccountsCrud";
 
 export const dashboard = new DashboardDefinition({
     adminConfig: {
@@ -26,5 +27,6 @@ export const dashboard = new DashboardDefinition({
 
     cruds: [
         OperationCrud,
+        BankAccountsCrud,
     ]
 });
