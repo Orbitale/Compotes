@@ -16,11 +16,11 @@ export const dashboard = new DashboardDefinition({
 
     sideMenu: [
         new UrlAction('Homepage', '/', Home),
-        new UrlAction('Analytics', '/analytics'),
+        // new UrlAction('Analytics', '/analytics'),
         new UrlAction('Operations', '/crud/operations/list'),
-        new UrlAction('Tag rules', '/crud/tag-rules/list'),
-        new UrlAction('Tags', '/crud/tags/list'),
-        new UrlAction('Triage', '/crud/triage/list'),
+        // new UrlAction('Tag rules', '/crud/tag-rules/list'),
+        // new UrlAction('Tags', '/crud/tags/list'),
+        // new UrlAction('Triage', '/crud/triage/list'),
         new UrlAction('Bank accounts', '/crud/bank-accounts/list'),
         new UrlAction('Import', '/import'),
     ],
