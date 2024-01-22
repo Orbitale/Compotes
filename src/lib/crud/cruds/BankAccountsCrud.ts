@@ -8,12 +8,16 @@ import {
 } from "@orbitale/svelte-admin";
 import type {CrudBankAccount} from "@orbitale/svelte-admin/dist/Crud/BankAccounts";
 import type {RequestParameters} from "@orbitale/svelte-admin/dist/request";
-import {getBankAccountById, getBankAccounts} from "$lib/db/bank_accounts";
+import {createBankAccount, getBankAccountById, getBankAccounts, updateBankAccount} from "$lib/db/bank_accounts";
 import type BankAccount from "$lib/entities/BankAccount";
+import type {CrudOperation} from "@orbitale/svelte-admin/dist/Crud/Operations";
+import type {StateProcessorInput} from "@orbitale/svelte-admin/dist/State/Processor";
+import {goto} from "$app/navigation";
+import {success} from "$lib/utils/message";
 
 const baseFields = [
     new TextField('name', 'Name'),
-    new TextField('slug', 'Identifier'),
+    new TextField('slug', 'Identifier', {disabled: true}),
     new TextField('currency', 'Currency'),
 ];
 
@@ -30,22 +34,33 @@ export default new CrudDefinition<BankAccount>('bank-accounts', {
         new Edit(baseFields),
     ],
 
-    stateProvider: new CallbackStateProvider<BankAccount>(async (bankAccount: CrudBankAccount, requestParameters: RequestParameters) => {
+    stateProvider: new CallbackStateProvider<BankAccount>(async (operation: CrudBankAccount, requestParameters: RequestParameters) => {
         if (typeof window === 'undefined') {
             // SSR, can't call Tauri API then.
             return Promise.resolve([]);
         }
 
-        if (bankAccount.name === 'list') {
-            const results = await getBankAccounts(requestParameters.page||1);
-            return Promise.resolve(results);
+        if (operation.name === 'list') {
+            return getBankAccounts();
         }
 
-        if (bankAccount.name === 'view' || bankAccount.name === 'edit') {
+        if (operation.name === 'view' || operation.name === 'edit') {
             return getBankAccountById(requestParameters.id);
         }
 
         return Promise.resolve(null);
     }),
-    stateProcessor: new CallbackStateProcessor<BankAccount>(() => {})
+    stateProcessor: new CallbackStateProcessor<BankAccount>(async (data: StateProcessorInput<BankAccount>, operation: CrudOperation, requestParameters: RequestParameters) => {
+        if (operation.name === 'new') {
+            return createBankAccount(data);
+        }
+
+        if (operation.name === 'edit') {
+            data.id = parseInt(requestParameters.id, 10);
+            await updateBankAccount(data);
+            success('Success!');
+            await goto('/crud/bank-accounts/list');
+            return;
+        }
+    })
 });
