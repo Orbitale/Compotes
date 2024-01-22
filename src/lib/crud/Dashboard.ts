@@ -10,6 +10,7 @@ import FetchUpload from "carbon-icons-svelte/lib/FetchUpload.svelte";
 import OperationCrud from '$lib/crud/cruds/OperationCrud';
 import BankAccountsCrud from "$lib/crud/cruds/BankAccountsCrud";
 import TagRulesCrud from "$lib/crud/cruds/TagRulesCrud";
+import TagsCrud from "$lib/crud/cruds/TagsCrud";
 
 export const dashboard = new DashboardDefinition({
     adminConfig: {
@@ -25,8 +26,8 @@ export const dashboard = new DashboardDefinition({
         new UrlAction('Homepage', '/', Home),
         // new UrlAction('Analytics', '/analytics', ChartLogisticRegression),
         new UrlAction('Operations', '/crud/operations/list', ListBoxes),
+        new UrlAction('Tags', '/crud/tags/list', Tag),
         new UrlAction('Tag rules', '/crud/tag-rules/list', TagGroup),
-        // new UrlAction('Tags', '/crud/tags/list', Tag),
         // new UrlAction('Triage', '/crud/triage/list'),
         new UrlAction('Bank accounts', '/crud/bank-accounts/list', PiggyBank),
         new UrlAction('Import', '/import', FetchUpload),
@@ -36,5 +37,6 @@ export const dashboard = new DashboardDefinition({
         OperationCrud,
         BankAccountsCrud,
         TagRulesCrud,
+        TagsCrud,
     ]
 });

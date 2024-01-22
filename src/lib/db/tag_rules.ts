@@ -2,11 +2,7 @@
 import TagRule from '$lib/entities/TagRule';
 import { getTagById } from './tags';
 import api_call from '$lib/utils/api_call';
-import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/store';
 import type Tag from '$lib/entities/Tag';
-
-export const tagRulesStore: Writable<TagRule[]> = writable();
 
 export default class DeserializedTagRule {
 	public readonly id!: number;
@@ -47,8 +43,6 @@ export async function getTagRules(): Promise<Array<TagRule>> {
 			)
 		);
 	}
-
-	tagRulesStore.set(tag_rules);
 
 	return tag_rules;
 }

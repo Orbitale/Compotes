@@ -6,10 +6,10 @@ import {
     TextField, ToggleField,
     UrlAction,
 } from "@orbitale/svelte-admin";
-import type {CrudTagRule} from "@orbitale/svelte-admin/dist/Crud/TagRules";
 import type {RequestParameters} from "@orbitale/svelte-admin/dist/request";
 import type {CrudOperation} from "@orbitale/svelte-admin/dist/Crud/Operations";
 import type {StateProcessorInput} from "@orbitale/svelte-admin/dist/State/Processor";
+
 import {createTagRule, getTagRuleById, getTagRules, updateTagRule} from "$lib/db/tag_rules";
 import TagRule from "$lib/entities/TagRule";
 import {goto} from "$app/navigation";

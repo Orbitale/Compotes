@@ -2,7 +2,9 @@ import type Tag from './Tag';
 import type Entity from '$lib/struct/Entity';
 
 export type PartialTagRule = {
-	[key: keyof TagRule]: unknown
+	tags?: Array<Tag>
+	matching_pattern?: string,
+	is_regex?: string|boolean
 };
 
 export default class TagRule implements Entity {
@@ -40,7 +42,7 @@ export default class TagRule implements Entity {
 		if (!Array.isArray(json.tags) || json.matching_pattern === '' || json.matching_pattern === undefined || json.is_regex === '' || json.is_regex === undefined) {
 			throw new Error('Invaild JSON to create a TagRule object: '+JSON.stringify(json));
 		}
-		return new TagRule(json.id||0, json.tags, json.matching_pattern, !!json.is_regex);
+		return new TagRule(0, json.tags, json.matching_pattern, !!json.is_regex);
 	}
 
 	public serialize(): string {

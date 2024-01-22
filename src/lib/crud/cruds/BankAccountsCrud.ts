@@ -6,12 +6,12 @@ import {
     TextField,
     UrlAction,
 } from "@orbitale/svelte-admin";
-import type {CrudBankAccount} from "@orbitale/svelte-admin/dist/Crud/BankAccounts";
 import type {RequestParameters} from "@orbitale/svelte-admin/dist/request";
-import {createBankAccount, getBankAccountById, getBankAccounts, updateBankAccount} from "$lib/db/bank_accounts";
-import type BankAccount from "$lib/entities/BankAccount";
 import type {CrudOperation} from "@orbitale/svelte-admin/dist/Crud/Operations";
 import type {StateProcessorInput} from "@orbitale/svelte-admin/dist/State/Processor";
+
+import {createBankAccount, getBankAccountById, getBankAccounts, updateBankAccount} from "$lib/db/bank_accounts";
+import type BankAccount from "$lib/entities/BankAccount";
 import {goto} from "$app/navigation";
 import {success} from "$lib/utils/message";
 
