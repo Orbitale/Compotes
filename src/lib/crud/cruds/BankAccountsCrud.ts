@@ -50,6 +50,7 @@ export default new CrudDefinition<BankAccount>('bank-accounts', {
 
         return Promise.resolve(null);
     }),
+
     stateProcessor: new CallbackStateProcessor<BankAccount>(async (data: StateProcessorInput<BankAccount>, operation: CrudOperation, requestParameters: RequestParameters) => {
         if (operation.name === 'new') {
             return createBankAccount(data);

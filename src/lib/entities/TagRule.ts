@@ -1,6 +1,10 @@
 import type Tag from './Tag';
 import type Entity from '$lib/struct/Entity';
 
+export type PartialTagRule = {
+	[key: keyof TagRule]: unknown
+};
+
 export default class TagRule implements Entity {
 	public id!: number;
 	public tags!: Tag[];
@@ -30,6 +34,13 @@ export default class TagRule implements Entity {
 			throw new Error('Cannot set an ID on an object that already has one.');
 		}
 		this.id = id;
+	}
+
+	public static fromJson(json: PartialTagRule): TagRule {
+		if (!Array.isArray(json.tags) || json.matching_pattern === '' || json.matching_pattern === undefined || json.is_regex === '' || json.is_regex === undefined) {
+			throw new Error('Invaild JSON to create a TagRule object: '+JSON.stringify(json));
+		}
+		return new TagRule(json.id||0, json.tags, json.matching_pattern, !!json.is_regex);
 	}
 
 	public serialize(): string {
