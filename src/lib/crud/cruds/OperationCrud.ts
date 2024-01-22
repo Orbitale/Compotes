@@ -28,7 +28,7 @@ export default new CrudDefinition<Operation>('operations', {
                 new TextField('type_display', 'Type 2'),
                 new TextField('details', 'Details'),
                 new TextField('tags', 'Tags'),
-                new NumberField('amount', 'Montant'),
+                new NumberField('amount_display', 'Montant'),
             ],
             [
                 new UrlAction('View', '/crud/operations/view'),

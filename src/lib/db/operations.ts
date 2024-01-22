@@ -8,10 +8,6 @@ import {OrderBy, orderByToString} from '$lib/admin/src/OrderBy';
 import type FilterWithValue from '$lib/admin/src/FilterWithValue';
 import type SavedFilter from '$lib/admin/src/SavedFilter';
 
-const lastTriageCall = {
-	page: 1
-};
-
 export default class DeserializedOperation {
 	public readonly id!: number;
 	public readonly operation_date!: string;
@@ -80,11 +76,7 @@ export async function getTriageOperations(page: number = 1): Promise<Array<Opera
 		throw 'No results from the API';
 	}
 
-	const triage = await deserializeAndNormalizeDatabaseResult(res);
-
-	lastTriageCall.page = page;
-
-	return triage;
+	return await deserializeAndNormalizeDatabaseResult(res);
 }
 
 export async function getTriageOperationsCount(): Promise<number> {
@@ -118,8 +110,6 @@ export async function deleteOperation(operation: Operation) {
 	const id = operation.id.toString(10);
 
 	await api_call('operation_delete', { id: id });
-
-	await getTriageOperations(lastTriageCall.page);
 }
 
 export async function getOperationById(id: number): Promise<Operation | null> {
