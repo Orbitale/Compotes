@@ -37,7 +37,7 @@ export default class Tag implements Entity {
 
 	public static fromJson(json: { name?: string }): Tag {
 		if (json.name === undefined) {
-			throw new Error('Invaild JSON to create a Tag object: '+JSON.stringify(json));
+			throw new Error('Invaild JSON to create a Tag object: ' + JSON.stringify(json));
 		}
 
 		return new Tag(0, json.name);

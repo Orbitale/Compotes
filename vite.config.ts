@@ -5,5 +5,5 @@ export default defineConfig({
 	plugins: [sveltekit()],
 	server: {
 		//hmr: false,
-	},
+	}
 });

@@ -1,70 +1,95 @@
 import {
-    CallbackStateProcessor,
-    CallbackStateProvider,
-    CrudDefinition, Edit,
-    List,
-    TextField,
-    UrlAction,
-    type RequestParameters,
-    type CrudOperation,
-    type StateProcessorInput,
-} from "@orbitale/svelte-admin";
+	CallbackStateProcessor,
+	CallbackStateProvider,
+	CrudDefinition,
+	Edit,
+	List,
+	TextField,
+	UrlAction,
+	type RequestParameters,
+	type CrudOperation,
+	type StateProcessorInput
+} from '@orbitale/svelte-admin';
 
-import {createBankAccount, getBankAccountById, getBankAccounts, updateBankAccount} from "$lib/db/bank_accounts";
-import type BankAccount from "$lib/entities/BankAccount";
-import {goto} from "$app/navigation";
-import {success} from "$lib/utils/message";
+import {
+	createBankAccount,
+	getBankAccountById,
+	getBankAccounts,
+	updateBankAccount
+} from '$lib/db/bank_accounts';
+import type BankAccount from '$lib/entities/BankAccount';
+import { goto } from '$app/navigation';
+import { success } from '$lib/utils/message';
 
 const baseFields = [
-    new TextField('name', 'Name'),
-    new TextField('slug', 'Identifier', {disabled: true}),
-    new TextField('currency', 'Currency'),
+	new TextField('name', 'Name'),
+	new TextField('slug', 'Identifier', { disabled: true }),
+	new TextField('currency', 'Currency')
 ];
 
 export default new CrudDefinition<BankAccount>({
-    name: 'bank-accounts',
-    defaultOperationName: "list",
-    label: {plural: "BankAccounts", singular: "BankAccount"},
-    // minStateLoadingTimeMs: 0,
+	name: 'bank-accounts',
+	defaultOperationName: 'list',
+	label: { plural: 'BankAccounts', singular: 'BankAccount' },
+	// minStateLoadingTimeMs: 0,
 
-    operations: [
-        new List([...baseFields],
-            [
-                new UrlAction('Edit', '/crud/bank-accounts/edit'),
-            ]),
-        new Edit(baseFields),
-    ],
+	operations: [
+		new List([...baseFields], [new UrlAction('Edit', '/crud/bank-accounts/edit')]),
+		new Edit(baseFields)
+	],
 
-    stateProvider: new CallbackStateProvider<BankAccount>(async (operation: CrudOperation, requestParameters: RequestParameters) => {
-        if (typeof window === 'undefined') {
-            // SSR, can't call Tauri API then.
-            return Promise.resolve([]);
-        }
+	stateProvider: new CallbackStateProvider<BankAccount>(
+		async (operation: CrudOperation, requestParameters: RequestParameters) => {
+			if (typeof window === 'undefined') {
+				// SSR, can't call Tauri API then.
+				return Promise.resolve([]);
+			}
 
-        if (operation.name === 'list') {
-            return getBankAccounts();
-        }
+			if (operation.name === 'list') {
+				return getBankAccounts();
+			}
 
-        if (operation.name === 'view' || operation.name === 'edit') {
-            return getBankAccountById(Number(requestParameters.id));
-        }
+			if (operation.name === 'view' || operation.name === 'edit') {
+				return getBankAccountById(Number(requestParameters.id));
+			}
 
-        return Promise.resolve(null);
-    }),
+			return Promise.resolve(null);
+		}
+	),
 
-    stateProcessor: new CallbackStateProcessor<BankAccount>(async (data: StateProcessorInput<BankAccount>, operation: CrudOperation, requestParameters: RequestParameters) => {
-        if (operation.name === 'new') {
-            return createBankAccount(data);
-        }
+	stateProcessor: new CallbackStateProcessor<BankAccount>(
+		async (
+			data: StateProcessorInput<BankAccount>,
+			operation: CrudOperation,
+			requestParameters: RequestParameters
+		) => {
+			if (operation.name === 'new') {
+				if (!data) {
+					throw new Error('Cannot create new object: empty data.');
+				}
+				if (Array.isArray(data)) {
+					throw new Error('Cannot update data as array for this action.');
+				}
 
-        if (operation.name === 'edit') {
-            data.id = Number(requestParameters.id);
+				return createBankAccount(data);
+			}
 
-            await updateBankAccount(data);
-            success('Success!');
-            await goto('/crud/bank-accounts/list');
+			if (operation.name === 'edit') {
+				if (!data) {
+					throw new Error('Cannot create new object: empty data.');
+				}
+				if (Array.isArray(data)) {
+					throw new Error('Cannot update data as array for this action.');
+				}
 
-            return;
-        }
-    })
+				data.id = Number(requestParameters.id);
+
+				await updateBankAccount(data);
+				success('Success!');
+				await goto('/crud/bank-accounts/list');
+
+				return;
+			}
+		}
+	)
 });

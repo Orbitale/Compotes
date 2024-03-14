@@ -1,5 +1,5 @@
 <script>
-    import Button from "carbon-components-svelte/src/Button/Button.svelte";
+	import Button from 'carbon-components-svelte/src/Button/Button.svelte';
 </script>
 
 <h1>Import</h1>

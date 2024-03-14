@@ -2,7 +2,7 @@
 	import { dashboard } from '$lib/crud/Dashboard';
 </script>
 
-<svelte:component this="{dashboard.adminConfig.theme.dashboard}" {dashboard}>
+<svelte:component this={dashboard.adminConfig.theme.dashboard} {dashboard}>
 	<h1>{dashboard.adminConfig.head.brandName}</h1>
 
 	<ul>

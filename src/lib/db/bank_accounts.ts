@@ -2,8 +2,8 @@ import BankAccount from '$lib/entities/BankAccount';
 import api_call from '$lib/utils/api_call';
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
-import DeserializedOperation from "$lib/db/operations";
-import BankAccountsCrud from "$lib/crud/cruds/BankAccountsCrud";
+import DeserializedOperation from '$lib/db/operations';
+import BankAccountsCrud from '$lib/crud/cruds/BankAccountsCrud';
 
 export const bankAccountsStore: Writable<BankAccount[]> = writable();
 

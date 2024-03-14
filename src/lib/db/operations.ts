@@ -1,10 +1,10 @@
-import Operation, {OperationState} from '$lib/entities/Operation';
+import Operation, { OperationState } from '$lib/entities/Operation';
 import api_call from '$lib/utils/api_call';
-import {getTagsByIds} from './tags';
-import {getBankAccountById} from './bank_accounts';
+import { getTagsByIds } from './tags';
+import { getBankAccountById } from './bank_accounts';
 import type Tag from '$lib/entities/Tag';
 import type SortableField from '$lib/admin/src/SortableField';
-import {OrderBy, orderByToString} from '$lib/admin/src/OrderBy';
+import { OrderBy, orderByToString } from '$lib/admin/src/OrderBy';
 import type FilterWithValue from '$lib/admin/src/FilterWithValue';
 import type SavedFilter from '$lib/admin/src/SavedFilter';
 
@@ -27,7 +27,7 @@ export async function getOperations(
 	sortableField: SortableField | null = null,
 	filters: Array<FilterWithValue> | null = null
 ): Promise<Array<Operation>> {
-	const params: {[key: string]: number|string|Array<FilterWithValue>} = { page };
+	const params: { [key: string]: number | string | Array<FilterWithValue> } = { page };
 
 	if (sortableField) {
 		params['orderField'] = sortableField.property_name;
@@ -141,7 +141,9 @@ async function normalizeOperationFromDeserialized(
 	const bank_account = await getBankAccountById(deserialized_operation.bank_account_id);
 
 	if (!bank_account) {
-		throw new Error(`Backend could not find bank account with id "${deserialized_operation.bank_account_id}".`);
+		throw new Error(
+			`Backend could not find bank account with id "${deserialized_operation.bank_account_id}".`
+		);
 	}
 
 	const tags = await getTagsByIds(deserialized_operation.tags_ids);

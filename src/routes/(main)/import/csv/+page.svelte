@@ -7,13 +7,13 @@
 	import Select from 'carbon-components-svelte/src/Select/Select.svelte';
 	import SelectItem from 'carbon-components-svelte/src/Select/SelectItem.svelte';
 	import NumberInput from 'carbon-components-svelte/src/NumberInput/NumberInput.svelte';
-	import Table from "carbon-components-svelte/src/DataTable/Table.svelte";
-	import TableBody from "carbon-components-svelte/src/DataTable/TableBody.svelte";
-	import TableCell from "carbon-components-svelte/src/DataTable/TableCell.svelte";
-	import TableContainer from "carbon-components-svelte/src/DataTable/TableContainer.svelte";
-	import TableHead from "carbon-components-svelte/src/DataTable/TableHead.svelte";
-	import TableHeader from "carbon-components-svelte/src/DataTable/TableHeader.svelte";
-	import TableRow from "carbon-components-svelte/src/DataTable/TableRow.svelte";
+	import Table from 'carbon-components-svelte/src/DataTable/Table.svelte';
+	import TableBody from 'carbon-components-svelte/src/DataTable/TableBody.svelte';
+	import TableCell from 'carbon-components-svelte/src/DataTable/TableCell.svelte';
+	import TableContainer from 'carbon-components-svelte/src/DataTable/TableContainer.svelte';
+	import TableHead from 'carbon-components-svelte/src/DataTable/TableHead.svelte';
+	import TableHeader from 'carbon-components-svelte/src/DataTable/TableHeader.svelte';
+	import TableRow from 'carbon-components-svelte/src/DataTable/TableRow.svelte';
 
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 
@@ -23,9 +23,9 @@
 	import Operation, { OperationState } from '$lib/entities/Operation';
 	import { CsvFieldReference, referenceToEntityProperty } from '$lib/utils/csv';
 	import { DateFormat } from '$lib/utils/date';
-	import type BankAccount from "$lib/entities/BankAccount";
-	import {onMount} from "svelte";
-	import {getBankAccounts} from "$lib/db/bank_accounts";
+	import type BankAccount from '$lib/entities/BankAccount';
+	import { onMount } from 'svelte';
+	import { getBankAccounts } from '$lib/db/bank_accounts';
 
 	let file: File | null = null;
 	let fileContent: string | null = null;
@@ -49,7 +49,7 @@
 	let delimiter: string = '"';
 	let escapeCharacter: string = '\\';
 	let dateFormat: DateFormat = DateFormat.DMY_SLASH;
-	let bankAccountId: string|number|undefined;
+	let bankAccountId: string | number | undefined;
 
 	let loading = false;
 
@@ -95,7 +95,7 @@
 	}
 
 	async function readCsvFile(reader: FileReader) {
-		fileContent = (reader.result||'').toString().trim();
+		fileContent = (reader.result || '').toString().trim();
 
 		const firstLine = fileContent.split('\n')[0] || null;
 		if (!firstLine) {
@@ -192,7 +192,9 @@
 			throw new Error('Bank account is not set.\nPlease set the bank account in the proper field.');
 		}
 
-		const bankAccount = bankAccounts.filter((acc: BankAccount) => acc.id.toString() === bankAccountId?.toString())[0]
+		const bankAccount = bankAccounts.filter(
+			(acc: BankAccount) => acc.id.toString() === bankAccountId?.toString()
+		)[0];
 		if (!bankAccount) {
 			throw new Error(`Invalid bank account id "${bankAccountId}".`);
 		}
@@ -328,11 +330,7 @@
 			<small class="muted">(Remember to refresh on any change)</small>
 		</Column>
 		<Column>
-			<Button
-				type="button"
-				on:click={importFile}
-				disabled={finalOperations.length === 0}
-			>
+			<Button type="button" on:click={importFile} disabled={finalOperations.length === 0}>
 				Import
 			</Button>
 		</Column>
@@ -347,9 +345,7 @@
 	<h3>CSV parameters</h3>
 	<Row>
 		<Column>
-			<label for="import_operations_csvSeparator">
-				Values separator
-			</label>
+			<label for="import_operations_csvSeparator"> Values separator </label>
 			<Select
 				bind:selected={separator}
 				id="import_operations_csvSeparator"
@@ -360,9 +356,7 @@
 			</Select>
 		</Column>
 		<Column>
-			<label for="import_operations_csvDelimiter">
-				Text delimiter
-			</label>
+			<label for="import_operations_csvDelimiter"> Text delimiter </label>
 			<Select
 				bind:selected={delimiter}
 				id="import_operations_csvDelimiter"
@@ -374,24 +368,20 @@
 			</Select>
 		</Column>
 		<Column>
-			<label for="import_operations_csvEscapeCharacter">
-				Escape character
-			</label>
+			<label for="import_operations_csvEscapeCharacter"> Escape character </label>
 			<Select
 				bind:selected={escapeCharacter}
 				id="import_operations_csvEscapeCharacter"
 				name="import_operations[csvEscapeCharacter]"
 			>
-				<SelectItem value="{String.fromCharCode(92)}" />
+				<SelectItem value={String.fromCharCode(92)} />
 				<SelectItem value="" />
 			</Select>
 		</Column>
 	</Row>
 	<Row>
 		<Column>
-			<label for="import_operations_dateFormat">
-				Date format
-			</label>
+			<label for="import_operations_dateFormat"> Date format </label>
 			<div class="form-widget">
 				<Select
 					bind:selected={dateFormat}
@@ -405,9 +395,7 @@
 			</div>
 		</Column>
 		<Column>
-			<label for="import_operations_linesToRemove">
-				Number of first lines to remove
-			</label>
+			<label for="import_operations_linesToRemove"> Number of first lines to remove </label>
 			<NumberInput
 				bind:value={numberOfLinesToRemove}
 				id="import_operations_linesToRemove"
@@ -415,9 +403,7 @@
 			/>
 		</Column>
 		<Column>
-			<label for="import_operations_bankAccount">
-				Bank Account
-			</label>
+			<label for="import_operations_bankAccount"> Bank Account </label>
 			<Select
 				bind:selected={bankAccountId}
 				id="import_operations_bankAccount"
@@ -458,7 +444,7 @@
 			</TableHead>
 			<TableBody>
 				{#each previewOperations as line, key}
-					<TableRow class="{key < numberOfLinesToRemove ? 'line-to-remove' : ''}">
+					<TableRow class={key < numberOfLinesToRemove ? 'line-to-remove' : ''}>
 						<TableCell>
 							{key}
 							{#if key < numberOfLinesToRemove}

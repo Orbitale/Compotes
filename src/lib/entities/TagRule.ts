@@ -2,9 +2,9 @@ import type Tag from './Tag';
 import type Entity from '$lib/struct/Entity';
 
 export type PartialTagRule = {
-	tags?: Array<Tag>
-	matching_pattern?: string,
-	is_regex?: string|boolean
+	tags?: Array<Tag>;
+	matching_pattern?: string;
+	is_regex?: string | boolean;
 };
 
 export default class TagRule implements Entity {
@@ -39,8 +39,14 @@ export default class TagRule implements Entity {
 	}
 
 	public static fromJson(json: PartialTagRule): TagRule {
-		if (!Array.isArray(json.tags) || json.matching_pattern === '' || json.matching_pattern === undefined || json.is_regex === '' || json.is_regex === undefined) {
-			throw new Error('Invaild JSON to create a TagRule object: '+JSON.stringify(json));
+		if (
+			!Array.isArray(json.tags) ||
+			json.matching_pattern === '' ||
+			json.matching_pattern === undefined ||
+			json.is_regex === '' ||
+			json.is_regex === undefined
+		) {
+			throw new Error('Invaild JSON to create a TagRule object: ' + JSON.stringify(json));
 		}
 		return new TagRule(0, json.tags, json.matching_pattern, !!json.is_regex);
 	}

@@ -11,3 +11,9 @@ node_modules
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+
+# Custom:
+/src-tauri
+/src/old_routes
+/old/
+/.github/
