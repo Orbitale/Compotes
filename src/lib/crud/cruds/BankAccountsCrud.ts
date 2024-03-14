@@ -5,10 +5,10 @@ import {
     List,
     TextField,
     UrlAction,
+    type RequestParameters,
+    type CrudOperation,
+    type StateProcessorInput,
 } from "@orbitale/svelte-admin";
-import type {RequestParameters} from "@orbitale/svelte-admin/dist/request";
-import type {CrudOperation} from "@orbitale/svelte-admin/dist/Crud/Operations";
-import type {StateProcessorInput} from "@orbitale/svelte-admin/dist/State/Processor";
 
 import {createBankAccount, getBankAccountById, getBankAccounts, updateBankAccount} from "$lib/db/bank_accounts";
 import type BankAccount from "$lib/entities/BankAccount";
@@ -21,7 +21,8 @@ const baseFields = [
     new TextField('currency', 'Currency'),
 ];
 
-export default new CrudDefinition<BankAccount>('bank-accounts', {
+export default new CrudDefinition<BankAccount>({
+    name: 'bank-accounts',
     defaultOperationName: "list",
     label: {plural: "BankAccounts", singular: "BankAccount"},
     // minStateLoadingTimeMs: 0,
@@ -34,7 +35,7 @@ export default new CrudDefinition<BankAccount>('bank-accounts', {
         new Edit(baseFields),
     ],
 
-    stateProvider: new CallbackStateProvider<BankAccount>(async (operation: CrudBankAccount, requestParameters: RequestParameters) => {
+    stateProvider: new CallbackStateProvider<BankAccount>(async (operation: CrudOperation, requestParameters: RequestParameters) => {
         if (typeof window === 'undefined') {
             // SSR, can't call Tauri API then.
             return Promise.resolve([]);
@@ -45,7 +46,7 @@ export default new CrudDefinition<BankAccount>('bank-accounts', {
         }
 
         if (operation.name === 'view' || operation.name === 'edit') {
-            return getBankAccountById(requestParameters.id);
+            return getBankAccountById(Number(requestParameters.id));
         }
 
         return Promise.resolve(null);
@@ -57,10 +58,12 @@ export default new CrudDefinition<BankAccount>('bank-accounts', {
         }
 
         if (operation.name === 'edit') {
-            data.id = parseInt(requestParameters.id, 10);
+            data.id = Number(requestParameters.id);
+
             await updateBankAccount(data);
             success('Success!');
             await goto('/crud/bank-accounts/list');
+
             return;
         }
     })

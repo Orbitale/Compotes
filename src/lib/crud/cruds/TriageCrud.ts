@@ -1,7 +1,10 @@
 import {
     CallbackStateProcessor,
     CallbackStateProvider,
-    CrudDefinition, DateField, Delete, Edit,
+    CrudDefinition,
+    DateField,
+    Delete,
+    Edit,
     List,
     NumberField,
     PaginatedResults,
@@ -23,7 +26,8 @@ import type Operation from "$lib/entities/Operation";
 import {success} from "$lib/utils/message";
 import {goto} from "$app/navigation";
 
-export default new CrudDefinition<Operation>('triage', {
+export default new CrudDefinition<Operation>({
+    name: 'triage',
     defaultOperationName: "list",
     label: {plural: "Triaged operations", singular: "Triaged operation"},
     // minStateLoadingTimeMs: 0,

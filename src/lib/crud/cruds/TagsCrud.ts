@@ -3,7 +3,7 @@ import {
     CallbackStateProvider,
     CrudDefinition, Edit,
     List, New,
-    TextField, ToggleField,
+    TextField,
     UrlAction,
 } from "@orbitale/svelte-admin";
 import type {RequestParameters} from "@orbitale/svelte-admin/dist/request";
@@ -19,7 +19,8 @@ const baseFields = [
     new TextField('name', 'Name'),
 ];
 
-export default new CrudDefinition<Tag>('tags', {
+export default new CrudDefinition<Tag>({
+    name: 'tags',
     defaultOperationName: "list",
     label: {plural: "Tags", singular: "Tag"},
     // minStateLoadingTimeMs: 0,
@@ -37,7 +38,7 @@ export default new CrudDefinition<Tag>('tags', {
         new Edit(baseFields),
     ],
 
-    stateProvider: new CallbackStateProvider<Tag>(async (operation: CrudTag, requestParameters: RequestParameters) => {
+    stateProvider: new CallbackStateProvider<Tag>(async (operation: CrudOperation, requestParameters: RequestParameters) => {
         if (typeof window === 'undefined') {
             // SSR, can't call Tauri API then.
             return Promise.resolve([]);

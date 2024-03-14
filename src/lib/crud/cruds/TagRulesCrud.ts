@@ -21,7 +21,8 @@ const baseFields = [
     new ToggleField('is_regex', 'Regex'),
 ];
 
-export default new CrudDefinition<TagRule>('tag-rules', {
+export default new CrudDefinition<TagRule>({
+    name: 'tag-rules',
     defaultOperationName: "list",
     label: {plural: "TagRules", singular: "TagRule"},
     // minStateLoadingTimeMs: 0,
@@ -39,7 +40,7 @@ export default new CrudDefinition<TagRule>('tag-rules', {
         new Edit(baseFields),
     ],
 
-    stateProvider: new CallbackStateProvider<TagRule>(async (operation: CrudTagRule, requestParameters: RequestParameters) => {
+    stateProvider: new CallbackStateProvider<TagRule>(async (operation: CrudOperation, requestParameters: RequestParameters) => {
         if (typeof window === 'undefined') {
             // SSR, can't call Tauri API then.
             return Promise.resolve([]);
@@ -61,7 +62,7 @@ export default new CrudDefinition<TagRule>('tag-rules', {
             data.id = parseInt(requestParameters.id || 0, 10);
             // TODO FIXME : remove this and use proper entity injection!
             data.is_regex = !!data.is_regex;
-            data.tags = data.tags.replace(/[^0-9,]/, '').split(',').map(i => parseInt(i, 10));
+            data.tags = data.tags.replace(/[^0-9,]/, '').split(',').map((i: string) => parseInt(i, 10));
             const tag_rule = TagRule.fromJson(data);
 
             if (operation.name === 'new') {

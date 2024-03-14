@@ -1,21 +1,26 @@
 import {
     CallbackStateProcessor,
-    CallbackStateProvider, CheckboxField,
-    CrudDefinition, DateField,
+    CallbackStateProvider,
+    CheckboxField,
+    CrudDefinition,
+    DateField,
     List,
     NumberField,
     PaginatedResults,
     TextField,
     UrlAction,
-    View
+    View,
+    type RequestParameters,
+    type CrudOperation,
+    type ListOperationOptions,
+    KeyValueObjectField
 } from "@orbitale/svelte-admin";
-import type {CrudOperation} from "@orbitale/svelte-admin/dist/Crud/Operations";
-import type {RequestParameters} from "@orbitale/svelte-admin/dist/request";
 
 import {getOperationById, getOperations, getOperationsCount} from "$lib/db/operations";
 import type Operation from "$lib/entities/Operation";
 
-export default new CrudDefinition<Operation>('operations', {
+export default new CrudDefinition<Operation>({
+    name: 'operations',
     defaultOperationName: "list",
     label: {plural: "Operations", singular: "Operation"},
     // minStateLoadingTimeMs: 0,
@@ -49,7 +54,7 @@ export default new CrudDefinition<Operation>('operations', {
             new NumberField('amount', 'Montant'),
             new NumberField('hash', 'Hash'),
             new TextField('state', 'State'),
-            new TextField('bank_account', 'Bank account'),
+            new KeyValueObjectField('bank_account', 'Bank account', 'name'),
             new TextField('tags', 'Tags'),
             new CheckboxField('ignored_from_charts', 'Is ignored from charts'),
         ]),
@@ -62,13 +67,14 @@ export default new CrudDefinition<Operation>('operations', {
         }
 
         if (operation.name === 'list') {
-            const results = await getOperations(requestParameters.page||1);
+            const options: ListOperationOptions = operation.options;
+            const results = await getOperations(Number(requestParameters.page)||1);
             const numberOfItems = await getOperationsCount(null);
-            return Promise.resolve(new PaginatedResults(requestParameters.page, numberOfItems / operation.options.pagination.itemsPerPage, numberOfItems, results));
+            return Promise.resolve(new PaginatedResults(Number(requestParameters.page), numberOfItems / Number(options.pagination?.itemsPerPage||10), numberOfItems, results));
         }
 
         if (operation.name === 'view' || operation.name === 'edit') {
-            return getOperationById(requestParameters.id);
+            return getOperationById(Number(requestParameters.id));
         }
 
         return Promise.resolve(null);

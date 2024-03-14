@@ -12,7 +12,7 @@ export enum OperationState {
 	pending_triage = 'pending_triage'
 }
 
-export var operations_filters = [
+export const operations_filters = [
 	new ConfigFilter('details', 'Details', FilterType.text),
 	new ConfigFilter('operation_date', 'Date', FilterType.date),
 	new ConfigFilter('amount_in_cents', 'Amount', FilterType.number),
@@ -69,7 +69,7 @@ export default class Operation implements Entity {
 	}
 
 	get date() {
-		let date = new Date(this.operation_date.toString());
+		const date = new Date(this.operation_date.toString());
 
 		return date.toLocaleDateString();
 	}
@@ -103,7 +103,7 @@ export default class Operation implements Entity {
 		}
 
 		const parsedDate = Date.parse(
-			matches.groups.year + '-' + matches.groups.month + '-' + matches.groups.day + 'T00:00:00.000Z'
+			matches.groups?.year + '-' + matches.groups?.month + '-' + matches.groups?.day + 'T00:00:00.000Z'
 		);
 		if (isNaN(parsedDate)) {
 			throw new Error(
