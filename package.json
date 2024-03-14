@@ -14,7 +14,7 @@
 		"tauri": "tauri"
 	},
 	"devDependencies": {
-		"@orbitale/svelte-admin": "^0.11.1",
+		"@orbitale/svelte-admin": "^0.16.0",
 		"@sveltejs/adapter-static": "^3.0.1",
 		"@sveltejs/kit": "^2.3.5",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
