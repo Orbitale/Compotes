@@ -1,9 +1,8 @@
 {
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
     "beforeBuildCommand": "yarn run build",
     "beforeDevCommand": "yarn run dev",
-    "devPath": "http://localhost:5173",
+    "devPath": "http://127.0.0.1:5173",
     "distDir": "./target/frontend-build"
   },
   "package": {
@@ -12,7 +11,7 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": true
     },
     "bundle": {
       "active": true,
@@ -35,12 +34,12 @@
         "entitlements": null,
         "exceptionDomain": "",
         "frameworks": [],
-        "providerShortName": null,
+        "minimumSystemVersion": "",
         "signingIdentity": null
       },
       "resources": [],
       "shortDescription": "",
-      "targets": "all",
+      "targets": ["msi", "deb"],
       "windows": {
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
@@ -48,7 +47,7 @@
       }
     },
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; require-trusted-types-for 'script';"
     },
     "updater": {
       "active": false
@@ -56,10 +55,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 920,
+        "height": 800,
         "resizable": true,
         "title": "Compotes",
-        "width": 1280
+        "width": 1024
       }
     ]
   }

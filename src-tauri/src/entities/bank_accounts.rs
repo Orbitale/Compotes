@@ -50,6 +50,35 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<BankAccount> {
     bank_accounts
 }
 
+pub(crate) fn get_by_id(conn: &Connection, id: u32) -> BankAccount {
+    let mut stmt = conn
+        .prepare(
+            "
+        SELECT
+            id,
+            name,
+            slug,
+            currency
+        FROM bank_accounts
+        WHERE id = :id
+    ",
+        )
+        .expect("Could not fetch bank account");
+
+    let mut rows = stmt
+        .query(named_params! {
+            ":id": &id,
+        })
+        .expect("Could not execute query to fetch an bank account by id.");
+
+    let row = rows
+        .next()
+        .expect("Could not retrieve query rows.")
+        .expect("No bank account found with this ID.");
+
+    serde_rusqlite::from_row::<BankAccount>(row).unwrap()
+}
+
 pub(crate) fn create(conn: &Connection, bank_account: BankAccount) -> i64 {
     if bank_account.id != 0 {
         panic!("Cannot create a bank account that already has an ID");
