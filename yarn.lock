@@ -402,9 +402,9 @@
     fastq "^1.6.0"
 
 "@orbitale/svelte-admin@^0.16.0":
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/@orbitale/svelte-admin/-/svelte-admin-0.16.0.tgz#1eb13fa5e1d41868b75530992473ab8043e3de3a"
-  integrity sha512-lYP5iGCe37PQGNvFcSMt+VtwIW9CkwgP7oUNItwm0WXcm9OEPXdTidnn613l4A0pSEOCFFKAGhJ68Z1mCuvW7Q==
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@orbitale/svelte-admin/-/svelte-admin-0.16.1.tgz#1273247f9f4980261a5cb27a5794a4a8d36e4366"
+  integrity sha512-H5iIjeB5yYfz1iBubgkX6eTbyQhXkyoYgxgrOeA8cfaXIO3m8qQxAtF3bSFl0kOSVVLOvumWSC4sd5SnMRHowA==
   dependencies:
     "@zerodevx/svelte-toast" "^0.9.5"
     carbon-components-svelte "^0.80.0"
@@ -2026,10 +2026,15 @@ sorcery@^0.11.0:
     minimist "^1.2.0"
     sander "^0.5.0"
 
-"source-map-js@>=0.6.2 <2.0.0", source-map-js@^1.0.1, source-map-js@^1.0.2:
+"source-map-js@>=0.6.2 <2.0.0", source-map-js@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"
   integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
+
+source-map-js@^1.0.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.0.tgz#16b809c162517b5b8c3e7dcd315a2a5c2612b2af"
+  integrity sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==
 
 strip-ansi@^6.0.1:
   version "6.0.1"
