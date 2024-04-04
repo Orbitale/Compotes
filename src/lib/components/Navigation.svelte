@@ -21,7 +21,8 @@
 		syncing = true;
 		const res = await OperationsSynchronizer.sync();
 
-		message(res.val, res.ok ? ToastType.success : ToastType.error);
+		console.info({res});
+		message(res.isOk() ? res.unwrap() : res.unwrapErr(), res.isOk() ? ToastType.success : ToastType.error);
 		syncing = false;
 	}
 </script>

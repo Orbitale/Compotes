@@ -45,8 +45,8 @@ export default class OperationsSynchronizer {
 			} else {
 				return Promise.resolve(Err('An unknown internal issue has occurred.'));
 			}
-		} catch (error) {
-			return Promise.resolve(Err(`An error occurred:\n${error.message}`));
+		} catch (error: any) {
+			return Promise.resolve(Err(`An error occurred:\n${error?.message||error}`));
 		} finally {
 			syncing = false;
 		}

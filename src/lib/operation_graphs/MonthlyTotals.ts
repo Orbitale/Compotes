@@ -9,7 +9,7 @@ export default class MonthlyTotals extends AbstractOperationGraph {
 	}
 
 	getData(): GraphData {
-		let series = {};
+		let series: Record<string, {name: string, months: Record<string, number|null>}> = {};
 
 		for (const operation of this.operations) {
 			const year = operation.dateObject.year;
@@ -23,6 +23,7 @@ export default class MonthlyTotals extends AbstractOperationGraph {
 			if (!series[year].months[month]) {
 				series[year].months[month] = 0;
 			}
+			// @ts-ignore
 			series[year].months[month] += operation.amount;
 		}
 

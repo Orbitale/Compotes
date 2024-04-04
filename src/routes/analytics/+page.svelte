@@ -1,8 +1,8 @@
 <script lang="ts">
 	import FiltersSelector from '$lib/admin/components/PaginatedTable/FiltersSelector.svelte';
 	import { getSavedFilters } from '$lib/admin/src/filters';
-	import { onMount } from 'svelte';
-	import SavedFilter from '$lib/admin/src/SavedFilter';
+	import {type ComponentType, onMount} from 'svelte';
+	import type SavedFilter from '$lib/admin/src/SavedFilter';
 	import Operation, { operations_filters } from '$lib/entities/Operation';
 	import { getOperationsForAnalytics } from '$lib/db/operations';
 	import { Line } from 'svelte-chartjs';
@@ -12,17 +12,16 @@
 	import MonthlyTotals from '../../lib/operation_graphs/MonthlyTotals';
 	import GraphData from '$lib/graphs/GraphData';
 	import MultipleGraphData from '$lib/graphs/MultipleGraphData';
-	import AbstractGraph from '$lib/graphs/AbstractGraph';
+	import type AbstractGraph from '$lib/graphs/AbstractGraph';
 
 	const graph_types = [YearlyTotals, MonthlyTotals, YearMonthTags];
 
-	let filters: Array<SavedFilter> = [];
 	let current_filter: SavedFilter | null = null;
 	let operations: Array<Operation> = [];
-	let current_graph_type: AbstractGraph = null;
+	let current_graph_type: AbstractGraph|null = null;
 
 	let charts: Array<GraphData> = [];
-	let chart_component = false;
+	let chart_component: ComponentType|null = null;
 	let chart_data = {};
 	let chart_options = {};
 
@@ -30,10 +29,6 @@
 	let multiple_charts = false;
 	let chart_to_diplay_index: number | null = null;
 	let discriminant_name_to_display: String | null = null;
-
-	onMount(() => {
-		filters = getSavedFilters('operations');
-	});
 
 	async function changeFilter(event: CustomEvent) {
 		const selected_filter: SavedFilter | null = event.detail;
@@ -70,40 +65,44 @@
 	}
 
 	function showGraph() {
-		if (current_graph_type && current_graph_type.getName()) {
-			const graph: AbstractGraph = new current_graph_type(operations);
-			const data: MultipleGraphData | GraphData = graph.getData();
-			chart_component = Line;
-			charts = [];
-			const type = data.type;
-			if (type === GraphData.type) {
-				multiple_charts = false;
-				chart_to_diplay_index = null;
-				discriminant_name_to_display = null;
-				chart_data = JSON.parse(JSON.stringify(data));
-			} else if (type === MultipleGraphData.type) {
-				multiple_charts = true;
-				for (const graph of data.graphs) {
-					charts.push(graph);
-				}
-				if (chart_to_diplay_index === null) {
-					chart_to_diplay_index = 0;
-				}
-				if (discriminant_name_to_display === null) {
-					discriminant_name_to_display = data.discriminant_display_name;
-				}
-				const final_data = data.graphs[chart_to_diplay_index];
-				if (!final_data) {
-					console.warn('No data to generate a graph');
-					chart_data = [];
-				}
-				chart_data = JSON.parse(JSON.stringify(final_data));
-			} else {
-				throw new Error(
-					`Invalid graph type "${current_graph_type}" (value type found: "${type}").`
-				);
-			}
+		if (!(current_graph_type && current_graph_type.getName())) {
+			return;
 		}
+
+		const graph: AbstractGraph = new current_graph_type(operations);
+		const data: MultipleGraphData | GraphData = graph.getData();
+		chart_component = Line;
+		charts = [];
+		const type = data.type;
+		if (type === GraphData.type) {
+			multiple_charts = false;
+			chart_to_diplay_index = null;
+			discriminant_name_to_display = null;
+			chart_data = JSON.parse(JSON.stringify(data));
+		} else if (type === MultipleGraphData.type) {
+			multiple_charts = true;
+			for (const graph of data.graphs) {
+				charts.push(graph);
+			}
+			if (chart_to_diplay_index === null) {
+				chart_to_diplay_index = 0;
+			}
+			if (discriminant_name_to_display === null) {
+				discriminant_name_to_display = data.discriminant_display_name;
+			}
+			const final_data = data.graphs[chart_to_diplay_index];
+			if (!final_data) {
+				console.warn('No data to generate a graph');
+				chart_data = [];
+			}
+			chart_data = JSON.parse(JSON.stringify(final_data));
+		} else {
+			throw new Error(
+					`Invalid graph type "${current_graph_type}" (value type found: "${type}").`
+			);
+		}
+
+		console.info('chart_data', chart_data);
 	}
 </script>
 
@@ -168,4 +167,34 @@
 	<svelte:component this={chart_component} data={chart_data} options={chart_options} />
 {:else}
 	<svelte:component this={chart_component} data={chart_data} options={chart_options} />
+{/if}
+
+{#if chart_data?.datasets}
+	<h2>Data:</h2>
+
+	<table class="table table-bordered table-striped table-hover">
+		<thead class="thead-dark">
+			<tr>
+				<td>&nbsp;</td>
+				{#each (chart_data?.labels||[]) as label}
+					<th>{label}</th>
+				{/each}
+			</tr>
+		</thead>
+		<tbody>
+			{#each (chart_data?.datasets||[]) as dataset}
+				<tr>
+					<td>{dataset.label}</td>
+					{#each dataset.data as data}
+						<td style="text-align: right;">
+							<span data-toggle="tooltip" data-placement="top" title="{data}">
+								{new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(data).toString()}
+							</span>
+
+						</td>
+					{/each}
+				</tr>
+			{/each}
+		</tbody>
+	</table>
 {/if}
