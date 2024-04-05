@@ -179,6 +179,9 @@
 				{#each (chart_data?.labels||[]) as label}
 					<th>{label}</th>
 				{/each}
+				<th>#Average/Mean</th>
+				<th>#Median</th>
+				<th>#Total</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -193,6 +196,9 @@
 
 						</td>
 					{/each}
+					<td>{new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(dataset.data.reduce((a, b) => a + b, 0) / dataset.data.length).toString()}</td>
+					<td>{new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(dataset.data[Math.floor(dataset.data.length/2)]).toString()}</td>
+					<td>{new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(dataset.data.reduce((a, b) => a + b, 0)).toString()}</td>
 				</tr>
 			{/each}
 		</tbody>
