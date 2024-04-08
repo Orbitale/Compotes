@@ -33,8 +33,6 @@
 	async function changeFilter(event: CustomEvent) {
 		const selected_filter: SavedFilter | null = event.detail;
 
-		console.info('changed filter', selected_filter);
-
 		if (!selected_filter) {
 			operations = [];
 			return;
@@ -101,8 +99,6 @@
 					`Invalid graph type "${current_graph_type}" (value type found: "${type}").`
 			);
 		}
-
-		console.info('chart_data', chart_data);
 	}
 </script>
 
@@ -172,16 +168,16 @@
 {#if chart_data?.datasets}
 	<h2>Data:</h2>
 
-	<table class="table table-bordered table-striped table-hover">
+	<table class="table table-sm">
 		<thead class="thead-dark">
 			<tr>
 				<td>&nbsp;</td>
 				{#each (chart_data?.labels||[]) as label}
 					<th>{label}</th>
 				{/each}
-				<th>#Average/Mean</th>
-				<th>#Median</th>
-				<th>#Total</th>
+				<th># Average/Mean</th>
+				<th># Median</th>
+				<th># Total</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -190,10 +186,7 @@
 					<td>{dataset.label}</td>
 					{#each dataset.data as data}
 						<td style="text-align: right;">
-							<span data-toggle="tooltip" data-placement="top" title="{data}">
-								{new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(data).toString()}
-							</span>
-
+							{new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(data).toString()}
 						</td>
 					{/each}
 					<td>{new Intl.NumberFormat('fr-FR', {style: 'currency', currency: 'EUR'}).format(dataset.data.reduce((a, b) => a + b, 0) / dataset.data.length).toString()}</td>

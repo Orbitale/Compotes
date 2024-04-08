@@ -47,7 +47,7 @@ export default class YearMonthTags extends AbstractOperationGraph {
 					full_series[year].tags[tag_name].months[month] = 0;
 				}
 
-				full_series[year].tags[tag_name].months[month] += operation.amount;
+				full_series[year].tags[tag_name].months[month] += Number(operation.amount);
 			}
 		}
 

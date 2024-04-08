@@ -44,9 +44,8 @@
 		});
 	}
 
-	async function selectFilter(event) {
-		const name = event.target.value;
-
+	async function selectFilter(name: string|null) {
+		selected_filter = name || null;
 		if (!name) {
 			await clearFilters();
 
@@ -150,8 +149,7 @@
 		name="filters_select"
 		id="filters_select"
 		class="form-control ms-auto"
-		bind:value={selected_filter}
-		on:change={selectFilter}
+		on:change={(e) => selectFilter(e.value)}
 	>
 		<option value="">- Select a filter -</option>
 		{#each saved_filters as filter}

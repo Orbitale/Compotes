@@ -32,6 +32,7 @@ pub(crate) fn find_all(conn: &Connection) -> Vec<TagRule> {
             WHERE tag_rule_id = tag_rules.id
         ) AS tags_ids
         FROM tag_rules
+        ORDER BY length(matching_pattern) DESC
     ",
         )
         .expect("Could not fetch tag_rules");
