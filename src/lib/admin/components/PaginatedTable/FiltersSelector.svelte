@@ -44,9 +44,8 @@
 		});
 	}
 
-	async function selectFilter(name: string|null) {
-		selected_filter = name || null;
-		if (!name) {
+	async function selectFilter(event: InputEvent) {
+		if (!selected_filter) {
 			await clearFilters();
 
 			dispatch('filter-select', null);
@@ -54,7 +53,7 @@
 			return;
 		}
 
-		const filter = getByName(id, name);
+		const filter = getByName(id, selected_filter);
 
 		current_filter_name = filter.name;
 		filters_with_values = filter.deserialized_filters;
@@ -149,7 +148,8 @@
 		name="filters_select"
 		id="filters_select"
 		class="form-control ms-auto"
-		on:change={(e) => selectFilter(e.value)}
+		bind:value={selected_filter}
+		on:change={selectFilter}
 	>
 		<option value="">- Select a filter -</option>
 		{#each saved_filters as filter}

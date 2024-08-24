@@ -88,10 +88,9 @@
 			if (discriminant_name_to_display === null) {
 				discriminant_name_to_display = data.discriminant_display_name;
 			}
-			const final_data = data.graphs[chart_to_diplay_index];
-			if (!final_data) {
+			const final_data = data.graphs[chart_to_diplay_index] || [];
+			if (!final_data || !final_data.lenth) {
 				console.warn('No data to generate a graph');
-				chart_data = [];
 			}
 			chart_data = JSON.parse(JSON.stringify(final_data));
 		} else {

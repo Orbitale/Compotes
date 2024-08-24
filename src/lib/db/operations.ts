@@ -160,6 +160,11 @@ async function normalizeOperationFromDeserialized(
 	deserialized_operation: DeserializedOperation
 ): Promise<Operation> {
 	const bank_account = await getBankAccountById(deserialized_operation.bank_account_id);
+
+	if (!bank_account) {
+		throw new Error(`No bank account with id "${deserialized_operation.bank_account_id}".`);
+	}
+
 	const tags = await getTagsByIds(deserialized_operation.tags_ids);
 
 	return new Operation(
