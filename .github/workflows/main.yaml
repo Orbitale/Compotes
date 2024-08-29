@@ -2,11 +2,21 @@ name: Build Compotes app.
 
 on:
     push:
-        branches: [ rewrite ]
+        branches: [ main ]
+        tags: [ 'v[0-9]+.*' ]
     pull_request:
-        branches: [ rewrite ]
+        branches: [ main ]
 
 jobs:
+    create-release:
+      runs-on: ubuntu-latest
+      if: startsWith(github.ref, 'refs/tags/v')
+      steps:
+        - uses: actions/checkout@v4
+        - uses: taiki-e/create-gh-release-action@v1
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+
     build:
         strategy:
             fail-fast: false
@@ -17,8 +27,7 @@ jobs:
 
         runs-on: ${{ matrix.os }}
         steps:
-            - { name: "Checkout the code", uses: actions/checkout@v2 }
-
+            - uses: actions/checkout@v4
             - name: 🗄️ Setup Rust cache
               uses: actions/cache@v2
               with:
@@ -32,7 +41,7 @@ jobs:
             - name: 🍃 Install Node.js
               uses: actions/setup-node@v2
               with:
-                  node-version: 16
+                  node-version: 18
                   cache: yarn
                   cache-dependency-path: |
                       yarn.lock
@@ -77,10 +86,42 @@ jobs:
               run: |
                   yarn test
 
-            - name: 🚀 Upload release artifacts
-              uses: actions/upload-artifact@v2
+    upload-assets:
+        needs:
+            - create-release
+            - build
+        if: startsWith(github.ref, 'refs/tags/v')
+        strategy:
+            matrix:
+                include:
+                    - target: x86_64-unknown-linux-gnu
+                      os: ubuntu-latest
+                    - target: x86_64-pc-windows-msvc
+                      os: windows-latest
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: taiki-e/upload-rust-binary-action@v1
+              if: matrix.os == 'ubuntu-latest'
               with:
-                  name: release-${{ matrix.os }}
-                  path: |
-                      src-tauri/target/release/compotes*
-                      src-tauri/target/release/bundle/*
+                  bin: compotes
+                  manifest-path: src-tauri/Cargo.toml
+                  target: ${{ matrix.target }}
+                  tar: unix
+                  zip: windows
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  include: LICENSE,README.md
+                  archive: $bin-$tag-$target
+
+            - uses: taiki-e/upload-rust-binary-action@v1
+              if: matrix.os == 'windows-latest'
+              with:
+                  bin: compotes.exe
+                  manifest-path: src-tauri/Cargo.toml
+                  target: ${{ matrix.target }}
+                  tar: unix
+                  zip: windows
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  include: LICENSE,README.md
+                  archive: $bin-$tag-$target

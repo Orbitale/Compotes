@@ -1,11 +1,11 @@
 [package]
-name = "app"
-version = "0.1.0"
-description = "A Tauri App"
-authors = [ "you" ]
-license = ""
-repository = ""
-default-run = "app"
+name = "compotes"
+version = "1.0.0"
+description = "A desktop app to visualize bank account operations"
+authors = [ "Alex \"Pierstoval\" Rock <pierstoval@gmail.com>" ]
+license = "AGPL-3"
+repository = "https://github.com/Orbitale/Compotes"
+default-run = "compotes"
 edition = "2018"
 
 [build-dependencies]
@@ -28,3 +28,8 @@ tauri-codegen = { version = "1.4", features = [ ] }
 
 [features]
 custom-protocol = [ "tauri/custom-protocol" ]
+
+[profile.release]
+codegen-units = 1
+lto = true
+strip = "symbols"
