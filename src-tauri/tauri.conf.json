@@ -1,7 +1,7 @@
 {
   "package": {
     "productName": "compotes",
-    "version": "0.1.0"
+    "version": "1.0.0"
   },
   "build": {
     "distDir": "./target/frontend-build",

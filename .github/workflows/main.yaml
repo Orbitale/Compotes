@@ -2,9 +2,10 @@ name: Build Compotes app.
 
 on:
     push:
-        branches: [ rewrite ]
+        branches: [ main ]
+        tags: [ 'v[0-9]+.*' ]
     pull_request:
-        branches: [ rewrite ]
+        branches: [ main ]
 
 jobs:
     build:
@@ -17,8 +18,7 @@ jobs:
 
         runs-on: ${{ matrix.os }}
         steps:
-            - { name: "Checkout the code", uses: actions/checkout@v2 }
-
+            - uses: actions/checkout@v4
             - name: 🗄️ Setup Rust cache
               uses: actions/cache@v2
               with:
@@ -32,11 +32,11 @@ jobs:
             - name: 🍃 Install Node.js
               uses: actions/setup-node@v2
               with:
-                  node-version: 16
-                  cache: yarn
-                  cache-dependency-path: |
-                      yarn.lock
-                      tests/webdriverio/yarn.lock
+                  node-version: 18
+
+            - name: 🍃 Install Yarn
+              run: |
+                npm i -g npm yarn
 
             - name: 🦀 Install Rust
               uses: actions-rs/toolchain@v1
@@ -77,10 +77,88 @@ jobs:
               run: |
                   yarn test
 
-            - name: 🚀 Upload release artifacts
-              uses: actions/upload-artifact@v2
+            - name: 🗃 Store artifacts (release only)
+              uses: actions/upload-artifact@v4
+              if: matrix.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/v')
               with:
-                  name: release-${{ matrix.os }}
-                  path: |
-                      src-tauri/target/release/compotes*
-                      src-tauri/target/release/bundle/*
+                name: compotes_artifacts_${{ matrix.os }}
+                overwrite: true
+                path: |
+                  src-tauri/target/release/compotes
+                  src-tauri/target/release/bundle/deb/*.deb
+
+            - name: 🗃 Store Windows artifacts (release only)
+              uses: actions/upload-artifact@v4
+              if: matrix.os == 'windows-latest' && startsWith(github.ref, 'refs/tags/v')
+              with:
+                name: compotes_artifacts_${{ matrix.os }}
+                overwrite: true
+                path: |
+                  src-tauri/target/release/compotes.exe
+                  src-tauri/target/release/bundle/msi/*.msi
+
+    release:
+        runs-on: ubuntu-latest
+        needs:
+            - build
+        if: startsWith(github.ref, 'refs/tags/v')
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Create release
+              uses: actions/create-release@v1
+              id: create_release
+              with:
+                draft: false
+                prerelease: false
+                release_name: ${{ steps.version.outputs.version }}
+                tag_name: ${{ github.ref }}
+                #body_path: CHANGELOG.md
+              env:
+                GITHUB_TOKEN: ${{ github.token }}
+
+            - name: 🗃 Download built artifacts
+              uses: actions/download-artifact@v4
+              with:
+                path: src-tauri/target/release
+                merge-multiple: true
+
+            - name: Upload Windows executable
+              uses: svenstaro/upload-release-action@v2
+              with:
+                repo_token: ${{ secrets.GITHUB_TOKEN }}
+                file: src-tauri/target/release/compotes.exe
+                asset_name: compotes_${{ github.ref_name }}.exe
+                tag: ${{ github.ref_name }}
+                overwrite: true
+                file_glob: true
+
+            - name: Upload Windows installer
+              uses: svenstaro/upload-release-action@v2
+              with:
+                repo_token: ${{ secrets.GITHUB_TOKEN }}
+                file: src-tauri/target/release/bundle/msi/compotes_*.msi
+                asset_name: compotes_${{ github.ref_name }}_installer.msi
+                tag: ${{ github.ref_name }}
+                overwrite: true
+                file_glob: true
+
+            - name: Upload Linux executable
+              uses: svenstaro/upload-release-action@v2
+              with:
+                repo_token: ${{ secrets.GITHUB_TOKEN }}
+                file: src-tauri/target/release/compotes
+                asset_name: compotes_${{ github.ref_name }}
+                tag: ${{ github.ref_name }}
+                overwrite: true
+                file_glob: true
+
+            - name: Upload Linux deb package
+              uses: svenstaro/upload-release-action@v2
+              with:
+                repo_token: ${{ secrets.GITHUB_TOKEN }}
+                file: src-tauri/target/release/bundle/deb/compotes_*.deb
+                asset_name: compotes_${{ github.ref_name }}.deb
+                tag: ${{ github.ref_name }}
+                overwrite: true
+                file_glob: true

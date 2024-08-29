@@ -2,7 +2,7 @@
 	"name": "@orbitale/compotes-app",
 	"version": "1.0.0",
 	"private": true,
-	"license": "LGPL-3.0-or-later",
+	"license": "AGPL-3",
 	"scripts": {
 		"app": "concurrently --names \"front,back\" --raw \"vite dev\" \"tauri dev\"",
 		"dev": "vite dev",
