@@ -2,20 +2,11 @@ import Operation, { OperationState } from '$lib/entities/Operation';
 import api_call from '$lib/utils/api_call';
 import { getTagsByIds } from './tags';
 import { getBankAccountById } from './bank_accounts';
-import type { Writable } from 'svelte/store';
-import { writable } from 'svelte/store';
 import type Tag from '$lib/entities/Tag';
 import type SortableField from '$lib/admin/src/SortableField';
 import { OrderBy, orderByToString } from '$lib/admin/src/OrderBy';
 import type FilterWithValue from '$lib/admin/src/FilterWithValue';
 import type SavedFilter from '$lib/admin/src/SavedFilter';
-
-export const operationsStore: Writable<Operation[]> = writable();
-export const triageStore: Writable<Operation[]> = writable();
-
-const lastTriageCall = {
-	page: 1
-};
 
 export default class DeserializedOperation {
 	public readonly id!: number;
@@ -36,7 +27,7 @@ export async function getOperations(
 	sortableField: SortableField | null = null,
 	filters: Array<FilterWithValue> | null = null
 ): Promise<Array<Operation>> {
-	const params = { page };
+	const params: { [key: string]: number | string | Array<FilterWithValue> } = { page };
 
 	if (sortableField) {
 		params['orderField'] = sortableField.property_name;
@@ -53,11 +44,7 @@ export async function getOperations(
 		throw 'No results from the API';
 	}
 
-	const new_items = await deserializeAndNormalizeDatabaseResult(res);
-
-	operationsStore.set(new_items);
-
-	return new_items;
+	return await deserializeAndNormalizeDatabaseResult(res);
 }
 
 export async function getOperationsForAnalytics(
@@ -89,13 +76,7 @@ export async function getTriageOperations(page: number = 1): Promise<Array<Opera
 		throw 'No results from the API';
 	}
 
-	const triage = await deserializeAndNormalizeDatabaseResult(res);
-
-	triageStore.set(triage);
-
-	lastTriageCall.page = page;
-
-	return triage;
+	return await deserializeAndNormalizeDatabaseResult(res);
 }
 
 export async function getTriageOperationsCount(): Promise<number> {
@@ -129,8 +110,6 @@ export async function deleteOperation(operation: Operation) {
 	const id = operation.id.toString(10);
 
 	await api_call('operation_delete', { id: id });
-
-	await getTriageOperations(lastTriageCall.page);
 }
 
 export async function getOperationById(id: number): Promise<Operation | null> {
@@ -162,7 +141,9 @@ async function normalizeOperationFromDeserialized(
 	const bank_account = await getBankAccountById(deserialized_operation.bank_account_id);
 
 	if (!bank_account) {
-		throw new Error(`No bank account with id "${deserialized_operation.bank_account_id}".`);
+		throw new Error(
+			`Backend could not find bank account with id "${deserialized_operation.bank_account_id}".`
+		);
 	}
 
 	const tags = await getTagsByIds(deserialized_operation.tags_ids);

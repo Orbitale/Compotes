@@ -18,6 +18,7 @@
 		"postinstall": "pnpm install --dir tests/webdriverio/"
 	},
 	"devDependencies": {
+		"@orbitale/svelte-admin": "^0.16.0",
 		"@popperjs/core": "^2.11.7",
 		"@sveltejs/adapter-static": "3.0.1",
 		"@sveltejs/kit": "^2.5.5",
@@ -28,6 +29,8 @@
 		"@typescript-eslint/parser": "^7.5.0",
 		"@zerodevx/svelte-toast": "^0.9.3",
 		"bootstrap": "^5.2.3",
+		"carbon-components-svelte": "^0.82.8",
+		"carbon-icons-svelte": "^12.4.2",
 		"chart.js": "^4.3.0",
 		"concurrently": "^8.0.1",
 		"date-fns": "^2.30.0",
