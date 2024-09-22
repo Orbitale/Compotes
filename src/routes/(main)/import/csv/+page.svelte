@@ -1,19 +1,38 @@
 <script lang="ts">
+	import Button from 'carbon-components-svelte/src/Button/Button.svelte';
+	import Grid from 'carbon-components-svelte/src/Grid/Grid.svelte';
+	import Row from 'carbon-components-svelte/src/Grid/Row.svelte';
+	import Column from 'carbon-components-svelte/src/Grid/Column.svelte';
+	import InlineNotification from 'carbon-components-svelte/src/Notification/InlineNotification.svelte';
+	import Select from 'carbon-components-svelte/src/Select/Select.svelte';
+	import SelectItem from 'carbon-components-svelte/src/Select/SelectItem.svelte';
+	import NumberInput from 'carbon-components-svelte/src/NumberInput/NumberInput.svelte';
+	import Table from 'carbon-components-svelte/src/DataTable/Table.svelte';
+	import TableBody from 'carbon-components-svelte/src/DataTable/TableBody.svelte';
+	import TableCell from 'carbon-components-svelte/src/DataTable/TableCell.svelte';
+	import TableContainer from 'carbon-components-svelte/src/DataTable/TableContainer.svelte';
+	import TableHead from 'carbon-components-svelte/src/DataTable/TableHead.svelte';
+	import TableHeader from 'carbon-components-svelte/src/DataTable/TableHeader.svelte';
+	import TableRow from 'carbon-components-svelte/src/DataTable/TableRow.svelte';
+
+	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
+
 	import { error, success, warning } from '$lib/utils/message';
 	import DragDropList from '$lib/components/DragDrop/DragDropList.svelte';
-	import api_call from '$lib/utils/api_call.ts';
-	import { bankAccountsStore as bankAccounts } from '$lib/db/bank_accounts';
-	import type BankAccount from '$lib/entities/BankAccount';
+	import api_call from '$lib/utils/api_call';
 	import Operation, { OperationState } from '$lib/entities/Operation';
 	import { CsvFieldReference, referenceToEntityProperty } from '$lib/utils/csv';
 	import { DateFormat } from '$lib/utils/date';
+	import type BankAccount from '$lib/entities/BankAccount';
+	import { onMount } from 'svelte';
+	import { getBankAccounts } from '$lib/db/bank_accounts';
 
 	let file: File | null = null;
 	let fileContent: string | null = null;
 	let files: FileList | null = null;
-	let preview: string | null = null;
-	let previewOperations: Array<Array<String>> = [];
+	let previewOperations: Array<Array<string>> = [];
 	let finalOperations: Array<Operation> = [];
+	let bankAccounts: Array<BankAccount> = [];
 
 	const numberOfCsvFieldsReferences = 5;
 
@@ -29,13 +48,12 @@
 	let separator: string = ';';
 	let delimiter: string = '"';
 	let escapeCharacter: string = '\\';
-	let dateFormat: DateFormat = DateFormat.YMD_SLASH;
-	let bankAccount: BankAccount = null;
+	let dateFormat: DateFormat = DateFormat.DMY_SLASH;
+	let bankAccountId: string | number | undefined;
 
 	let loading = false;
 
 	function resetPreview() {
-		preview = null;
 		previewOperations = [];
 		finalOperations = [];
 	}
@@ -77,7 +95,7 @@
 	}
 
 	async function readCsvFile(reader: FileReader) {
-		fileContent = reader.result.toString().trim();
+		fileContent = (reader.result || '').toString().trim();
 
 		const firstLine = fileContent.split('\n')[0] || null;
 		if (!firstLine) {
@@ -150,7 +168,7 @@
 	}
 
 	async function importFile() {
-		if (!bankAccount || !bankAccount.id) {
+		if (!bankAccountId) {
 			warning('Please specify a bank account.');
 			return;
 		}
@@ -167,11 +185,18 @@
 		reset();
 	}
 
-	async function denormalizeIntoOperations(previewOperations: Array<Array<any>>) {
+	async function denormalizeIntoOperations(previewOperations: Array<Array<unknown>>) {
 		let operations = [];
 
-		if (!bankAccount || !bankAccount.id) {
+		if (!bankAccountId) {
 			throw new Error('Bank account is not set.\nPlease set the bank account in the proper field.');
+		}
+
+		const bankAccount = bankAccounts.filter(
+			(acc: BankAccount) => acc.id.toString() === bankAccountId?.toString()
+		)[0];
+		if (!bankAccount) {
+			throw new Error(`Invalid bank account id "${bankAccountId}".`);
 		}
 
 		for (const normalized of previewOperations) {
@@ -275,222 +300,176 @@
 
 		return arrData;
 	}
+
+	onMount(async () => {
+		bankAccounts = await getBankAccounts();
+	});
 </script>
 
-<a href="/import" class="btn btn-link">&larr; Back to import</a>
+<Button kind="ghost" href="/import" class="btn btn-link">&larr; Back to import</Button>
 
 <hr />
 
-<div class="row">
-	<div class="col">
-		<input type="file" id="file_to_import" bind:files on:change={uploadFile} />
-	</div>
-</div>
-<br />
-<div class="row">
-	<div class="col-lg-4">
-		<button
-			class="btn btn-outline-info"
-			type="button"
-			on:click={uploadFile}
-			class:disabled={!(!loading && fileContent && fileContent.length)}
-		>
-			🔄 Refresh
-		</button>
-		<br />
-		<small class="muted">(Remember to refresh on any change)</small>
-	</div>
-
-	<div class="col-lg-3">
-		<button
-			class="btn btn-primary"
-			type="button"
-			on:click={importFile}
-			class:disabled={finalOperations.length === 0}
-		>
-			Import
-		</button>
-	</div>
-</div>
-
-{#if loading}
-	<div class="alert alert-info">Loading…</div>
-{/if}
-
-<hr />
-
-<h3>CSV parameters</h3>
-
-<div class="row">
-	<div class="col form-group">
-		<label class="form-control-label required" for="import_operations_csvSeparator">
-			Values separator
-		</label>
-		<div class="form-widget">
-			<select
-				bind:value={separator}
+<Grid padding>
+	<Row>
+		<Column>
+			<input type="file" id="file_to_import" bind:files on:change={uploadFile} />
+		</Column>
+	</Row>
+	<Row>
+		<Column>
+			<Button
+				kind="secondary"
+				type="button"
+				on:click={uploadFile}
+				disabled={!(!loading && fileContent && fileContent.length)}
+			>
+				🔄 Refresh
+			</Button>
+			<br />
+			<small class="muted">(Remember to refresh on any change)</small>
+		</Column>
+		<Column>
+			<Button type="button" on:click={importFile} disabled={finalOperations.length === 0}>
+				Import
+			</Button>
+		</Column>
+	</Row>
+	{#if loading}
+		<Row>
+			<Column>
+				<InlineNotification>Loading…</InlineNotification>
+			</Column>
+		</Row>
+	{/if}
+	<h3>CSV parameters</h3>
+	<Row>
+		<Column>
+			<label for="import_operations_csvSeparator"> Values separator </label>
+			<Select
+				bind:selected={separator}
 				id="import_operations_csvSeparator"
 				name="import_operations[csvSeparator]"
-				class="form-control"
 			>
-				<option value=";" selected="selected">;</option>
-				<option value=",">,</option>
-			</select>
-		</div>
-	</div>
-
-	<div class="col form-group">
-		<label class="form-control-label required" for="import_operations_csvDelimiter">
-			Text delimiter
-		</label>
-		<div class="form-widget">
-			<select
-				bind:value={delimiter}
+				<SelectItem value=";" />
+				<SelectItem value="," />
+			</Select>
+		</Column>
+		<Column>
+			<label for="import_operations_csvDelimiter"> Text delimiter </label>
+			<Select
+				bind:selected={delimiter}
 				id="import_operations_csvDelimiter"
 				name="import_operations[csvDelimiter]"
-				class="form-control"
 			>
-				<option value="&quot;" selected="selected">"</option>
-				<option value="'">'</option>
-				<option value="" />
-			</select>
-		</div>
-	</div>
-
-	<div class="col form-group">
-		<label class="form-control-label required" for="import_operations_csvEscapeCharacter">
-			Escape character
-		</label>
-		<div class="form-widget">
-			<select
-				bind:value={escapeCharacter}
+				<SelectItem value="&quot;" />
+				<SelectItem value="'" />
+				<SelectItem value="" />
+			</Select>
+		</Column>
+		<Column>
+			<label for="import_operations_csvEscapeCharacter"> Escape character </label>
+			<Select
+				bind:selected={escapeCharacter}
 				id="import_operations_csvEscapeCharacter"
 				name="import_operations[csvEscapeCharacter]"
-				class="form-control"
 			>
-				<option value="\" selected="selected">\</option>
-				<option value="" />
-			</select>
-		</div>
-	</div>
-</div>
-<div class="row rowWithTopPadding">
-	<div class="col form-group">
-		<label class="form-control-label required" for="import_operations_dateFormat">
-			Date format
-		</label>
-		<div class="form-widget">
-			<select
-				bind:value={dateFormat}
-				id="import_operations_dateFormat"
-				name="import_operations[dateFormat]"
-				class="form-control"
-			>
-				{#each Object.values(DateFormat) as format}
-					<option value={format}>{format}</option>
-				{/each}
-			</select>
-		</div>
-	</div>
-
-	<div class="col form-group">
-		<label class="form-control-label required" for="import_operations_linesToRemove">
-			Number of first lines to remove
-		</label>
-		<input
-			bind:value={numberOfLinesToRemove}
-			id="import_operations_linesToRemove"
-			type="number"
-			class="form-control"
-			min="0"
-		/>
-	</div>
-
-	<div class="col form-group">
-		<label class="form-control-label required" for="import_operations_bankAccount">
-			Bank Account
-		</label>
-		<div class="form-widget">
-			<select
-				bind:value={bankAccount}
+				<SelectItem value={String.fromCharCode(92)} />
+				<SelectItem value="" />
+			</Select>
+		</Column>
+	</Row>
+	<Row>
+		<Column>
+			<label for="import_operations_dateFormat"> Date format </label>
+			<div class="form-widget">
+				<Select
+					bind:selected={dateFormat}
+					id="import_operations_dateFormat"
+					name="import_operations[dateFormat]"
+				>
+					{#each Object.values(DateFormat) as format}
+						<SelectItem value={format} />
+					{/each}
+				</Select>
+			</div>
+		</Column>
+		<Column>
+			<label for="import_operations_linesToRemove"> Number of first lines to remove </label>
+			<NumberInput
+				bind:value={numberOfLinesToRemove}
+				id="import_operations_linesToRemove"
+				min={0}
+			/>
+		</Column>
+		<Column>
+			<label for="import_operations_bankAccount"> Bank Account </label>
+			<Select
+				bind:selected={bankAccountId}
 				id="import_operations_bankAccount"
 				name="import_operations[bankAccount]"
-				class="form-control"
 			>
-				{#if $bankAccounts}
-					{#each $bankAccounts as account}
-						<option value={account}>{account.name}</option>
-					{/each}
-				{/if}
-			</select>
-		</div>
-	</div>
-</div>
-<div class="row rowWithTopPadding">
-	<div class="col form-group">
-		<label for="csv_columns">Csv columns</label>
-		<div class="form-widget" id="csv_columns">
-			<DragDropList bind:data={csvFields} />
-			<p>
-				<span class="badge rounded-pill bg-info">ℹ</span> Remember to sort these fields
-				<strong>manually</strong> in order to make sure CSV fields are parsed properly by the application.
-			</p>
-		</div>
-	</div>
-</div>
+				{#each bankAccounts as account}
+					<SelectItem value={account.id} text={account.name} />
+				{/each}
+			</Select>
+		</Column>
+	</Row>
+</Grid>
 
+<hr />
+<br />
+
+<label for="csv_columns">Csv columns</label>
+<DragDropList bind:data={csvFields} />
+<p>
+	<span class="badge rounded-pill bg-info">ℹ</span> Remember to sort these fields
+	<strong>manually</strong> in order to make sure CSV fields are parsed properly by the application.
+</p>
+
+<br />
 <hr />
 
 {#if previewOperations.length}
 	<h3>Preview:</h3>
-	<table class="table table-bordered table-striped table-hover">
-		<thead>
-			<tr class="table-info">
-				<th>#</th>
-				{#each csvFields as field}
-					<th>{field}</th>
-				{/each}
-			</tr>
-		</thead>
-		<tbody>
-			{#each previewOperations as line, key}
-				<tr class={key < numberOfLinesToRemove ? 'line-to-remove' : ''}>
-					<td>{key}</td>
-					{#each line as value}
-						<td>{value}</td>
+	<TableContainer>
+		<Table zebra size="short">
+			<TableHead>
+				<TableRow>
+					<TableHeader>#</TableHeader>
+					{#each csvFields as field}
+						<TableHeader>{field}</TableHeader>
 					{/each}
-				</tr>
-			{/each}
-		</tbody>
-	</table>
+				</TableRow>
+			</TableHead>
+			<TableBody>
+				{#each previewOperations as line, key}
+					<TableRow class={key < numberOfLinesToRemove ? 'line-to-remove' : ''}>
+						<TableCell>
+							{key}
+							{#if key < numberOfLinesToRemove}
+								(<TrashCan />)
+							{/if}
+						</TableCell>
+						{#each line as value}
+							<TableCell>
+								{value}
+								{#if key < numberOfLinesToRemove}
+									(<TrashCan />)
+								{/if}
+							</TableCell>
+						{/each}
+					</TableRow>
+				{/each}
+			</TableBody>
+		</Table>
+	</TableContainer>
 {/if}
 
-<style lang="scss">
-	.rowWithTopPadding {
-		margin-top: 15px;
-	}
-
-	th {
-		font-weight: normal;
-	}
-
-	.line-to-remove {
-		opacity: 0.5;
-	}
-
-	.line-to-remove,
-	.line-to-remove td {
-		position: relative;
-	}
-
-	.line-to-remove td:first-child::before {
-		content: '🗑';
-		display: block;
-		position: absolute;
-		left: -25px;
-	}
-
-	.table-info {
-		margin-bottom: 5px;
+<style>
+	:global(main table tbody tr.line-to-remove td) {
+		opacity: 0.3;
+		color: black !important;
+		background: #fff !important;
 	}
 </style>

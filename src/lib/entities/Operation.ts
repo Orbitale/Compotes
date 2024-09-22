@@ -3,25 +3,22 @@ import sha512 from '$lib/utils/sha512';
 import { DateFormat, dateFormatToRegex, DateTime, NormalizedDate } from '$lib/utils/date';
 import type Tag from './Tag';
 import type Entity from '$lib/struct/Entity';
-import ConfigFilter from '../admin/src/ConfigFilter';
-import FilterType from '../admin/src/FilterType';
-import { getBankAccountsAsChoices } from '../db/bank_accounts';
 
 export enum OperationState {
 	ok = 'ok',
 	pending_triage = 'pending_triage'
 }
 
-export var operations_filters = [
-	new ConfigFilter('details', 'Details', FilterType.text),
-	new ConfigFilter('operation_date', 'Date', FilterType.date),
-	new ConfigFilter('amount_in_cents', 'Amount', FilterType.number),
-	new ConfigFilter('bank_account_id', 'Bank account', FilterType.entity, {
-		entities: getBankAccountsAsChoices
-	}),
-	new ConfigFilter('tags_names', 'Tags', FilterType.text),
-	new ConfigFilter('without_tags', 'Without tags', FilterType.boolean)
-];
+// export const operations_filters = [
+// 	new ConfigFilter('details', 'Details', FilterType.text),
+// 	new ConfigFilter('operation_date', 'Date', FilterType.date),
+// 	new ConfigFilter('amount_in_cents', 'Amount', FilterType.number),
+// 	new ConfigFilter('bank_account_id', 'Bank account', FilterType.entity, {
+// 		entities: getBankAccountsAsChoices
+// 	}),
+// 	new ConfigFilter('tags_names', 'Tags', FilterType.text),
+// 	new ConfigFilter('without_tags', 'Without tags', FilterType.boolean)
+// ];
 
 export default class Operation implements Entity {
 	public readonly id!: number;
@@ -69,7 +66,7 @@ export default class Operation implements Entity {
 	}
 
 	get date() {
-		let date = new Date(this.operation_date.toString());
+		const date = new Date(this.operation_date.toString());
 
 		return date.toLocaleDateString();
 	}
@@ -103,7 +100,12 @@ export default class Operation implements Entity {
 		}
 
 		const parsedDate = Date.parse(
-			matches.groups.year + '-' + matches.groups.month + '-' + matches.groups.day + 'T00:00:00.000Z'
+			matches.groups?.year +
+				'-' +
+				matches.groups?.month +
+				'-' +
+				matches.groups?.day +
+				'T00:00:00.000Z'
 		);
 		if (isNaN(parsedDate)) {
 			throw new Error(

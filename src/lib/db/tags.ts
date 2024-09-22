@@ -1,40 +1,17 @@
-// @ts-ignore
 import Tag from '$lib/entities/Tag';
 import api_call from '$lib/utils/api_call';
-import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/store';
-
-export const tagsStore: Writable<Tag[]> = writable();
-
-let tags_promise: Promise<Tag[]> | null = null;
-
-async function getTagsPromise(): Promise<Array<Tag>> {
-	if (!tags_promise) {
-		tags_promise = getTags();
-	}
-
-	return tags_promise;
-}
 
 export async function getTags(): Promise<Array<Tag>> {
-	if (tags_promise) {
-		return await tags_promise;
-	}
-
 	let res: string = await api_call('tags_get');
 
-	const tags = JSON.parse(res).map((data: object) => {
+	return JSON.parse(res).map((data: object) => {
 		// @ts-ignore
 		return new Tag(data.id, data.name);
 	});
-
-	tagsStore.set(tags);
-
-	return tags;
 }
 
 export async function getTagById(id: number): Promise<Tag | null> {
-	const tags = await getTagsPromise();
+	const tags = await getTags();
 
 	for (const tag of tags) {
 		if (tag.id === id) {
@@ -46,7 +23,7 @@ export async function getTagById(id: number): Promise<Tag | null> {
 }
 
 export async function getTagsByIds(ids: Array<number>): Promise<Array<Tag>> {
-	const tags = await getTagsPromise();
+	const tags = await getTags();
 
 	let tags_found: Array<Tag> = [];
 
@@ -76,8 +53,6 @@ export async function updateTag(tag: Tag): Promise<void> {
 	if (!tag_entity) throw new Error('Data corruption detected in tags.');
 
 	tag_entity.mergeWith(tag);
-
-	tags_promise = null;
 }
 
 export async function createTag(tag: Tag): Promise<void> {
@@ -88,6 +63,4 @@ export async function createTag(tag: Tag): Promise<void> {
 	}
 
 	tag.setId(+id);
-
-	tags_promise = null;
 }

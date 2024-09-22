@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import FiltersSelector from '$lib/admin/components/PaginatedTable/FiltersSelector.svelte';
 	import { getSavedFilters } from '$lib/admin/src/filters';
+	import SavedFilter from '$lib/admin/src/SavedFilter';
 	import {type ComponentType, onMount} from 'svelte';
 	import type SavedFilter from '$lib/admin/src/SavedFilter';
 	import Operation, { operations_filters } from '$lib/entities/Operation';

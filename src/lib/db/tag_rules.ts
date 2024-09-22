@@ -2,21 +2,7 @@
 import TagRule from '$lib/entities/TagRule';
 import { getTagById } from './tags';
 import api_call from '$lib/utils/api_call';
-import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/store';
 import type Tag from '$lib/entities/Tag';
-
-export const tagRulesStore: Writable<TagRule[]> = writable();
-
-let tag_rules_promise: Promise<TagRule[]> | null = null;
-
-async function getTagRulesPromise(): Promise<TagRule[]> {
-	if (!tag_rules_promise) {
-		tag_rules_promise = getTagRules();
-	}
-
-	return tag_rules_promise;
-}
 
 export default class DeserializedTagRule {
 	public readonly id!: number;
@@ -26,10 +12,6 @@ export default class DeserializedTagRule {
 }
 
 export async function getTagRules(): Promise<Array<TagRule>> {
-	if (tag_rules_promise) {
-		return await tag_rules_promise;
-	}
-
 	let res: string = await api_call('tag_rules_get');
 	const deserialized_tag_rules: Array<DeserializedTagRule> = JSON.parse(res);
 
@@ -62,13 +44,11 @@ export async function getTagRules(): Promise<Array<TagRule>> {
 		);
 	}
 
-	tagRulesStore.set(tag_rules);
-
 	return tag_rules;
 }
 
 export async function getTagRuleById(id: string): Promise<TagRule | null> {
-	const tag_rules = await getTagRulesPromise();
+	const tag_rules = await getTagRules();
 
 	for (const tag_rule of tag_rules) {
 		if (tag_rule.id.toString() === id.toString()) {
@@ -81,8 +61,6 @@ export async function getTagRuleById(id: string): Promise<TagRule | null> {
 
 export async function updateTagRule(tag_rule: TagRule): Promise<void> {
 	await api_call('tag_rule_update', { tagRule: tag_rule.serialize() });
-
-	tag_rules_promise = null;
 }
 
 export async function createTagRule(tag_rule: TagRule): Promise<void> {
@@ -93,6 +71,4 @@ export async function createTagRule(tag_rule: TagRule): Promise<void> {
 	}
 
 	tag_rule.setId(+id);
-
-	tag_rules_promise = null;
 }

@@ -1,34 +1,15 @@
-// @ts-ignore
 import BankAccount from '$lib/entities/BankAccount';
 import api_call from '$lib/utils/api_call';
-import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/store';
 
-export const bankAccountsStore: Writable<BankAccount[]> = writable();
-
-let bank_accounts_promise: Promise<BankAccount[]> | null = null;
-
-async function getBankAccountPromise(): Promise<Array<BankAccount>> {
-	if (!bank_accounts_promise) {
-		bank_accounts_promise = getBankAccounts();
-	}
-
-	return bank_accounts_promise;
-}
+const cache: Record<string, BankAccount> = {};
 
 export async function getBankAccounts(): Promise<Array<BankAccount>> {
-	if (bank_accounts_promise) {
-		return await bank_accounts_promise;
-	}
+	const res: string = await api_call('bank_account_find_all');
 
-	let res: string = await api_call('bank_account_find_all');
-
-	const bank_accounts = JSON.parse(res).map((data: object) => {
-		// @ts-ignore
+	const bank_accounts: Array<BankAccount> = JSON.parse(res).map((data: BankAccount) => {
 		return new BankAccount(data.id, data.name, data.slug, data.currency);
 	});
-
-	bankAccountsStore.set(bank_accounts);
+	bank_accounts.forEach(a => cache[a.id] = a);
 
 	return bank_accounts;
 }
@@ -39,21 +20,31 @@ export async function getBankAccountsAsChoices(): Promise<Array<{ name: string; 
 	return accounts.map((bankAccount: BankAccount) => {
 		return {
 			name: bankAccount.name,
-			value: bankAccount.id
+			value: bankAccount.id.toString()
 		};
 	});
 }
 
 export async function getBankAccountById(id: number): Promise<BankAccount | null> {
-	const bank_accounts = await getBankAccountPromise();
-
-	for (const bank_account of bank_accounts) {
-		if (bank_account.id === id) {
-			return bank_account;
-		}
+	if (cache[id]) {
+		return Promise.resolve(cache[id]);
 	}
 
-	return null;
+	const res: string = await api_call('bank_account_get_by_id', { id: id.toString() });
+
+	if (!res) {
+		throw 'No results from the API';
+	}
+
+	const bank_account: BankAccount = JSON.parse(res);
+
+	if (!bank_account) {
+		throw new Error('Could not deserialize bank account.');
+	}
+
+	cache[id] = bank_account;
+
+	return bank_account;
 }
 
 export async function createBankAccount(bank_account: BankAccount): Promise<void> {
@@ -63,7 +54,7 @@ export async function createBankAccount(bank_account: BankAccount): Promise<void
 		throw new Error('Internal error: API returned a non-number ID.');
 	}
 
-	bank_accounts_promise = null;
+	cache[id] = bank_account;
 }
 
 export async function updateBankAccount(bank_account: BankAccount) {
@@ -77,5 +68,5 @@ export async function updateBankAccount(bank_account: BankAccount) {
 		currency: bank_account.currency
 	});
 
-	bank_accounts_promise = null;
+	cache[bank_account.id] = bank_account;
 }
