@@ -15,6 +15,8 @@ jobs:
                 os:
                     - ubuntu-latest
                     - windows-latest
+                node-version:
+                    - 22.x
 
         runs-on: ${{ matrix.os }}
         steps:
@@ -28,15 +30,6 @@ jobs:
                       ~/.cargo/registry/cache
                       ~/.cargo/git
                       ./src-tauri/target
-
-            - name: 🍃 Install Node.js
-              uses: actions/setup-node@v2
-              with:
-                  node-version: 18
-
-            - name: 🍃 Install Yarn
-              run: |
-                npm i -g npm yarn
 
             - name: 🦀 Install Rust
               uses: actions-rs/toolchain@v1
@@ -53,31 +46,39 @@ jobs:
                   sudo apt-get update
                   sudo apt-get upgrade -y --no-install-recommends -y libgtk-3-dev libgtksourceview-3.0-dev webkit2gtk-4.0 libappindicator3-dev webkit2gtk-driver xvfb
 
+            - uses: pnpm/action-setup@v4
+
+            - name: 🟢 Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                node-version: ${{ matrix.node-version }}
+                cache: 'pnpm'
+
             - name: 🔌 Install Node.js dependencies
-              run: yarn install
+              run: pnpm install --frozen-lockfile
 
             - name: 🔌 Download Rust dependencies
               run: cargo fetch --manifest-path=src-tauri/Cargo.toml
 
             - name: 🏗️ 📄 Build frontend
-              run: yarn build
+              run: pnpm run build
 
             - name: 🏗️ 💽 Build application
-              run: yarn tauri build
+              run: pnpm run tauri build
 
             - name: 🧪 Test application (linux)
               if: matrix.os == 'ubuntu-latest'
               continue-on-error: true
               run: |
-                  xvfb-run yarn test
+                  xvfb-run pnpm run test
 
             - name: 🧪 Test application (non-linux)
               if: matrix.os != 'ubuntu-latest'
               continue-on-error: true
               run: |
-                  yarn test
+                pnpm run test
 
-            - name: 🗃 Store artifacts (release only)
+            - name: 🗃 Store Linux artifacts (release only)
               uses: actions/upload-artifact@v4
               if: matrix.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/v')
               with:

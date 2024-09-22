@@ -26,7 +26,7 @@ If you want to use the in-development project, you can compile it by doing what 
 
 - [Rust](https://www.rust-lang.org/tools/install)
 - [Node.js](https://nodejs.org/en/download/)
-- [Yarn](https://yarnpkg.com/getting-started/install) (preferred by the Tauri team, so expect better compatibility)
+- [pnpm](https://pnpm.io/fr/)
 - For Linux users:
   - Follow [this guide](https://tauri.studio/docs/getting-started/setting-up-linux#1-system-dependencies) to install the **system dependencies** that are mandatory.
 - For Windows users:
@@ -38,7 +38,7 @@ If you want to use the in-development project, you can compile it by doing what 
 ### Install
 
 ```
-yarn install
+pnpm install
 ```
 
 > You do not need to install Rust dependencies, since running `cargo` commands like `cargo run` will automatically download and compile dependencies.
@@ -46,13 +46,13 @@ yarn install
 ### Run the app in dev mode
 
 ```
-yarn tauri dev
+pnpm run tauri dev
 ```
 
 ### Compile for production
 
 ```
-yarn tauri build
+pnpm run tauri build
 ```
 
 > This command builds the app in the `src-tauri/target/release/` directory.

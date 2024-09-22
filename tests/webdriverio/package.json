@@ -9,6 +9,7 @@
   "dependencies": {
     "@wdio/cli": "^7.20.5"
   },
+  "packageManager": "pnpm@9.6.0",
   "devDependencies": {
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.0.3",
