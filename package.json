@@ -20,7 +20,7 @@
 	"devDependencies": {
 		"@popperjs/core": "^2.11.7",
 		"@sveltejs/adapter-static": "3.0.1",
-		"@sveltejs/kit": "^2.8.3",
+		"@sveltejs/kit": "^2.20.6",
 		"@sveltejs/vite-plugin-svelte": "^3.0.2",
 		"@tauri-apps/api": "^1.2.0",
 		"@tauri-apps/cli": "^1.2.3",
